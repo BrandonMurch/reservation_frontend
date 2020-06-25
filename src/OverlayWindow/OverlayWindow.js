@@ -1,37 +1,65 @@
 import React from 'react';
 import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid'
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
 import style from './OverlayWindow.module.css';
 import './calendar.css';
 
 class OverlayWindow extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            selectedDate: "",
+        }
+    }
 
-    getJSX() {
+    dateClick = (args) => {
+        console.log(args);
+        this.setState ({
+            selectedDate: args.dateStr,
+        });
+        console.log(args.dateStr);
+        console.log(this.state.selectedDate);
+        this.props.chooseOverlay("reservation")
+    }
+
+    chooseOverlay() {
+
+        if (!this.props.overlay) {
+            return "";
+        }
+
+        const calendar = <Calendar dateClick={this.dateClick}/>;
+        const reservation = <ReservationForm selectedDate={this.state.selectedDate}/>
+
+        var overlay;
+        if (this.props.overlay === "calendar") {
+            overlay = calendar;
+        } else if (this.props.overlay === "reservation") {
+            overlay = reservation;
+        } else {
+            return "";
+        }
+
         return (
             <div className={style.overlay}>
                 <ExitOverlay closeOverlay={this.props.closeOverlay}/>
-                <Calendar />
+                {overlay}
             </div>
         )
     }
 
     render() {
-        const display = this.props.hidden ? "" : this.getJSX();
-        return (
-            <div>
-                {display}
-            </div>
-        )
+        return this.chooseOverlay();
     }
 }
 
 class Calendar extends React.Component{
-
     getValidRange() {
-
+        // TODO find dates from backend.
         var startDate = new Date();
         var endDate = new Date();
-        endDate.setFullYear(endDate.getFullYear() + 1);
+        endDate.setMonth(endDate.getMonth() + 3);
 
         startDate = startDate.toISOString().slice(0, 10);
         endDate = endDate.toISOString().slice(0, 10);
@@ -41,29 +69,37 @@ class Calendar extends React.Component{
 
     render() {
         return (
-            <div className={style.calendar}>
+            <div className={style.container}>
                 <FullCalendar
-                    plugins={[ dayGridPlugin ]}
+                    plugins={[ dayGridPlugin, interactionPlugin ]}
                     initialView="dayGridMonth"
                     showNonCurrentDates={false}
                     fixedWeekCount={false}
                     height="100%"
                     validRange={this.getValidRange()}
-                    // viewDidMount={(currentView) => {
-                    //     const today = new Date();
-                    //     console.log(currentView);
-                    //     console.log(currentView.currentStart);
-                    //     console.log(FullCalendar.view)
-                    //     if (today > currentView.currentStart && today <= currentView.currentEnd) {
-                    //         var prevButton = document.getElementsByClass(".fc-prev-button");
-                    //         prevButton.forEach((entry) => {
-                    //             entry.disabled = true;
-                    //             entry.addClass('fc-state-disabled')
-                    //         })
-                    //     }
-                    // }}
+                    dateClick={(args) => {
+                        this.props.dateClick(args)
+                    }}
                 />
             </div>
+        )
+    }
+}
+
+class ReservationForm extends React.Component {
+    render() {
+        return(
+            <form className={style.container}>
+                <p>{this.props.selectedDate}</p>
+                <label htmlFor="fname">First Name:</label>
+                <input type="text" name="fname"/>
+                <label htmlFor="lname">Last Name: </label>
+                <input type="text" name="lname"/>
+                <label htmlFor="email">Email:</label>
+                <input type="email" name="email"/>
+                <label htmlFor="pnum">Phone Number:</label>
+                <input type="email" name="pnum"/>
+            </form>
         )
     }
 }

@@ -8,7 +8,7 @@
     overflow: hidden;
 }
 
-.calendar {
+.container {
     composes: centerVertically from '../CSS/helpers.module.css';
     color: white;
     height: 80vh;
