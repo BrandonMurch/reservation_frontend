@@ -1,0 +1,17 @@
+/* Must use !important to ensure that the FullCalendar css is overridden */
+
+td.fc-day-past {
+    background-color: transparent !important;
+    color: rgba(150,150,150,0.5);
+    cursor: default;
+}
+
+td.fc-day-today {
+    background-color: rgba(255,255,255,0.5) !important;
+    color: black !important;
+}
+
+td.fc-day-disabled {
+    background-color: transparent !important;
+    cursor: default;
+}

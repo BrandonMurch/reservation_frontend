@@ -1,0 +1,17 @@
+.text {
+
+}
+
+.backgroundImage {
+    height: 100vh;
+    width: 100vw;
+    background-size: cover;
+}
+
+.transparentBackground {
+    background-color: rgba(0,0,0,0.7);
+}
+
+p {
+    margin: 0;
+}
