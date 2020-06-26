@@ -5,7 +5,7 @@
 }
 
 .textContainer {
-    composes: centerVertically from '../CSS/helpers.module.css';
+    composes: centerVertically from '../css/helpers.module.css';
     width: 100vw;
     top: 50vh;
     text-align: center;

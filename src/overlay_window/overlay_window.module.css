@@ -1,5 +1,5 @@
 .overlay {
-    composes: transparentBackground from '../CSS/project_globals.module.css';
+    composes: transparentBackground from '../css/project_globals.module.css';
     height: 100vh;
     width: 100vw;
     position: fixed;
@@ -9,7 +9,7 @@
 }
 
 .container {
-    composes: centerVertically from '../CSS/helpers.module.css';
+    composes: centerVertically from '../css/helpers.module.css';
     color: white;
     height: 80vh;
     width: 80vw;

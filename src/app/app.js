@@ -1,10 +1,10 @@
 import React from 'react';
-import styles from './App.module.css';
-import OverlayWindow from '../OverlayWindow/OverlayWindow'
+import style from './app.module.css';
+import OverlayWindow from '../overlay_window/overlay_window'
 
 function App() {
   return (
-    <div className={styles.app}>
+    <div className={style.app}>
         <Opener />
     </div>
   );
@@ -27,11 +27,11 @@ class Opener extends React.Component {
 
     render() {
         const textOpacity = this.state.overlay ?
-        styles.textContainerTransparent : styles.textContainer
+        style.textContainerTransparent : style.textContainer
         return (
-            <div className={styles.Opener}>
+            <div className={style.Opener}>
                 <div className={textOpacity}>
-                    <p className={styles.text} onClick={() => this.toggleOverlay("calendar")}>
+                    <p className={style.text} onClick={() => this.toggleOverlay("calendar")}>
                         Click here to make a reservation
                     </p>
                 </div>
