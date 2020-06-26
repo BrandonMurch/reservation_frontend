@@ -17,5 +17,9 @@
 }
 
 .container {
-    composes: container from '../overlay_window.module.css'
+    composes: centerVertically from '../../css/helpers.module.css';
+    color: white;
+    height: 80vh;
+    width: 80vw;
+    margin: 0 auto;
 }

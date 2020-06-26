@@ -7,33 +7,34 @@ import style from './overlay_window.module.css';
 class OverlayWindow extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            selectedDate: null,
-        }
+        this.reservation = {};
+        this.user = {};
     }
 
-    componentWillUnmount() {
-        this.setState({
-            selectedDate: null,
-        });
+    onDateClick = (args) => {
+        this.reservation.date = args.dateStr;
+        this.props.chooseOverlay("reservation");
     }
 
-    dateClick = (args) => {
-        this.setState ({
-            selectedDate: args.dateStr,
-        });
-        this.props.chooseOverlay("reservation")
+    onReservationSubmit = (info) => {
+         this.reservation.time = info.time;
+         this.reservation.partySize = info.partySize;
+         this.props.chooseOverlay("contact");
     }
 
-    chooseOverlay() {
+    onContactSubmit = (user) => {
+            this.user = user;
+    }
+
+    render() {
         if (!this.props.overlay) {
-
             return "";
         }
 
-        const calendar = <Calendar dateClick={this.dateClick}/>;
-        const reservation = <ReservationForm selectedDate={this.state.selectedDate}/>
-        const contact = <ContactForm selectedDate={this.state.selectedDate}/>
+        const calendar = <Calendar dateClick={this.onDateClick}/>;
+        const reservation = <ReservationForm selectedDate={this.reservation.date}
+        onSubmit={this.onReservationSubmit}/>;
+        const contact = <ContactForm reservation={this.reservation} onSubmit={this.onContactSubmit}/>;
 
 
         var overlay;
@@ -52,13 +53,8 @@ class OverlayWindow extends React.Component {
                 <ExitOverlay closeOverlay={this.props.closeOverlay}/>
                 {overlay}
             </div>
-        )
-    }
-
-    render() {
-        console.log(this.state);
-        return this.chooseOverlay();
-    }
+        );
+    };
 }
 
 function ExitOverlay(props) {

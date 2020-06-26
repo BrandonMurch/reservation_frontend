@@ -8,14 +8,6 @@
     overflow: hidden;
 }
 
-.container {
-    composes: centerVertically from '../css/helpers.module.css';
-    color: white;
-    height: 80vh;
-    width: 80vw;
-    margin: 0 auto;
-}
-
 .exitContainer{
     width: 80%;
     position: fixed;
@@ -24,8 +16,12 @@
     text-align: right;
 }
 
-.exitText {
+.text {
     color: white;
+}
+
+.exitText {
+    composes: text;
     font-size: 2rem;
     cursor: pointer;
 }

@@ -1,3 +1,29 @@
 .container {
-    composes: container from '../overlay_window.module.css'
+    composes: centerVertically from '../../css/helpers.module.css';
+    composes: transparentBackground from '../../css/project_globals.module.css';
+    max-width: 15rem;
+    margin: 0 auto;
+    text-align: center;
+    padding: 1rem;
+    border: 2px solid black;
+}
+
+.inputGroup {
+    width: 100%;
+    display: inline-block;
+}
+
+.title {
+    composes: text from '../overlay_window.module.css';
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.labelText {
+    composes: text from '../overlay_window.module.css';
+    float: left;
+}
+
+.selectBox {
+    float: Right;
 }

@@ -2,22 +2,82 @@ import React from 'react';
 import style from './reservation.module.css';
 
 class ReservationForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            disabledTime: true,
+            reservation: {
+                date: this.props.selectedDate,
+                time: "",
+                partySize: "",
+            }
+
+        }
+
+        this.res = this.state.reservation;
+    }
+
+    onSubmit = (event) => {
+        event.preventDefault();
+        this.props.onSubmit(this.res)
+    }
+
+    onChange = (event) => {
+        let disabled, timeValue;
+        let target = event.target;
+        if (target.id === "partySize") {
+            if (target.value) {
+                timeValue = this.res.time;
+                disabled = false;
+            } else {
+                timeValue = '';
+                disabled = true;
+            }
+            this.setState((prevState) => {
+                let state = {...prevState};
+                let reservation = state.reservation;
+                reservation.time = timeValue;
+                reservation.partySize = target.value;
+                state.disabledTime = disabled;
+                return state;
+            })
+        } else if (target.id === "time") {
+            this.setState((prevState) => {
+                let state = {...prevState};
+                state.reservation.time = target.value
+                return state;
+            });
+        }
+    }
 
     render() {
+        const date = new Date(this.props.selectedDate).toDateString();
+        const submitDisabled = this.state.reservation.time && this.state.reservation.partySize ? "" : "disabled";
         return(
-            <form className={style.container}>
-                <p>{this.props.selectedDate}</p>
-                <DropDownSelect type="partySize"/>
-                <DropDownSelect type="time"/>
+            <form onSubmit={this.onSubmit} className={style.container}>
+                <p className={style.title}>{"Desired date: " + date}</p>
+                <DropDownSelect type="partySize" label="Party size:"
+                value={this.state.reservation.partySize}
+                onChange={this.onChange}/>
+                <DropDownSelect type="time" label="Desired time:" value={this.state.reservation.time} disabled={this.state.disabledTime}
+                onChange={this.onChange}/>
+                <input type="submit" value="Next" disabled={submitDisabled}/>
             </form>
         )
     }
 }
 
 class DropDownSelect extends React.Component {
+
+    getEmptyOption() {
+        return (
+            <option key={0} value=""></option>
+        );
+    }
+
     partySize() {
         const maxPartySize = 8;
-        var options = [];
+        var options = [this.getEmptyOption()];
 
         for (var i = 1; i <= maxPartySize; i++) {
             options.push( <option key={i} value={i}>{i}</option> )
@@ -33,28 +93,31 @@ class DropDownSelect extends React.Component {
 
     time() {
         const times = this.getAvailableTimes();
-        var options = [];
+        var options = [this.getEmptyOption()];
 
-        times.forEach((time, i) => {
+        times.forEach((time) => {
             options.push(
-                <option key={i} value={time}>{time}</option>
+                <option key={time} value={time}>{time}</option>
             )
         })
+
+        return options;
     }
 
     render() {
+        const disabled = this.props.disabled ? "disabled" : "";
         var options;
         if (this.props.type === "partySize") {
             options = this.partySize();
         } else if (this.props.type === "time")
             options = this.time();
         return (
-            <>
-                <label htmlFor="">Party Size:</label>
-                <select name="partySize">
+            <div className={style.inputGroup}>
+                <label className={style.labelText} htmlFor={this.props.type}>{this.props.label}</label>
+                <select key={this.props.type} className={style.selectBox} value={this.props.value} name={this.props.type} id={this.props.type} disabled={disabled}  onChange={ this.props.onChange}>
                     {options}
                 </select>
-            </>
+            </div>
         )
     }
 
