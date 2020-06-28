@@ -1,0 +1,22 @@
+/* .inputGroup {
+    composes: inputGroup from '../reservation/reservation.module.css';
+    margin: 0.5rem;
+}
+
+.labelText {
+    composes: labelText from '../reservation/reservation.module.css';
+} */
+
+.input {
+    float:right;
+    width: 70%;
+}
+
+@media screen and (max-width: 550px) {
+    .labelText {
+        margin: 0.5rem;
+    }
+    .input {
+        width: 100%;
+    }
+}

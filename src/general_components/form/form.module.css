@@ -1,0 +1,24 @@
+.inputGroup {
+    width: 100%;
+    display: inline-block;
+    margin: 0.5rem;
+}
+
+.labelText {
+    composes: text from '../../overlay_window/overlay_window.module.css';
+    float: left;
+}
+
+.input {
+    float:right;
+    width: 70%;
+}
+
+@media screen and (max-width: 550px) {
+    .labelText {
+        margin: 0.5rem;
+    }
+    .input {
+        width: 100%;
+    }
+}

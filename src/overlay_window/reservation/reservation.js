@@ -11,15 +11,12 @@ class ReservationForm extends React.Component {
                 time: "",
                 partySize: "",
             }
-
         }
-
-        this.res = this.state.reservation;
     }
 
     onSubmit = (event) => {
         event.preventDefault();
-        this.props.onSubmit(this.res)
+        this.props.onSubmit(this.state.reservation)
     }
 
     onChange = (event) => {
@@ -27,7 +24,7 @@ class ReservationForm extends React.Component {
         let target = event.target;
         if (target.id === "partySize") {
             if (target.value) {
-                timeValue = this.res.time;
+                timeValue = this.state.reservation.time;
                 disabled = false;
             } else {
                 timeValue = '';
@@ -88,7 +85,7 @@ class DropDownSelect extends React.Component {
 
     getAvailableTimes() {
         //todo this is a stub, will update later.
-        return ["7:00", "8:30"];
+        return ["7:00PM", "8:30PM"];
     }
 
     time() {

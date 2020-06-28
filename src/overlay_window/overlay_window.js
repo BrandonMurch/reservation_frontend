@@ -24,6 +24,7 @@ class OverlayWindow extends React.Component {
 
     onContactSubmit = (user) => {
             this.user = user;
+            console.log(this.user);
     }
 
     render() {

@@ -1,123 +1,128 @@
 import React from 'react';
+import Form from '../../general_components/form/form'
 import style from './contact.module.css'
 
 
 class ContactForm extends React.Component {
     constructor(props) {
         super(props);
-        this.user = {
+        this.state = {
+            form: "login",
+        }
+    }
+
+    toggleForm = () => {
+        this.setState({
+            form: this.state.form === "login" ? "contact" : "login",
+        })
+    }
+
+    getContactForm() {
+        const form = {};
+
+        form.object = {
             fName: "",
             lName: "",
             email: "",
             tel: "",
             tAC: false,
         };
-        this.reservation = this.props.reservation;
-    }
 
-    onSubmit = (event) => {
-        event.preventDefault();
-        this.props.onSubmit(this.user);
-
-    }
-
-    onBlur = (event) => {
-        this.user[event.target.name] = event.target.value;
-    }
-
-    toggleTAC = () => {
-        this.user.tAC = !this.user.tAC;
-    }
-
-    displayReservation() {
-        const date =
-            new Date(this.reservation.date).toDateString();
-        const person = this.reservation.partySize > 1 ? "people" : "person";
-        return (
-            <p className={style.title}>
-                {this.reservation.partySize + " " + person}<br/>
-                {this.reservation.time} <br/>
-                {date}
-            </p>
-        )
-    }
-
-    getInputs() {
-        let inputs = [];
-        const inputInfo = [
+        form.inputs = [
             {name:"fName", type: "text", label: "First Name"},
             {name:"lName", type: "text", label: "Last Name"},
             {name:"email", type: "email", label: "Email"},
             {name:"tel", type: "tel", label: "Phone Number"},
-            {name:"tAC", type: "checkbox", label: "Terms and Conditions"},
+            {name:"pass", type: "password", label: "Password"},
+            {name:"confirm", type: "password", label: "Confirm Password"},
+            {name:"tAC", type: "checkbox", label: "Yes, I agree to the terms and conditions"},
+            {type: "submit", label: "Make Reservation"},
         ]
 
-        inputInfo.forEach(input => {
-            if (input.type === "checkbox") {
-                inputs.push(
-                    <React.Fragment key={input.name}>
-                        <label className={style.labelText} htmlFor={input.name}>
-                            {input.label}:
-                        </label>
+        form.onSubmit = (user) => {
+            // TODO pass back user that is received from server
+            console.log("login successful for user: " + user);
+        }
 
-                        <input
-                            onClick={this.toggleTAC} value={this.user[input.name]} type={input.type}
-                            name={input.name}/>
-                    </React.Fragment>
-                );
-            } else {
-                inputs.push(
-                    <InputAndLabel
-                        key={input.name}
-                        name={input.name}
-                        type={input.type}
-                        label={input.label}
-                        onBlur={this.onBlur}/>
-                )
-            }
-        });
-
-        return inputs
-    }
-
-    render() {
-        return (
-            <>
-                <form onSubmit={this.onSubmit} className={style.container}>
-                    {this.displayReservation()}
-                    {this.getInputs()}
-                    <input className={style.submit} type="submit" value="Make Reservation"/>
-                </form>
-            </>
+        form.switch = (
+            <p className={style.switchText}>
+                Do you already have an account?
+                <span className={style.switch} onClick={this.toggleForm}> Login.</span>
+            </p>
         )
-    }
-}
 
-class InputAndLabel extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-                value: '',
+        return form;
+    }
+
+    getLoginForm() {
+        const form = {};
+
+        form.object = {
+            username: "",
+            password: "",
         };
-    }
 
-    onChange = (event) => {
-        let target = event.target;
-        this.setState({
-            value: target.value,
-        });
+        form.inputs = [
+            {name:"email", type: "email", label: "Email"},
+            {name:"pass", type: "password", label: "Password"},
+            {type: "submit", label: "Make Reservation"},
+        ]
+
+        form.onSubmit = () => {
+            // TODO pass back user that is received from server
+            // Stub for testing purposes
+            let user = {
+                fName: "John",
+                lName: "Doe",
+                email: "JohnDoe@email.com",
+                tel: "234566443",
+            }
+            this.props.onSubmit(user);
+        }
+
+        form.switch = (
+            <p className={style.switchText}>
+                You don't already have an account?
+                <span className={style.switch} onClick={this.toggleForm}> Sign up.</span>
+            </p>
+        )
+
+        return form;
     }
 
     render() {
+        let form = "";
+
+        if (this.state.form === "contact")  {
+            form = this.getContactForm();
+        } else if (this.state.form === "login") {
+            form = this.getLoginForm();
+        }
         return (
-            <div className={style.inputGroup}>
-                <label className={style.labelText} htmlFor={this.props.name}>
-                    {this.props.label + ":"}
-                </label>
-                <input className={style.input} value={this.state.value} onChange={this.onChange} onBlur={this.props.onBlur} type={this.props.type} name={this.props.name} required/>
+            <div className={style.container}>
+                {displayReservation(this.props.reservation)}
+                {form.switch}
+                 <Form
+                object={form.object}
+                inputs={form.inputs}
+                onSubmit={form.onSubmit}
+                />
             </div>
         )
     }
 }
+
+function displayReservation(reservation) {
+        const date =
+            new Date(reservation.date).toDateString();
+        const person = reservation.partySize > 1 ? "people" : "person";
+        return (
+            <p className={style.title}>
+                {reservation.partySize + " " + person}<br/>
+                {reservation.time} <br/>
+                {date}
+            </p>
+        )
+    }
 
 export default ContactForm;
