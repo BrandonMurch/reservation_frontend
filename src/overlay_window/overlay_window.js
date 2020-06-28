@@ -7,19 +7,28 @@ import style from './overlay_window.module.css';
 class OverlayWindow extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            overlay: this.props.overlay,
+        }
         this.reservation = {};
         this.user = {};
     }
 
+    chooseOverlay = (overlay) => {
+        this.setState({
+            overlay: overlay,
+        })
+    }
+
     onDateClick = (args) => {
         this.reservation.date = args.dateStr;
-        this.props.chooseOverlay("reservation");
+        this.chooseOverlay("reservation");
     }
 
     onReservationSubmit = (info) => {
          this.reservation.time = info.time;
          this.reservation.partySize = info.partySize;
-         this.props.chooseOverlay("contact");
+         this.chooseOverlay("contact");
     }
 
     onContactSubmit = (user) => {
@@ -28,24 +37,26 @@ class OverlayWindow extends React.Component {
     }
 
     render() {
-        if (!this.props.overlay) {
-            return "";
-        }
-
-        const calendar = <Calendar dateClick={this.onDateClick}/>;
-        const reservation = <ReservationForm selectedDate={this.reservation.date}
-        onSubmit={this.onReservationSubmit}/>;
-        const contact = <ContactForm reservation={this.reservation} onSubmit={this.onContactSubmit}/>;
-
 
         var overlay;
-        if (this.props.overlay === "calendar") {
-            overlay = calendar;
-        } else if (this.props.overlay === "reservation") {
-            overlay = reservation;
-        } else if (this.props.overlay === "contact") {
-            overlay = contact;
-        }else {
+        if (this.state.overlay === "calendar") {
+            overlay = <Calendar dateClick={this.onDateClick}/>;
+
+        } else if (this.state.overlay === "reservation") {
+            overlay =
+                <ReservationForm
+                    selectedDate={this.reservation.date}
+                    onSubmit={this.onReservationSubmit}
+                />;
+
+        } else if (this.state.overlay === "contact") {
+            overlay =
+                <ContactForm
+                    reservation={this.reservation}
+                    onSubmit={this.onContactSubmit}
+                />;
+
+        } else {
             return "";
         }
 

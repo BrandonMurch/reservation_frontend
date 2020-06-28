@@ -14,30 +14,38 @@ class Opener extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            overlay: "contact",
+            displayOverlay: false,
         };
     }
 
-    chooseOverlay = (overlay) => {
+    toggleOverlay = () => {
         this.setState({
-            overlay: overlay,
+            overlay: !this.state.overlay,
         })
     }
 
     render() {
-        const textOpacity = this.state.overlay ?
-        style.textContainerTransparent : style.textContainer
+        let textOpacity, overlay;
+        if (this.state.overlay) {
+            textOpacity = style.textContainerTransparent;
+            overlay = (
+                <OverlayWindow
+                closeOverlay={this.toggleOverlay}
+                overlay={"calendar"}/>
+            )
+        } else {
+            textOpacity = style.textContainer;
+            overlay = "";
+        }
+
         return (
             <div className={style.Opener}>
                 <div className={textOpacity}>
-                    <p className={style.text} onClick={() => this.chooseOverlay("calendar")}>
+                    <p className={style.text} onClick={this.toggleOverlay}>
                         Click here to make a reservation
                     </p>
                 </div>
-                <OverlayWindow
-                closeOverlay={() => this.chooseOverlay("")}
-                chooseOverlay={this.chooseOverlay}
-                overlay={this.state.overlay}/>
+                {overlay}
             </div>
         )
     }
