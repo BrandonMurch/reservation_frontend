@@ -1,0 +1,14 @@
+
+.container {
+    composes: container from '../reservation/reservation.module.css';
+    max-width: 600px;
+}
+
+.title {
+    composes: title from '../reservation/reservation.module.css';
+}
+
+.button {
+    display: block;
+    margin: 1rem auto;
+}

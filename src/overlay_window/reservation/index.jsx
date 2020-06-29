@@ -51,13 +51,24 @@ class ReservationForm extends React.Component {
         const date = new Date(this.props.selectedDate).toDateString();
         const submitDisabled = this.state.reservation.time && this.state.reservation.partySize ? "" : "disabled";
         return(
-            <form onSubmit={this.onSubmit} className={style.container}>
-                <p className={style.title}>{"Desired date: " + date}</p>
-                <DropDownSelect type="partySize" label="Party size:"
-                value={this.state.reservation.partySize}
-                onChange={this.onChange}/>
-                <DropDownSelect type="time" label="Desired time:" value={this.state.reservation.time} disabled={this.state.disabledTime}
-                onChange={this.onChange}/>
+            <form
+                onSubmit={this.onSubmit}
+                className={style.container}>
+                    <p className={style.title}>
+                        {"Desired date: " + date}
+                    </p>
+
+                <DropDownSelect
+                    type="partySize"
+                    label="Party size:"
+                    value={this.state.reservation.partySize}
+                    onChange={this.onChange}
+                    autoFocus={true}/>
+                <DropDownSelect
+                    type="time"
+                    label="Desired time:"
+                    value={this.state.reservation.time} disabled={this.state.disabledTime}
+                    onChange={this.onChange}/>
                 <input type="submit" value="Next" disabled={submitDisabled}/>
             </form>
         )
@@ -65,7 +76,6 @@ class ReservationForm extends React.Component {
 }
 
 class DropDownSelect extends React.Component {
-
     getEmptyOption() {
         return (
             <option key={0} value=""></option>
@@ -102,6 +112,7 @@ class DropDownSelect extends React.Component {
     }
 
     render() {
+        const {autoFocus, onChange, type, value, label } = this.props
         const disabled = this.props.disabled ? "disabled" : "";
         var options;
         if (this.props.type === "partySize") {
@@ -110,8 +121,20 @@ class DropDownSelect extends React.Component {
             options = this.time();
         return (
             <div className={style.inputGroup}>
-                <label className={style.labelText} htmlFor={this.props.type}>{this.props.label}</label>
-                <select key={this.props.type} className={style.selectBox} value={this.props.value} name={this.props.type} id={this.props.type} disabled={disabled}  onChange={ this.props.onChange}>
+                <label
+                    className={style.labelText}
+                    htmlFor={this.props.type}>
+                    {label}
+                </label>
+                <select
+                    key={type}
+                    className={style.selectBox}
+                    value={value}
+                    name={type}
+                    id={type}
+                    disabled={disabled}
+                    onChange={onChange}
+                    autoFocus={autoFocus}>
                     {options}
                 </select>
             </div>

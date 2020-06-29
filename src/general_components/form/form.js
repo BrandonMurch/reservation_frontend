@@ -22,7 +22,8 @@ class Form extends React.Component {
     getInputs() {
         let inputs = [];
 
-        this.props.inputs.forEach(input => {
+        this.props.inputs.forEach((input, index) => {
+            const autoFocus = index === 0 ? true : false;
             if (input.type === "checkbox") {
                 inputs.push(
                     <CheckboxAndLabel
@@ -30,6 +31,7 @@ class Form extends React.Component {
                         onClick={this.onClick}
                         name={input.name}
                         label={input.label}
+                        autoFocus={autoFocus}
                     />
                 );
             } else if(input.type === "submit") {
@@ -39,6 +41,7 @@ class Form extends React.Component {
                         className={style.submit}
                         type="submit"
                         value="Make Reservation"
+                        autoFocus={autoFocus}
                     />
                 );
             }else {
@@ -48,7 +51,9 @@ class Form extends React.Component {
                         name={input.name}
                         type={input.type}
                         label={input.label}
-                        onBlur={this.onBlur}/>
+                        onBlur={this.onBlur}
+                        autoFocus={autoFocus}
+                    />
                 )
             }
         });
@@ -81,12 +86,24 @@ class InputAndLabel extends React.Component {
     }
 
     render() {
+        const {autoFocus, type, name, onBlur, label} = this.props;
+
         return (
             <div className={style.inputGroup}>
-                <label className={style.labelText} htmlFor={this.props.name}>
-                    {this.props.label + ":"}
+                <label
+                    className={style.labelText}
+                    htmlFor={name}>
+                    {label + ":"}
                 </label>
-                <input className={style.input} value={this.state.value} onChange={this.onChange} onBlur={this.props.onBlur} type={this.props.type} name={this.props.name} required/>
+                <input
+                    className={style.input}
+                    value={this.state.value}
+                    onChange={this.onChange}
+                    onBlur={onBlur}
+                    type={type}
+                    name={name}
+                    required
+                    autoFocus={autoFocus}/>
             </div>
         )
     }
@@ -107,18 +124,21 @@ class CheckboxAndLabel extends React.Component {
     }
 
     render() {
+        const {autoFocus, name, label} = this.props;
         return (
             <div className={style.inputGroup}>
-                <label className={style.labelText} htmlFor={this.props.name}>
-                    {this.props.label}:
+                <label className={style.labelText} htmlFor={name}>
+                    {label}:
                 </label>
 
                 <input
                     onClick={this.onClick}
                     value={this.state.value}
                     type="checkbox"
-                    name={this.props.name}
-                    required/>
+                    name={name}
+                    required
+                    autoFocus={autoFocus}
+                />
             </div>
         )
     }

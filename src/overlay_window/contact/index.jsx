@@ -1,6 +1,7 @@
 import React from 'react';
-import Form from '../../general_components/form/form'
-import style from './contact.module.css'
+import Form from '../../general_components/form/form';
+import { displayReservation } from '../../overlay_window';
+import style from './contact.module.css';
 
 
 class ContactForm extends React.Component {
@@ -21,18 +22,18 @@ class ContactForm extends React.Component {
         const form = {};
 
         form.object = {
-            fName: "",
-            lName: "",
+            firstName: "",
+            lastName: "",
             email: "",
-            tel: "",
+            phoneNumber: "",
             tAC: false,
         };
 
         form.inputs = [
-            {name:"fName", type: "text", label: "First Name"},
-            {name:"lName", type: "text", label: "Last Name"},
+            {name:"firstName", type: "text", label: "First Name"},
+            {name:"lastName", type: "text", label: "Last Name"},
             {name:"email", type: "email", label: "Email"},
-            {name:"tel", type: "tel", label: "Phone Number"},
+            {name:"phoneNumber", type: "tel", label: "Phone Number"},
             {name:"pass", type: "password", label: "Password"},
             {name:"confirm", type: "password", label: "Confirm Password"},
             {name:"tAC", type: "checkbox", label: "Yes, I agree to the terms and conditions"},
@@ -40,8 +41,9 @@ class ContactForm extends React.Component {
         ]
 
         form.onSubmit = (user) => {
-            // TODO pass back user that is received from server
+            // TODO verify that pass and confirm are identical
             console.log("login successful for user: " + user);
+            this.props.onSubmit(user);
         }
 
         form.switch = (
@@ -65,17 +67,17 @@ class ContactForm extends React.Component {
         form.inputs = [
             {name:"email", type: "email", label: "Email"},
             {name:"pass", type: "password", label: "Password"},
-            {type: "submit", label: "Make Reservation"},
+            {type: "submit", to:"review", label: "Make Reservation"},
         ]
 
         form.onSubmit = () => {
             // TODO pass back user that is received from server
             // Stub for testing purposes
             let user = {
-                fName: "John",
-                lName: "Doe",
+                firstName: "John",
+                lastName: "Doe",
                 email: "JohnDoe@email.com",
-                tel: "234566443",
+                phoneNumber: "234566443",
             }
             this.props.onSubmit(user);
         }
@@ -112,17 +114,6 @@ class ContactForm extends React.Component {
     }
 }
 
-function displayReservation(reservation) {
-        const date =
-            new Date(reservation.date).toDateString();
-        const person = reservation.partySize > 1 ? "people" : "person";
-        return (
-            <p className={style.title}>
-                {reservation.partySize + " " + person}<br/>
-                {reservation.time} <br/>
-                {date}
-            </p>
-        )
-    }
+
 
 export default ContactForm;

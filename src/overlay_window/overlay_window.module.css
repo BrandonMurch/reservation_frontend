@@ -16,8 +16,12 @@
     text-align: right;
 }
 
+.title {
+    composes: title from '../css/project_globals.module.css';
+}
+
 .text {
-    color: white;
+    composes: text from '../css/project_globals.module.css';
 }
 
 .exitText {
