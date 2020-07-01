@@ -1,0 +1,14 @@
+{
+    "extends": ["airbnb", "airbnb/hooks"],
+    "env": {
+      "browser": true
+    },
+    "rules": {
+      "import/no-named-as-default": "off",
+      "import/no-named-as-default-member": "off",
+      "no-plusplus": [2, {
+        "allowForLoopAfterthoughts": true
+        }],
+      "no-param-reassign": ["error", { "props": false }]
+    }
+}
