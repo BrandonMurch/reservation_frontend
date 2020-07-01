@@ -76,7 +76,6 @@ function OverlayWindow(props) {
               onClick={(target) => {
                 if (target === 'success') {
                   // TODO: send completed reservation to server
-                  console.log('review complete');
                 }
                 setRedirect(target);
               }}

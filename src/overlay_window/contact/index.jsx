@@ -36,7 +36,6 @@ function ContactForm(props) {
       { type: 'submit', label: 'Make Reservation' },
     ],
     onSubmit(user, event) {
-      console.log(user.tAC);
       // TODO verify that pass and confirm are identical / indepth verification
       if (user.pass === user.confirm) {
         // TODO, remove this console.log when fully implemented
@@ -44,7 +43,6 @@ function ContactForm(props) {
         props.onSubmit(user);
       } else {
         // TODO custom implementation ensuring password and confirm are identical
-        console.log('NOT THE SAME');
         event.preventDefault();
         alert('Password and confirm password must be identical.'); // eslint-disable-line no-alert, no-undef
       }

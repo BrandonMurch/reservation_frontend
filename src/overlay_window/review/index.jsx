@@ -25,9 +25,6 @@ const getButtons = function getButtonsFromList(info, onClick) {
 function Review(props) {
   const { reservation, user, onClick } = props;
 
-  console.log(reservation);
-  console.log(user);
-
   const buttons = [
     { target: 'calendar', text: 'Choose a new date.' },
     { target: 'reservation', text: 'Choose a new time or party size.' },

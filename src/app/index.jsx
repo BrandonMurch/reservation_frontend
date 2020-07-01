@@ -20,7 +20,6 @@ function App() {
     && displayOverlay === false) {
     setOverlayDisplay(true);
   }
-  console.log(window.location.pathname);
 
   return (
     <Router className={style.app}>
