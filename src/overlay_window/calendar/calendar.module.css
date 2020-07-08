@@ -6,15 +6,26 @@
     cursor: default;
 }
 
+:global td.fc-day {
+  cursor: pointer;
+  background-color: rgba(100,100,100,0.5) !important;
+
+}
+
+:global td.fc-day-disabled {
+    background-color: transparent !important;
+    color: black !important;
+    cursor: default !important;
+}
+
 :global td.fc-day-today {
     background-color: rgba(255,255,255,0.5) !important;
     color: black !important;
 }
 
-:global td.fc-day-disabled {
-    background-color: transparent !important;
-    cursor: default;
-}
+
+
+
 
 .container {
     composes: centerVertically from '../../css/helpers.module.css';

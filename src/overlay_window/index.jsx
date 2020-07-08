@@ -30,9 +30,11 @@ function OverlayWindow(props) {
           path="/calendar"
           render={() => (
             <Calendar
-              dateClick={({ dateStr }) => {
-                reservation.current.date = dateStr;
-                setRedirect('/reservation');
+              dateClick={(args) => {
+                if (!args.dayEl.disabled) {
+                  reservation.current.date = args.dateStr;
+                  setRedirect('/reservation');
+                }
               }}
             />
           )}
