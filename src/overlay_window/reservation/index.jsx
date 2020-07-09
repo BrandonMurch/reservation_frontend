@@ -1,15 +1,41 @@
 // Dependencies
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // CSS
 import style from './reservation.module.css';
+
+const getAvailableTimes = function getAvailableTimesFromServer(
+  date, partySize, setIsLoaded, setError, setAvailableTimes,
+) {
+  if (partySize === '' || date == null) {
+    return;
+  }
+
+  setIsLoaded(false);
+  fetch(`http://localhost:8080/availability/?date=${date}&size=${partySize}`)
+    .then((res) => res.json())
+    .then(
+      (result) => {
+        setAvailableTimes(result);
+        setIsLoaded(true);
+      },
+      (error) => {
+        setError(error);
+        setIsLoaded(true);
+        return ['7:00PM', '8:30PM'];
+      },
+    );
+};
 
 const ReservationForm = function CreateAReservationForm(props) {
   const { date, onSubmit } = props;
   const dateString = new Date(date).toDateString();
   const [time, setTime] = useState('');
   const [partySize, setPartySize] = useState('');
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [error, setError] = useState(false);
+  const [availableTimes, setAvailableTimes] = useState([]);
   const reservation = {
     date,
     time,
@@ -17,8 +43,15 @@ const ReservationForm = function CreateAReservationForm(props) {
   };
 
   const submitDisabled = (time === '' || partySize === '');
-  const timeDisabled = (reservation.partySize === '');
+  const timeDisabled = (!isLoaded || partySize === '');
 
+  useEffect(() => {
+    getAvailableTimes(date, partySize, setIsLoaded, setError, setAvailableTimes);
+  }, [partySize, date]);
+
+  if (error) {
+    return <div>error.message</div>;
+  }
   return (
     <form
       onSubmit={(event) => {
@@ -30,7 +63,7 @@ const ReservationForm = function CreateAReservationForm(props) {
       <DropDownSelect
         type="partySize"
         label="Party size:"
-        value={reservation.partySize}
+        value={partySize}
         onChange={({ target }) => {
           setPartySize(target.value);
           if (partySize === '') {
@@ -38,15 +71,18 @@ const ReservationForm = function CreateAReservationForm(props) {
           }
         }}
         autoFocus
+        setIsLoaded={setIsLoaded}
       />
       <DropDownSelect
         type="time"
         label="Desired time:"
-        value={reservation.time}
+        value={time}
         disabled={timeDisabled}
         onChange={({ target }) => {
           setTime(target.value);
         }}
+        setIsLoaded={setIsLoaded}
+        availableTimes={availableTimes}
       />
       <input type="submit" value="Next" disabled={submitDisabled} />
     </form>
@@ -54,8 +90,12 @@ const ReservationForm = function CreateAReservationForm(props) {
 };
 
 ReservationForm.propTypes = {
-  date: PropTypes.string.isRequired,
+  date: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
+};
+
+ReservationForm.defaultProps = {
+  date: new Date().toISOString().slice(0, 10),
 };
 
 const emptyOption = function createAnEmptyOptionForASelectInput() {
@@ -77,16 +117,10 @@ const partySizeOptions = function createAListOfPartySizeOptionsForASelectInput()
   return options;
 };
 
-const availableTimes = function getAvailableTimesFromServer() {
-  // todo this is a stub, will update later, and get real times from server
-  return ['7:00PM', '8:30PM'];
-};
-
-const timeOptions = function getTimeOptionsForASelectInput() {
-  const times = availableTimes();
+const timeOptions = function getTimeOptionsForASelectInput(availableTimes) {
   const options = [emptyOption()];
 
-  times.forEach((time) => {
+  availableTimes.forEach((time) => {
     options.push(
       <option key={time} value={time}>
         {time}
@@ -104,6 +138,7 @@ const DropDownSelect = function CreateADropDownSelectForAForm(props) {
     value,
     label,
     disabled,
+    availableTimes,
   } = props;
 
   // const [value, setValue] = useState(propValue);
@@ -111,7 +146,7 @@ const DropDownSelect = function CreateADropDownSelectForAForm(props) {
   let options;
   if (type === 'partySize') {
     options = partySizeOptions();
-  } else if (type === 'time') options = timeOptions();
+  } else if (type === 'time') options = timeOptions(availableTimes);
 
   return (
     <div className={style.inputGroup}>
@@ -144,12 +179,14 @@ DropDownSelect.propTypes = {
   value: PropTypes.string,
   autoFocus: PropTypes.bool,
   disabled: PropTypes.bool,
+  availableTimes: PropTypes.arrayOf(String),
 };
 
 DropDownSelect.defaultProps = {
   value: '',
   autoFocus: false,
   disabled: false,
+  availableTimes: [],
 };
 
 export default ReservationForm;
