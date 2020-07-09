@@ -21,7 +21,8 @@
 .env.test.local
 .env.production.local
 
-
+# es-lint
+.eslintrc.json
 
 npm-debug.log*
 yarn-debug.log*
