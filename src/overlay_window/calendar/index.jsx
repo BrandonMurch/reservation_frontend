@@ -11,9 +11,8 @@ import style from './calendar.module.css';
 const getValidRange = function getAvailableDatesFromServer(
   setError, setIsLoaded, setStartDate, setEndDate, setDates,
 ) {
-  // TODO find dates from backend.
-
-  fetch('http://localhost:8080/bookings/free-dates')
+  setIsLoaded(false);
+  fetch('http://localhost:8080/availability')
     .then((res) => res.json())
     .then(
       (result) => {
@@ -38,6 +37,7 @@ const dayRenderHook = function disableCertainDaysFromList({ date, el }, dates) {
   }
 };
 
+// TODO: custom error message.
 const Calendar = function PopulateUsingFullCalendar(props) {
   const { dateClick } = props;
   const [error, setError] = useState(null);
