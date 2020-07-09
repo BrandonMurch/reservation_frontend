@@ -18,8 +18,7 @@ const Checkbox = function CheckboxAndLabel(props) {
   return (
     <div className={style.inputGroup}>
       <label className={style.labelText} htmlFor={name}>
-        {label}
-        :
+        {`${label}:`}
       </label>
 
       <input

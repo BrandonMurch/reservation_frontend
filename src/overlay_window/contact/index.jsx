@@ -1,5 +1,5 @@
 //  Dependencies
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 // Components
@@ -9,113 +9,169 @@ import { displayReservation } from '../../general_components/display';
 // CSS
 import style from './contact.module.css';
 
-function ContactForm(props) {
-  const [formDisplay, setFormDisplay] = useState('login');
-  const { onSubmit, reservation } = props;
+const NewUser = function PopulateContactForm(props) {
+  const { setFormDisplay } = props;
+  const user = useRef({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phoneNumber: '',
+    password: '',
+    tAC: false,
+  });
 
-  const contactForm = {
-    object: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      phoneNumber: '',
-      tAC: false,
-    },
-    inputs: [
-      { name: 'firstName', type: 'text', label: 'First Name' },
-      { name: 'lastName', type: 'text', label: 'Last Name' },
-      { name: 'email', type: 'email', label: 'Email' },
-      { name: 'phoneNumber', type: 'tel', label: 'Phone Number' },
-      { name: 'pass', type: 'password', label: 'Password' },
-      { name: 'confirm', type: 'password', label: 'Confirm Password' },
-      {
-        name: 'tAC',
-        type: 'checkbox',
-        label: 'Yes, I agree to the terms and conditions',
+  //
+  const inputs = [
+    { name: 'firstName', type: 'text', label: 'First Name' },
+    { name: 'lastName', type: 'text', label: 'Last Name' },
+    { name: 'email', type: 'email', label: 'Email' },
+    {
+      name: 'phoneNumber',
+      type: 'tel',
+      label: 'Phone Number',
+      validator(phone) {
+        if (/^\+\d{1,3} \d{6,14}$/.test(phone)) {
+          return '';
+        }
+
+        return 'Phone number must be in the format of +1 123456789 where 1 is the country code, followed by the phone number';
       },
-      { type: 'submit', label: 'Make Reservation' },
-    ],
-    onSubmit(user, event) {
-      // TODO verify that pass and confirm are identical / indepth verification
-      if (user.pass === user.confirm) {
-        // TODO, remove this console.log when fully implemented
-        console.log(`login successful for user: ${user}`);// eslint-disable-line no-console
-        props.onSubmit(user);
-      } else {
-        // TODO custom implementation ensuring password and confirm are identical
-        event.preventDefault();
-        alert('Password and confirm password must be identical.'); // eslint-disable-line no-alert, no-undef
-      }
     },
-    switch: (
+    {
+      name: 'password',
+      type: 'confirmPassword',
+      label: 'Password',
+      validator(password) {
+        console.log();
+        if (password.length < 8) {
+          return 'Password must be at least 8 characters';
+        }
+        if (!/\d/.test(password)) {
+          return 'Password must have at least one number';
+        }
+        if (!/[A-Z]/.test(password)) {
+          return 'Password must have at least one capital letter';
+        }
+        return '';
+      },
+    },
+    {
+      name: 'tAC',
+      type: 'checkbox',
+      label: 'Yes, I agree to the terms and conditions',
+    },
+  ];
+
+  const onSubmit = function contactFormSubmit() {
+    console.log(user.current);
+    props.onSubmit(user.current);
+  };
+
+  const onClick = function toggleBooleanCheckBoxVariable(name, value) {
+    user.current[name] = value;
+  };
+
+  const onBlur = function updateUserOnInputBlur(value, name) {
+    user.current[name] = value;
+  };
+
+  return (
+    <>
       <p className={style.switchText}>
         Do you already have an account?
         <button
           type="button"
-          className={style.switch}
+          className={style.switchButton}
           onClick={() => setFormDisplay('login')}
           onKeyUp={() => setFormDisplay('login')}
         >
           Login.
         </button>
       </p>
-    ),
+      <Form
+        setFormDisplay={setFormDisplay}
+        submitLabel="Next"
+        onClick={(name, value) => onClick(name, value)}
+        onBlur={(value, name) => onBlur(value, name)}
+        inputs={inputs}
+        onSubmit={(event) => onSubmit(event)}
+      />
+    </>
+  );
+};
+
+NewUser.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  setFormDisplay: PropTypes.func.isRequired,
+};
+
+const Login = function CreateLoginForm(props) {
+  const { setFormDisplay } = props;
+  const login = useRef({
+    username: '',
+    password: '',
+  });
+
+  const inputs = [
+    { name: 'email', type: 'email', label: 'Email' },
+    { name: 'pass', type: 'password', label: 'Password' },
+  ];
+
+  const onSubmit = function GetUserFromServer() {
+    // TODO pass back user that is received from server
+    // Stub for testing purposes
+    const user = {
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'JohnDoe@email.com',
+      phoneNumber: '234566443',
+    };
+    props.onSubmit(user);
   };
 
-  const loginForm = {
-    object: {
-      username: '',
-      password: '',
-    },
-    inputs: [
-      { name: 'email', type: 'email', label: 'Email' },
-      { name: 'pass', type: 'password', label: 'Password' },
-      { type: 'submit', to: 'review', label: 'Make Reservation' },
-    ],
-    onSubmit() {
-      // TODO pass back user that is received from server
-      // Stub for testing purposes
-      const user = {
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'JohnDoe@email.com',
-        phoneNumber: '234566443',
-      };
-      onSubmit(user);
-    },
+  const onBlur = function updateLoginOnBlur(value, name) {
+    login.current[name] = value;
+  };
 
-    switch: (
+  return (
+    <>
       <p className={style.switchText}>
         You don&apos;t already have an account?
         <button
           type="button"
-          className={style.switch}
-          onClick={() => setFormDisplay('contact')}
-          onKeyUp={() => setFormDisplay('contact')}
+          className={style.switchButton}
+          onClick={() => setFormDisplay('newUser')}
+          onKeyUp={() => setFormDisplay('newUser')}
         >
           {' '}
           Sign up.
         </button>
       </p>
-    ),
-  };
+      <Form
+        submitLabel="Next"
+        onBlur={(value, name) => onBlur(value, name)}
+        inputs={inputs}
+        onSubmit={(event) => onSubmit(event)}
+      />
+    </>
+  );
+};
 
-  let form = '';
+Login.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  setFormDisplay: PropTypes.func.isRequired,
+};
 
-  if (formDisplay === 'contact') {
-    form = contactForm;
-  } else if (formDisplay === 'login') {
-    form = loginForm;
-  }
+function ContactForm(props) {
+  const [formDisplay, setFormDisplay] = useState('newUser');
+  const { onSubmit, reservation } = props;
+
   return (
     <div className={style.container}>
       {displayReservation(reservation)}
-      {form.switch}
-      <Form
-        object={form.object}
-        inputs={form.inputs}
-        onSubmit={(event) => form.onSubmit(form.object, event)}
-      />
+      {formDisplay === 'newUser'
+        ? <NewUser setFormDisplay={setFormDisplay} onSubmit={onSubmit} />
+        : <Login setFormDisplay={setFormDisplay} onSubmit={onSubmit} />}
     </div>
   );
 }

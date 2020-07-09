@@ -4,6 +4,7 @@
       "browser": true
     },
     "rules": {
+      "jsx-a11y/label-has-for": "off",
       "import/no-named-as-default": "off",
       "import/no-named-as-default-member": "off",
       "no-plusplus": [2, {

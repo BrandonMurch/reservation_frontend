@@ -14,6 +14,10 @@
     width: 70%;
 }
 
+.errorText {
+  color: red;
+}
+
 @media screen and (max-width: 550px) {
     .labelText {
         margin: 0.5rem;
