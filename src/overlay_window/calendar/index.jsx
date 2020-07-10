@@ -29,9 +29,9 @@ const getValidRange = function getAvailableDatesFromServer(
 };
 
 const dayRenderHook = function disableCertainDaysFromList({ date, el }, dates) {
-  const dateStr = date.toISOString().slice(0, 10);
+  const dateString = date.toLocaleString('en-ca').slice(0, 10);
 
-  if (!dates.includes(dateStr)) {
+  if (!dates.includes(dateString)) {
     el.className += ' fc-day-disabled';
     el.disabled = true;
   }
@@ -69,7 +69,6 @@ const Calendar = function PopulateUsingFullCalendar(props) {
         height="100%"
         validRange={{ start: startDate, end: endDate }}
         dayCellDidMount={(args) => dayRenderHook(args, dates)}
-        // dateClick={dateClick}
         dateClick={dateClick}
       />
     </div>
