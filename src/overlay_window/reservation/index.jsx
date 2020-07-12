@@ -103,7 +103,6 @@ const emptyOption = function createAnEmptyOptionForASelectInput() {
 };
 
 const partySizeOptions = function createAListOfPartySizeOptionsForASelectInput() {
-  // TODO: get max partysize from server
   const maxPartySize = 8;
   const options = [emptyOption()];
 
@@ -132,7 +131,6 @@ const timeOptions = function getTimeOptionsForASelectInput(availableTimes) {
 
 const DropDownSelect = function CreateADropDownSelectForAForm(props) {
   const {
-    autoFocus,
     onChange,
     type,
     value,
@@ -163,8 +161,6 @@ const DropDownSelect = function CreateADropDownSelectForAForm(props) {
         onChange={(event) => {
           onChange(event);
         }}
-        // TODO: autofocus??
-        autoFocus={autoFocus} // eslint-disable-line jsx-a11y/no-autofocus
       >
         {options}
       </select>
@@ -177,14 +173,12 @@ DropDownSelect.propTypes = {
   type: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   value: PropTypes.string,
-  autoFocus: PropTypes.bool,
   disabled: PropTypes.bool,
   availableTimes: PropTypes.arrayOf(String),
 };
 
 DropDownSelect.defaultProps = {
   value: '',
-  autoFocus: false,
   disabled: false,
   availableTimes: [],
 };

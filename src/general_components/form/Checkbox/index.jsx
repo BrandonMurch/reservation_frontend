@@ -9,7 +9,6 @@ const Checkbox = function CheckboxAndLabel(props) {
     setValue,
   ] = useState(false);
   const {
-    autoFocus,
     name,
     label,
     onClick,
@@ -30,15 +29,12 @@ const Checkbox = function CheckboxAndLabel(props) {
         type="checkbox"
         name={name}
         required
-        // TODO: autofocus??
-        autoFocus={autoFocus} // eslint-disable-line jsx-a11y/no-autofocus
       />
     </div>
   );
 };
 
 Checkbox.propTypes = {
-  autoFocus: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,

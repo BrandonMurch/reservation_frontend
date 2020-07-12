@@ -6,7 +6,6 @@ const Input = function CreateInputAndLabel(props) {
   const [value, setValue] = useState('');
   const [error, setError] = useState('');
   const {
-    autoFocus,
     type,
     name,
     label,
@@ -40,8 +39,6 @@ const Input = function CreateInputAndLabel(props) {
         type={type}
         name={name}
         required
-        // TODO: autofocus??
-        autoFocus={autoFocus} // eslint-disable-line jsx-a11y/no-autofocus
       />
       {error !== '' && <p className={style.errorText}>{error}</p>}
     </div>
@@ -49,7 +46,6 @@ const Input = function CreateInputAndLabel(props) {
 };
 
 Input.propTypes = {
-  autoFocus: PropTypes.bool.isRequired,
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   onBlur: PropTypes.func.isRequired,
