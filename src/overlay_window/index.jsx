@@ -15,11 +15,44 @@ import Success from './success';
 // CSS
 import style from './overlay_window.module.css';
 
+// FIXME: Jackson cannot deserialize booking in backend;
+const submitReservation = function postReservationToServer(user, reservation) {
+  console.log(reservation);
+  const body = JSON.stringify({
+    user,
+    booking: reservation,
+  });
+
+  console.log(body);
+  fetch('http://localhost:8080/bookings', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body,
+  })
+    .then(
+      (result) => {
+        console.log(result);
+      },
+      (error) => {
+        console.error(error);
+      },
+    );
+};
+
 function OverlayWindow(props) {
   const { closeOverlay } = props;
   const [redirect, setRedirect] = useState('');
-  const reservation = useRef({});
-  const user = useRef({});
+  const reservation = useRef({
+    startTime: '2020-10-10T21:00:00.00',
+    partySize: '2',
+  });
+  const user = useRef({
+    firstName: 'john',
+    lastName: 'johnson',
+    email: 'john@john.com',
+    phoneNumber: '+1 123456787',
+    tAC: true,
+  });
 
   return (
     <div className={style.overlay}>
@@ -77,9 +110,10 @@ function OverlayWindow(props) {
               reservation={reservation.current}
               onClick={(target) => {
                 if (target === 'success') {
-                  // TODO: send completed reservation to server
+                  submitReservation(user.current, reservation.current);
+                } else {
+                  setRedirect(target);
                 }
-                setRedirect(target);
               }}
             />
           )}
