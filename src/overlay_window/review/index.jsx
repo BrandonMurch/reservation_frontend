@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import style from './review.module.css';
 import { displayReservation, displayUser } from '../../general_components/display';
 
-const getButtons = function getButtonsFromList(info, onClick) {
+const getButtons = function getButtonsFromList(info, onClick, isLoading) {
   const buttons = [];
 
   info.forEach((button) => {
     buttons.push(
       <button
+        disabled={isLoading}
         key={button.target}
         className={style.button}
         type="button"
@@ -23,7 +24,9 @@ const getButtons = function getButtonsFromList(info, onClick) {
 };
 
 function Review(props) {
-  const { reservation, user, onClick } = props;
+  const {
+    reservation, user, onClick, isLoading,
+  } = props;
 
   const buttons = [
     { target: 'calendar', text: 'Choose a new date.' },
@@ -35,12 +38,13 @@ function Review(props) {
     <div className={style.container}>
       {displayReservation(reservation)}
       {displayUser(user)}
-      {getButtons(buttons, onClick)}
+      {getButtons(buttons, onClick, isLoading)}
     </div>
   );
 }
 
 Review.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
   reservation: PropTypes.shape({
     date: PropTypes.string,
     partySize: PropTypes.string,
