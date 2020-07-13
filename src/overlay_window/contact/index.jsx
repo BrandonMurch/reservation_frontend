@@ -37,24 +37,25 @@ const NewUser = function PopulateContactForm(props) {
         return 'Phone number must be in the format of +1 123456789 where 1 is the country code, followed by the phone number';
       },
     },
-    {
-      name: 'password',
-      type: 'confirmPassword',
-      label: 'Password',
-      validator(password) {
-        console.log();
-        if (password.length < 8) {
-          return 'Password must be at least 8 characters';
-        }
-        if (!/\d/.test(password)) {
-          return 'Password must have at least one number';
-        }
-        if (!/[A-Z]/.test(password)) {
-          return 'Password must have at least one capital letter';
-        }
-        return '';
-      },
-    },
+    //  TODO: Allow user to create an account
+    // {
+    //   name: 'password',
+    //   type: 'confirmPassword',
+    //   label: 'Password',
+    //   validator(password) {
+    //     console.log();
+    //     if (password.length < 8) {
+    //       return 'Password must be at least 8 characters';
+    //     }
+    //     if (!/\d/.test(password)) {
+    //       return 'Password must have at least one number';
+    //     }
+    //     if (!/[A-Z]/.test(password)) {
+    //       return 'Password must have at least one capital letter';
+    //     }
+    //     return '';
+    //   },
+    // },
     {
       name: 'tAC',
       type: 'checkbox',
