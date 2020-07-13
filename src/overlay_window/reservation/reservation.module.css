@@ -1,11 +1,5 @@
 .container {
-    composes: centerVertically from '../../css/helpers.module.css';
-    composes: transparentBackground from '../../css/project_globals.module.css';
-    max-width: 15rem;
-    margin: 0 auto;
-    text-align: center;
-    padding: 1rem;
-    border: 2px solid black;
+  composes: childContainer from '../overlay_window.module.css';
 }
 
 .inputGroup {
@@ -19,7 +13,7 @@
 }
 
 .labelText {
-    composes: text from '../overlay_window.module.css';
+    composes: text from '../../css/project_globals.module.css';
     float: left;
 }
 

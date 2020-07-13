@@ -3,9 +3,11 @@ import style from './success.module.css';
 
 function Complete() {
   return (
-    <h1 className={style.title}>
-      RESERVATION Complete
-    </h1>
+    <div className={style.container}>
+      <h1 className={style.title}>
+        Reservation was made successfully.
+      </h1>
+    </div>
   );
 }
 

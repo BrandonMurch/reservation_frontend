@@ -28,7 +28,7 @@
 
 
 .container {
-    composes: centerVertically from '../../css/helpers.module.css';
+    composes: centerVertically from '../../css/project_globals.module.css';
     color: white;
     height: 80vh;
     width: 80vw;

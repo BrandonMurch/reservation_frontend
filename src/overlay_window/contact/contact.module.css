@@ -1,5 +1,5 @@
 .container {
-    composes: container from '../reservation/reservation.module.css';
+  composes: childContainer from '../overlay_window.module.css';
     width: 80vw;
     max-width: 1000px;
 }

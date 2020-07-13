@@ -1,11 +1,7 @@
 
 .container {
-    composes: container from '../reservation/reservation.module.css';
+    composes: childContainer from '../overlay_window.module.css';
     max-width: 600px;
-}
-
-.title {
-    composes: title from '../reservation/reservation.module.css';
 }
 
 .button {

@@ -16,6 +16,16 @@
     text-align: right;
 }
 
+.childContainer {
+  composes: centerVertically from '../css/helpers.module.css';
+  composes: transparentBackground from '../css/project_globals.module.css';
+  max-width: 15rem;
+  margin: 0 auto;
+  text-align: center;
+  padding: 1rem;
+  border: 2px solid black;
+}
+
 .title {
     composes: title from '../css/project_globals.module.css';
 }
