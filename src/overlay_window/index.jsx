@@ -1,5 +1,7 @@
 // Dependencies
-import React, { useRef, useState } from 'react';
+import React, {
+  useRef, useState, useEffect,
+} from 'react';
 import {
   Switch, Route, Link, Redirect,
 } from 'react-router-dom';
@@ -11,19 +13,25 @@ import ReservationForm from './reservation';
 import ContactForm from './contact';
 import Review from './review';
 import Success from './success';
+import Banner, { bannerTypes } from './Banner';
 
 // CSS
 import style from './overlay_window.module.css';
 
-// FIXME: Jackson cannot deserialize booking in backend;
-const submitReservation = function postReservationToServer(user, reservation) {
-  console.log(reservation);
+const submitReservation = function postReservationToServer(
+  user, reservation, setError, setRedirect, setIsLoading,
+) {
+  setIsLoading(true);
+  const booking = { ...reservation };
+
+  booking.startTime = `${booking.date}T${booking.time}`;
+  delete booking.date;
+  delete booking.time;
   const body = JSON.stringify({
     user,
-    booking: reservation,
+    booking,
   });
 
-  console.log(body);
   fetch('http://localhost:8080/bookings', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -31,10 +39,19 @@ const submitReservation = function postReservationToServer(user, reservation) {
   })
     .then(
       (result) => {
-        console.log(result);
+        if (result.status === 201) {
+          setRedirect('success');
+        } else if (result.status === 409) {
+          setError('You have already made a booking on this date.');
+        } else {
+          setError('Something went wrong... \n please try again later');
+        }
+        setIsLoading(false);
       },
       (error) => {
+        setError('Something went wrong...');
         console.error(error);
+        setIsLoading(false);
       },
     );
 };
@@ -42,8 +59,22 @@ const submitReservation = function postReservationToServer(user, reservation) {
 function OverlayWindow(props) {
   const { closeOverlay } = props;
   const [redirect, setRedirect] = useState('');
+  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setError('');
+      setMessage('');
+    }, 10000);
+
+    return () => clearTimeout(timeout);
+  }, [error, message]);
+
+  // test stub
   const reservation = useRef({
-    startTime: '2020-10-10T21:00:00.00',
+    date: '2020-10-10',
+    time: '21:00:00.00',
     partySize: '2',
   });
   const user = useRef({
@@ -54,9 +85,15 @@ function OverlayWindow(props) {
     tAC: true,
   });
 
+  // production
+  // const reservation = useRef({});
+  // const user = useRef({});
+
   return (
     <div className={style.overlay}>
       {redirect && <Redirect to={redirect} />}
+      {error && <Banner type={bannerTypes.ERROR} message={error} />}
+      {isLoading && <Banner type={bannerTypes.STANDARD} message="Loading..." />}
       <ExitOverlay closeOverlay={closeOverlay} />
       <Switch>
         <Route
@@ -108,9 +145,12 @@ function OverlayWindow(props) {
             <Review
               user={user.current}
               reservation={reservation.current}
+              isLoading={isLoading}
               onClick={(target) => {
                 if (target === 'success') {
-                  submitReservation(user.current, reservation.current);
+                  submitReservation(
+                    user.current, reservation.current, setError, setRedirect, setIsLoading,
+                  );
                 } else {
                   setRedirect(target);
                 }
