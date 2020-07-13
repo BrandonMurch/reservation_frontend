@@ -1,0 +1,20 @@
+.standard {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  composes: transparentBackground from '../../css/project_globals.module.css';
+  color: white;
+  text-align: center;
+}
+
+.error {
+  composes: standard;
+  background-color: rgba(180, 0, 0, 0.8);
+  color: white;
+}
+
+.success {
+  composes: standard;
+  background-color: rgba(0, 180, 0, 0.8);
+  color: white;
+}
