@@ -38,16 +38,43 @@ const submitReservation = function postReservationToServer(
     body,
   })
     .then(
+      // eslint-disable-next-line
       (result) => {
         if (result.status === 201) {
           setRedirect('success');
-        } else if (result.status === 409) {
-          setError('You have already made a booking on this date.');
         } else {
-          setError('Something went wrong... \n please try again later');
+          const reader = result.body.getReader();
+          return new ReadableStream({
+            start(controller) {
+              // eslint-disable-next-line
+              return pump();
+              function pump() {
+                return reader.read().then(({ done, value }) => {
+                  if (done) {
+                    controller.close();
+                    return;
+                  }
+                  controller.enqueue(value);
+                  // eslint-disable-next-line
+                  return pump();
+                });
+              }
+            },
+          });
         }
-        setIsLoading(false);
       },
+    )
+    .then((stream) => new Response(stream))
+    .then((response) => response.text())
+    .then((data) => {
+      if (data !== '') {
+        setError(data);
+      } else {
+        setError('Something went wrong... \n please try again later');
+      }
+      setIsLoading(false);
+    })
+    .catch(
       (error) => {
         setError('Something went wrong...');
         console.error(error);
