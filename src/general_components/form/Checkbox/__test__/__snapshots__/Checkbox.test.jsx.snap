@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CheckboxAndLabel /> should match snapshot 1`] = `
+<div
+  className="inputGroup"
+>
+  <label
+    className="labelText"
+    htmlFor="checkbox name"
+  >
+    checkbox label:
+  </label>
+  <input
+    data-testid="checkbox"
+    name="checkbox name"
+    onClick={[Function]}
+    required={true}
+    type="checkbox"
+    value={false}
+  />
+</div>
+`;
