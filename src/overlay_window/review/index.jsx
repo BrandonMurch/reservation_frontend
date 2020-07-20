@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import style from './review.module.css';
-import { displayReservation, displayUser } from '../../general_components/display';
+import { DisplayReservation, DisplayUser } from '../../general_components/display';
 
 const getButtons = function getButtonsFromList(info, onClick, isLoading) {
   const buttons = [];
@@ -36,8 +36,8 @@ function Review(props) {
   ];
   return (
     <div className={style.container}>
-      {displayReservation(reservation)}
-      {displayUser(user)}
+      <DisplayReservation reservation={reservation} />
+      <DisplayUser user={user} />
       {getButtons(buttons, onClick, isLoading)}
     </div>
   );

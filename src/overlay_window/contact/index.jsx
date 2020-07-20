@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 // Components
 import Form from '../../general_components/form';
-import { displayReservation } from '../../general_components/display';
+import { DisplayReservation } from '../../general_components/display';
 
 // CSS
 import style from './contact.module.css';
@@ -64,7 +64,6 @@ const NewUser = function PopulateContactForm(props) {
   ];
 
   const onSubmit = function contactFormSubmit() {
-    console.log(user.current);
     props.onSubmit(user.current);
   };
 
@@ -169,7 +168,7 @@ function ContactForm(props) {
 
   return (
     <div className={style.container}>
-      {displayReservation(reservation)}
+      <DisplayReservation reservation={reservation} />
       {formDisplay === 'newUser'
         ? <NewUser setFormDisplay={setFormDisplay} onSubmit={onSubmit} />
         : <Login setFormDisplay={setFormDisplay} onSubmit={onSubmit} />}

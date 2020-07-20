@@ -77,7 +77,7 @@ const submitReservation = function postReservationToServer(
     .catch(
       (error) => {
         setError('Something went wrong...');
-        console.error(error);
+        setError(error);
         setIsLoading(false);
       },
     );
@@ -102,7 +102,7 @@ function OverlayWindow(props) {
   const reservation = useRef({
     date: '2020-10-10',
     time: '21:00:00.00',
-    partySize: '2',
+    partySize: 2,
   });
   const user = useRef({
     firstName: 'john',

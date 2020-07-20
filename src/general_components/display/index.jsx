@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 // CSS
 import style from './display.module.css';
 
-export function displayReservation(reservation) {
+function DisplayReservation(props) {
+  const { reservation } = props;
   const date = new Date(reservation.date).toDateString();
   const person = reservation.partySize > 1 ? 'people' : 'person';
   return (
@@ -19,12 +20,21 @@ export function displayReservation(reservation) {
   );
 }
 
-export function displayUser({
-  firstName,
-  lastName,
-  email,
-  phoneNumber,
-}) {
+DisplayReservation.propTypes = {
+  reservation: PropTypes.shape({
+    partySize: PropTypes.number.isRequired,
+    time: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
+function DisplayUser({ user }) {
+  const {
+    firstName,
+    lastName,
+    email,
+    phoneNumber,
+  } = user;
   return (
     <p className={style.title}>
       {`${firstName} ${lastName}`}
@@ -36,9 +46,13 @@ export function displayUser({
   );
 }
 
-displayUser.propTypes = {
-  firstName: PropTypes.string.isRequired,
-  lastName: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
-  phoneNumber: PropTypes.string.isRequired,
+DisplayUser.propTypes = {
+  user: PropTypes.shape({
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    phoneNumber: PropTypes.string.isRequired,
+  }).isRequired,
 };
+
+export { DisplayReservation, DisplayUser };

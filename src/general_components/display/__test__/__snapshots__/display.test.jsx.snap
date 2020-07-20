@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+// eslint-disable-next-line
+exports[`<DisplayReservation /> should match snapshot 1`] = `
+<p
+  className="title"
+>
+  2 people
+  <br />
+  21:00
+  <br />
+  Sat Oct 10 2020
+</p>
+`;
+
+// eslint-disable-next-line
+exports[`<DisplayUser /> should match snapshot 1`] = `
+<p
+  className="title"
+>
+  john johnson
+  <br />
+  john@john.com
+  <br />
+  +1 123456787
+</p>
+`;
