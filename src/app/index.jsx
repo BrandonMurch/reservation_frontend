@@ -26,6 +26,7 @@ function App() {
       <div className={textOpacity}>
         <Link
           to="/calendar"
+          data-testid="opening-link-calendar"
           className={style.text}
           onClick={() => setOverlayDisplay(!displayOverlay)}
         >

@@ -117,7 +117,7 @@ function OverlayWindow(props) {
   // const user = useRef({});
 
   return (
-    <div className={style.overlay}>
+    <div data-testid="overlay-window" className={style.overlay}>
       {redirect && <Redirect to={redirect} />}
       {error && <Banner type={bannerTypes.ERROR} message={error} />}
       {isLoading && <Banner type={bannerTypes.STANDARD} message="Loading..." />}

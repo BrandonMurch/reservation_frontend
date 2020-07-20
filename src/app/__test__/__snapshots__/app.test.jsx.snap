@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<App /> should match snapshot 1`] = `
+<div
+  className="textContainer"
+>
+  <a
+    className="text"
+    data-testid="opening-link-calendar"
+    href="/calendar"
+    onClick={[Function]}
+  >
+    Click here to make a reservation
+  </a>
+</div>
+`;
