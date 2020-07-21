@@ -26,7 +26,10 @@ const Banner = function InformationBannerTopOfPage(props) {
   }
 
   return (
-    <div className={bannerStyle}>
+    <div
+      className={bannerStyle}
+      role="banner"
+    >
       <p>
         {message}
       </p>
