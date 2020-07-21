@@ -11,7 +11,7 @@ exports[`<CheckboxAndLabel /> should match snapshot 1`] = `
     checkbox label:
   </label>
   <input
-    data-testid="checkbox"
+    id="checkbox name"
     name="checkbox name"
     onClick={[Function]}
     required={true}

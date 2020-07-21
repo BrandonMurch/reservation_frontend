@@ -42,7 +42,6 @@ describe('<Input />', () => {
   it('should have a label and display text', () => {
     const label = component.getByText(/This is a label/i);
     expect(label).toBeInTheDocument();
-    // console.log(label);
     expect(label.htmlFor).toEqual('textInput');
   });
   it('should have an input box for text', () => {
@@ -52,7 +51,9 @@ describe('<Input />', () => {
   });
   it('should validate on blur', () => {
     const input = component.getByRole('textbox');
-    fireEvent.change(input, { target: { value: 'input text' } });
+    fireEvent.change(input, {
+      target: { value: 'input text' },
+    });
     fireEvent.blur(input);
     expect(mockValidatorFunction).toHaveBeenCalledWith('input text');
     expect(mockBlurFunction).toHaveBeenCalledWith('input text', 'textInput', true);

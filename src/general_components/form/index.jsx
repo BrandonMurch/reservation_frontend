@@ -10,20 +10,18 @@ import ConfirmPassword from './ConfirmPassword';
 // CSS
 import style from './form.module.css';
 
-const getInputs = function createListOfInputsForForm(inputs, onBlur, onClick) {
+const getInputs = function inputFactory(inputs, onTextBlur, onCheckboxClick) {
   const inputList = [];
 
-  inputs.forEach((input, index) => {
-    const autoFocus = (index === 0);
+  inputs.forEach((input) => {
     switch (input.type) {
       case 'checkbox':
         inputList.push(
           <Checkbox
             key={input.name}
-            onClick={(name, value) => onClick(name, value)}
+            onClick={(name, value) => onCheckboxClick(name, value)}
             name={input.name}
             label={input.label}
-            autoFocus={autoFocus}
           />,
         );
         break;
@@ -31,7 +29,7 @@ const getInputs = function createListOfInputsForForm(inputs, onBlur, onClick) {
         inputList.push(
           <ConfirmPassword
             key={input.name}
-            onBlur={onBlur}
+            onBlur={onTextBlur}
             validator={input.validator}
           />,
         );
@@ -43,8 +41,7 @@ const getInputs = function createListOfInputsForForm(inputs, onBlur, onClick) {
             name={input.name}
             type={input.type}
             label={input.label}
-            onBlur={onBlur}
-            autoFocus={autoFocus}
+            onBlur={onTextBlur}
             validator={input.validator}
           />,
         );
@@ -56,11 +53,11 @@ const getInputs = function createListOfInputsForForm(inputs, onBlur, onClick) {
 
 export default function Form(props) {
   const {
-    inputs, onSubmit, onBlur, onClick, submitLabel,
+    inputs, onSubmit, onTextBlur, onCheckboxClick, submitLabel,
   } = props;
 
   const [errors, setErrors] = useState(new Set());
-
+  // TODO: check for errors on submit too, not just on blur
   const checkError = function checkForErrorsInForm(value, name, error) {
     const inErrorsList = errors.has(name);
     if (error && !inErrorsList) {
@@ -72,10 +69,11 @@ export default function Form(props) {
       newSet.delete(name);
       setErrors(newSet);
     }
-    onBlur(value, name);
+    onTextBlur(value, name);
   };
   return (
     <form
+      data-testid="form"
       onSubmit={(event) => {
         event.preventDefault();
         if (errors.size === 0) {
@@ -84,12 +82,13 @@ export default function Form(props) {
       }}
       className={style.container}
     >
-      {getInputs(inputs, checkError, onClick)}
+      {getInputs(inputs, checkError, onCheckboxClick)}
       <input
         key="submit"
         className={style.submit}
         type="submit"
         value={submitLabel}
+        disabled={errors.size !== 0}
       />
     </form>
   );
@@ -104,11 +103,11 @@ Form.propTypes = {
     }),
   ).isRequired,
   onSubmit: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
-  onClick: PropTypes.func,
+  onTextBlur: PropTypes.func.isRequired,
+  onCheckboxClick: PropTypes.func,
   submitLabel: PropTypes.string.isRequired,
 };
 
 Form.defaultProps = {
-  onClick() {},
+  onCheckboxClick() {},
 };

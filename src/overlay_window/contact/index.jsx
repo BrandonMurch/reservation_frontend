@@ -37,6 +37,11 @@ const NewUser = function PopulateContactForm(props) {
         return 'Phone number must be in the format of +1 123456789 where 1 is the country code, followed by the phone number';
       },
     },
+    {
+      name: 'tAC',
+      type: 'checkbox',
+      label: 'Yes, I agree to the terms and conditions',
+    },
     //  TODO: Allow user to create an account
     // {
     //   name: 'password',
@@ -56,22 +61,17 @@ const NewUser = function PopulateContactForm(props) {
     //     return '';
     //   },
     // },
-    {
-      name: 'tAC',
-      type: 'checkbox',
-      label: 'Yes, I agree to the terms and conditions',
-    },
   ];
 
   const onSubmit = function contactFormSubmit() {
     props.onSubmit(user.current);
   };
 
-  const onClick = function toggleBooleanCheckBoxVariable(name, value) {
+  const onCheckboxClick = function toggleBooleanCheckBoxVariable(name, value) {
     user.current[name] = value;
   };
 
-  const onBlur = function updateUserOnInputBlur(value, name) {
+  const onTextBlur = function updateUserOnInputBlur(value, name) {
     user.current[name] = value;
   };
 
@@ -91,8 +91,8 @@ const NewUser = function PopulateContactForm(props) {
       <Form
         setFormDisplay={setFormDisplay}
         submitLabel="Next"
-        onClick={(name, value) => onClick(name, value)}
-        onBlur={(value, name) => onBlur(value, name)}
+        onCheckboxClick={(name, value) => onCheckboxClick(name, value)}
+        onTextBlur={(value, name) => onTextBlur(value, name)}
         inputs={inputs}
         onSubmit={(event) => onSubmit(event)}
       />
@@ -129,7 +129,7 @@ const Login = function CreateLoginForm(props) {
     props.onSubmit(user);
   };
 
-  const onBlur = function updateLoginOnBlur(value, name) {
+  const onTextBlur = function updateLoginOnBlur(value, name) {
     login.current[name] = value;
   };
 
@@ -149,7 +149,7 @@ const Login = function CreateLoginForm(props) {
       </p>
       <Form
         submitLabel="Next"
-        onBlur={(value, name) => onBlur(value, name)}
+        onBlur={(value, name) => onTextBlur(value, name)}
         inputs={inputs}
         onSubmit={(event) => onSubmit(event)}
       />

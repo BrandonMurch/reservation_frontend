@@ -38,7 +38,7 @@ describe('<CheckboxAndLabel />', () => {
     expect(element).toBeInTheDocument();
   });
   it('should perform the function on click', () => {
-    const element = getByTestId(component.container, 'checkbox');
+    const element = component.getByRole('checkbox');
     fireEvent.click(element);
     expect(mockFunction).toHaveBeenCalled();
   });

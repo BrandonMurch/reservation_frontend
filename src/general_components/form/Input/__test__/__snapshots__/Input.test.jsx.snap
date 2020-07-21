@@ -12,6 +12,7 @@ exports[`<Input /> should match snapshot 1`] = `
   </label>
   <input
     className="input"
+    id="textInput"
     name="textInput"
     onBlur={[Function]}
     onChange={[Function]}

@@ -25,8 +25,8 @@ const Checkbox = function CheckboxAndLabel(props) {
           onClick(name, !value);
           setValue(!value);
         }}
+        id={name}
         value={value}
-        data-testid="checkbox"
         type="checkbox"
         name={name}
         required

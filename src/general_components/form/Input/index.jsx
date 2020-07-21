@@ -35,6 +35,7 @@ const Input = function CreateInputAndLabel(props) {
         onChange={({ target }) => {
           setValue(target.value);
         }}
+        id={name}
         onBlur={onBlur}
         type={type}
         name={name}
