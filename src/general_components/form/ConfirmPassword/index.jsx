@@ -8,7 +8,7 @@ const ConfirmPassword = function CreateConfirmPasswordInputPair(props) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
 
-  const onBlur = function verifyPasswordsOnBlur({ target }) {
+  const onBlur = function verifyPasswordsOnBlur() {
     const errorMessage = validator(password);
     let errorFound = false;
     if (errorMessage !== '') {
@@ -27,37 +27,39 @@ const ConfirmPassword = function CreateConfirmPasswordInputPair(props) {
     <>
       <div key="password" className={style.inputGroup}>
         <label className={style.labelText} htmlFor="password">
-          password
+          Password
+          <input
+            className={style.input}
+            value={password}
+            onChange={({ target }) => {
+              setPassword(target.value);
+            }}
+            data-testid="password"
+            onBlur={onBlur}
+            type="password"
+            name="password"
+            id="password"
+            required
+          />
         </label>
-        <input
-          className={style.input}
-          value={password}
-          onChange={({ target }) => {
-            setPassword(target.value);
-          }}
-          onBlur={onBlur}
-          type="password"
-          name="password"
-          id="password"
-          required
-        />
         {error !== '' && <p className={style.errorText}>{error}</p>}
       </div>
       <div key="confirm" className={style.inputGroup}>
         <label className={style.labelText} htmlFor="confirm">
           Confirm Password:
+          <input
+            className={style.input}
+            value={confirmPassword}
+            onChange={({ target }) => {
+              setConfirmPassword(target.value);
+            }}
+            data-testid="confirm-password"
+            onBlur={onBlur}
+            type="password"
+            name="confirm"
+            required
+          />
         </label>
-        <input
-          className={style.input}
-          value={confirmPassword}
-          onChange={({ target }) => {
-            setConfirmPassword(target.value);
-          }}
-          onBlur={onBlur}
-          type="password"
-          name="confirm"
-          required
-        />
       </div>
     </>
   );
