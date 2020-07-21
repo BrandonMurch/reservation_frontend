@@ -1,7 +1,12 @@
+// Dependencies
 import React from 'react';
 import PropTypes from 'prop-types';
-import style from './review.module.css';
+
+// Components
 import { DisplayReservation, DisplayUser } from '../../general_components/display';
+
+// Stylesheets
+import style from './review.module.css';
 
 const getButtons = function getButtonsFromList(info, onClick, isLoading) {
   const buttons = [];

@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 // Components
-import Checkbox from './Checkbox';
-import Input from './Input';
-import ConfirmPassword from './ConfirmPassword';
+import Checkbox from './checkbox';
+import Input from './input';
+import ConfirmPassword from './confirm-password';
 
-// CSS
+// Stylesheets
 import style from './form.module.css';
 
 const getInputs = function inputFactory(inputs, onTextBlur, onCheckboxClick) {

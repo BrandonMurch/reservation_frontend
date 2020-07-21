@@ -13,7 +13,7 @@ import ReservationForm from './reservation';
 import ContactForm from './contact';
 import Review from './review';
 import Success from './success';
-import Banner, { bannerTypes } from './Banner';
+import Banner, { bannerTypes } from './banner';
 
 // CSS
 import style from './overlay_window.module.css';

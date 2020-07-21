@@ -5,7 +5,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import PropTypes from 'prop-types';
 
-// CSS
+// Stylesheets
 import style from './calendar.module.css';
 
 const getValidRange = function getAvailableDatesFromServer(

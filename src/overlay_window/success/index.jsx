@@ -1,4 +1,7 @@
+// Dependencies
 import React from 'react';
+
+// Stylesheets
 import style from './success.module.css';
 
 function Complete() {

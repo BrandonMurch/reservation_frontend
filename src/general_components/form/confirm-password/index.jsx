@@ -1,5 +1,8 @@
+// Dependencies
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+
+// Stylesheets
 import style from '../form.module.css';
 
 const ConfirmPassword = function CreateConfirmPasswordInputPair(props) {

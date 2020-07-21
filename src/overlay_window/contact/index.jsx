@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import Form from '../../general_components/form';
 import { DisplayReservation } from '../../general_components/display';
 
-// CSS
+// Stylesheets
 import style from './contact.module.css';
 
 const NewUser = function PopulateContactForm(props) {
