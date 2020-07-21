@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Input /> should match snapshot 1`] = `
+<div
+  className="inputGroup"
+>
+  <label
+    className="labelText"
+    htmlFor="textInput"
+  >
+    This is a label:
+  </label>
+  <input
+    className="input"
+    name="textInput"
+    onBlur={[Function]}
+    onChange={[Function]}
+    required={true}
+    type="text"
+    value=""
+  />
+</div>
+`;
