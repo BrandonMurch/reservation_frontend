@@ -32,20 +32,20 @@ const TimeSelect = function CreateATimeDropDownSelectForAForm(props) {
     <div className={style.inputGroup}>
       <label className={style.labelText} htmlFor="time">
         {label}
+        <select
+          key="time"
+          className={style.selectBox}
+          value={value}
+          aria-label="time"
+          disabled={disabled}
+          onChange={(event) => {
+            onChange(event);
+          }}
+        >
+          {timeOptions(availableTimes)}
+        </select>
       </label>
-      <select
-        key="time"
-        className={style.selectBox}
-        value={value}
-        name="time"
-        id="time"
-        disabled={disabled}
-        onChange={(event) => {
-          onChange(event);
-        }}
-      >
-        {timeOptions(availableTimes)}
-      </select>
+
     </div>
   );
 };

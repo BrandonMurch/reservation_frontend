@@ -33,20 +33,19 @@ const PartySizeSelect = function CreateAPartySizeDropDownSelectForForm(props) {
     <div className={style.inputGroup}>
       <label className={style.labelText} htmlFor="party-size">
         {label}
+        <select
+          key="party-size"
+          className={style.selectBox}
+          value={value}
+          aria-label="party-size"
+          disabled={disabled}
+          onChange={(event) => {
+            onChange(event);
+          }}
+        >
+          {partySizeOptions()}
+        </select>
       </label>
-      <select
-        key="party-size"
-        className={style.selectBox}
-        value={value}
-        name="party-size"
-        id="party-size"
-        disabled={disabled}
-        onChange={(event) => {
-          onChange(event);
-        }}
-      >
-        {partySizeOptions()}
-      </select>
     </div>
   );
 };

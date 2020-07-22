@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Reservation /> should match snapshot 1`] = `
+<form
+  className="container"
+  onSubmit={[Function]}
+>
+  <p
+    className="title"
+  >
+    Desired date: Fri Oct 09 2020
+  </p>
+  <div
+    className="inputGroup"
+  >
+    <label
+      className="labelText"
+      htmlFor="party-size"
+    >
+      Party size:
+      <select
+        aria-label="party-size"
+        className="selectBox"
+        disabled={false}
+        onChange={[Function]}
+        value={0}
+      >
+        <option
+          aria-label="emptyOption"
+          value=""
+        />
+        <option
+          value={1}
+        >
+          1
+        </option>
+        <option
+          value={2}
+        >
+          2
+        </option>
+        <option
+          value={3}
+        >
+          3
+        </option>
+        <option
+          value={4}
+        >
+          4
+        </option>
+        <option
+          value={5}
+        >
+          5
+        </option>
+        <option
+          value={6}
+        >
+          6
+        </option>
+        <option
+          value={7}
+        >
+          7
+        </option>
+        <option
+          value={8}
+        >
+          8
+        </option>
+      </select>
+    </label>
+  </div>
+  <div
+    className="inputGroup"
+  >
+    <label
+      className="labelText"
+      htmlFor="time"
+    >
+      Desired time:
+      <select
+        aria-label="time"
+        className="selectBox"
+        disabled={true}
+        onChange={[Function]}
+        value=""
+      >
+        <option
+          aria-label="emptyOption"
+          value=""
+        />
+      </select>
+    </label>
+  </div>
+  <input
+    disabled={true}
+    type="submit"
+    value="Next"
+  />
+</form>
+`;

@@ -60,7 +60,7 @@ describe('<Calendar />', () => {
     expect(global.fetch).toHaveBeenCalled();
   });
 
-  it('should display the calendar with dates', async () => {
+  it('should display the calendar with dates', () => {
     const today = new Date();
     const todayDate = today.getDate();
     const tomorrow = new Date();
@@ -90,7 +90,7 @@ describe('<Calendar />', () => {
   it('should call setError if server is unavailable', async () => {
     await act(async () => {
       jest.spyOn(global, 'fetch').mockImplementation(() => Promise.reject(new Error('Error!')));
-      await render(<Calendar
+      component = await render(<Calendar
         setError={mockSetErrorFunction}
         dateClick={mockDateClickFunction}
       />);

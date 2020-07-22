@@ -44,13 +44,12 @@ const ReservationForm = function CreateAReservationForm(props) {
   };
 
   const isSubmitDisabled = (time === '' || partySize === '');
-  const isTimeDisabled = (!isLoaded || partySize === '');
+  const isTimeDisabled = (!isLoaded || partySize === 0);
 
   useEffect(() => {
     getAvailableTimes(date, partySize, setIsLoaded, setError, setAvailableTimes);
   }, [partySize, date, setError]);
 
-  console.log(partySize);
   if (isLoaded) {
     return (
       <form
