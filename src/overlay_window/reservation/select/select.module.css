@@ -1,0 +1,13 @@
+.inputGroup {
+    width: 100%;
+    display: inline-block;
+}
+
+.labelText {
+    composes: text from '../../../css/project_globals.module.css';
+    float: left;
+}
+
+.selectBox {
+    float: Right;
+}

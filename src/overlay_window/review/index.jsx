@@ -8,10 +8,10 @@ import { DisplayReservation, DisplayUser } from '../../general_components/displa
 // Stylesheets
 import style from './review.module.css';
 
-const getButtons = function getButtonsFromList(info, onClick, isLoading) {
+const ButtonsList = function getButtonsFromList({ buttonsInfo, onClick, isLoading }) {
   const buttons = [];
 
-  info.forEach((button) => {
+  buttonsInfo.forEach((button) => {
     buttons.push(
       <button
         disabled={isLoading}
@@ -28,11 +28,9 @@ const getButtons = function getButtonsFromList(info, onClick, isLoading) {
   return buttons;
 };
 
-function Review(props) {
-  const {
-    reservation, user, onClick, isLoading,
-  } = props;
-
+const Review = function DisplayDetailsForReview({
+  reservation, user, onClick, isLoading,
+}) {
   const buttons = [
     { target: 'calendar', text: 'Choose a new date.' },
     { target: 'reservation', text: 'Choose a new time or party size.' },
@@ -43,16 +41,21 @@ function Review(props) {
     <div className={style.container}>
       <DisplayReservation reservation={reservation} />
       <DisplayUser user={user} />
-      {getButtons(buttons, onClick, isLoading)}
+      <ButtonsList
+        buttonsInfo={buttons}
+        onClick={onClick}
+        isLoading={isLoading}
+      />
     </div>
   );
-}
+};
 
 Review.propTypes = {
   isLoading: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired,
   reservation: PropTypes.shape({
     date: PropTypes.string,
-    partySize: PropTypes.string,
+    partySize: PropTypes.number,
     time: PropTypes.string,
   }).isRequired,
   user: PropTypes.shape({
@@ -61,7 +64,6 @@ Review.propTypes = {
     email: PropTypes.string,
     phoneNumber: PropTypes.string,
   }).isRequired,
-  onClick: PropTypes.func.isRequired,
 };
 
 export default Review;

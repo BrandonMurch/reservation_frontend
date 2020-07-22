@@ -2,21 +2,7 @@
   composes: childContainer from '../overlay_window.module.css';
 }
 
-.inputGroup {
-    width: 100%;
-    display: inline-block;
-}
-
 .title {
     composes: title from '../../css/project_globals.module.css';
     margin-bottom: 2rem;
-}
-
-.labelText {
-    composes: text from '../../css/project_globals.module.css';
-    float: left;
-}
-
-.selectBox {
-    float: Right;
 }
