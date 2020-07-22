@@ -32,6 +32,8 @@ const submitReservation = function postReservationToServer(
     booking,
   });
 
+  const successSignal = function successSignalForPromiseChain() {};
+
   fetch('http://localhost:8080/bookings', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -41,45 +43,42 @@ const submitReservation = function postReservationToServer(
       // eslint-disable-next-line
       (result) => {
         if (result.status === 201) {
+          setIsLoading(false);
           setRedirect('success');
-        } else {
-          const reader = result.body.getReader();
-          return new ReadableStream({
-            start(controller) {
-              // eslint-disable-next-line
-              return pump();
-              function pump() {
-                return reader.read().then(({ done, value }) => {
-                  if (done) {
-                    controller.close();
-                    return;
-                  }
-                  controller.enqueue(value);
-                  // eslint-disable-next-line
-                  return pump();
-                });
-              }
-            },
-          });
+          throw successSignal();
         }
+        const reader = result.body.getReader();
+        return new ReadableStream({
+          start(controller) {
+            // eslint-disable-next-line
+            return pump();
+            function pump() {
+              return reader.read().then(({ done, value }) => {
+                if (done) {
+                  controller.close();
+                  return;
+                }
+                controller.enqueue(value);
+                // eslint-disable-next-line
+                return pump();
+              });
+            }
+          },
+        });
       },
     )
     .then((stream) => new Response(stream))
     .then((response) => response.text())
     .then((response) => {
-      const okResponses = [
-        'CREATED', 'OK', 'NO_CONTENT', 'ACCEPTED',
-      ];
       const data = JSON.parse(response);
-      if (!okResponses.includes(data.status)) {
-        if (data.message !== '') {
-          setError(data.message);
-        } else {
-          setError('Something went wrong... \n please try again later');
-        }
+      if (data.message !== '') {
+        setError(data.message);
+      } else {
+        setError('Something went wrong... \n please try again later');
       }
       setIsLoading(false);
     })
+    .catch(successSignal, () => {})
     .catch(
       (error) => {
         setError(error.message);
