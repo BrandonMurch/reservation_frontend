@@ -23,14 +23,12 @@
     color: black !important;
 }
 
-
-
-
-
 .container {
     composes: centerVertically from '../../css/project_globals.module.css';
+    position: relative;
+    top: 10vh;
     color: white;
-    height: 80vh;
+    height: 70vh;
     width: 80vw;
     margin: 0 auto;
 }

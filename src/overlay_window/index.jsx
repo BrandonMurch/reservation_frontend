@@ -127,6 +127,7 @@ function OverlayWindow(props) {
           path="/calendar"
           render={() => (
             <Calendar
+              setError={setError}
               dateClick={(args) => {
                 if (!args.dayEl.disabled) {
                   reservation.current.date = args.dateStr;

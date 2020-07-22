@@ -12,7 +12,7 @@ const getValidRange = function getAvailableDatesFromServer(
   setError, setIsLoaded, setStartDate, setEndDate, setDates,
 ) {
   setIsLoaded(false);
-  fetch('http://localhost:8080/availability')
+  fetch('http://localhost:8080/restaurant/availability')
     .then((res) => res.json())
     .then(
       (result) => {
@@ -22,8 +22,7 @@ const getValidRange = function getAvailableDatesFromServer(
         setIsLoaded(true);
       },
       (error) => {
-        setError(error);
-        setIsLoaded(true);
+        setError(error.message);
       },
     );
 };
@@ -32,30 +31,29 @@ const dayRenderHook = function disableCertainDaysFromList({ date, el }, dates) {
   const dateString = date.toLocaleString('en-ca').slice(0, 10);
 
   if (!dates.includes(dateString)) {
+    el.setAttribute('data-testid', 'disabledDate');
     el.className += ' fc-day-disabled';
     el.disabled = true;
   }
+  // else {
+  //   el.setAttribute('data-testid', 'clickableDate');
+  // }
 };
 
-// TODO: custom error message.
 const Calendar = function PopulateUsingFullCalendar(props) {
-  const { dateClick } = props;
-  const [error, setError] = useState(null);
+  const { dateClick, setError } = props;
   const [loaded, setIsLoaded] = useState(false);
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [dates, setDates] = useState([]);
   useEffect(() => {
     getValidRange(setError, setIsLoaded, setStartDate, setEndDate, setDates);
-  }, []);
-  if (error) {
-    return (
-      <div>{error.message}</div>
-    );
-  }
+  }, [setError]);
   if (!loaded) {
     return (
-      <div>Loading...</div>
+      <div />
+      // TODO: loading screen.
+      // <div>Loading...</div>
     );
   }
 
@@ -77,6 +75,7 @@ const Calendar = function PopulateUsingFullCalendar(props) {
 
 Calendar.propTypes = {
   dateClick: PropTypes.func.isRequired,
+  setError: PropTypes.func.isRequired,
 };
 
 export default Calendar;
