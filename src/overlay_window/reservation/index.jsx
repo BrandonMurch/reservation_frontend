@@ -22,8 +22,6 @@ const getAvailableTimes = function getAvailableTimesFromServer(
       },
       (error) => {
         setError(error);
-        setIsLoaded(true);
-        return ['7:00PM', '8:30PM'];
       },
     );
 };
