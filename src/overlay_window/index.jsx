@@ -66,18 +66,23 @@ const submitReservation = function postReservationToServer(
     )
     .then((stream) => new Response(stream))
     .then((response) => response.text())
-    .then((data) => {
-      if (data !== '') {
-        setError(data);
-      } else {
-        setError('Something went wrong... \n please try again later');
+    .then((response) => {
+      const okResponses = [
+        'CREATED', 'OK', 'NO_CONTENT', 'ACCEPTED',
+      ];
+      const data = JSON.parse(response);
+      if (!okResponses.includes(data.status)) {
+        if (data.message !== '') {
+          setError(data.message);
+        } else {
+          setError('Something went wrong... \n please try again later');
+        }
       }
       setIsLoading(false);
     })
     .catch(
       (error) => {
-        setError('Something went wrong...');
-        setError(error);
+        setError(error.message);
         setIsLoading(false);
       },
     );
@@ -141,6 +146,7 @@ function OverlayWindow(props) {
           path="/reservation"
           render={() => (
             <ReservationForm
+              setError={setError}
               date={reservation.current.date}
               onSubmit={
                 (event, results) => {
