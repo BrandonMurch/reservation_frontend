@@ -3,11 +3,22 @@ import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 // Components
+import { enumeration } from 'shared/helpers';
 import Form from '../../general_components/form';
 import { DisplayReservation } from '../../general_components/display';
 
 // Stylesheets
 import style from './contact.module.css';
+
+const formTypes = enumeration('NEW_USER', 'LOGIN');
+
+const validatePhone = function validatePhoneNumberReturningErrorMessage(phone) {
+  if (/^\+\d{1,3} \d{6,14}$/.test(phone)) {
+    return '';
+  }
+
+  return 'Phone number must be in the format of +1 123456789 where 1 is the country code, followed by the phone number';
+};
 
 const NewUser = function PopulateContactForm(props) {
   const { setFormDisplay } = props;
@@ -20,22 +31,27 @@ const NewUser = function PopulateContactForm(props) {
     tAC: false,
   });
 
-  //
   const inputs = [
-    { name: 'firstName', type: 'text', label: 'First Name' },
-    { name: 'lastName', type: 'text', label: 'Last Name' },
-    { name: 'email', type: 'email', label: 'Email' },
+    {
+      name: 'firstName',
+      type: 'text',
+      label: 'First Name',
+    },
+    {
+      name: 'lastName',
+      type: 'text',
+      label: 'Last Name',
+    },
+    {
+      name: 'email',
+      type: 'email',
+      label: 'Email',
+    },
     {
       name: 'phoneNumber',
       type: 'tel',
       label: 'Phone Number',
-      validator(phone) {
-        if (/^\+\d{1,3} \d{6,14}$/.test(phone)) {
-          return '';
-        }
-
-        return 'Phone number must be in the format of +1 123456789 where 1 is the country code, followed by the phone number';
-      },
+      validator: (phone) => validatePhone(phone),
     },
     {
       name: 'tAC',
@@ -82,10 +98,10 @@ const NewUser = function PopulateContactForm(props) {
         <button
           type="button"
           className={style.switchButton}
-          onClick={() => setFormDisplay('login')}
-          onKeyUp={() => setFormDisplay('login')}
+          onClick={() => setFormDisplay(formTypes.LOGIN)}
+          onKeyUp={() => setFormDisplay(formTypes.LOGIN)}
         >
-          Login.
+          Login
         </button>
       </p>
       <Form
@@ -140,16 +156,15 @@ const Login = function CreateLoginForm(props) {
         <button
           type="button"
           className={style.switchButton}
-          onClick={() => setFormDisplay('newUser')}
-          onKeyUp={() => setFormDisplay('newUser')}
+          onClick={() => setFormDisplay(formTypes.NEW_USER)}
+          onKeyUp={() => setFormDisplay(formTypes.NEW_USER)}
         >
-          {' '}
-          Sign up.
+          Sign up
         </button>
       </p>
       <Form
         submitLabel="Next"
-        onBlur={(value, name) => onTextBlur(value, name)}
+        onTextBlur={(value, name) => onTextBlur(value, name)}
         inputs={inputs}
         onSubmit={(event) => onSubmit(event)}
       />
@@ -163,15 +178,20 @@ Login.propTypes = {
 };
 
 function ContactForm(props) {
-  const [formDisplay, setFormDisplay] = useState('newUser');
+  const [formDisplay, setFormDisplay] = useState(formTypes.NEW_USER);
   const { onSubmit, reservation } = props;
 
   return (
     <div className={style.container}>
       <DisplayReservation reservation={reservation} />
-      {formDisplay === 'newUser'
-        ? <NewUser setFormDisplay={setFormDisplay} onSubmit={onSubmit} />
-        : <Login setFormDisplay={setFormDisplay} onSubmit={onSubmit} />}
+      {
+        formDisplay === formTypes.NEW_USER
+        && <NewUser setFormDisplay={setFormDisplay} onSubmit={onSubmit} />
+      }
+      {
+        formDisplay === formTypes.LOGIN
+        && <Login setFormDisplay={setFormDisplay} onSubmit={onSubmit} />
+      }
     </div>
   );
 }
@@ -181,7 +201,7 @@ ContactForm.propTypes = {
   reservation: PropTypes.shape({
     time: PropTypes.string,
     date: PropTypes.string,
-    partySize: PropTypes.string,
+    partySize: PropTypes.number,
   }).isRequired,
 };
 

@@ -1,0 +1,140 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ContactForm /> should match snapshot 1`] = `
+<div
+  className="container"
+>
+  <p
+    className="title"
+  >
+    2 people
+    <br />
+    21:00
+    <br />
+    Fri Oct 09 2020
+  </p>
+  <p
+    className="switchText"
+  >
+    Do you already have an account?
+    <button
+      className="switchButton"
+      onClick={[Function]}
+      onKeyUp={[Function]}
+      type="button"
+    >
+      Login
+    </button>
+  </p>
+  <form
+    className="container"
+    data-testid="form"
+    onSubmit={[Function]}
+  >
+    <div
+      className="inputGroup"
+    >
+      <label
+        className="labelText"
+        htmlFor="firstName"
+      >
+        First Name:
+      </label>
+      <input
+        className="input"
+        id="firstName"
+        name="firstName"
+        onBlur={[Function]}
+        onChange={[Function]}
+        required={true}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="inputGroup"
+    >
+      <label
+        className="labelText"
+        htmlFor="lastName"
+      >
+        Last Name:
+      </label>
+      <input
+        className="input"
+        id="lastName"
+        name="lastName"
+        onBlur={[Function]}
+        onChange={[Function]}
+        required={true}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="inputGroup"
+    >
+      <label
+        className="labelText"
+        htmlFor="email"
+      >
+        Email:
+      </label>
+      <input
+        className="input"
+        id="email"
+        name="email"
+        onBlur={[Function]}
+        onChange={[Function]}
+        required={true}
+        type="email"
+        value=""
+      />
+    </div>
+    <div
+      className="inputGroup"
+    >
+      <label
+        className="labelText"
+        htmlFor="phoneNumber"
+      >
+        Phone Number:
+      </label>
+      <input
+        className="input"
+        id="phoneNumber"
+        name="phoneNumber"
+        onBlur={[Function]}
+        onChange={[Function]}
+        required={true}
+        type="tel"
+        value=""
+      />
+    </div>
+    <div
+      className="inputGroup"
+    >
+      <label
+        className="labelText"
+        htmlFor="tAC"
+      >
+        Yes, I agree to the terms and conditions:
+      </label>
+      <input
+        id="tAC"
+        name="tAC"
+        onClick={[Function]}
+        required={true}
+        type="checkbox"
+        value={false}
+      />
+    </div>
+    <input
+      className="submit"
+      disabled={false}
+      type="submit"
+      value="Next"
+    />
+  </form>
+</div>
+`;
