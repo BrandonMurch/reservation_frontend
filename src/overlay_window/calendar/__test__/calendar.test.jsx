@@ -9,19 +9,15 @@ import Calendar from '../index';
 
 const mockFetch = function mockFetchResponseFromServer() {
   const today = new Date();
+  const todayDate = today.getDate();
   const todayString = today.toLocaleDateString('en-CA');
-  const tomorrow = new Date();
-  tomorrow.setDate(today.getDate() + 1);
-  const tomorrowString = tomorrow.toLocaleDateString('en-CA');
-  const endDay = new Date();
-  endDay.setDate(tomorrow.getDate() + 3);
-  const endDayString = endDay.toLocaleDateString('en-CA');
+  const tomorrowString = todayString.replace(new RegExp(`${todayDate}$`, 'i'), todayDate + 1);
+  const endDayString = todayString.replace(new RegExp(`${todayDate}$`, 'i'), todayDate + 3);
+
   const mockSuccessResponse = {
     start: todayString,
     end: endDayString,
-    availableDates: [
-      todayString, tomorrowString,
-    ],
+    availableDates: [todayString, tomorrowString],
   };
   const mockJsonPromise = Promise.resolve(mockSuccessResponse);
   return Promise.resolve({
@@ -40,10 +36,9 @@ describe('<Calendar />', () => {
     mockDateClickFunction = jest.fn();
     jest.spyOn(global, 'fetch').mockImplementation(() => mockFetch());
     await act(async () => {
-      component = await render(<Calendar
-        setError={mockSetErrorFunction}
-        dateClick={mockDateClickFunction}
-      />);
+      component = await render(
+        <Calendar setError={mockSetErrorFunction} dateClick={mockDateClickFunction} />,
+      );
     });
 
     container = document.createElement('div');
@@ -90,10 +85,9 @@ describe('<Calendar />', () => {
   it('should call setError if server is unavailable', async () => {
     await act(async () => {
       jest.spyOn(global, 'fetch').mockImplementation(() => Promise.reject(new Error('Error!')));
-      component = await render(<Calendar
-        setError={mockSetErrorFunction}
-        dateClick={mockDateClickFunction}
-      />);
+      component = await render(
+        <Calendar setError={mockSetErrorFunction} dateClick={mockDateClickFunction} />,
+      );
     });
     expect(mockSetErrorFunction).toHaveBeenCalled();
   });
