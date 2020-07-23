@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<OverlayWindow /> should match snapshot 1`] = `
+<div
+  className="overlay"
+  data-testid="overlay-window"
+>
+  
+  
+  <div
+    className="exitContainer"
+  >
+    <a
+      className="exitText"
+      href="/"
+      onClick={[Function]}
+    >
+      x
+    </a>
+  </div>
+</div>
+`;
