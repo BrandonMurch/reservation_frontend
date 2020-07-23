@@ -1,7 +1,5 @@
 // Dependencies
-import React, {
-  useRef, useState, useEffect,
-} from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   Switch, Route, Link, Redirect,
 } from 'react-router-dom';
@@ -18,8 +16,12 @@ import Banner, { bannerTypes } from './banner';
 // CSS
 import style from './overlay_window.module.css';
 
-const submitReservation = function postReservationToServer(
-  user, reservation, setError, setRedirect, setIsLoading,
+const submitReservation = async function postReservationToServer(
+  user,
+  reservation,
+  setError,
+  setRedirect,
+  setIsLoading,
 ) {
   setIsLoading(true);
   const booking = { ...reservation };
@@ -32,63 +34,32 @@ const submitReservation = function postReservationToServer(
     booking,
   });
 
-  const successSignal = function successSignalForPromiseChain() {};
+  try {
+    const response = await fetch('http://localhost:8080/bookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body,
+    });
 
-  fetch('http://localhost:8080/bookings', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body,
-  })
-    .then(
-      // eslint-disable-next-line
-      (result) => {
-        if (result.status === 201) {
-          setIsLoading(false);
-          setRedirect('success');
-          throw successSignal();
-        }
-        const reader = result.body.getReader();
-        return new ReadableStream({
-          start(controller) {
-            // eslint-disable-next-line
-            return pump();
-            function pump() {
-              return reader.read().then(({ done, value }) => {
-                if (done) {
-                  controller.close();
-                  return;
-                }
-                controller.enqueue(value);
-                // eslint-disable-next-line
-                return pump();
-              });
-            }
-          },
-        });
-      },
-    )
-    .then((stream) => new Response(stream))
-    .then((response) => response.text())
-    .then((response) => {
-      const data = JSON.parse(response);
-      if (data.message !== '') {
-        setError(data.message);
+    if (response.status === 201) {
+      setIsLoading(false);
+      setRedirect('/success');
+    } else {
+      const responseBody = await response.json();
+      if (responseBody.message !== '') {
+        setError(responseBody.message);
       } else {
         setError('Something went wrong... \n please try again later');
       }
       setIsLoading(false);
-    })
-    .catch(successSignal, () => {})
-    .catch(
-      (error) => {
-        setError(error.message);
-        setIsLoading(false);
-      },
-    );
+    }
+  } catch (error) {
+    setError(error.message);
+  }
 };
 
-function OverlayWindow(props) {
-  const { closeOverlay } = props;
+const OverlayWindow = function CreateOverlayWindow(props) {
+  const { closeOverlay, reservationInfo, userInfo } = props;
   const [redirect, setRedirect] = useState('');
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
@@ -103,22 +74,22 @@ function OverlayWindow(props) {
   }, [error, message]);
 
   // test stub
-  const reservation = useRef({
-    date: '2020-10-10',
-    time: '21:00:00.00',
-    partySize: 2,
-  });
-  const user = useRef({
-    firstName: 'john',
-    lastName: 'johnson',
-    email: 'john@john.com',
-    phoneNumber: '+1 123456787',
-    tAC: true,
-  });
+  // const reservation = useRef({
+  //   date: '2020-10-10',
+  //   time: '21:00:00.00',
+  //   partySize: 2,
+  // });
+  // const user = useRef({
+  //   firstName: 'john',
+  //   lastName: 'johnson',
+  //   email: 'john@john.com',
+  //   phoneNumber: '+1 123456787',
+  //   tAC: true,
+  // });
 
   // production
-  // const reservation = useRef({});
-  // const user = useRef({});
+  const reservation = useRef(reservationInfo);
+  const user = useRef(userInfo);
 
   return (
     <div data-testid="overlay-window" className={style.overlay}>
@@ -147,14 +118,12 @@ function OverlayWindow(props) {
             <ReservationForm
               setError={setError}
               date={reservation.current.date}
-              onSubmit={
-                (event, results) => {
-                  event.preventDefault();
-                  reservation.current.time = results.time;
-                  reservation.current.partySize = results.partySize;
-                  setRedirect('/contact');
-                }
-              }
+              onSubmit={(event, results) => {
+                event.preventDefault();
+                reservation.current.time = results.time;
+                reservation.current.partySize = results.partySize;
+                setRedirect('/contact');
+              }}
             />
           )}
         />
@@ -163,12 +132,10 @@ function OverlayWindow(props) {
           render={() => (
             <ContactForm
               reservation={reservation.current}
-              onSubmit={
-                (results) => {
-                  user.current = results;
-                  setRedirect('/review');
-                }
-              }
+              onSubmit={(results) => {
+                user.current = results;
+                setRedirect('/review');
+              }}
             />
           )}
         />
@@ -182,7 +149,11 @@ function OverlayWindow(props) {
               onClick={(target) => {
                 if (target === 'success') {
                   submitReservation(
-                    user.current, reservation.current, setError, setRedirect, setIsLoading,
+                    user.current,
+                    reservation.current,
+                    setError,
+                    setRedirect,
+                    setIsLoading,
                   );
                 } else {
                   setRedirect(target);
@@ -195,13 +166,29 @@ function OverlayWindow(props) {
       </Switch>
     </div>
   );
-}
+};
 
 OverlayWindow.propTypes = {
   closeOverlay: PropTypes.func.isRequired,
+  reservationInfo: PropTypes.shape({
+    date: PropTypes.string,
+    partySize: PropTypes.number,
+    time: PropTypes.string,
+  }),
+  userInfo: PropTypes.shape({
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    email: PropTypes.string,
+    phoneNumber: PropTypes.string,
+  }),
 };
 
-function ExitOverlay(props) {
+OverlayWindow.defaultProps = {
+  reservationInfo: {},
+  userInfo: {},
+};
+
+const ExitOverlay = function ButtonToExitOverlay(props) {
   const { closeOverlay } = props;
   return (
     <div className={style.exitContainer}>
@@ -210,7 +197,7 @@ function ExitOverlay(props) {
       </Link>
     </div>
   );
-}
+};
 
 ExitOverlay.propTypes = {
   closeOverlay: PropTypes.func.isRequired,
