@@ -4,7 +4,7 @@ import React from 'react';
 // Stylesheets
 import style from './success.module.css';
 
-function Complete() {
+function Success() {
   return (
     <div className={style.container}>
       <h1 className={style.title}>
@@ -14,4 +14,4 @@ function Complete() {
   );
 }
 
-export default Complete;
+export default Success;

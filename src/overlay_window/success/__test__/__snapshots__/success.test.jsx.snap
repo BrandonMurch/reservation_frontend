@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Success /> should match snapshot 1`] = `
+<div
+  className="container"
+>
+  <h1
+    className="title"
+  >
+    Reservation was made successfully.
+  </h1>
+</div>
+`;
