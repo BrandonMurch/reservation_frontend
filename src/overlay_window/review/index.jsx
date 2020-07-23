@@ -17,6 +17,7 @@ const ButtonsList = function getButtonsFromList({ buttonsInfo, onClick, isLoadin
         disabled={isLoading}
         key={button.target}
         className={style.button}
+        name={button.target}
         type="button"
         onClick={() => onClick(button.target)}
       >

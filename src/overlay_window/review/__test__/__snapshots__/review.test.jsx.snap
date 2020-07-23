@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Review /> should match snapshot 1`] = `
+<div
+  className="container"
+>
+  <p
+    className="title"
+  >
+    2 people
+    <br />
+    21:00
+    <br />
+    Sat Oct 10 2020
+  </p>
+  <p
+    className="title"
+  >
+    john johnson
+    <br />
+    john@john.com
+    <br />
+    +1 123456787
+  </p>
+  <button
+    className="button"
+    disabled={false}
+    name="calendar"
+    onClick={[Function]}
+    type="button"
+  >
+    Choose a new date.
+  </button>
+  <button
+    className="button"
+    disabled={false}
+    name="reservation"
+    onClick={[Function]}
+    type="button"
+  >
+    Choose a new time or party size.
+  </button>
+  <button
+    className="button"
+    disabled={false}
+    name="contact"
+    onClick={[Function]}
+    type="button"
+  >
+    Change contact information.
+  </button>
+  <button
+    className="button"
+    disabled={false}
+    name="success"
+    onClick={[Function]}
+    type="button"
+  >
+    Make reservation.
+  </button>
+</div>
+`;
