@@ -70,7 +70,7 @@ describe('<OverlayWindow />', () => {
   });
 
   it('should submit reservation to server', async () => {
-    fetchSpy = jest.spyOn(global, 'fetch').mockImplementation(() => mockFetch());
+    fetchSpy = jest.spyOn(global, 'fetch').mockImplementation(() => mockFetch(201));
 
     component = await renderWithRouter(
       <OverlayWindow
