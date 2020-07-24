@@ -6,12 +6,12 @@ import {
 import PropTypes from 'prop-types';
 
 // Components
+import Banner, { bannerTypes } from 'general_components/banner';
 import Calendar from './calendar';
 import ReservationForm from './reservation';
 import ContactForm from './contact';
 import Review from './review';
 import Success from './success';
-import Banner, { bannerTypes } from './banner';
 
 // CSS
 import style from './overlay_window.module.css';
