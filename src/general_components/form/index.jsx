@@ -27,11 +27,7 @@ const getInputs = function inputFactory(inputs, onTextBlur, onCheckboxClick) {
         break;
       case 'confirmPassword':
         inputList.push(
-          <ConfirmPassword
-            key={input.name}
-            onBlur={onTextBlur}
-            validator={input.validator}
-          />,
+          <ConfirmPassword key={input.name} onBlur={onTextBlur} validator={input.validator} />,
         );
         break;
       default:
@@ -77,7 +73,7 @@ export default function Form(props) {
       onSubmit={(event) => {
         event.preventDefault();
         if (errors.size === 0) {
-          onSubmit(event, onSubmit);
+          onSubmit(event);
         }
       }}
       className={style.container}
