@@ -14,17 +14,17 @@ exports[`<Form /> should match snapshot 1`] = `
       htmlFor="firstName"
     >
       First Name:
+      <input
+        className="input"
+        id="firstName"
+        name="firstName"
+        onBlur={[Function]}
+        onChange={[Function]}
+        required={true}
+        type="text"
+        value=""
+      />
     </label>
-    <input
-      className="input"
-      id="firstName"
-      name="firstName"
-      onBlur={[Function]}
-      onChange={[Function]}
-      required={true}
-      type="text"
-      value=""
-    />
   </div>
   <div
     className="inputGroup"
@@ -34,17 +34,17 @@ exports[`<Form /> should match snapshot 1`] = `
       htmlFor="lastName"
     >
       Last Name:
+      <input
+        className="input"
+        id="lastName"
+        name="lastName"
+        onBlur={[Function]}
+        onChange={[Function]}
+        required={true}
+        type="text"
+        value=""
+      />
     </label>
-    <input
-      className="input"
-      id="lastName"
-      name="lastName"
-      onBlur={[Function]}
-      onChange={[Function]}
-      required={true}
-      type="text"
-      value=""
-    />
   </div>
   <div
     className="inputGroup"
@@ -54,17 +54,17 @@ exports[`<Form /> should match snapshot 1`] = `
       htmlFor="email"
     >
       Email:
+      <input
+        className="input"
+        id="email"
+        name="email"
+        onBlur={[Function]}
+        onChange={[Function]}
+        required={true}
+        type="email"
+        value=""
+      />
     </label>
-    <input
-      className="input"
-      id="email"
-      name="email"
-      onBlur={[Function]}
-      onChange={[Function]}
-      required={true}
-      type="email"
-      value=""
-    />
   </div>
   <div
     className="inputGroup"
@@ -74,17 +74,17 @@ exports[`<Form /> should match snapshot 1`] = `
       htmlFor="phoneNumber"
     >
       Phone Number:
+      <input
+        className="input"
+        id="phoneNumber"
+        name="phoneNumber"
+        onBlur={[Function]}
+        onChange={[Function]}
+        required={true}
+        type="tel"
+        value=""
+      />
     </label>
-    <input
-      className="input"
-      id="phoneNumber"
-      name="phoneNumber"
-      onBlur={[Function]}
-      onChange={[Function]}
-      required={true}
-      type="tel"
-      value=""
-    />
   </div>
   <div
     className="inputGroup"
@@ -94,15 +94,15 @@ exports[`<Form /> should match snapshot 1`] = `
       htmlFor="tAC"
     >
       Yes, I agree to the terms and conditions:
+      <input
+        id="tAC"
+        name="tAC"
+        onClick={[Function]}
+        required={true}
+        type="checkbox"
+        value={false}
+      />
     </label>
-    <input
-      id="tAC"
-      name="tAC"
-      onClick={[Function]}
-      required={true}
-      type="checkbox"
-      value={false}
-    />
   </div>
   <input
     className="submit"

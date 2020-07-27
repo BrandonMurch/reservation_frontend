@@ -41,13 +41,15 @@ describe('<Form />', () => {
     mockBlurFunction = jest.fn();
     mockSubmitFunction = jest.fn();
     mockClickFunction = jest.fn();
-    component = render(<Form
-      inputs={inputs}
-      onSubmit={mockSubmitFunction}
-      onTextBlur={mockBlurFunction}
-      onCheckboxClick={mockClickFunction}
-      submitLabel="Submit"
-    />);
+    component = render(
+      <Form
+        inputs={inputs}
+        onSubmit={mockSubmitFunction}
+        onTextBlur={mockBlurFunction}
+        onCheckboxClick={mockClickFunction}
+        submitLabel="Submit"
+      />,
+    );
     container = document.createElement('div');
     document.body.appendChild(container);
   });
@@ -58,13 +60,17 @@ describe('<Form />', () => {
     container = null;
   });
   it('should match snapshot', () => {
-    const tree = renderer.create(<Form
-      inputs={inputs}
-      onSubmit={mockSubmitFunction}
-      onTextBlur={mockBlurFunction}
-      onCheckboxClick={mockClickFunction}
-      submitLabel="Submit"
-    />).toJSON();
+    const tree = renderer
+      .create(
+        <Form
+          inputs={inputs}
+          onSubmit={mockSubmitFunction}
+          onTextBlur={mockBlurFunction}
+          onCheckboxClick={mockClickFunction}
+          submitLabel="Submit"
+        />,
+      )
+      .toJSON();
     expect(tree).toMatchSnapshot();
   });
   it('should choose which input to create', () => {

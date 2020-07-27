@@ -9,13 +9,16 @@ describe('<CheckboxAndLabel />', () => {
   let component;
   let mockFunction;
   let container = null;
+  let props;
+
   beforeEach(() => {
     mockFunction = jest.fn();
-    component = render(<CheckboxAndLabel
-      label="checkbox label"
-      name="checkbox name"
-      onClick={mockFunction}
-    />);
+    props = {
+      label: 'checkbox label',
+      name: 'checkbox name',
+      updateValue: mockFunction,
+    };
+    component = render(<CheckboxAndLabel {...props} />);
     container = document.createElement('div');
     document.body.appendChild(container);
   });
@@ -26,11 +29,7 @@ describe('<CheckboxAndLabel />', () => {
     container = null;
   });
   it('should match snapshot', () => {
-    const tree = renderer.create(<CheckboxAndLabel
-      label="checkbox label"
-      name="checkbox name"
-      onClick={mockFunction}
-    />).toJSON();
+    const tree = renderer.create(<CheckboxAndLabel {...props} />).toJSON();
     expect(tree).toMatchSnapshot();
   });
   it('should display the checkbox label', () => {

@@ -9,10 +9,7 @@ const Input = function CreateInputAndLabel(props) {
   const [value, setValue] = useState('');
   const [error, setError] = useState('');
   const {
-    type,
-    name,
-    label,
-    validator,
+    type, name, label, validator,
   } = props;
 
   const onBlur = function validateOnBlur({ target }) {
@@ -24,26 +21,27 @@ const Input = function CreateInputAndLabel(props) {
     } else {
       setError('');
     }
-    props.onBlur(target.value, target.name, errorFound);
+    props.updateValue(target.value, target.name, errorFound);
   };
 
   return (
     <div className={style.inputGroup}>
       <label className={style.labelText} htmlFor={name}>
         {`${label}:`}
+        <input
+          className={style.input}
+          value={value}
+          onChange={({ target }) => {
+            setValue(target.value);
+          }}
+          id={name}
+          onBlur={onBlur}
+          type={type}
+          name={name}
+          required
+        />
       </label>
-      <input
-        className={style.input}
-        value={value}
-        onChange={({ target }) => {
-          setValue(target.value);
-        }}
-        id={name}
-        onBlur={onBlur}
-        type={type}
-        name={name}
-        required
-      />
+
       {error !== '' && <p className={style.errorText}>{error}</p>}
     </div>
   );
@@ -52,7 +50,7 @@ const Input = function CreateInputAndLabel(props) {
 Input.propTypes = {
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  onBlur: PropTypes.func.isRequired,
+  updateValue: PropTypes.func.isRequired,
   validator: PropTypes.func,
   label: PropTypes.string.isRequired,
 };

@@ -1,6 +1,7 @@
 // Dependencies
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { enumeration } from 'shared/helpers';
 
 // Components
 import Checkbox from './checkbox';
@@ -10,50 +11,26 @@ import ConfirmPassword from './confirm-password';
 // Stylesheets
 import style from './form.module.css';
 
-const getInputs = function inputFactory(inputs, onTextBlur, onCheckboxClick) {
-  const inputList = [];
+const inputFields = enumeration.keyValue(
+  { key: 'checkbox', value: Checkbox },
+  { key: 'confirmPassword', value: ConfirmPassword },
+  { key: 'default', value: Input },
+);
 
-  inputs.forEach((input) => {
-    switch (input.type) {
-      case 'checkbox':
-        inputList.push(
-          <Checkbox
-            key={input.name}
-            onClick={(name, value) => onCheckboxClick(name, value)}
-            name={input.name}
-            label={input.label}
-          />,
-        );
-        break;
-      case 'confirmPassword':
-        inputList.push(
-          <ConfirmPassword key={input.name} onBlur={onTextBlur} validator={input.validator} />,
-        );
-        break;
-      default:
-        inputList.push(
-          <Input
-            key={input.name}
-            name={input.name}
-            type={input.type}
-            label={input.label}
-            onBlur={onTextBlur}
-            validator={input.validator}
-          />,
-        );
-    }
+const getInputs = function getListOfInputChildren(inputs, onTextBlur, onCheckboxClick) {
+  return inputs.map((input) => {
+    input.updateValue = input.type === 'checkbox' ? onCheckboxClick : onTextBlur;
+    const Component = inputFields[input.type] || inputFields.default;
+    return <Component key={input.name} {...input} />;
   });
-
-  return inputList;
 };
 
-export default function Form(props) {
+const Form = function CreateFormWithInputs(props) {
   const {
     inputs, onSubmit, onTextBlur, onCheckboxClick, submitLabel,
   } = props;
 
   const [errors, setErrors] = useState(new Set());
-  // TODO: check for errors on submit too, not just on blur
   const checkError = function checkForErrorsInForm(value, name, error) {
     const inErrorsList = errors.has(name);
     if (error && !inErrorsList) {
@@ -88,7 +65,7 @@ export default function Form(props) {
       />
     </form>
   );
-}
+};
 
 Form.propTypes = {
   inputs: PropTypes.arrayOf(
@@ -107,3 +84,5 @@ Form.propTypes = {
 Form.defaultProps = {
   onCheckboxClick() {},
 };
+
+export default Form;

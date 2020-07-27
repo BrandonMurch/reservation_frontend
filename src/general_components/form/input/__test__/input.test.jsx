@@ -10,16 +10,18 @@ describe('<Input />', () => {
   let mockValidatorFunction;
   let mockBlurFunction;
   let container = null;
+  let props;
   beforeEach(() => {
     mockBlurFunction = jest.fn();
     mockValidatorFunction = jest.fn(() => 'Error!');
-    component = render(<Input
-      onBlur={mockBlurFunction}
-      type="text"
-      name="textInput"
-      label="This is a label"
-      validator={mockValidatorFunction}
-    />);
+    props = {
+      updateValue: mockBlurFunction,
+      type: 'text',
+      name: 'textInput',
+      label: 'This is a label',
+      validator: mockValidatorFunction,
+    };
+    component = render(<Input {...props} />);
     container = document.createElement('div');
     document.body.appendChild(container);
   });
@@ -30,13 +32,7 @@ describe('<Input />', () => {
     container = null;
   });
   it('should match snapshot', () => {
-    const tree = renderer.create(<Input
-      onBlur={mockBlurFunction}
-      type="text"
-      name="textInput"
-      label="This is a label"
-      validator={mockValidatorFunction}
-    />).toJSON();
+    const tree = renderer.create(<Input {...props} />).toJSON();
     expect(tree).toMatchSnapshot();
   });
   it('should have a label and display text', () => {

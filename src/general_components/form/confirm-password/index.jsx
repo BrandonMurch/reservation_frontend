@@ -23,7 +23,7 @@ const ConfirmPassword = function CreateConfirmPasswordInputPair(props) {
     } else {
       setError('');
     }
-    props.onBlur(password, 'password', errorFound);
+    props.updateValue(password, 'password', errorFound);
   };
 
   return (
@@ -69,7 +69,7 @@ const ConfirmPassword = function CreateConfirmPasswordInputPair(props) {
 };
 
 ConfirmPassword.propTypes = {
-  onBlur: PropTypes.func.isRequired,
+  updateValue: PropTypes.func.isRequired,
   validator: PropTypes.func,
 };
 

@@ -9,11 +9,14 @@ describe('<ConfirmPassword />', () => {
   let component;
   let mockFunction;
   let container = null;
+  let props;
+
   beforeEach(() => {
     mockFunction = jest.fn();
-    component = render(<ConfirmPassword
-      onBlur={mockFunction}
-    />);
+    props = {
+      updateValue: mockFunction,
+    };
+    component = render(<ConfirmPassword {...props} />);
     container = document.createElement('div');
     document.body.appendChild(container);
   });
@@ -24,9 +27,7 @@ describe('<ConfirmPassword />', () => {
     container = null;
   });
   it('should match snapshot', () => {
-    const tree = renderer.create(<ConfirmPassword
-      onBlur={mockFunction}
-    />).toJSON();
+    const tree = renderer.create(<ConfirmPassword {...props} />).toJSON();
     expect(tree).toMatchSnapshot();
   });
   describe('password', () => {

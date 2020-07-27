@@ -10,7 +10,7 @@ import { DisplayReservation } from '../../general_components/display';
 // Stylesheets
 import style from './contact.module.css';
 
-const formTypes = enumeration('NEW_USER', 'LOGIN');
+const formTypes = enumeration.singleValue('NEW_USER', 'LOGIN');
 
 const validatePhone = function validatePhoneNumberReturningErrorMessage(phone) {
   if (/^\+\d{1,3} \d{6,14}$/.test(phone)) {
@@ -184,14 +184,12 @@ function ContactForm(props) {
   return (
     <div className={style.container}>
       <DisplayReservation reservation={reservation} />
-      {
-        formDisplay === formTypes.NEW_USER
-        && <NewUser setFormDisplay={setFormDisplay} onSubmit={onSubmit} />
-      }
-      {
-        formDisplay === formTypes.LOGIN
-        && <Login setFormDisplay={setFormDisplay} onSubmit={onSubmit} />
-      }
+      {formDisplay === formTypes.NEW_USER && (
+        <NewUser setFormDisplay={setFormDisplay} onSubmit={onSubmit} />
+      )}
+      {formDisplay === formTypes.LOGIN && (
+        <Login setFormDisplay={setFormDisplay} onSubmit={onSubmit} />
+      )}
     </div>
   );
 }

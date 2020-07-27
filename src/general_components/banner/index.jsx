@@ -6,18 +6,16 @@ import { enumeration } from 'shared/helpers';
 // Stylesheet
 import style from './banner.module.css';
 
-export const bannerTypes = enumeration(
-  'SUCCESS', 'ERROR', 'STANDARD',
-);
+export const bannerTypes = enumeration.singleValue('SUCCESS', 'ERROR', 'STANDARD');
 
 const Banner = function InformationBannerTopOfPage(props) {
   const { type, message } = props;
   let bannerStyle;
   switch (type) {
-    case (bannerTypes.SUCCESS):
+    case bannerTypes.SUCCESS:
       bannerStyle = style.success;
       break;
-    case (bannerTypes.ERROR):
+    case bannerTypes.ERROR:
       bannerStyle = style.error;
       break;
     default:
@@ -26,13 +24,8 @@ const Banner = function InformationBannerTopOfPage(props) {
   }
 
   return (
-    <div
-      className={bannerStyle}
-      role="banner"
-    >
-      <p>
-        {message}
-      </p>
+    <div className={bannerStyle} role="banner">
+      <p>{message}</p>
     </div>
   );
 };
