@@ -10,21 +10,9 @@ export const bannerTypes = enumeration.singleValue('SUCCESS', 'ERROR', 'STANDARD
 
 const Banner = function InformationBannerTopOfPage(props) {
   const { type, message } = props;
-  let bannerStyle;
-  switch (type) {
-    case bannerTypes.SUCCESS:
-      bannerStyle = style.success;
-      break;
-    case bannerTypes.ERROR:
-      bannerStyle = style.error;
-      break;
-    default:
-      bannerStyle = style.standard;
-      break;
-  }
 
   return (
-    <div className={bannerStyle} role="banner">
+    <div className={style[type.value]} role="banner">
       <p>{message}</p>
     </div>
   );
@@ -33,8 +21,14 @@ const Banner = function InformationBannerTopOfPage(props) {
 Banner.propTypes = {
   type: PropTypes.shape({
     value: PropTypes.string.isRequired,
-  }).isRequired,
+  }),
   message: PropTypes.string.isRequired,
+};
+
+Banner.defaultProps = {
+  type: {
+    value: 'standard',
+  },
 };
 
 export default Banner;

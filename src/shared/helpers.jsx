@@ -4,7 +4,7 @@ const freeze = (obj) => Object.freeze(obj);
 const singleValue = function deepFreezeEnumerationSingleValueMembers(...members) {
   const memberValues = {};
   members.forEach((member) => {
-    memberValues[member] = freeze({ value: member });
+    memberValues[member] = freeze({ value: member.toLowerCase() });
   });
 
   return freeze(memberValues);
