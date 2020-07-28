@@ -1,22 +1,32 @@
 .text {
-    color: white;
+  color: white;
+  font-family: sans-serif;
 }
 
 .title {
-    composes: text;
-    font-size: 2rem
+  composes: text;
+  font-size: 2rem;
 }
 
 .backgroundImage {
-    height: 100vh;
-    width: 100vw;
-    background-size: cover;
+  height: 100vh;
+  width: 100vw;
+  background-size: cover;
 }
 
 .transparentBackground {
-    background-color: rgba(0,0,0,0.7);
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.button {
+  composes: text;
+  cursor: pointer;
+  margin: 1rem;
+  background-color: rgba(0, 0, 0, 0);
+  padding: 0.5rem;
+  border: 2px solid white;
 }
 
 p {
-    margin: 0;
+  margin: 0;
 }

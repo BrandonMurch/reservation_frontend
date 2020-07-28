@@ -9,14 +9,13 @@ exports[`<CheckboxAndLabel /> should match snapshot 1`] = `
     htmlFor="checkbox name"
   >
     checkbox label:
-    <input
-      id="checkbox name"
-      name="checkbox name"
-      onClick={[Function]}
-      required={true}
-      type="checkbox"
-      value={false}
-    />
   </label>
+  <input
+    id="checkbox name"
+    name="checkbox name"
+    onClick={[Function]}
+    type="checkbox"
+    value={false}
+  />
 </div>
 `;

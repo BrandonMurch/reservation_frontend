@@ -46,6 +46,7 @@ const Form = function CreateFormWithInputs(props) {
   };
   return (
     <form
+      noValidate
       data-testid="form"
       onSubmit={(event) => {
         event.preventDefault();

@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 
 // Components
 import Form from 'general_components/form';
+import { validatePhone, validateEmail } from 'general_components/form/validators';
 import Banner, { bannerTypes } from 'general_components/banner';
 
 // Stylesheets
@@ -61,8 +62,18 @@ const AdminLogin = function RenderAdminLoginScreen() {
     password: '',
   });
   const inputs = [
-    { name: 'email', type: 'email', label: 'Email' },
-    { name: 'password', type: 'password', label: 'Password' },
+    {
+      name: 'email',
+      type: 'email',
+      label: 'Email',
+      validator: validateEmail,
+    },
+    {
+      name: 'password',
+      type: 'password',
+      label: 'Password',
+      validator: validatePhone,
+    },
   ];
   // TODO: add custom loading screen here.
   if (isLoading) {

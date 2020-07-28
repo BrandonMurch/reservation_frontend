@@ -11,18 +11,17 @@ const Checkbox = function CheckboxAndLabel(props) {
     <div className={style.inputGroup}>
       <label className={style.labelText} htmlFor={name}>
         {`${label}:`}
-        <input
-          onClick={() => {
-            updateValue(name, !value);
-            setValue(!value);
-          }}
-          id={name}
-          value={value}
-          type="checkbox"
-          name={name}
-          required
-        />
       </label>
+      <input
+        onClick={() => {
+          updateValue(name, !value);
+          setValue(!value);
+        }}
+        id={name}
+        value={value}
+        type="checkbox"
+        name={name}
+      />
     </div>
   );
 };

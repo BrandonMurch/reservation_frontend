@@ -1,23 +1,26 @@
 .container {
   composes: childContainer from '../overlay_window.module.css';
-    width: 80vw;
-    max-width: 1000px;
+  width: 80vw;
+  max-width: 1000px;
 }
 
 .title {
-    composes: title from '../reservation/reservation.module.css';
+  composes: title from '../reservation/reservation.module.css';
 }
 
-.switchText{
-    composes: text from '../../css/project_globals.module.css';
+.switchText {
+  composes: text from '../../css/project_globals.module.css';
 }
 
-.switch {
-    cursor: pointer;
-    font-weight: 600;
+.switchButton {
+  composes: button from '../../css/project_globals.module.css';
+  border-width: 0px;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 600;
 }
 
 .submit {
-    display: block;
-    margin: 1rem auto;
+  display: block;
+  margin: 1rem auto;
 }

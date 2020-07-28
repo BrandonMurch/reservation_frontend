@@ -29,9 +29,10 @@ const ConfirmPassword = function CreateConfirmPasswordInputPair(props) {
   return (
     <>
       <div key="password" className={style.inputGroup}>
-        <label className={style.labelText} htmlFor="password">
+        <label className={style.hiddenLabelText} htmlFor="password">
           Password
           <input
+            placeholder="Password"
             className={style.input}
             value={password}
             onChange={({ target }) => {
@@ -42,15 +43,15 @@ const ConfirmPassword = function CreateConfirmPasswordInputPair(props) {
             type="password"
             name="password"
             id="password"
-            required
           />
         </label>
         {error !== '' && <p className={style.errorText}>{error}</p>}
       </div>
       <div key="confirm" className={style.inputGroup}>
-        <label className={style.labelText} htmlFor="confirm">
+        <label className={style.hiddenLabelText} htmlFor="confirm">
           Confirm Password:
           <input
+            placeholder="Confirm Password"
             className={style.input}
             value={confirmPassword}
             onChange={({ target }) => {
@@ -60,7 +61,6 @@ const ConfirmPassword = function CreateConfirmPasswordInputPair(props) {
             onBlur={onBlur}
             type="password"
             name="confirm"
-            required
           />
         </label>
       </div>

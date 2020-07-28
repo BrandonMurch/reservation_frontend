@@ -5,20 +5,17 @@ import PropTypes from 'prop-types';
 // Components
 import { enumeration } from 'shared/helpers';
 import Form from '../../general_components/form';
+import {
+  validatePhone,
+  validateEmail,
+  requiredValidator,
+} from '../../general_components/form/validators';
 import { DisplayReservation } from '../../general_components/display';
 
 // Stylesheets
 import style from './contact.module.css';
 
 const formTypes = enumeration.singleValue('NEW_USER', 'LOGIN');
-
-const validatePhone = function validatePhoneNumberReturningErrorMessage(phone) {
-  if (/^\+\d{1,3} \d{6,14}$/.test(phone)) {
-    return '';
-  }
-
-  return 'Phone number must be in the format of +1 123456789 where 1 is the country code, followed by the phone number';
-};
 
 const NewUser = function PopulateContactForm(props) {
   const { setFormDisplay } = props;
@@ -33,25 +30,28 @@ const NewUser = function PopulateContactForm(props) {
 
   const inputs = [
     {
+      validator: requiredValidator,
       name: 'firstName',
       type: 'text',
       label: 'First Name',
     },
     {
+      validator: requiredValidator,
       name: 'lastName',
       type: 'text',
       label: 'Last Name',
     },
     {
+      validator: validateEmail,
       name: 'email',
       type: 'email',
       label: 'Email',
     },
     {
+      validator: validatePhone,
       name: 'phoneNumber',
       type: 'tel',
       label: 'Phone Number',
-      validator: (phone) => validatePhone(phone),
     },
     {
       name: 'tAC',
