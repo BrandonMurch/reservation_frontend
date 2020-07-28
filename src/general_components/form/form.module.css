@@ -1,28 +1,54 @@
 .inputGroup {
-    width: 100%;
-    display: inline-block;
-    margin: 0.5rem;
+  width: 100%;
+  display: inline;
+  margin: 0.5rem;
 }
 
 .labelText {
-    composes: text from '../../css/project_globals.module.css';
-    float: left;
+  composes: text from '../../css/project_globals.module.css';
+  width: 100%;
+  opacity: 0;
 }
 
 .input {
-    float:right;
-    width: 70%;
+  composes: text from '../../css/project_globals.module.css';
+  width: 85%;
+  background-color: rgba(0, 0, 0, 0);
+  border: 0px;
+  border-bottom: 2px solid white;
+}
+
+.input:focus {
+  border-bottom: 4px solid white;
+}
+
+.input:invalid:required {
+  box-shadow: 0px 0px;
+  border-bottom: 2px solid red;
 }
 
 .errorText {
   color: red;
 }
 
+.submit {
+  composes: text from '../../css/project_globals.module.css';
+  width: 6rem;
+  height: 2rem;
+  float: right;
+  margin: 2rem;
+  background-color: rgba(0, 0, 0, 0);
+  border: 2px solid white;
+}
+
+.submit:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+  box-shadow: 2px 2px grey;
+  moz-box-shadow: 2px 2px grey;
+}
+
 @media screen and (max-width: 550px) {
-    .labelText {
-        margin: 0.5rem;
-    }
-    .input {
-        width: 100%;
-    }
+  .labelText {
+    margin: 0.5rem;
+  }
 }

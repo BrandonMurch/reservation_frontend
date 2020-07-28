@@ -1,0 +1,18 @@
+.background {
+  composes: transparentBackground from '../css/project_globals.module.css';
+  width: 100vw;
+  height: 100vh;
+}
+
+.container {
+  background-color: rgba(0, 0, 0, 0.2);
+  composes: centerVertically from '../css/helpers.module.css';
+  width: 20rem;
+  height: 10rem;
+  margin: 0 auto;
+  text-align: center;
+  padding: 1rem;
+  border: 1px solid grey;
+  align-content: center;
+  /* box-shadow: 4px 4px rgba(255, 255, 255, 0.3); */
+}

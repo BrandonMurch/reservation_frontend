@@ -28,20 +28,20 @@ const Input = function CreateInputAndLabel(props) {
     <div className={style.inputGroup}>
       <label className={style.labelText} htmlFor={name}>
         {`${label}:`}
-        <input
-          className={style.input}
-          value={value}
-          onChange={({ target }) => {
-            setValue(target.value);
-          }}
-          id={name}
-          onBlur={onBlur}
-          type={type}
-          name={name}
-          required
-        />
       </label>
-
+      <input
+        placeholder={label}
+        className={style.input}
+        value={value}
+        onChange={({ target }) => {
+          setValue(target.value);
+        }}
+        id={name}
+        onBlur={onBlur}
+        type={type}
+        name={name}
+        required
+      />
       {error !== '' && <p className={style.errorText}>{error}</p>}
     </div>
   );

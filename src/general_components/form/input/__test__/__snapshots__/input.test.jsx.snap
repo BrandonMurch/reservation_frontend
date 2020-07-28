@@ -9,16 +9,17 @@ exports[`<Input /> should match snapshot 1`] = `
     htmlFor="textInput"
   >
     This is a label:
-    <input
-      className="input"
-      id="textInput"
-      name="textInput"
-      onBlur={[Function]}
-      onChange={[Function]}
-      required={true}
-      type="text"
-      value=""
-    />
   </label>
+  <input
+    className="input"
+    id="textInput"
+    name="textInput"
+    onBlur={[Function]}
+    onChange={[Function]}
+    placeholder="This is a label"
+    required={true}
+    type="text"
+    value=""
+  />
 </div>
 `;

@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AdminLogin /> should match snapshot 1`] = `
+<div
+  className="background"
+>
+  
+  
+  <div
+    className="container"
+  >
+    <form
+      className="container"
+      data-testid="form"
+      onSubmit={[Function]}
+    >
+      <div
+        className="inputGroup"
+      >
+        <label
+          className="labelText"
+          htmlFor="email"
+        >
+          Email:
+        </label>
+        <input
+          className="input"
+          id="email"
+          name="email"
+          onBlur={[Function]}
+          onChange={[Function]}
+          placeholder="Email"
+          required={true}
+          type="email"
+          value=""
+        />
+      </div>
+      <div
+        className="inputGroup"
+      >
+        <label
+          className="labelText"
+          htmlFor="password"
+        >
+          Password:
+        </label>
+        <input
+          className="input"
+          id="password"
+          name="password"
+          onBlur={[Function]}
+          onChange={[Function]}
+          placeholder="Password"
+          required={true}
+          type="password"
+          value=""
+        />
+      </div>
+      <input
+        className="submit"
+        disabled={false}
+        type="submit"
+        value="Login"
+      />
+    </form>
+  </div>
+</div>
+`;
