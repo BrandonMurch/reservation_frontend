@@ -47,7 +47,7 @@ describe('<App />', () => {
   it('should display admin login at /admin-login', () => {
     const component = renderWithRouter(<App />, { route: '/admin-login' });
 
-    const emailInput = component.getByLabelText(/Email/i);
+    const emailInput = component.getByLabelText(/Username/i);
     expect(emailInput).toBeInTheDocument();
     const passwordInput = component.getByLabelText(/Password/i);
     expect(passwordInput).toBeInTheDocument();
