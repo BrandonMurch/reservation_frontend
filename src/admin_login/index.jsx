@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 
 // Components
 import Form from 'general_components/form';
-import { validatePhone, validateEmail } from 'general_components/form/validators';
+import { requiredValidator } from 'general_components/form/validators';
 import Banner, { bannerTypes } from 'general_components/banner';
 
 // Stylesheets
@@ -19,35 +19,40 @@ const sendLogin = async function sendLoginRequestToServer(
   setIsLoading(true);
 
   const body = JSON.stringify({
-    login: login.current,
+    username: login.current.username,
+    password: login.current.password,
   });
 
   try {
-    const response = await fetch('http://localhost:8080/bookings', {
+    const response = await fetch('http://localhost:8080/authenticate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body,
     });
 
-    if (response.status === 200) {
-      setIsLoading(false);
-      // TODO: Change this redirect to admin dashboard once created.
-      setRedirect('/success');
-    } else {
-      let responseBody;
-      try {
-        responseBody = await response.json();
-      } catch (error) {
-        setError('Something went wrong... \n please try again later');
-      }
-
-      if (responseBody.message && responseBody.message !== '') {
-        setError(responseBody.message);
-      } else {
-        setError('Something went wrong... \n please try again later');
-      }
-      setIsLoading(false);
+    let responseBody;
+    try {
+      responseBody = await response.json();
+    } catch (error) {
+      setError('Something went wrong... \n please try again later');
     }
+
+    if (responseBody) {
+      setIsLoading(false);
+      if (response.status === 200 && responseBody.token) {
+        // TODO: Change this redirect to admin dashboard once created.
+        setRedirect('/admin');
+        return;
+      }
+      if (responseBody.message) {
+        setError(responseBody.message);
+        return;
+      }
+      setError('Something went wrong... \n please try again later');
+    } else {
+      setError('Something went wrong... \n please try again later');
+    }
+    setIsLoading(false);
   } catch (error) {
     setError(error.message);
   }
@@ -58,27 +63,29 @@ const AdminLogin = function RenderAdminLoginScreen() {
   const [redirect, setRedirect] = useState('');
   const [error, setError] = useState('');
   const login = useRef({
-    email: '',
+    username: '',
     password: '',
   });
   const inputs = [
     {
-      name: 'email',
-      type: 'email',
-      label: 'Email',
-      validator: validateEmail,
+      name: 'username',
+      type: 'text',
+      label: 'Username',
+      validator: requiredValidator,
     },
     {
       name: 'password',
       type: 'password',
       label: 'Password',
-      validator: validatePhone,
+      validator: requiredValidator,
     },
   ];
   // TODO: add custom loading screen here.
   if (isLoading) {
     return <div> Loading... </div>;
   }
+
+  // FIXME: this form won't submit password if password box is still focussed.
   return (
     <div className={style.background}>
       {redirect && <Redirect to={redirect} />}

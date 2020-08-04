@@ -65,7 +65,11 @@ describe('<AdminLogin />', () => {
   });
 
   it('should successfully redirect on login', async () => {
-    fetchSpy = jest.spyOn(global, 'fetch').mockImplementation(() => mockFetch(200));
+    const body = {
+      token: 'this is a token',
+    };
+
+    fetchSpy = jest.spyOn(global, 'fetch').mockImplementation(() => mockFetch(200, body));
 
     component = renderWithRouter(
       <AdminLogin setError={mockSetErrorFunction} setMessage={mockSetMessageFunction} />,
@@ -79,31 +83,7 @@ describe('<AdminLogin />', () => {
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
     // TODO: Change this redirect to admin dashboard once created.
-    expect(component.history.location.pathname).toEqual('/success');
-  });
-
-  it('attempts to call server (real fetch)', async () => {
-    component = renderWithRouter(
-      <AdminLogin setError={mockSetErrorFunction} setMessage={mockSetMessageFunction} />,
-      { route: '/admin-login' },
-    );
-
-    const username = component.getByLabelText(/Username/i);
-    const password = component.getByLabelText(/Password/i);
-
-    await act(async () => {
-      await fireEvent.change(username, { value: 'username' });
-      await fireEvent.change(password, { value: 'password' });
-    });
-
-    const submit = component.getByRole('button', { name: 'Submit' });
-    await act(async () => {
-      await fireEvent.click(submit);
-    });
-
-    expect(global.fetch).toHaveBeenCalledTimes(1);
-    // TODO: Change this redirect to admin dashboard once created.
-    expect(component.history.location.pathname).toEqual('/success');
+    expect(component.history.location.pathname).toEqual('/admin');
   });
 
   it('should set error when server returns an error', async () => {
