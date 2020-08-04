@@ -6,6 +6,7 @@ import { unmountComponentAtNode } from 'react-dom';
 import { create } from 'react-test-renderer';
 import { act } from 'react-dom/test-utils';
 import { mockFetch, renderWithRouter } from 'test_utils';
+import { TokenContextProvider } from '../../contexts/token_context';
 
 // Components
 import AdminLogin from '../index';
@@ -44,7 +45,9 @@ describe('<AdminLogin />', () => {
 
   it('should render email and password inputs', () => {
     component = renderWithRouter(
-      <AdminLogin setError={mockSetErrorFunction} setMessage={mockSetMessageFunction} />,
+      <TokenContextProvider>
+        <AdminLogin setError={mockSetErrorFunction} setMessage={mockSetMessageFunction} />
+      </TokenContextProvider>,
       { route: '/admin-login' },
     );
 
@@ -56,7 +59,9 @@ describe('<AdminLogin />', () => {
 
   it('should render a submit button', () => {
     component = renderWithRouter(
-      <AdminLogin setError={mockSetErrorFunction} setMessage={mockSetMessageFunction} />,
+      <TokenContextProvider>
+        <AdminLogin setError={mockSetErrorFunction} setMessage={mockSetMessageFunction} />
+      </TokenContextProvider>,
       { route: '/admin-login' },
     );
 
@@ -72,7 +77,9 @@ describe('<AdminLogin />', () => {
     fetchSpy = jest.spyOn(global, 'fetch').mockImplementation(() => mockFetch(200, body));
 
     component = renderWithRouter(
-      <AdminLogin setError={mockSetErrorFunction} setMessage={mockSetMessageFunction} />,
+      <TokenContextProvider>
+        <AdminLogin setError={mockSetErrorFunction} setMessage={mockSetMessageFunction} />
+      </TokenContextProvider>,
       { route: '/admin-login' },
     );
 
@@ -90,7 +97,9 @@ describe('<AdminLogin />', () => {
     fetchSpy = jest.spyOn(global, 'fetch').mockImplementation(() => mockFetch(400));
 
     component = renderWithRouter(
-      <AdminLogin setError={mockSetErrorFunction} setMessage={mockSetMessageFunction} />,
+      <TokenContextProvider>
+        <AdminLogin setError={mockSetErrorFunction} setMessage={mockSetMessageFunction} />
+      </TokenContextProvider>,
       { route: '/admin-login' },
     );
 

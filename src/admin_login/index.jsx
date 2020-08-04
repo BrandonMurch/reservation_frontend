@@ -1,11 +1,12 @@
 // Dependencies
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 
 // Components
 import Form from 'general_components/form';
 import { requiredValidator } from 'general_components/form/validators';
 import Banner, { bannerTypes } from 'general_components/banner';
+import TokenContext from '../contexts/token_context';
 
 // Stylesheets
 import style from './admin_login.module.css';
@@ -15,6 +16,7 @@ const sendLogin = async function sendLoginRequestToServer(
   setError,
   setRedirect,
   setIsLoading,
+  setToken,
 ) {
   setIsLoading(true);
 
@@ -40,7 +42,7 @@ const sendLogin = async function sendLoginRequestToServer(
     if (responseBody) {
       setIsLoading(false);
       if (response.status === 200 && responseBody.token) {
-        // TODO: Change this redirect to admin dashboard once created.
+        setToken(responseBody.token);
         setRedirect('/admin');
         return;
       }
@@ -62,6 +64,7 @@ const AdminLogin = function RenderAdminLoginScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [redirect, setRedirect] = useState('');
   const [error, setError] = useState('');
+  const { setToken } = useContext(TokenContext);
   const login = useRef({
     username: '',
     password: '',
@@ -94,7 +97,7 @@ const AdminLogin = function RenderAdminLoginScreen() {
         <Form
           inputs={inputs}
           onSubmit={() => {
-            sendLogin(login, setError, setRedirect, setIsLoading);
+            sendLogin(login, setError, setRedirect, setIsLoading, setToken);
           }}
           onTextBlur={(value, name) => {
             login.current[name] = value;
