@@ -1,8 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import { BrowserRouter as Router } from 'react-router-dom';
 import { unmountComponentAtNode } from 'react-dom';
-import { create } from 'react-test-renderer';
 import { act } from 'react-dom/test-utils';
 import { mockFetch, renderWithRouter } from 'test_utils';
 
