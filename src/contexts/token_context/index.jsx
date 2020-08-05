@@ -1,21 +1,31 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useContext } from 'react';
 import PropTypes from 'prop-types';
 
-const TokenContext = createContext({
-  token: 'not a token',
-  setToken: (jwt) => {
-    this.token = jwt;
-  },
-});
+const TokenContext = createContext();
 
-const TokenContextProvider = function BoilerPlateForTokenContextProvider({ children }) {
-  const [token, setToken] = useState(null);
+const TokenContextProvider = function BoilerPlateForTokenContextProvider({
+  defaultValue,
+  children,
+}) {
+  let token = defaultValue;
+
+  const setToken = (newToken) => {
+    token = newToken;
+  };
+
   return <TokenContext.Provider value={{ token, setToken }}>{children}</TokenContext.Provider>;
 };
 
 TokenContextProvider.propTypes = {
-  children: PropTypes.shape(PropTypes.element.isRequired).isRequired,
+  defaultValue: PropTypes.string,
 };
 
-export default TokenContext;
-export { TokenContextProvider };
+TokenContextProvider.defaultProps = {
+  defaultValue: null,
+};
+
+const useTokenContext = function CustomHookToConsumeTokenContext() {
+  return useContext(TokenContext);
+};
+
+export { TokenContext, useTokenContext, TokenContextProvider };

@@ -1,12 +1,13 @@
 // Dependencies
-import React, { useRef, useState, useContext } from 'react';
+import React, { useRef, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 
 // Components
 import Form from 'general_components/form';
 import { requiredValidator } from 'general_components/form/validators';
 import Banner, { bannerTypes } from 'general_components/banner';
-import TokenContext from '../contexts/token_context';
+import Loading from 'general_components/loading';
+import { useTokenContext } from '../contexts/token_context';
 
 // Stylesheets
 import style from './admin_login.module.css';
@@ -64,7 +65,7 @@ const AdminLogin = function RenderAdminLoginScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [redirect, setRedirect] = useState('');
   const [error, setError] = useState('');
-  const { setToken } = useContext(TokenContext);
+  const { setToken } = useTokenContext();
   const login = useRef({
     username: '',
     password: '',
@@ -85,7 +86,7 @@ const AdminLogin = function RenderAdminLoginScreen() {
   ];
   // TODO: add custom loading screen here.
   if (isLoading) {
-    return <div> Loading... </div>;
+    return <Loading />;
   }
 
   // FIXME: this form won't submit password if password box is still focussed.

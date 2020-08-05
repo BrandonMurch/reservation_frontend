@@ -36,9 +36,11 @@ describe('<AdminLogin />', () => {
 
   it('should match snapshot', () => {
     const tree = create(
-      <Router>
-        <AdminLogin setError={mockSetErrorFunction} setMessage={mockSetMessageFunction} />
-      </Router>,
+      <TokenContextProvider>
+        <Router>
+          <AdminLogin setError={mockSetErrorFunction} setMessage={mockSetMessageFunction} />
+        </Router>
+      </TokenContextProvider>,
     ).toJSON();
     expect(tree).toMatchSnapshot();
   });
@@ -89,7 +91,6 @@ describe('<AdminLogin />', () => {
     });
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    // TODO: Change this redirect to admin dashboard once created.
     expect(component.history.location.pathname).toEqual('/admin');
   });
 
