@@ -1,5 +1,5 @@
 // Dependencies
-import React, { useState } from 'react';
+import React, { useState, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { enumeration } from 'shared/helpers';
 
@@ -34,6 +34,7 @@ const Form = function CreateFormWithInputs(props) {
     fields[name] = value;
   };
   const [displayErrors, setDisplayErrors] = useState(false);
+  const [submitButtonText, setSubmitButtonText] = useState(submitLabel);
 
   return (
     <form
@@ -44,13 +45,15 @@ const Form = function CreateFormWithInputs(props) {
         if (!event.target.checkValidity()) {
           setDisplayErrors(true);
         } else {
+          event.target.lastChild.disabled = true;
+          setSubmitButtonText('Submitting...');
           onSubmit(fields);
         }
       }}
       className={style.container}
     >
       {getInputs(inputs, onBlur, displayErrors)}
-      <input key="submit" className={style.submit} type="submit" value={submitLabel} />
+      <input key="submit" className={style.submit} type="submit" value={submitButtonText} />
     </form>
   );
 };
