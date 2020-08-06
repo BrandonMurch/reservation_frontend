@@ -1,29 +1,39 @@
 // Dependencies
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // Stylesheets
 import style from '../form.module.css';
 
-const ConfirmPassword = function CreateConfirmPasswordInputPair(props) {
-  const { validator } = props;
+const ConfirmPassword = function CreateConfirmPasswordInputPair({ doDisplayErrors, updateValue }) {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
+  const [displayErrors, setDisplayErrors] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [confirmError, setConfirmError] = useState('');
 
-  const onBlur = function verifyPasswordsOnBlur() {
-    const errorMessage = validator(password);
-    let errorFound = false;
-    if (errorMessage !== '') {
-      setError(errorMessage);
-      errorFound = true;
-    } else if (password !== confirmPassword) {
-      setError('Passwords must be identical');
-      errorFound = true;
-    } else {
-      setError('');
+  useEffect(() => {
+    if (doDisplayErrors) {
+      setDisplayErrors(doDisplayErrors);
     }
-    props.updateValue(password, 'password', errorFound);
+  }, [doDisplayErrors]);
+
+  const onBlur = function submitValue() {
+    if (!displayErrors) {
+      setDisplayErrors(true);
+    }
+    if (errorMessage === '' && confirmError === '') {
+      updateValue(confirmPassword, 'password');
+    }
+  };
+  const onConfirmBlur = function displayErrorMessageForConfirm({ target }) {
+    setConfirmError(target.validationMessage);
+    onBlur();
+  };
+
+  const onPassBlur = function displayErrorMessageForPassword({ target }) {
+    setErrorMessage(target.validationMessage);
+    onBlur();
   };
 
   return (
@@ -32,37 +42,38 @@ const ConfirmPassword = function CreateConfirmPasswordInputPair(props) {
         <label className={style.hiddenLabelText} htmlFor="password">
           Password
           <input
+            required
             placeholder="Password"
             className={style.input}
             value={password}
+            onBlur={onPassBlur}
+            type="password"
+            name="password"
             onChange={({ target }) => {
               setPassword(target.value);
             }}
-            data-testid="password"
-            onBlur={onBlur}
-            type="password"
-            name="password"
-            id="password"
           />
         </label>
-        {error !== '' && <p className={style.errorText}>{error}</p>}
+        {displayErrors && errorMessage !== '' && <p className={style.errorText}>{errorMessage}</p>}
       </div>
       <div key="confirm" className={style.inputGroup}>
         <label className={style.hiddenLabelText} htmlFor="confirm">
           Confirm Password:
           <input
+            pattern={password}
+            required
             placeholder="Confirm Password"
             className={style.input}
             value={confirmPassword}
+            onBlur={onConfirmBlur}
+            type="password"
+            name="confirm"
             onChange={({ target }) => {
               setConfirmPassword(target.value);
             }}
-            data-testid="confirm-password"
-            onBlur={onBlur}
-            type="password"
-            name="confirm"
           />
         </label>
+        {displayErrors && confirmError !== '' && <p className={style.errorText}>{confirmError}</p>}
       </div>
     </>
   );
@@ -70,11 +81,11 @@ const ConfirmPassword = function CreateConfirmPasswordInputPair(props) {
 
 ConfirmPassword.propTypes = {
   updateValue: PropTypes.func.isRequired,
-  validator: PropTypes.func,
+  doDisplayErrors: PropTypes.bool,
 };
 
 ConfirmPassword.defaultProps = {
-  validator: () => '',
+  doDisplayErrors: false,
 };
 
 export default ConfirmPassword;

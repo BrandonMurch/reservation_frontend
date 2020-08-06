@@ -1,9 +1,18 @@
 import React from 'react';
-import { render, fireEvent, getByTestId } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { unmountComponentAtNode } from 'react-dom';
 import renderer from 'react-test-renderer';
 
 import ConfirmPassword from '../index';
+
+const fillForm = function fillForm(component) {
+  let element = component.getByLabelText(/^Password/i);
+  fireEvent.change(element, { target: { value: 'password' } });
+  fireEvent.blur(element);
+  element = component.getByLabelText(/Confirm/i);
+  fireEvent.change(element, { target: { value: 'password' } });
+  fireEvent.blur(element);
+};
 
 describe('<ConfirmPassword />', () => {
   let component;
@@ -37,10 +46,8 @@ describe('<ConfirmPassword />', () => {
     });
 
     it('should call the function on blur', () => {
-      const element = getByTestId(component.container, 'password');
-      fireEvent.change(element, { target: { value: 'password' } });
-      fireEvent.blur(element);
-      expect(mockFunction).toHaveBeenCalledWith('password', 'password', true);
+      fillForm(component);
+      expect(mockFunction).toHaveBeenCalledWith('', 'password');
     });
   });
   describe('confirm password', () => {
@@ -49,14 +56,8 @@ describe('<ConfirmPassword />', () => {
       expect(element).toBeInTheDocument();
     });
     it('should call the function on blur', () => {
-      let element = getByTestId(component.container, 'password');
-      fireEvent.change(element, { target: { value: 'password' } });
-      fireEvent.blur(element);
-      expect(mockFunction).toHaveBeenCalledWith('password', 'password', true);
-      element = getByTestId(component.container, 'confirm-password');
-      fireEvent.change(element, { target: { value: 'password' } });
-      fireEvent.blur(element);
-      expect(mockFunction).toHaveBeenCalledWith('password', 'password', false);
+      fillForm(component);
+      expect(mockFunction).toHaveBeenCalledWith('password', 'password');
     });
   });
 });
