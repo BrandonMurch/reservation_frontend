@@ -91,7 +91,7 @@ describe('<AdminLogin />', () => {
     });
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    expect(component.history.location.pathname).toEqual('/admin');
+    expect(component.history.location.pathname).toEqual('/admin-dashboard');
   });
 
   it('should set error when server returns an error', async () => {
