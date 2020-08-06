@@ -84,7 +84,6 @@ const AdminLogin = function RenderAdminLoginScreen() {
       validator: requiredValidator,
     },
   ];
-  // TODO: add custom loading screen here.
   if (isLoading) {
     return <Loading />;
   }
