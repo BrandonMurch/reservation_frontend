@@ -22,7 +22,7 @@ const validateToken = async function verifyTokenWithServer(token, pathname) {
   });
   let response;
   try {
-    response = await fetch('http://localhost:8080/validateToken', {
+    response = await fetch('http://localhost:8080/validate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body,
@@ -39,17 +39,17 @@ const validateToken = async function verifyTokenWithServer(token, pathname) {
 
 const AuthorizationWrapper = function CreateWrapperToAuthorizeToken({ children }) {
   const { pathname } = useLocation();
-  const { token } = useTokenContext();
+  const { getToken } = useTokenContext();
 
   const [isValidToken, setIsValidToken] = useState(null);
 
   useEffect(() => {
     async function updateIsValidToken() {
-      const result = await validateToken(token, pathname);
-      setIsValidToken(token && result);
+      const result = await validateToken(getToken, pathname);
+      setIsValidToken(getToken && result);
     }
     updateIsValidToken();
-  }, [token, pathname]);
+  }, [getToken, pathname]);
 
   if (isValidToken == null) {
     return <Loading />;

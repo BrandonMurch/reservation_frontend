@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 const TokenContext = createContext();
@@ -7,17 +7,31 @@ const TokenContextProvider = function BoilerPlateForTokenContextProvider({
   defaultValue,
   children,
 }) {
-  let token = defaultValue;
+  // const [token, setToken] = useState(defaultValue);
+  const token = useRef(defaultValue);
 
-  const setToken = (newToken) => {
-    token = newToken;
+  const tokenObject = {
+    setToken: (newToken) => {
+      token.current = newToken;
+    },
+    get getToken() {
+      return token.current;
+    },
   };
+  // const setToken = (newToken) => {
+  //   token.current = newToken;
+  // };
+  //
+  // function getToken() {
+  //   return token.current;
+  // }
 
-  return <TokenContext.Provider value={{ token, setToken }}>{children}</TokenContext.Provider>;
+  return <TokenContext.Provider value={tokenObject}>{children}</TokenContext.Provider>;
 };
 
 TokenContextProvider.propTypes = {
   defaultValue: PropTypes.string,
+  children: PropTypes.node.isRequired,
 };
 
 TokenContextProvider.defaultProps = {
