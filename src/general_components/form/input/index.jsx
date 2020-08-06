@@ -27,19 +27,16 @@ const Input = function CreateInputAndLabel(props) {
   }, [doDisplayErrors]);
 
   const onBlur = function validateOnBlur({ target }) {
-    if (target.validationMessage) {
-      setErrorMessage(target.validationMessage);
-    } else {
-      setErrorMessage('');
+    if (!displayErrors) {
+      setDisplayErrors(true);
     }
-    setDisplayErrors(true);
+    setErrorMessage(target.validationMessage);
     updateValue(target.value, target.name);
   };
 
   if (errorMessage === 'Please match the requested format.') {
     setErrorMessage(patternMessage);
   }
-
   return (
     <div className={style.inputGroup}>
       <label className={style.hiddenLabelText} htmlFor={name}>
@@ -52,6 +49,7 @@ const Input = function CreateInputAndLabel(props) {
         className={displayErrors ? style.displayError : style.input}
         value={value}
         onChange={({ target }) => {
+          setErrorMessage(target.validationMessage);
           setValue(target.value);
         }}
         id={name}
