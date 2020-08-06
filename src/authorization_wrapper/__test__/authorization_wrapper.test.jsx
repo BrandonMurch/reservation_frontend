@@ -39,7 +39,7 @@ describe('<AuthorizationWrapper />', () => {
             <TestComponent />
           </AuthorizationWrapper>
         </TokenContextProvider>,
-        { route: '/admin' },
+        { route: '/admin-dashboard' },
       );
     });
     const testComponentText = component.getByText(/hello world/i);
@@ -56,7 +56,7 @@ describe('<AuthorizationWrapper />', () => {
             <TestComponent />
           </AuthorizationWrapper>
         </TokenContextProvider>,
-        { route: '/admin' },
+        { route: '/admin-dashboard' },
       );
     });
 
@@ -70,7 +70,7 @@ describe('<AuthorizationWrapper />', () => {
             <TestComponent />
           </AuthorizationWrapper>
         </TokenContextProvider>,
-        { route: '/admin' },
+        { route: '/admin-dashboard' },
       );
     });
 

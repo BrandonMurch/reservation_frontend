@@ -5,6 +5,8 @@ import { Link, Switch, Route } from 'react-router-dom';
 // Components
 import OverlayWindow from '../overlay_window';
 import AdminLogin from '../admin_login';
+import AdminDashboard from '../admin_dashboard';
+import AuthorizationWrapper from '../authorization_wrapper';
 import { TokenContextProvider } from '../contexts/token_context';
 
 // CSS
@@ -23,6 +25,14 @@ function App() {
     <TokenContextProvider>
       <Switch className={style.app}>
         <Route path="/admin-login" component={AdminLogin} />
+        <Route
+          path="/admin-dashboard"
+          render={() => (
+            <AuthorizationWrapper>
+              <AdminDashboard />
+            </AuthorizationWrapper>
+          )}
+        />
         <Route
           render={() => (
             <>

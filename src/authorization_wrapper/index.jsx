@@ -1,17 +1,24 @@
 // Dependencies
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useLocation } from 'react-router-dom';
 
 // Components
 import { useTokenContext } from '../contexts/token_context';
 import Loading from '../general_components/loading';
 
-const validateToken = async function verifyTokenWithServer(token) {
+const validateToken = async function verifyTokenWithServer(token, pathname) {
   // call server with token, page and permission
+  if (pathname === undefined) {
+    return false;
+  }
+  const requestedPermission = `VIEW_${pathname
+    .slice(1)
+    .toUpperCase()
+    .replace('-', '_')}`;
   const body = JSON.stringify({
     token: `Bearer ${token}`,
-    // page:  -- how to get the page name out of children
+    path: requestedPermission,
   });
   let response;
   try {
@@ -31,17 +38,18 @@ const validateToken = async function verifyTokenWithServer(token) {
 };
 
 const AuthorizationWrapper = function CreateWrapperToAuthorizeToken({ children }) {
+  const { pathname } = useLocation();
   const { token } = useTokenContext();
 
   const [isValidToken, setIsValidToken] = useState(null);
 
   useEffect(() => {
     async function updateIsValidToken() {
-      const result = await validateToken(token);
+      const result = await validateToken(token, pathname);
       setIsValidToken(token && result);
     }
     updateIsValidToken();
-  }, [token]);
+  }, [token, pathname]);
 
   if (isValidToken == null) {
     return <Loading />;

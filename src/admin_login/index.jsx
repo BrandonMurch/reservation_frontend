@@ -44,7 +44,7 @@ const sendLogin = async function sendLoginRequestToServer(
       setIsLoading(false);
       if (response.status === 200 && responseBody.token) {
         setToken(responseBody.token);
-        setRedirect('/admin');
+        setRedirect('/admin-dashboard');
         return;
       }
       if (responseBody.message) {
