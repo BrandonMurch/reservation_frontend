@@ -7,6 +7,27 @@ import { create } from 'react-test-renderer';
 // Components
 import ContactForm from '../index';
 
+function fillInput(element, string) {
+  fireEvent.focus(element);
+  fireEvent.change(element, { target: { value: string } });
+  fireEvent.blur(element);
+}
+
+function fillForm(component) {
+  const first = component.getByLabelText(/First/i);
+  const last = component.getByLabelText(/Last/i);
+  const phone = component.getByLabelText(/Phone/i);
+  const email = component.getByLabelText(/Email/i);
+  const tac = component.getByLabelText(/Terms/i);
+  const submit = component.getByRole('button', { name: 'Submit' });
+  fillInput(first, 'user');
+  fillInput(last, 'last');
+  fillInput(phone, '+1 123456789');
+  fillInput(email, 'email@email.com');
+  fireEvent.click(tac);
+  fireEvent.click(submit);
+}
+
 describe('<ContactForm />', () => {
   let component;
   let mockSubmitFunction;
@@ -56,10 +77,8 @@ describe('<ContactForm />', () => {
     const password = component.getByLabelText(/Password/i);
     expect(password).toBeInTheDocument();
   });
-  // FIXME - need to fill form in test.
-  // it('should display call onSubmit when submitted', () => {
-  //   const button = component.getByRole('button', { name: 'Submit' });
-  //   fireEvent.click(button);
-  //   expect(mockSubmitFunction).toHaveBeenCalled();
-  // });
+  it('should display call onSubmit when submitted', () => {
+    fillForm(component);
+    expect(mockSubmitFunction).toHaveBeenCalled();
+  });
 });
