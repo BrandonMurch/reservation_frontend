@@ -17,53 +17,40 @@ const inputFields = enumeration.keyValue(
   { key: 'default', value: Input },
 );
 
-const getInputs = function getListOfInputChildren(inputs, onTextBlur, onCheckboxClick) {
+const getInputs = function getListOfInputChildren(inputs, onBlur, displayErrors) {
   return inputs.map((input) => {
-    input.updateValue = input.type === 'checkbox' ? onCheckboxClick : onTextBlur;
     const Component = inputFields[input.type] || inputFields.default;
-    return <Component key={input.name} {...input} />;
+    return (
+      <Component key={input.name} updateValue={onBlur} {...input} doDisplayErrors={displayErrors} />
+    );
   });
 };
 
 const Form = function CreateFormWithInputs(props) {
-  const {
-    inputs, onSubmit, onTextBlur, onCheckboxClick, submitLabel,
-  } = props;
+  const { inputs, onSubmit, submitLabel } = props;
 
-  const [errors, setErrors] = useState(new Set());
-  const checkError = function checkForErrorsInForm(value, name, error) {
-    const inErrorsList = errors.has(name);
-    if (error && !inErrorsList) {
-      const newSet = new Set(errors);
-      newSet.add(name);
-      setErrors(newSet);
-    } else if (!error && inErrorsList) {
-      const newSet = new Set(errors);
-      newSet.delete(name);
-      setErrors(newSet);
-    }
-    onTextBlur(value, name);
+  const fields = {};
+  const onBlur = function updateFieldsOnBlur(value, name) {
+    fields[name] = value;
   };
+  const [displayErrors, setDisplayErrors] = useState(false);
+
   return (
     <form
       noValidate
       data-testid="form"
       onSubmit={(event) => {
         event.preventDefault();
-        if (errors.size === 0) {
-          onSubmit(event);
+        if (!event.target.checkValidity()) {
+          setDisplayErrors(true);
+        } else {
+          onSubmit(fields);
         }
       }}
       className={style.container}
     >
-      {getInputs(inputs, checkError, onCheckboxClick)}
-      <input
-        key="submit"
-        className={style.submit}
-        type="submit"
-        value={submitLabel}
-        disabled={errors.size !== 0}
-      />
+      {getInputs(inputs, onBlur, displayErrors)}
+      <input key="submit" className={style.submit} type="submit" value={submitLabel} />
     </form>
   );
 };
@@ -77,13 +64,7 @@ Form.propTypes = {
     }),
   ).isRequired,
   onSubmit: PropTypes.func.isRequired,
-  onTextBlur: PropTypes.func.isRequired,
-  onCheckboxClick: PropTypes.func,
   submitLabel: PropTypes.string.isRequired,
-};
-
-Form.defaultProps = {
-  onCheckboxClick() {},
 };
 
 export default Form;

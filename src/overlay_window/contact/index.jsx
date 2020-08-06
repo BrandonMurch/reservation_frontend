@@ -5,11 +5,6 @@ import PropTypes from 'prop-types';
 // Components
 import { enumeration } from 'shared/helpers';
 import Form from '../../general_components/form';
-import {
-  validatePhone,
-  validateEmail,
-  requiredValidator,
-} from '../../general_components/form/validators';
 import { DisplayReservation } from '../../general_components/display';
 
 // Stylesheets
@@ -30,53 +25,40 @@ const NewUser = function PopulateContactForm(props) {
 
   const inputs = [
     {
-      validator: requiredValidator,
       name: 'firstName',
       type: 'text',
       label: 'First Name',
+      required: true,
     },
     {
-      validator: requiredValidator,
       name: 'lastName',
       type: 'text',
       label: 'Last Name',
+      required: true,
     },
     {
-      validator: validateEmail,
       name: 'email',
       type: 'email',
       label: 'Email',
+      required: true,
+      pattern: '^[\\w\\-_.+]*[\\w\\-_.]@([\\w]+\\.)+[\\w]+[\\w]$',
+      patternMessage: 'Email must be properly formatted',
     },
     {
-      validator: validatePhone,
       name: 'phoneNumber',
       type: 'tel',
       label: 'Phone Number',
+      required: true,
+      pattern: '^\\+\\d{1,3} \\d{6,14}$',
+      patternMessage:
+        'Phone number must be in the format of +1 123456789 where +1 is the country code, followed by the phone number',
     },
     {
       name: 'tAC',
       type: 'checkbox',
       label: 'Yes, I agree to the terms and conditions',
+      required: true,
     },
-    //  TODO: Allow user to create an account
-    // {
-    //   name: 'password',
-    //   type: 'confirmPassword',
-    //   label: 'Password',
-    //   validator(password) {
-    //     console.log();
-    //     if (password.length < 8) {
-    //       return 'Password must be at least 8 characters';
-    //     }
-    //     if (!/\d/.test(password)) {
-    //       return 'Password must have at least one number';
-    //     }
-    //     if (!/[A-Z]/.test(password)) {
-    //       return 'Password must have at least one capital letter';
-    //     }
-    //     return '';
-    //   },
-    // },
   ];
 
   const onSubmit = function contactFormSubmit() {

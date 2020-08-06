@@ -16,7 +16,9 @@ exports[`<Input /> should match snapshot 1`] = `
     name="textInput"
     onBlur={[Function]}
     onChange={[Function]}
+    pattern={null}
     placeholder="This is a label"
+    required={false}
     type="text"
     value=""
   />

@@ -51,7 +51,6 @@ describe('<Input />', () => {
       target: { value: 'input text' },
     });
     fireEvent.blur(input);
-    expect(mockValidatorFunction).toHaveBeenCalled();
-    expect(mockBlurFunction).toHaveBeenCalledWith('input text', 'textInput', true);
+    expect(mockBlurFunction).toHaveBeenCalledWith('input text', 'textInput');
   });
 });

@@ -1,5 +1,5 @@
 // Dependencies
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // Stylesheets
@@ -7,30 +7,49 @@ import style from '../form.module.css';
 
 const Input = function CreateInputAndLabel(props) {
   const [value, setValue] = useState('');
-  const [error, setError] = useState('');
+  const [displayErrors, setDisplayErrors] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const {
-    type, name, label, validator, updateValue,
+    type,
+    name,
+    label,
+    required,
+    pattern,
+    updateValue,
+    patternMessage,
+    doDisplayErrors,
   } = props;
 
-  const onBlur = function validateOnBlur({ target }) {
-    const errorMessage = validator(target);
-    let errorFound = false;
-    if (errorMessage) {
-      setError(errorMessage);
-      errorFound = true;
-    } else {
-      setError('');
+  useEffect(() => {
+    if (doDisplayErrors) {
+      setDisplayErrors(doDisplayErrors);
     }
-    updateValue(target.value, target.name, errorFound);
+  }, [doDisplayErrors]);
+
+  const onBlur = function validateOnBlur({ target }) {
+    if (target.validationMessage) {
+      setErrorMessage(target.validationMessage);
+    } else {
+      setErrorMessage('');
+    }
+    setDisplayErrors(true);
+    updateValue(target.value, target.name);
   };
+
+  if (errorMessage === 'Please match the requested format.') {
+    setErrorMessage(patternMessage);
+  }
+
   return (
     <div className={style.inputGroup}>
       <label className={style.hiddenLabelText} htmlFor={name}>
         {`${label}:`}
       </label>
       <input
+        required={required}
+        pattern={pattern}
         placeholder={label}
-        className={error ? style.inputError : style.input}
+        className={displayErrors ? style.displayError : style.input}
         value={value}
         onChange={({ target }) => {
           setValue(target.value);
@@ -40,7 +59,7 @@ const Input = function CreateInputAndLabel(props) {
         type={type}
         name={name}
       />
-      {error !== '' && <p className={style.errorText}>{error}</p>}
+      {displayErrors && errorMessage !== '' && <p className={style.errorText}>{errorMessage}</p>}
     </div>
   );
 };
@@ -49,12 +68,18 @@ Input.propTypes = {
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   updateValue: PropTypes.func.isRequired,
-  validator: PropTypes.func,
+  required: PropTypes.bool,
+  pattern: PropTypes.string,
   label: PropTypes.string.isRequired,
+  doDisplayErrors: PropTypes.bool,
+  patternMessage: PropTypes.string,
 };
 
 Input.defaultProps = {
-  validator: () => '',
+  required: false,
+  pattern: null,
+  patternMessage: null,
+  doDisplayErrors: false,
 };
 
 export default Input;

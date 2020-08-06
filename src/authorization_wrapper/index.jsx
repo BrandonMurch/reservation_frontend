@@ -8,24 +8,15 @@ import { useTokenContext } from '../contexts/token_context';
 import Loading from '../general_components/loading';
 
 const validateToken = async function verifyTokenWithServer(token, pathname) {
-  // call server with token, page and permission
-  if (pathname === undefined) {
-    return false;
-  }
   const requestedPermission = `VIEW_${pathname
     .slice(1)
     .toUpperCase()
     .replace('-', '_')}`;
-  const body = JSON.stringify({
-    token: `Bearer ${token}`,
-    path: requestedPermission,
-  });
   let response;
   try {
-    response = await fetch('http://localhost:8080/validate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body,
+    response = await fetch(`http://localhost:8080/validate?path=${requestedPermission}`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
     });
   } catch (err) {
     console.error(err);
@@ -45,8 +36,12 @@ const AuthorizationWrapper = function CreateWrapperToAuthorizeToken({ children }
 
   useEffect(() => {
     async function updateIsValidToken() {
-      const result = await validateToken(getToken, pathname);
-      setIsValidToken(getToken && result);
+      if (!getToken || !pathname) {
+        setIsValidToken(false);
+      } else {
+        const result = await validateToken(getToken, pathname);
+        setIsValidToken(result);
+      }
     }
     updateIsValidToken();
   }, [getToken, pathname]);
