@@ -1,15 +1,22 @@
 // Dependencies
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import PropTypes from 'prop-types';
+
+// Components
+import Loading from 'general_components/loading';
 
 // Stylesheets
 import style from './calendar.module.css';
 
 const getValidRange = function getAvailableDatesFromServer(
-  setError, setIsLoaded, setStartDate, setEndDate, setDates,
+  setError,
+  setIsLoaded,
+  setStartDate,
+  setEndDate,
+  setDates,
 ) {
   setIsLoaded(false);
   fetch('http://localhost:8080/restaurant/availability')
@@ -50,11 +57,7 @@ const Calendar = function PopulateUsingFullCalendar(props) {
     getValidRange(setError, setIsLoaded, setStartDate, setEndDate, setDates);
   }, [setError]);
   if (!loaded) {
-    return (
-      <div />
-      // TODO: loading screen.
-      // <div>Loading...</div>
-    );
+    return <Loading />;
   }
 
   return (
