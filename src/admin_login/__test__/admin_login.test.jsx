@@ -6,9 +6,27 @@ import { unmountComponentAtNode } from 'react-dom';
 import { create } from 'react-test-renderer';
 import { act } from 'react-dom/test-utils';
 import { mockFetch, renderWithRouter } from 'test_utils';
+import { TokenContextProvider } from '../../contexts/token_context';
 
 // Components
 import AdminLogin from '../index';
+
+const fillInInput = async function enterTextIntoInput(element) {
+  await fireEvent.focus(element);
+  await fireEvent.change(element, { target: { value: 'String' } });
+  await fireEvent.blur(element);
+};
+
+const fillOutForm = async function fillOutAdminLoginForm(component) {
+  const username = component.getByLabelText(/Username/i);
+  const password = component.getByLabelText(/Password/i);
+  const submit = component.getByRole('button', { name: 'Submit' });
+  await act(async () => {
+    await fillInInput(username);
+    await fillInInput(password);
+    await fireEvent.click(submit);
+  });
+};
 
 describe('<AdminLogin />', () => {
   let component;
@@ -16,6 +34,15 @@ describe('<AdminLogin />', () => {
   let mockSetMessageFunction;
   let fetchSpy;
   let container = null;
+
+  const renderAdminLogin = function boilerplateForRenderingAdminLogin() {
+    return renderWithRouter(
+      <TokenContextProvider>
+        <AdminLogin setError={mockSetErrorFunction} setMessage={mockSetMessageFunction} />
+      </TokenContextProvider>,
+      { route: '/admin-login' },
+    );
+  };
 
   beforeEach(() => {
     container = document.createElement('div');
@@ -35,18 +62,17 @@ describe('<AdminLogin />', () => {
 
   it('should match snapshot', () => {
     const tree = create(
-      <Router>
-        <AdminLogin setError={mockSetErrorFunction} setMessage={mockSetMessageFunction} />
-      </Router>,
+      <TokenContextProvider>
+        <Router>
+          <AdminLogin setError={mockSetErrorFunction} setMessage={mockSetMessageFunction} />
+        </Router>
+      </TokenContextProvider>,
     ).toJSON();
     expect(tree).toMatchSnapshot();
   });
 
   it('should render email and password inputs', () => {
-    component = renderWithRouter(
-      <AdminLogin setError={mockSetErrorFunction} setMessage={mockSetMessageFunction} />,
-      { route: '/admin-login' },
-    );
+    component = renderAdminLogin();
 
     const emailInput = component.getByLabelText(/Username/i);
     expect(emailInput).toBeInTheDocument();
@@ -55,45 +81,32 @@ describe('<AdminLogin />', () => {
   });
 
   it('should render a submit button', () => {
-    component = renderWithRouter(
-      <AdminLogin setError={mockSetErrorFunction} setMessage={mockSetMessageFunction} />,
-      { route: '/admin-login' },
-    );
+    component = renderAdminLogin();
 
     const submitButton = component.getByRole('button', { name: 'Submit' });
     expect(submitButton).toBeInTheDocument();
   });
 
   it('should successfully redirect on login', async () => {
-    fetchSpy = jest.spyOn(global, 'fetch').mockImplementation(() => mockFetch(200));
+    const body = {
+      token: 'this is a token',
+    };
 
-    component = renderWithRouter(
-      <AdminLogin setError={mockSetErrorFunction} setMessage={mockSetMessageFunction} />,
-      { route: '/admin-login' },
-    );
+    fetchSpy = jest.spyOn(global, 'fetch').mockImplementation(() => mockFetch(200, body));
 
-    const submit = component.getByRole('button', { name: 'Submit' });
-    await act(async () => {
-      await fireEvent.click(submit);
-    });
+    component = renderAdminLogin();
+
+    await fillOutForm(component);
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    // TODO: Change this redirect to admin dashboard once created.
-    expect(component.history.location.pathname).toEqual('/success');
+    expect(component.history.location.pathname).toEqual('/admin-dashboard');
   });
 
   it('should set error when server returns an error', async () => {
     fetchSpy = jest.spyOn(global, 'fetch').mockImplementation(() => mockFetch(400));
+    component = renderAdminLogin();
 
-    component = renderWithRouter(
-      <AdminLogin setError={mockSetErrorFunction} setMessage={mockSetMessageFunction} />,
-      { route: '/admin-login' },
-    );
-
-    const submit = component.getByRole('button', { name: 'Submit' });
-    await act(async () => {
-      await fireEvent.click(submit);
-    });
+    await fillOutForm(component);
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
     const errorMessage = component.getByText(/Something went wrong/i);

@@ -4,9 +4,8 @@ import PropTypes from 'prop-types';
 import { enumeration } from 'shared/helpers';
 
 // Components
-import Checkbox from './checkbox';
-import Input from './input';
 import ConfirmPassword from './confirm-password';
+import { TextInput, Checkbox } from './inputs';
 
 // Stylesheets
 import style from './form.module.css';
@@ -14,56 +13,61 @@ import style from './form.module.css';
 const inputFields = enumeration.keyValue(
   { key: 'checkbox', value: Checkbox },
   { key: 'confirmPassword', value: ConfirmPassword },
-  { key: 'default', value: Input },
+  { key: 'default', value: TextInput },
 );
 
-const getInputs = function getListOfInputChildren(inputs, onTextBlur, onCheckboxClick) {
+const touchInputs = function focusAndBlurAllInputChildren(children) {
+  for (let i = 0; i < children.length; i++) {
+    if (children[i].children[1] !== undefined) {
+      if (children[i].children[1].type === 'checkbox') {
+        children[i].children[1].click();
+        children[i].children[1].click();
+      } else {
+        children[i].children[1].focus();
+        children[i].children[1].blur();
+      }
+    }
+  }
+};
+
+const getInputs = function getListOfInputChildren(inputs, onBlur, displayErrors) {
   return inputs.map((input) => {
-    input.updateValue = input.type === 'checkbox' ? onCheckboxClick : onTextBlur;
     const Component = inputFields[input.type] || inputFields.default;
-    return <Component key={input.name} {...input} />;
+    return (
+      <Component key={input.name} updateValue={onBlur} {...input} doDisplayErrors={displayErrors} />
+    );
   });
 };
 
 const Form = function CreateFormWithInputs(props) {
-  const {
-    inputs, onSubmit, onTextBlur, onCheckboxClick, submitLabel,
-  } = props;
+  const { inputs, onSubmit, submitLabel } = props;
 
-  const [errors, setErrors] = useState(new Set());
-  const checkError = function checkForErrorsInForm(value, name, error) {
-    const inErrorsList = errors.has(name);
-    if (error && !inErrorsList) {
-      const newSet = new Set(errors);
-      newSet.add(name);
-      setErrors(newSet);
-    } else if (!error && inErrorsList) {
-      const newSet = new Set(errors);
-      newSet.delete(name);
-      setErrors(newSet);
-    }
-    onTextBlur(value, name);
+  const fields = {};
+  const onBlur = function updateFieldsOnBlur(value, name) {
+    fields[name] = value;
   };
+  const [displayErrors, setDisplayErrors] = useState(false);
+  const [submitButtonText, setSubmitButtonText] = useState(submitLabel);
+
   return (
     <form
       noValidate
       data-testid="form"
       onSubmit={(event) => {
         event.preventDefault();
-        if (errors.size === 0) {
-          onSubmit(event);
+        if (!event.target.checkValidity()) {
+          setDisplayErrors(true);
+          touchInputs(event.target.children);
+        } else {
+          event.target.lastChild.disabled = true;
+          setSubmitButtonText('Submitting...');
+          onSubmit(fields);
         }
       }}
       className={style.container}
     >
-      {getInputs(inputs, checkError, onCheckboxClick)}
-      <input
-        key="submit"
-        className={style.submit}
-        type="submit"
-        value={submitLabel}
-        disabled={errors.size !== 0}
-      />
+      {getInputs(inputs, onBlur, displayErrors)}
+      <input key="submit" className={style.submit} type="submit" value={submitButtonText} />
     </form>
   );
 };
@@ -77,13 +81,7 @@ Form.propTypes = {
     }),
   ).isRequired,
   onSubmit: PropTypes.func.isRequired,
-  onTextBlur: PropTypes.func.isRequired,
-  onCheckboxClick: PropTypes.func,
   submitLabel: PropTypes.string.isRequired,
-};
-
-Form.defaultProps = {
-  onCheckboxClick() {},
 };
 
 export default Form;

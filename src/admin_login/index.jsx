@@ -1,11 +1,12 @@
 // Dependencies
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 
 // Components
 import Form from 'general_components/form';
-import { validatePhone, validateEmail } from 'general_components/form/validators';
 import Banner, { bannerTypes } from 'general_components/banner';
+import Loading from 'general_components/loading';
+import { useTokenContext } from '../contexts/token_context';
 
 // Stylesheets
 import style from './admin_login.module.css';
@@ -15,41 +16,47 @@ const sendLogin = async function sendLoginRequestToServer(
   setError,
   setRedirect,
   setIsLoading,
+  setToken,
 ) {
   setIsLoading(true);
 
   const body = JSON.stringify({
-    login: login.current,
+    username: login.username,
+    password: login.password,
   });
 
+  let response;
   try {
-    const response = await fetch('http://localhost:8080/bookings', {
+    response = await fetch('http://localhost:8080/authenticate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body,
     });
-
-    if (response.status === 200) {
-      setIsLoading(false);
-      // TODO: Change this redirect to admin dashboard once created.
-      setRedirect('/success');
-    } else {
-      let responseBody;
-      try {
-        responseBody = await response.json();
-      } catch (error) {
-        setError('Something went wrong... \n please try again later');
-      }
-
-      if (responseBody.message && responseBody.message !== '') {
-        setError(responseBody.message);
-      } else {
-        setError('Something went wrong... \n please try again later');
-      }
-      setIsLoading(false);
-    }
   } catch (error) {
     setError(error.message);
+    return;
+  }
+
+  let responseBody;
+  try {
+    responseBody = await response.json();
+  } catch (error) {
+    setError('Something went wrong... \n please try again later');
+  }
+
+  if (responseBody) {
+    setIsLoading(false);
+    if (response.status === 200 && responseBody.token) {
+      setToken(responseBody.token);
+      setRedirect('/admin-dashboard');
+      return;
+    }
+    if (responseBody.message) {
+      setError(responseBody.message);
+      return;
+    }
+    setError('Something went wrong... \n please try again later');
+    setIsLoading(false);
   }
 };
 
@@ -57,42 +64,37 @@ const AdminLogin = function RenderAdminLoginScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [redirect, setRedirect] = useState('');
   const [error, setError] = useState('');
-  const login = useRef({
-    email: '',
-    password: '',
-  });
+  const { setToken } = useTokenContext();
   const inputs = [
     {
-      name: 'email',
-      type: 'email',
-      label: 'Email',
-      validator: validateEmail,
+      name: 'username',
+      type: 'text',
+      label: 'Username',
+      required: true,
     },
     {
       name: 'password',
       type: 'password',
       label: 'Password',
-      validator: validatePhone,
+      required: true,
     },
   ];
-  // TODO: add custom loading screen here.
   if (isLoading) {
-    return <div> Loading... </div>;
+    return <Loading />;
   }
+
   return (
     <div className={style.background}>
       {redirect && <Redirect to={redirect} />}
       {error && <Banner type={bannerTypes.ERROR} message={error} />}
       <div className={style.container}>
         <Form
-          inputs={inputs}
-          onSubmit={() => {
-            sendLogin(login, setError, setRedirect, setIsLoading);
-          }}
-          onTextBlur={(value, name) => {
-            login.current[name] = value;
-          }}
           submitLabel="Login"
+          inputs={inputs}
+          onSubmit={(fields) => {
+            sendLogin(fields, setError, setRedirect, setIsLoading, setToken);
+            // }
+          }}
         />
       </div>
     </div>

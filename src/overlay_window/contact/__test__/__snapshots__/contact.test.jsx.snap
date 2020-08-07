@@ -47,7 +47,9 @@ exports[`<ContactForm /> should match snapshot 1`] = `
         name="firstName"
         onBlur={[Function]}
         onChange={[Function]}
+        pattern={null}
         placeholder="First Name"
+        required={true}
         type="text"
         value=""
       />
@@ -67,7 +69,9 @@ exports[`<ContactForm /> should match snapshot 1`] = `
         name="lastName"
         onBlur={[Function]}
         onChange={[Function]}
+        pattern={null}
         placeholder="Last Name"
+        required={true}
         type="text"
         value=""
       />
@@ -87,7 +91,9 @@ exports[`<ContactForm /> should match snapshot 1`] = `
         name="email"
         onBlur={[Function]}
         onChange={[Function]}
+        pattern="^[\\\\w\\\\-_.+]*[\\\\w\\\\-_.]@([\\\\w]+\\\\.)+[\\\\w]+[\\\\w]$"
         placeholder="Email"
+        required={true}
         type="email"
         value=""
       />
@@ -107,7 +113,9 @@ exports[`<ContactForm /> should match snapshot 1`] = `
         name="phoneNumber"
         onBlur={[Function]}
         onChange={[Function]}
+        pattern="^\\\\+\\\\d{1,3} \\\\d{6,14}$"
         placeholder="Phone Number"
+        required={true}
         type="tel"
         value=""
       />
@@ -125,13 +133,13 @@ exports[`<ContactForm /> should match snapshot 1`] = `
         id="tAC"
         name="tAC"
         onClick={[Function]}
+        required={true}
         type="checkbox"
         value={false}
       />
     </div>
     <input
       className="submit"
-      disabled={false}
       type="submit"
       value="Next"
     />
