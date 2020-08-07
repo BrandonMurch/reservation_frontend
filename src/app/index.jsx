@@ -26,7 +26,7 @@ function App() {
       <Switch className={style.app}>
         <Route path="/admin-login" component={AdminLogin} />
         <Route
-          path="/admin-dashboard"
+          path="/admin"
           render={() => (
             <AuthorizationWrapper>
               <AdminDashboard />
