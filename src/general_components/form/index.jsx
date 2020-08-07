@@ -4,9 +4,8 @@ import PropTypes from 'prop-types';
 import { enumeration } from 'shared/helpers';
 
 // Components
-import Checkbox from './checkbox';
-import Input from './input';
 import ConfirmPassword from './confirm-password';
+import { TextInput, Checkbox } from './test_parent';
 
 // Stylesheets
 import style from './form.module.css';
@@ -14,8 +13,22 @@ import style from './form.module.css';
 const inputFields = enumeration.keyValue(
   { key: 'checkbox', value: Checkbox },
   { key: 'confirmPassword', value: ConfirmPassword },
-  { key: 'default', value: Input },
+  { key: 'default', value: TextInput },
 );
+
+const touchInputs = function focusAndBlurAllInputChildren(children) {
+  for (let i = 0; i < children.length; i++) {
+    if (children[i].children[1] !== undefined) {
+      if (children[i].children[1].type === 'checkbox') {
+        children[i].children[1].click();
+        children[i].children[1].click();
+      } else {
+        children[i].children[1].focus();
+        children[i].children[1].blur();
+      }
+    }
+  }
+};
 
 const getInputs = function getListOfInputChildren(inputs, onBlur, displayErrors) {
   return inputs.map((input) => {
@@ -44,6 +57,7 @@ const Form = function CreateFormWithInputs(props) {
         event.preventDefault();
         if (!event.target.checkValidity()) {
           setDisplayErrors(true);
+          touchInputs(event.target.children);
         } else {
           event.target.lastChild.disabled = true;
           setSubmitButtonText('Submitting...');
