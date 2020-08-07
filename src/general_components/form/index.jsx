@@ -5,7 +5,7 @@ import { enumeration } from 'shared/helpers';
 
 // Components
 import ConfirmPassword from './confirm-password';
-import { TextInput, Checkbox } from './test_parent';
+import { TextInput, Checkbox } from './inputs';
 
 // Stylesheets
 import style from './form.module.css';
