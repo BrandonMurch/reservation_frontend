@@ -42,14 +42,14 @@ exports[`<AdminLogin /> should match snapshot 1`] = `
       >
         <label
           className="hiddenLabelText"
-          htmlFor="password"
+          htmlFor="Password"
         >
           Password:
         </label>
         <input
           className="input"
-          id="password"
-          name="password"
+          id="Password"
+          name="Password"
           onBlur={[Function]}
           onChange={[Function]}
           pattern={null}
