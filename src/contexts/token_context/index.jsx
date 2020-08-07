@@ -7,7 +7,6 @@ const TokenContextProvider = function BoilerPlateForTokenContextProvider({
   defaultValue,
   children,
 }) {
-  // const [token, setToken] = useState(defaultValue);
   const token = useRef(defaultValue);
 
   const tokenObject = {
@@ -18,13 +17,6 @@ const TokenContextProvider = function BoilerPlateForTokenContextProvider({
       return token.current;
     },
   };
-  // const setToken = (newToken) => {
-  //   token.current = newToken;
-  // };
-  //
-  // function getToken() {
-  //   return token.current;
-  // }
 
   return <TokenContext.Provider value={tokenObject}>{children}</TokenContext.Provider>;
 };
