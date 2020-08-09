@@ -1,3 +1,10 @@
 .container {
     composes: column from '../calendar.module.css';
 }
+
+.button {
+    width: 100%;
+    background-color: unset;
+    border: 0;
+    cursor: pointer;
+}
