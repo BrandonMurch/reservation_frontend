@@ -105,12 +105,16 @@ exports[`<Form /> should match snapshot 1`] = `
       Yes, I agree to the terms and conditions:
     </label>
     <input
+      className=""
       id="tAC"
       name="tAC"
-      onClick={[Function]}
+      onBlur={[Function]}
+      onChange={[Function]}
+      pattern={null}
+      placeholder="Yes, I agree to the terms and conditions"
       required={true}
       type="checkbox"
-      value={false}
+      value=""
     />
   </div>
   <input
