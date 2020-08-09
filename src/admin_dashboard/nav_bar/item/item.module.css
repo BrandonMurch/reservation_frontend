@@ -1,0 +1,18 @@
+.container {
+    height: 100%;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.container:hover {
+    background-color: rgb(80, 80, 80);
+}
+
+.text {
+    composes: centerVertically from '../../../css/helpers.module.css';
+    display: inline-block;
+    margin: 0 2rem;
+    height: 1rem;
+    text-decoration: none;
+    color: white;
+}
