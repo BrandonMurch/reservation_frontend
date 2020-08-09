@@ -1,20 +1,75 @@
+// Modified from https://programmingwithmosh.com/react/build-a-react-calendar-component-from-scratch/
+
 // Dependencies
-import React, { useState, useReducer } from 'react';
+import React, { useReducer } from 'react';
 // import PropTypes from 'prop-types';
 import moment from 'moment';
 
 // Components
 import Header from './header';
+import Box from './calendar_box';
 
 // Stylesheets
 import style from './calendar.module.css';
 
 const ColumnHeaders = function GetTitlesForDaysOfWeek() {
-  return moment.weekdaysShort().map((day) => (
-    <th key={day} className="dayTitles">
+  const dayTitles = moment.weekdaysShort().map((day) => (
+    <th key={day} className={style.column}>
       {day}
     </th>
   ));
+
+  return (
+    <tr>
+      {dayTitles}
+    </tr>
+  );
+};
+
+const getBlanks = function blankSquares(number, numberForStartingKey = 0) {
+  const blanks = [];
+  for (let i = 0; i < number; i++) {
+    blanks.push(
+      <Box key={numberForStartingKey + i} style={style.emptyDay} />,
+    );
+  }
+  return blanks;
+};
+
+// TODO: Callback to modify these squares from outside.
+//
+const getDays = function daySquares(dateObject, blanks = 0) {
+  const days = [];
+  for (let i = 0; i < dateObject.daysInMonth(); i++) {
+    days.push(
+      <Box key={blanks + i} date={i + 1} style={style.day} />,
+    );
+  }
+  return days;
+};
+
+const Body = function CalendarBody({ dateObject }) {
+  const blanksBefore = moment(dateObject).startOf('month').format('d');
+  const days = [...getBlanks(blanksBefore), ...getDays(dateObject, blanksBefore)];
+  const rows = [];
+  let cells = [];
+
+  days.forEach((day, i) => {
+    if (i % 7 === 0) {
+      rows.push(cells);
+      cells = [];
+    }
+    cells.push(day);
+
+    if (i === days.length - 1) {
+      getBlanks(7 % i - cells.length, days.length).forEach((blank) => {
+        cells.push(blank);
+      });
+      rows.push(cells);
+    }
+  });
+
+  return rows.map((row) => <tr>{row}</tr>);
 };
 
 const Cal = function Calendar() {
@@ -42,13 +97,13 @@ const Cal = function Calendar() {
         prev={() => { dispatchDate('prev'); }}
         next={() => { dispatchDate('next'); }}
       />
-      <table>
+      <table className={style.table}>
+        <thead>
+          <ColumnHeaders />
+        </thead>
         <tbody>
-          <tr>
-            <ColumnHeaders />
-          </tr>
+          <Body dateObject={dateObject} />
         </tbody>
-
       </table>
     </div>
   );
