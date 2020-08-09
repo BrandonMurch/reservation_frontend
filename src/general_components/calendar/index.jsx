@@ -41,16 +41,15 @@ const getBlanks = function blankSquares(number, numberForStartingKey = 0) {
 const getDays = function daySquares(dateObject, blanks = 0) {
   const days = [];
   for (let i = 0; i < dateObject.daysInMonth(); i++) {
-    days.push(
-      <Box key={blanks + i} date={i + 1} style={style.day} />,
-    );
+    days.push(<Box key={blanks + i} date={i + 1} dateObject={dateObject} style={style.day} />);
   }
   return days;
 };
 
 const Body = function CalendarBody({ dateObject }) {
-  const blanksBefore = moment(dateObject).startOf('month').format('d');
-  const days = [...getBlanks(blanksBefore), ...getDays(dateObject, blanksBefore)];
+  const startOfMonth = moment(dateObject).startOf('month');
+  const blanksBefore = startOfMonth.format('d');
+  const days = [...getBlanks(blanksBefore), ...getDays(startOfMonth, blanksBefore)];
   const rows = [];
   let cells = [];
 
@@ -62,7 +61,7 @@ const Body = function CalendarBody({ dateObject }) {
     cells.push(day);
 
     if (i === days.length - 1) {
-      getBlanks(7 % i - cells.length, days.length).forEach((blank) => {
+      getBlanks((7 % i) - cells.length, days.length).forEach((blank) => {
         cells.push(blank);
       });
       rows.push(cells);
