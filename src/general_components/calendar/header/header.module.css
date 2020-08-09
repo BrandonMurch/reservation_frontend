@@ -1,0 +1,13 @@
+.container {
+    width: 100vw;
+    height: 10vh;
+    background-color: springgreen;
+}
+
+.monthText {
+    float: left;
+}
+
+.buttonContainer {
+    float: right;
+}
