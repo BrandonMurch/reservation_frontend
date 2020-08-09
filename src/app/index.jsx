@@ -6,7 +6,7 @@ import { Link, Switch, Route } from 'react-router-dom';
 import OverlayWindow from '../overlay_window';
 import AdminLogin from '../admin_login';
 import AdminDashboard from '../admin_dashboard';
-import AuthorizationWrapper from '../authorization_wrapper';
+// import AuthorizationWrapper from '../authorization_wrapper';
 import { TokenContextProvider } from '../contexts/token_context';
 
 // CSS
@@ -28,9 +28,10 @@ function App() {
         <Route
           path="/admin"
           render={() => (
-            <AuthorizationWrapper>
-              <AdminDashboard />
-            </AuthorizationWrapper>
+            // TODO: Temporarily disabled route protection, re-enable after development
+            // <AuthorizationWrapper>
+            <AdminDashboard />
+            // </AuthorizationWrapper>
           )}
         />
         <Route
