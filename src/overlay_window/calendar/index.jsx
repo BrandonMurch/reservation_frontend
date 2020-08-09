@@ -42,9 +42,6 @@ const dayRenderHook = function disableCertainDaysFromList({ date, el }, dates) {
     el.className += ' fc-day-disabled';
     el.disabled = true;
   }
-  // else {
-  //   el.setAttribute('data-testid', 'clickableDate');
-  // }
 };
 
 const Calendar = function PopulateUsingFullCalendar(props) {
