@@ -1,6 +1,6 @@
 .container {
   position: absolute;
-  height: 4rem;
+  height: 6vh;
   width: 100vw;
   background-color: grey;
   display: inline-block;
