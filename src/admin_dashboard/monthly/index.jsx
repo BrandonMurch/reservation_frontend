@@ -7,13 +7,13 @@ import interactionPlugin from '@fullcalendar/interaction';
 
 // Stylesheet
 import { Redirect } from 'react-router-dom';
+import Calendar from 'general_components/calendar';
 import style from './monthly.module.css';
 import Box from './calendar_box';
 
-const Monthly = () =>
-// const [redirect, setRedirect] = useState('');
-
-  (
-    <div>Monthly placeholder</div>
-  );
+const Monthly = () => (
+  <div className={style.container}>
+    <Calendar />
+  </div>
+);
 export default Monthly;
