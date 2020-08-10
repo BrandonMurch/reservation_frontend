@@ -15,8 +15,10 @@ const Box = ({ date, message, dateObject }) => {
     </>
   );
 
+  const containerStyle = date ? style.activeContainer : style.container;
+
   return (
-    <td className={style.container}>
+    <td className={containerStyle}>
       {date !== null
         ? (
           <button className={style.button} type="button" onClick={click} onKeyUp={click}>
