@@ -1,16 +1,37 @@
+@value colors: "../../../css/colors.module.css";
+@value primary, dark, light, accent from colors;
+
+
 .container {
     width: 100vw;
     height: 10vh;
-    background-color: rgb(80, 80, 80);
+    background-color: primary;
 }
 
 .monthText {
     composes: text from '../../../css/project_globals.module.css';
+    color: dark;
     float: left;
     margin: 1.5rem 2rem;
 }
 
 .buttonContainer {
     float: right;
-    margin: 2rem 2rem;
+    margin: 1.5rem 2rem;
+}
+
+.button {
+    composes: text from '../../../css/project_globals.module.css';
+    padding: 0 0.5rem;
+    background-color: transparent;
+    font-weight: 900;
+    font-size: 2rem;
+    color: dark;
+    border: 0;
+    margin: 0 0.5rem;
+    cursor: pointer;
+}
+
+.button:hover {
+        color: light;
 }

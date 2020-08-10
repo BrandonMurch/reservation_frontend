@@ -1,18 +1,28 @@
+@value colors: "../../../css/colors.module.css";
+@value primary, dark, light, accent from colors;
+
+
 .container {
     height: 100%;
     display: inline-block;
     cursor: pointer;
 }
 
-.container:hover {
-    background-color: rgb(80, 80, 80);
-}
+/* .container:hover {
+    background-color: accent;
+} */
+
 
 .text {
     composes: centerVertically from '../../../css/helpers.module.css';
     display: inline-block;
-    margin: 0 2rem;
+    padding: 1rem;
     height: 1rem;
     text-decoration: none;
-    color: white;
+    color: light;
+}
+
+.text:hover {
+    background-color: accent;
+    color: dark;
 }
