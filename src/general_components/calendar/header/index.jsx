@@ -12,8 +12,12 @@ const Header = function CalendarMonthAndButtons({ month, prev, next }) {
         <h1 className={style.monthText}>{month}</h1>
       </div>
       <div className={style.buttonContainer}>
-        <button className={style.button} type="button" onClick={prev}>{'<'}</button>
-        <button className={style.button} type="button" onClick={next}>{'>'}</button>
+        <button className={style.button} type="button" onClick={prev}>
+          {'<'}
+        </button>
+        <button className={style.button} type="button" onClick={next}>
+          {'>'}
+        </button>
       </div>
     </div>
   );
