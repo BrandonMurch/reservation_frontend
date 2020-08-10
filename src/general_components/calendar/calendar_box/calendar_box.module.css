@@ -8,6 +8,10 @@
     margin: -50px;
 }
 
+.activeContainer {
+    composes: container;
+}
+
 .button {
     height: 100%;
     width: 100%;
@@ -17,11 +21,11 @@
     color: dark;
 }
 
-.container:hover {
+.activeContainer:hover {
     background-color: primary;
 }
 
-.container:active {
+.activeContainer:active {
     background-color: dark;
     color: light;
 
