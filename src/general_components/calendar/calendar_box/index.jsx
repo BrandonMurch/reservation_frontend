@@ -8,12 +8,23 @@ import style from './calendar_box.module.css';
 const Box = ({ date, message, dateObject }) => {
   const click = function onClick() { console.log(dateObject.set('date', date).format('YYYY-MM-DD')); };
 
+  const text = (
+    <>
+      <h1 className={style.dateText}>{date}</h1>
+      <h1 className={style.messageText}>{message}</h1>
+    </>
+  );
+
   return (
     <td className={style.container}>
-      <button className={style.button} type="button" onClick={click} onKeyUp={click}>
-        <h1 className={style.dateText}>{date}</h1>
-        <h1 className={style.messageText}>{message}</h1>
-      </button>
+      {date !== null
+        ? (
+          <button className={style.button} type="button" onClick={click} onKeyUp={click}>
+            {text}
+          </button>
+        )
+        : text}
+
     </td>
   );
 };
