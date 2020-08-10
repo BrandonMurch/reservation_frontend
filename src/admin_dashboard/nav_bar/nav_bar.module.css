@@ -1,7 +1,12 @@
+@value colors: "../../css/colors.module.css";
+@value primary, dark, light, accent from colors;
+
 .container {
   position: absolute;
   height: 6vh;
   width: 100vw;
-  background-color: grey;
+  background-color: dark;
   display: inline-block;
+  border-bottom: 5px solid accent;
+  z-index: 100;
 }
