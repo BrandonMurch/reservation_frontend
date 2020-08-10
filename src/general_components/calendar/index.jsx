@@ -81,6 +81,8 @@ const Cal = function Calendar() {
         return { dateObject: state.dateObject.subtract(1, 'months') };
       case 'next':
         return { dateObject: state.dateObject.add(1, 'months') };
+      case 'current':
+        return { dateObject: moment() };
       default: throw new Error('No such action exists.');
     }
   });
@@ -93,8 +95,10 @@ const Cal = function Calendar() {
     <div className={style.container}>
       <Header
         month={monthYear}
-        prev={() => { dispatchDate('prev'); }}
-        next={() => { dispatchDate('next'); }}
+        prev={() => dispatchDate('prev')}
+        next={() => dispatchDate('next')}
+        isThisMonth={dateObject.month() === moment().month()}
+        goToCurrentMonth={() => dispatchDate('current')}
       />
       <table className={style.table}>
         <thead>
