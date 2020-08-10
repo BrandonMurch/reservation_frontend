@@ -1,13 +1,16 @@
 .container {
     width: 100vw;
     height: 10vh;
-    background-color: springgreen;
+    background-color: rgb(80, 80, 80);
 }
 
 .monthText {
+    composes: text from '../../../css/project_globals.module.css';
     float: left;
+    margin: 1.5rem 2rem;
 }
 
 .buttonContainer {
     float: right;
+    margin: 2rem 2rem;
 }
