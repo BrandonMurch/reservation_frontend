@@ -68,7 +68,7 @@ const Body = function CalendarBody({ dateObject }) {
     }
   });
 
-  return rows.map((row) => <tr>{row}</tr>);
+  return rows.map((row, i) => <tr key={i}>{row}</tr>);
 };
 
 const Cal = function Calendar() {
@@ -97,7 +97,7 @@ const Cal = function Calendar() {
         month={monthYear}
         prev={() => dispatchDate('prev')}
         next={() => dispatchDate('next')}
-        isThisMonth={dateObject.month() === moment().month()}
+        isThisMonth={dateObject.startOf('month').isSame(moment().startOf('month'))}
         goToCurrentMonth={() => dispatchDate('current')}
       />
       <table className={style.table}>
