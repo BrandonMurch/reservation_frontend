@@ -38,10 +38,15 @@ const getBlanks = function blankSquares(number, numberForStartingKey = 0) {
 
 // TODO: Callback to modify these squares from outside.
 //
-const getDays = function daySquares(dateObject, blanks = 0) {
+const getDays = function daySquares(dateObject) {
+  const currentMonth = dateObject.month();
   const days = [];
-  for (let i = 0; i < dateObject.daysInMonth(); i++) {
-    days.push(<Box key={blanks + i} date={i + 1} dateObject={dateObject} style={style.day} />);
+  while (dateObject.month() === currentMonth) {
+    const date = dateObject.format('YYYY-MM-DD');
+    days.push(
+      <Box key={dateObject} date={date} />,
+    );
+    dateObject.add(1, 'days');
   }
   return days;
 };
@@ -49,7 +54,7 @@ const getDays = function daySquares(dateObject, blanks = 0) {
 const Body = function CalendarBody({ dateObject }) {
   const startOfMonth = moment(dateObject).startOf('month');
   const blanksBefore = startOfMonth.format('d');
-  const days = [...getBlanks(blanksBefore), ...getDays(startOfMonth, blanksBefore)];
+  const days = [...getBlanks(blanksBefore), ...getDays(startOfMonth)];
   const rows = [];
   let cells = [];
 
@@ -68,10 +73,12 @@ const Body = function CalendarBody({ dateObject }) {
     }
   });
 
+  // There is not alternative key for this.
+  // eslint-disable-next-line react/no-array-index-key
   return rows.map((row, i) => <tr key={i}>{row}</tr>);
 };
 
-const Cal = function Calendar() {
+const Calendar = function Calendar() {
   const initialDateObject = {
     dateObject: moment(),
   };
@@ -100,7 +107,7 @@ const Cal = function Calendar() {
         isThisMonth={dateObject.startOf('month').isSame(moment().startOf('month'))}
         goToCurrentMonth={() => dispatchDate('current')}
       />
-      <table className={style.table}>
+      <table className={style.table} role="grid">
         <thead>
           <ColumnHeaders />
         </thead>
@@ -112,4 +119,4 @@ const Cal = function Calendar() {
   );
 };
 
-export default Cal;
+export default Calendar;
