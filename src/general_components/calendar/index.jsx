@@ -26,7 +26,7 @@ const ColumnHeaders = function GetTitlesForDaysOfWeek() {
   );
 };
 
-const getBlanks = function blankSquares(number, numberForStartingKey = 0) {
+const getBlanks = function getBlanksToAlignCalendarCorrectly(number, numberForStartingKey = 0) {
   const blanks = [];
   for (let i = 0; i < number; i++) {
     blanks.push(
@@ -38,7 +38,7 @@ const getBlanks = function blankSquares(number, numberForStartingKey = 0) {
 
 // TODO: Callback to modify these squares from outside.
 //
-const getDays = function daySquares(dateObject) {
+const getDays = function getCalendarBoxesForEachDay(dateObject) {
   const currentMonth = dateObject.month();
   const days = [];
   while (dateObject.month() === currentMonth) {
@@ -51,10 +51,10 @@ const getDays = function daySquares(dateObject) {
   return days;
 };
 
-const Body = function CalendarBody({ dateObject }) {
+const CalendarRows = function PopulateCalendarRowsWithCalendarBoxes({ dateObject }) {
   const startOfMonth = moment(dateObject).startOf('month');
-  const blanksBefore = startOfMonth.format('d');
-  const days = [...getBlanks(blanksBefore), ...getDays(startOfMonth)];
+  const numberOfBlanksNeeded = startOfMonth.format('d');
+  const days = [...getBlanks(numberOfBlanksNeeded), ...getDays(startOfMonth)];
   const rows = [];
   let cells = [];
 
@@ -112,7 +112,7 @@ const Calendar = function Calendar() {
           <ColumnHeaders />
         </thead>
         <tbody>
-          <Body dateObject={dateObject} />
+          <CalendarRows dateObject={dateObject} />
         </tbody>
       </table>
     </div>
