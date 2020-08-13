@@ -59,9 +59,7 @@ const Calendar = function Calendar({ onDateRender }) {
         <thead>
           <ColumnHeaders />
         </thead>
-        <tbody>
-          <CalendarRows dateObject={dateObject} onDateRender={onDateRender} />
-        </tbody>
+        <CalendarRows dateObject={dateObject} onDateRender={onDateRender} />
       </table>
     </div>
   );
