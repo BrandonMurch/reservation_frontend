@@ -1,8 +1,8 @@
-@value colors: "../../../css/colors.module.css";
+@value colors: "../../../../css/colors.module.css";
 @value primary, dark, light, accent from colors;
 
 .container {
-    composes: column from '../calendar.module.css';
+    composes: column from '../../calendar.module.css';
     background-color: light;
     border: 3px solid dark;
     margin: -50px;
@@ -50,4 +50,8 @@
 
 .hiddenLabelText {
     display: none;
+}
+
+.messageText {
+    text-align: center;
 }

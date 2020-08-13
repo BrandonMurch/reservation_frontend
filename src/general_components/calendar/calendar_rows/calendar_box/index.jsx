@@ -33,8 +33,8 @@ const Box = ({
       {date !== ''
         && (
           <>
-            <h1 className={style.dateText}>{dateNumber}</h1>
-            <h1 className={style.messageText}>{message}</h1>
+            <p className={style.dateText}>{dateNumber}</p>
+            <p className={style.messageText}>{message}</p>
           </>
         )}
     </td>
