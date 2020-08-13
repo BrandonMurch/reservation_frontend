@@ -2,12 +2,12 @@
 
 // Dependencies
 import React, { useReducer } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 
 // Components
 import Header from './header';
-import Box from './calendar_box';
+import CalendarRows from './calendar_rows';
 
 // Stylesheets
 import style from './calendar.module.css';
@@ -26,59 +26,7 @@ const ColumnHeaders = function GetTitlesForDaysOfWeek() {
   );
 };
 
-const getBlanks = function getBlanksToAlignCalendarCorrectly(number, numberForStartingKey = 0) {
-  const blanks = [];
-  for (let i = 0; i < number; i++) {
-    blanks.push(
-      <Box key={numberForStartingKey + i} style={style.emptyDay} />,
-    );
-  }
-  return blanks;
-};
-
-// TODO: Callback to modify these squares from outside.
-//
-const getDays = function getCalendarBoxesForEachDay(dateObject) {
-  const currentMonth = dateObject.month();
-  const days = [];
-  while (dateObject.month() === currentMonth) {
-    const date = dateObject.format('YYYY-MM-DD');
-    days.push(
-      <Box key={dateObject} date={date} />,
-    );
-    dateObject.add(1, 'days');
-  }
-  return days;
-};
-
-const CalendarRows = function PopulateCalendarRowsWithCalendarBoxes({ dateObject }) {
-  const startOfMonth = moment(dateObject).startOf('month');
-  const numberOfBlanksNeeded = startOfMonth.format('d');
-  const days = [...getBlanks(numberOfBlanksNeeded), ...getDays(startOfMonth)];
-  const rows = [];
-  let cells = [];
-
-  days.forEach((day, i) => {
-    if (i % 7 === 0) {
-      rows.push(cells);
-      cells = [];
-    }
-    cells.push(day);
-
-    if (i === days.length - 1) {
-      getBlanks((7 % i) - cells.length, days.length).forEach((blank) => {
-        cells.push(blank);
-      });
-      rows.push(cells);
-    }
-  });
-
-  // There is not alternative key for this.
-  // eslint-disable-next-line react/no-array-index-key
-  return rows.map((row, i) => <tr key={i}>{row}</tr>);
-};
-
-const Calendar = function Calendar() {
+const Calendar = function Calendar({ onDateRender }) {
   const initialDateObject = {
     dateObject: moment(),
   };
@@ -112,11 +60,19 @@ const Calendar = function Calendar() {
           <ColumnHeaders />
         </thead>
         <tbody>
-          <CalendarRows dateObject={dateObject} />
+          <CalendarRows dateObject={dateObject} onDateRender={onDateRender} />
         </tbody>
       </table>
     </div>
   );
+};
+
+Calendar.propTypes = {
+  onDateRender: PropTypes.func,
+};
+
+Calendar.defaultProps = {
+  onDateRender: () => {},
 };
 
 export default Calendar;
