@@ -7,8 +7,7 @@ import PropTypes from 'prop-types';
 import Box from './calendar_box';
 
 // Stylesheets
-// import style from './calendar_rows.module.css';
-//
+import style from './calendar_rows.module.css';
 
 const getBlanks = function getBlanksToAlignCalendarCorrectly(number, numberForStartingKey = 0) {
   const blanks = [];
@@ -63,9 +62,15 @@ const CalendarRows = function PopulateCalendarRowsWithCalendarBoxes({ dateObject
       rows.push(cells);
     }
   });
-  // There is no suitable key for these rows.
-  // eslint-disable-next-line react/no-array-index-key
-  return rows.map((row, i) => <tr key={i}>{row}</tr>);
+  return (
+    <tbody className={style.calendarBody}>
+      {
+      // There is no suitable key for these rows.
+      // eslint-disable-next-line react/no-array-index-key
+      rows.map((row, i) => <tr key={i}>{row}</tr>)
+      }
+    </tbody>
+  );
 };
 
 CalendarRows.propTypes = {

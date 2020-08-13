@@ -1,0 +1,4 @@
+.calendarBody {
+    /* Fixes a bug where the head seems to be too large... */
+    height: 100%;
+}
