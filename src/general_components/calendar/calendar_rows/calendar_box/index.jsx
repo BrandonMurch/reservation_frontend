@@ -7,15 +7,8 @@ import moment from 'moment';
 import style from './calendar_box.module.css';
 
 const Box = ({
-  message, date,
+  message, date, onClick,
 }) => {
-  const click = function onClick() {
-    if (date) {
-      // eslint-disable-next-line no-console
-      console.log(date);
-    }
-  };
-
   const today = moment().startOf('date').format('YYYY-MM-DD');
   let containerStyle;
   if (date === '') {
@@ -29,14 +22,9 @@ const Box = ({
   const dateNumber = date.substr(8).replace(/^0/, '');
 
   return (
-    <td className={containerStyle} role="gridcell" onClick={click} onKeyUp={click}>
-      {date !== ''
-        && (
-          <>
-            <p className={style.dateText}>{dateNumber}</p>
-            <p className={style.messageText}>{message}</p>
-          </>
-        )}
+    <td className={containerStyle} role="gridcell" onClick={() => onClick(date)} onKeyUp={() => onClick(date)}>
+      <p className={style.dateText}>{dateNumber}</p>
+      <p className={style.messageText}>{message}</p>
     </td>
   );
 };
@@ -44,11 +32,13 @@ const Box = ({
 Box.propTypes = {
   message: PropTypes.string,
   date: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 Box.defaultProps = {
   message: null,
   date: '',
+  onClick: () => {},
 };
 
 export default Box;
