@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Header /> should match snapshot 1`] = `
+<div
+  className="container"
+>
+  <div>
+    <h1
+      className="monthText"
+    >
+      August 2020
+    </h1>
+  </div>
+  <div
+    className="buttonContainer"
+  >
+    <button
+      className="button"
+      onClick={[MockFunction]}
+      type="button"
+    >
+      Today
+    </button>
+    <button
+      className="button"
+      onClick={[MockFunction]}
+      type="button"
+    >
+      &lt;
+    </button>
+    <button
+      className="button"
+      onClick={[MockFunction]}
+      type="button"
+    >
+      &gt;
+    </button>
+  </div>
+</div>
+`;
