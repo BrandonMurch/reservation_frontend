@@ -5,7 +5,6 @@ import { render, fireEvent } from '@testing-library/react';
 import { create } from 'react-test-renderer';
 
 // Components
-import Item from 'admin_dashboard/nav_bar/item';
 import CalendarBox from '../index';
 
 describe('<CalendarBox />', () => {
