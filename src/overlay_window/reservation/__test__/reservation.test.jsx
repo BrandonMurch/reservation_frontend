@@ -85,6 +85,7 @@ describe('<Reservation />', () => {
     const submit = component.getByRole('button', { name: 'Submit' });
     expect(submit).toBeDisabled();
   });
+
   it('should disable submit if no time is chosen', async () => {
     await act(async () => {
       await selectTime(component);
