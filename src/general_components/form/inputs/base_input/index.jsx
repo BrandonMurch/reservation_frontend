@@ -41,6 +41,14 @@ const Input = function CreateInputAndLabel(props) {
         id={name}
         type={type}
         name={name}
+        onKeyDown={((event) => {
+          // Fixes where enter is clicked on last input, and the field isn't updated.
+          if (event.keyCode === 13) {
+            event.preventDefault();
+            event.target.blur();
+            event.target.parentElement.parentElement.requestSubmit();
+          }
+        })}
         onBlur={({ target }) => {
           setErrorMessage(target.validationMessage);
           updateValue(target.value, target.name);
