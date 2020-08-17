@@ -3,13 +3,14 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // Components
+import fetchWrapper from 'shared/fetch';
 import TimeSelect from './select/time';
 import PartySizeSelect from './select/party_size';
 
 // CSS
 import style from './reservation.module.css';
 
-const getAvailableTimes = function getAvailableTimesFromServer(
+const getAvailableTimes = async function getAvailableTimesFromServer(
   date, partySize, setIsLoaded, setError, setAvailableTimes,
 ) {
   if (partySize === 0 || date == null) {
@@ -17,17 +18,21 @@ const getAvailableTimes = function getAvailableTimesFromServer(
   }
 
   setIsLoaded(false);
-  fetch(`http://localhost:8080/restaurant/availability/?date=${date}&size=${partySize}`)
-    .then((res) => res.json())
-    .then(
-      (result) => {
+  const urlPath = `/restaurant/availability/?date=${date}&size=${partySize}`;
+  fetchWrapper(urlPath, 'get')
+    .then((result) => {
+      if (result.length === 0) {
+        setError('There are no available times for the party size you have selected');
+      } else {
+        setError(undefined);
         setAvailableTimes(result);
-        setIsLoaded(true);
-      },
-      (error) => {
-        setError(error);
-      },
-    );
+      }
+      setIsLoaded(true);
+    },
+    (error) => {
+      setIsLoaded(true);
+      setError(error.message);
+    });
 };
 
 const ReservationForm = function CreateAReservationForm(props) {

@@ -24,6 +24,7 @@ const mockCalendarFetch = function mockFetchResponseFromServer() {
   };
   const mockJsonPromise = Promise.resolve(mockSuccessResponse);
   return Promise.resolve({
+    status: 200,
     json: () => mockJsonPromise,
   });
 };
@@ -132,7 +133,7 @@ describe('<OverlayWindow />', () => {
     });
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    const errorText = component.getByText('Error!');
+    const errorText = component.getByText(/Something went wrong/i);
     expect(errorText).toBeInTheDocument();
   });
 

@@ -21,6 +21,7 @@ const mockFetch = function mockFetchResponseFromServer() {
   };
   const mockJsonPromise = Promise.resolve(mockSuccessResponse);
   return Promise.resolve({
+    status: 200,
     json: () => mockJsonPromise,
   });
 };
