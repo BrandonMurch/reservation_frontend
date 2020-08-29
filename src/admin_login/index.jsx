@@ -34,7 +34,6 @@ const AdminLogin = function RenderAdminLoginScreen() {
   if (isLoading) {
     return <Loading />;
   }
-
   return (
     <div className={style.background}>
       {redirect && <Redirect to={redirect} />}

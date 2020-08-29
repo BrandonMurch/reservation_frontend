@@ -8,9 +8,7 @@ import style from './banner.module.css';
 
 export const bannerTypes = enumeration.singleValue('SUCCESS', 'ERROR', 'STANDARD');
 
-const Banner = function InformationBannerTopOfPage(props) {
-  const { type, message } = props;
-
+const Banner = function InformationBannerTopOfPage({ type, message }) {
   return (
     <div className={style[type.value]} role="banner">
       <p>{message}</p>

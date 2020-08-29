@@ -116,7 +116,7 @@ const Login = function CreateLoginForm(props) {
   ];
 
   const onSubmit = function GetUserFromServer() {
-    // TODO pass back user that is received from server
+    // TODO: pass back user that is received from server
     // Stub for testing purposes
     const user = {
       firstName: 'John',

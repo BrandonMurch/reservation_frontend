@@ -28,7 +28,7 @@ function App() {
         <Route
           path="/admin"
           render={() => (
-            // TODO: Temporarily disabled route protection, re-enable after development
+            // NOTE: Temporarily disabled route protection, re-enable after development
             // <AuthorizationWrapper>
             <AdminDashboard />
             // </AuthorizationWrapper>

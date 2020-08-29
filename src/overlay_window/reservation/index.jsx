@@ -39,17 +39,10 @@ const ReservationForm = function CreateAReservationForm(props) {
   const { date, onSubmit, setError } = props;
   const dateString = new Date(date).toDateString();
   const [time, setTime] = useState('');
-  const [partySize, setPartySize] = useState(0);
+  const [partySize, setPartySize] = useState('0');
   const [isLoaded, setIsLoaded] = useState(true);
   const [availableTimes, setAvailableTimes] = useState([]);
-  const reservation = {
-    date,
-    time,
-    partySize,
-  };
-
-  const isSubmitDisabled = (time === '' || partySize === '');
-  const isTimeDisabled = (!isLoaded || partySize === 0);
+  const reservation = { date, time, partySize };
 
   useEffect(() => {
     getAvailableTimes(date, partySize, setIsLoaded, setError, setAvailableTimes);
@@ -69,7 +62,7 @@ const ReservationForm = function CreateAReservationForm(props) {
           value={partySize}
           setIsLoaded={setIsLoaded}
           onChange={({ target }) => {
-            setPartySize(parseInt(target.value, 10));
+            setPartySize(target.value);
             if (partySize === '') {
               setTime('');
             }
@@ -78,14 +71,12 @@ const ReservationForm = function CreateAReservationForm(props) {
         <TimeSelect
           label="Desired time:"
           value={time}
-          disabled={isTimeDisabled}
+          disabled={(!isLoaded || partySize === '0')}
           setIsLoaded={setIsLoaded}
-          availableTimes={availableTimes}
-          onChange={({ target }) => {
-            setTime(target.value);
-          }}
+          availableTimes={availableTimes.current}
+          onChange={({ target }) => { setTime(target.value); }}
         />
-        <input type="submit" value="Next" disabled={isSubmitDisabled} />
+        <input type="submit" value="Next" disabled={(time === '' || partySize === '')} />
       </form>
     );
   }
