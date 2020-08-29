@@ -2,9 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { emptyOption } from './shared';
-
-// Stylesheets
-import style from './select.module.css';
+import BaseSelect from './base_select';
 
 const timeOptions = function getTimeOptionsForASelectInput(availableTimes) {
   const options = [emptyOption];
@@ -19,48 +17,21 @@ const timeOptions = function getTimeOptionsForASelectInput(availableTimes) {
   return options;
 };
 
-const TimeSelect = function CreateATimeDropDownSelectForAForm(props) {
-  const {
-    onChange,
-    value,
-    label,
-    disabled,
-    availableTimes,
-  } = props;
-
+const TimeSelect = function CreateATimeDropDownSelectForAForm({ availableTimes, ...props }) {
   return (
-    <div className={style.inputGroup}>
-      <label className={style.labelText} htmlFor="time">
-        {label}
-        <select
-          key="time"
-          className={style.selectBox}
-          value={value}
-          aria-label="time"
-          disabled={disabled}
-          onChange={(event) => {
-            onChange(event);
-          }}
-        >
-          {timeOptions(availableTimes)}
-        </select>
-      </label>
-
-    </div>
+    <BaseSelect
+      {...props}
+      options={timeOptions(availableTimes)}
+      type="time"
+    />
   );
 };
 
 TimeSelect.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  label: PropTypes.string.isRequired,
-  value: PropTypes.string,
-  disabled: PropTypes.bool,
   availableTimes: PropTypes.arrayOf(String),
 };
 
 TimeSelect.defaultProps = {
-  value: '',
-  disabled: false,
   availableTimes: [],
 };
 
