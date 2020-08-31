@@ -29,16 +29,14 @@ const mockFetch = function mockFetchResponseFromServer() {
 describe('<Calendar />', () => {
   let component;
   let mockDateClickFunction;
-  let mockSetErrorFunction;
   let container = null;
 
   beforeEach(async () => {
-    mockSetErrorFunction = jest.fn();
     mockDateClickFunction = jest.fn();
     jest.spyOn(global, 'fetch').mockImplementation(() => mockFetch());
     await act(async () => {
       component = await render(
-        <Calendar setError={mockSetErrorFunction} dateClick={mockDateClickFunction} />,
+        <Calendar dateClick={mockDateClickFunction} />,
       );
     });
 
@@ -66,17 +64,17 @@ describe('<Calendar />', () => {
     const disabledDate = new Date();
     disabledDate.setDate(today.getDate() + 3);
 
-    if (tomorrow > todayDate) {
+    if (tomorrow.getDate() > todayDate) {
       const tomorrowElement = component.getByText(`${tomorrow.getDate()}`);
       expect(tomorrowElement).toBeInTheDocument();
     }
 
-    if (yesterday < todayDate) {
+    if (yesterday.getDate() < todayDate) {
       const yesterdayElement = component.queryByText(`${yesterday.getDate()}`);
       expect(yesterdayElement).not.toBeInTheDocument();
     }
 
-    if (disabledDate > todayDate) {
+    if (disabledDate.getDate() > todayDate) {
       const disabledElements = component.getAllByTestId('disabledDate');
       expect(disabledElements.length).toBeGreaterThan(0);
       expect(disabledElements[0].className).toContain('fc-day-disabled');
@@ -87,10 +85,11 @@ describe('<Calendar />', () => {
     await act(async () => {
       jest.spyOn(global, 'fetch').mockImplementation(() => Promise.reject(new Error('Error!')));
       component = await render(
-        <Calendar setError={mockSetErrorFunction} dateClick={mockDateClickFunction} />,
+        <Calendar dateClick={mockDateClickFunction} />,
       );
     });
-    expect(mockSetErrorFunction).toHaveBeenCalled();
+    const errorText = component.getByText(/Something went wrong/i);
+    expect(errorText).toBeInTheDocument();
   });
   /*
   FIXME: FullCalendar is not playing nice with clickableElements

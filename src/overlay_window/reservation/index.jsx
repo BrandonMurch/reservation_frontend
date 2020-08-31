@@ -3,84 +3,66 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // Components
-import fetchWrapper from 'shared/fetch';
+// import fetchWrapper from 'shared/fetch';
+import { fetchWrapper } from 'shared/useFetch';
 import TimeSelect from './select/time';
 import PartySizeSelect from './select/party_size';
 
 // CSS
 import style from './reservation.module.css';
 
-const getAvailableTimes = async function getAvailableTimesFromServer(
-  date, partySize, setIsLoaded, setError, setAvailableTimes,
-) {
-  if (partySize === 0 || date == null) {
-    return;
-  }
-
-  setIsLoaded(false);
-  const urlPath = `/restaurant/availability/?date=${date}&size=${partySize}`;
-  fetchWrapper(urlPath, 'get')
-    .then((result) => {
-      if (result.length === 0) {
-        setError('There are no available times for the party size you have selected');
-      } else {
-        setError(undefined);
-        setAvailableTimes(result);
-      }
-      setIsLoaded(true);
-    },
-    (error) => {
-      setIsLoaded(true);
-      setError(error.message);
-    });
-};
-
 const ReservationForm = function CreateAReservationForm(props) {
   const { date, onSubmit, setError } = props;
   const dateString = new Date(date).toDateString();
   const [time, setTime] = useState('');
   const [partySize, setPartySize] = useState('0');
-  const [isLoaded, setIsLoaded] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [availableTimes, setAvailableTimes] = useState([]);
   const reservation = { date, time, partySize };
 
   useEffect(() => {
-    getAvailableTimes(date, partySize, setIsLoaded, setError, setAvailableTimes);
+    if (date != null && partySize > 0) {
+      const getAvailableTimes = async function getAvailableTimesFromServer() {
+        setIsLoading(false);
+        const urlPath = `/restaurant/availability/?date=${date}&size=${partySize}`;
+        const { response, error, loading } = await fetchWrapper(urlPath, 'get');
+        setError(error);
+        setAvailableTimes(response);
+        setIsLoading(loading);
+      };
+      getAvailableTimes();
+    }
   }, [partySize, date, setError]);
 
-  if (isLoaded) {
-    return (
-      <form
-        onSubmit={(event) => {
-          onSubmit(event, reservation);
+  return (
+    <form
+      onSubmit={(event) => {
+        onSubmit(event, reservation);
+      }}
+      className={style.container}
+    >
+      <p className={style.title}>{`Desired date: ${dateString}`}</p>
+      <PartySizeSelect
+        label="Party size:"
+        value={partySize}
+        disabled={(isLoading)}
+        onChange={({ target }) => {
+          setPartySize(target.value);
+          if (partySize === '') {
+            setTime('');
+          }
         }}
-        className={style.container}
-      >
-        <p className={style.title}>{`Desired date: ${dateString}`}</p>
-        <PartySizeSelect
-          label="Party size:"
-          value={partySize}
-          setIsLoaded={setIsLoaded}
-          onChange={({ target }) => {
-            setPartySize(target.value);
-            if (partySize === '') {
-              setTime('');
-            }
-          }}
-        />
-        <TimeSelect
-          label="Desired time:"
-          value={time}
-          disabled={(!isLoaded || partySize === '0')}
-          setIsLoaded={setIsLoaded}
-          availableTimes={availableTimes.current}
-          onChange={({ target }) => { setTime(target.value); }}
-        />
-        <input type="submit" value="Next" disabled={(time === '' || partySize === '')} />
-      </form>
-    );
-  }
-  return null;
+      />
+      <TimeSelect
+        label="Desired time:"
+        value={time}
+        disabled={(isLoading || partySize === '0')}
+        availableTimes={availableTimes}
+        onChange={({ target }) => { setTime(target.value); }}
+      />
+      <input type="submit" value="Next" disabled={(time === '' || partySize === '') || isLoading} />
+    </form>
+  );
 };
 
 ReservationForm.propTypes = {

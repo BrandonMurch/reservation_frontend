@@ -6,7 +6,7 @@ import { Redirect } from 'react-router-dom';
 import Form from 'general_components/form';
 import Banner, { bannerTypes } from 'general_components/banner';
 import Loading from 'general_components/loading';
-import fetchWrapper from 'shared/fetch';
+import { fetchWrapper } from 'shared/useFetch';
 import { useTokenContext } from '../contexts/token_context';
 
 // Stylesheets
@@ -47,14 +47,13 @@ const AdminLogin = function RenderAdminLoginScreen() {
 
             fetchWrapper('/authenticate', 'POST', JSON.stringify(login))
               .then(
-                (response) => {
-                  if (response.token) {
+                (res) => {
+                  const { response } = res;
+                  setError(res.error);
+                  if (response && response.token) {
                     setToken(response.token);
                     setRedirect('/admin');
                   }
-                },
-                (e) => {
-                  setError(e.message);
                 },
               );
             setIsLoading(false); // }
