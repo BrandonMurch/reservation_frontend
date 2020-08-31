@@ -11,11 +11,11 @@ describe('<Header />', () => {
   let component;
   let container = null;
   const props = {
-    month: 'August 2020',
+    date: 'August 2020',
     prev: jest.fn(),
     next: jest.fn(),
-    isThisMonth: false,
-    goToCurrentMonth: jest.fn(),
+    isThisToday: false,
+    goToToday: jest.fn(),
 
   };
 
@@ -44,7 +44,7 @@ describe('<Header />', () => {
   it('call functions with buttons', () => {
     let button = component.getByRole('button', { name: 'Today' });
     fireEvent.click(button);
-    expect(props.goToCurrentMonth).toHaveBeenCalled();
+    expect(props.goToToday).toHaveBeenCalled();
     button = component.getByRole('button', { name: '>' });
     fireEvent.click(button);
     expect(props.next).toHaveBeenCalled();

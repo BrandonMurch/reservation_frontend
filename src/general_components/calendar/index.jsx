@@ -49,11 +49,11 @@ const Calendar = function Calendar({ onDateRender }) {
   return (
     <div className={style.container}>
       <Header
-        month={monthYear}
+        date={monthYear}
         prev={() => dispatchDate('prev')}
         next={() => dispatchDate('next')}
-        isThisMonth={dateObject.startOf('month').isSame(moment().startOf('month'))}
-        goToCurrentMonth={() => dispatchDate('current')}
+        isThisToday={dateObject.startOf('month').isSame(moment().startOf('month'))}
+        goToToday={() => dispatchDate('current')}
       />
       <table className={style.table} role="grid">
         <thead>
