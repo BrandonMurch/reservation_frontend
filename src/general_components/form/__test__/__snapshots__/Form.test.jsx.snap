@@ -124,6 +124,7 @@ exports[`<Form /> should match snapshot 1`] = `
   </div>
   <input
     className="submit"
+    disabled={false}
     type="submit"
     value="Submit"
   />

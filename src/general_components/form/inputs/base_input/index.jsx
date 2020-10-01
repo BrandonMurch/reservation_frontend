@@ -9,6 +9,7 @@ const Input = function CreateInputAndLabel(props) {
   const [value, setValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const {
+    key,
     type,
     name,
     label,
@@ -28,7 +29,7 @@ const Input = function CreateInputAndLabel(props) {
     setErrorMessage(patternMessage);
   }
   return (
-    <div className={style.inputGroup}>
+    <div key={key} className={style.inputGroup}>
       <label className={labelStyle} htmlFor={name}>
         {`${label}:`}
       </label>
@@ -66,6 +67,7 @@ const Input = function CreateInputAndLabel(props) {
 };
 
 Input.propTypes = {
+  key: PropTypes.string,
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   updateValue: PropTypes.func.isRequired,
@@ -82,6 +84,7 @@ Input.propTypes = {
 };
 
 Input.defaultProps = {
+  key: '',
   required: false,
   pattern: null,
   patternMessage: null,

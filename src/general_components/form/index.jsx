@@ -30,17 +30,26 @@ const touchInputs = function focusAndBlurAllInputChildren(children) {
   }
 };
 
-const getInputs = function getListOfInputChildren(inputs, onBlur, displayErrors) {
+const getInputs = function getListOfInputChildren(
+  inputs, onBlur, displayErrors, counterToResetChildren,
+) {
   return inputs.map((input) => {
     const Component = inputFields[input.type] || inputFields.default;
     return (
-      <Component key={input.name} updateValue={onBlur} {...input} doDisplayErrors={displayErrors} />
+      <Component
+        key={input.name + counterToResetChildren}
+        updateValue={onBlur}
+        {...input}
+        doDisplayErrors={displayErrors}
+      />
     );
   });
 };
 
 const Form = function CreateFormWithInputs(props) {
-  const { inputs, onSubmit, submitLabel } = props;
+  const {
+    inputs, onSubmit, submitLabel, resetChildrenOnSubmit,
+  } = props;
 
   const fields = {};
   const onBlur = function updateFieldsOnBlur(value, name) {
@@ -48,26 +57,33 @@ const Form = function CreateFormWithInputs(props) {
   };
   const [displayErrors, setDisplayErrors] = useState(false);
   const [submitButtonText, setSubmitButtonText] = useState(submitLabel);
+  const [counterToResetChildren, setCounterToResetChildren] = useState(0);
+  const resetChildren = function addOneToKeyToResetChildren() {
+    if (resetChildrenOnSubmit) {
+      setCounterToResetChildren(counterToResetChildren + 1);
+    }
+  };
 
   return (
     <form
       noValidate
       data-testid="form"
-      onSubmit={(event) => {
+      onSubmit={async (event) => {
         event.preventDefault();
-        if (!event.target.checkValidity()) {
-          setDisplayErrors(true);
-          touchInputs(event.target.children);
-        } else {
-          event.target.lastChild.disabled = true;
+        if (event.target.checkValidity()) {
           setSubmitButtonText('Submitting...');
-          onSubmit(fields);
+          await onSubmit(fields);
+          resetChildren();
+          setSubmitButtonText(submitLabel);
+        } else {
+          touchInputs(event.target.children);
+          setDisplayErrors(true);
         }
       }}
       className={style.container}
     >
-      {getInputs(inputs, onBlur, displayErrors)}
-      <input key="submit" className={style.submit} type="submit" value={submitButtonText} />
+      {getInputs(inputs, onBlur, displayErrors, counterToResetChildren)}
+      <input key="submit" className={style.submit} type="submit" value={submitButtonText} disabled={submitButtonText !== submitLabel} />
     </form>
   );
 };
@@ -82,6 +98,11 @@ Form.propTypes = {
   ).isRequired,
   onSubmit: PropTypes.func.isRequired,
   submitLabel: PropTypes.string.isRequired,
+  resetChildrenOnSubmit: PropTypes.bool,
+};
+
+Form.defaultProps = {
+  resetChildrenOnSubmit: false,
 };
 
 export default Form;
