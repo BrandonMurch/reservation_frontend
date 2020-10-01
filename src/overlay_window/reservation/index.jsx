@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // Components
-// import fetchWrapper from 'shared/fetch';
 import { fetchWrapper } from 'shared/useFetch';
 import TimeSelect from './select/time';
 import PartySizeSelect from './select/party_size';

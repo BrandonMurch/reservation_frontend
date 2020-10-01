@@ -4,7 +4,7 @@ import {
   Switch, Route, Link, Redirect,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import fetchWrapper from 'shared/fetch';
+import { fetchWrapper } from 'shared/useFetch';
 
 // Components
 import Banner, { bannerTypes } from 'general_components/banner';
@@ -17,6 +17,13 @@ import Success from './success';
 // CSS
 import style from './overlay_window.module.css';
 
+const formatBooking = function formatBookingDateTime(booking) {
+  booking.startTime = `${booking.date}T${booking.time}`;
+  delete booking.date;
+  delete booking.time;
+  return booking;
+};
+
 const submitReservation = async function postReservationToServer(
   user,
   reservation,
@@ -25,19 +32,15 @@ const submitReservation = async function postReservationToServer(
   setIsLoading,
 ) {
   setIsLoading(true);
-  const booking = { ...reservation };
-
-  booking.startTime = `${booking.date}T${booking.time}`;
-  delete booking.date;
-  delete booking.time;
+  const booking = formatBooking({ ...reservation });
 
   fetchWrapper('/bookings', 'POST', JSON.stringify({ user, booking }))
     .then(
-      () => {
-        setRedirect('/success');
-      },
-      (error) => {
-        setError(error.message);
+      (response) => {
+        setError(response.error);
+        if (response.error == null) {
+          setRedirect('/success');
+        }
       },
     );
   setIsLoading(false);
