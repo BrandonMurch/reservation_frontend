@@ -14,8 +14,9 @@ const getLoadingObject = function getLoadingComponent() {
   };
 };
 
-const getError = function getErrorObject(error = 'Something went wrong... \n please try again later') {
+const getError = function getErrorObject(status = 500, error = 'Something went wrong... \n please try again later') {
   return {
+    status,
     error,
     alternativeRender: <Banner type={bannerTypes.ERROR} message={error} />,
     loading: false,
@@ -44,11 +45,12 @@ export const fetchWrapper = async function fetchFromServer(url, method, body) {
 
   if (!isStatus2xx(response.status)) {
     if (responseBody && responseBody.message) {
-      return getError(responseBody.message);
+      return getError(response.status, responseBody.message);
     }
-    return getError();
+    return getError(response.status);
   }
   return {
+    status: response.status,
     alternativeRender: null,
     response: responseBody,
     error: null,

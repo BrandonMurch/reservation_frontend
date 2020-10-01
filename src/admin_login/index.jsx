@@ -12,6 +12,12 @@ import { useTokenContext } from '../contexts/token_context';
 // Stylesheets
 import style from './admin_login.module.css';
 
+/* FIXME:
+    -- "Submitting..." stays in button, even after submission is complete
+    -- After incorrect login, you must re-type information, or a "User Not Found" error is thrown
+
+*/
+
 const AdminLogin = function RenderAdminLoginScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [redirect, setRedirect] = useState('');
@@ -44,19 +50,21 @@ const AdminLogin = function RenderAdminLoginScreen() {
           inputs={inputs}
           onSubmit={(login) => {
             setIsLoading(true);
+            const notAuthorizedError = 'Username or password was not correct';
 
             fetchWrapper('/authenticate', 'POST', JSON.stringify(login))
               .then(
                 (res) => {
-                  const { response } = res;
-                  setError(res.error);
+                  const { response, status } = res;
+                  const fetchError = status >= 400 && status < 500 ? notAuthorizedError : res.error;
+                  setError(fetchError);
                   if (response && response.token) {
                     setToken(response.token);
                     setRedirect('/admin');
                   }
                 },
               );
-            setIsLoading(false); // }
+            setIsLoading(false);
           }}
         />
       </div>
