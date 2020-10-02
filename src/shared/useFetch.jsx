@@ -27,20 +27,31 @@ const isStatus2xx = function checkStatusForSuccessfulResponses(status) {
   return (status >= 200 && status < 300);
 };
 
-export const fetchWrapper = async function fetchFromServer(url, method, body) {
-  const serverAddress = 'http://localhost:8080';
+const addDefaults = function addFetchDefaultsIfNotPresent(fetchArguments) {
+  if ('headers' in fetchArguments === false) {
+    fetchArguments.headers = {};
+  }
+  fetchArguments.headers['Content-Type'] = 'application/json';
+  if (!fetchArguments.method) {
+    fetchArguments.method = 'GET';
+  }
+};
 
+export const fetchWrapper = async function fetchFromServer({ path }, ...fetchArguments) {
+  const url = `http://localhost:8080${path}`;
+  addDefaults(fetchArguments);
   let response;
-  let responseBody;
   try {
-    response = await fetch(`${serverAddress}${url}`, {
-      method,
-      body,
-      headers: { 'Content-Type': 'application/json' },
-    });
-    responseBody = await response.json();
+    response = await fetch(url, fetchArguments);
   } catch (e) {
     return getError();
+  }
+
+  let responseBody;
+  try {
+    responseBody = await response.json();
+  } catch (e) {
+    return getError(400);
   }
 
   if (!isStatus2xx(response.status)) {
@@ -69,15 +80,15 @@ export const fetchWrapper = async function fetchFromServer(url, method, body) {
  * @param {*} method
  * @param {*} body
  */
-const useFetch = function useFetch(url, method = 'get', body) {
+const useFetch = function useFetch(args) {
   const [fetchResponse, setFetchResponse] = useState(getLoadingObject());
 
   useEffect(() => {
     const getResponse = (async () => {
-      setFetchResponse(await fetchWrapper(url, method, body));
+      setFetchResponse(await fetchWrapper(args));
     });
     getResponse();
-  }, [url, method, body]);
+  }, []);
 
   return fetchResponse;
 };

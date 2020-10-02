@@ -40,7 +40,7 @@ const AdminLogin = function RenderAdminLoginScreen() {
           inputs={inputs}
           onSubmit={(login) => {
             const notAuthorizedError = 'Username or password was not correct';
-            fetchWrapper('/authenticate', 'POST', JSON.stringify(login))
+            fetchWrapper({ path: '/authenticate', method: 'POST', body: JSON.stringify(login) })
               .then(
                 (res) => {
                   const { response, status } = res;

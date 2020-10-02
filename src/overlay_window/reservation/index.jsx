@@ -23,8 +23,8 @@ const ReservationForm = function CreateAReservationForm(props) {
     if (date != null && partySize > 0) {
       const getAvailableTimes = async function getAvailableTimesFromServer() {
         setIsLoading(false);
-        const urlPath = `/restaurant/availability/?date=${date}&size=${partySize}`;
-        const { response, error, loading } = await fetchWrapper(urlPath, 'get');
+        const path = `/restaurant/availability/?date=${date}&size=${partySize}`;
+        const { response, error, loading } = await fetchWrapper({ path });
         setError(error);
         setAvailableTimes(response);
         setIsLoading(loading);
@@ -59,6 +59,7 @@ const ReservationForm = function CreateAReservationForm(props) {
         availableTimes={availableTimes}
         onChange={({ target }) => { setTime(target.value); }}
       />
+      {/* TODO: insert comments box here */}
       <input type="submit" value="Next" disabled={(time === '' || partySize === '') || isLoading} />
     </form>
   );
