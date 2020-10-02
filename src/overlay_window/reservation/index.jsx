@@ -24,7 +24,7 @@ const ReservationForm = function CreateAReservationForm(props) {
       const getAvailableTimes = async function getAvailableTimesFromServer() {
         setIsLoading(false);
         const path = `/restaurant/availability/?date=${date}&size=${partySize}`;
-        const { response, error, loading } = await fetchWrapper({ path });
+        const { response, error, loading } = await fetchWrapper(path);
         setError(error);
         setAvailableTimes(response);
         setIsLoading(loading);

@@ -37,7 +37,7 @@ const addDefaults = function addFetchDefaultsIfNotPresent(fetchArguments) {
   }
 };
 
-export const fetchWrapper = async function fetchFromServer({ path }, ...fetchArguments) {
+export const fetchWrapper = async function fetchFromServer(path, fetchArguments) {
   const url = `http://localhost:8080${path}`;
   addDefaults(fetchArguments);
   let response;
@@ -80,17 +80,17 @@ export const fetchWrapper = async function fetchFromServer({ path }, ...fetchArg
  * @param {*} method
  * @param {*} body
  */
-const useFetch = function useFetch(args) {
+const useFetch = function useFetch(path, args) {
   const [fetchResponse, setFetchResponse] = useState(getLoadingObject());
 
   useEffect(() => {
     const getResponse = (async () => {
-      setFetchResponse(await fetchWrapper(args));
+      setFetchResponse(await fetchWrapper(path, args));
     });
     getResponse();
   // If this is set to change with args, it just constantly reloads the page...
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [path]);
 
   return fetchResponse;
 };

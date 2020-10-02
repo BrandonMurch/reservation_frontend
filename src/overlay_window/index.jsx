@@ -34,12 +34,7 @@ const submitReservation = async function postReservationToServer(
   setIsLoading(true);
   const booking = formatBooking({ ...reservation });
 
-  const fetchArguments = {
-    path: '/bookins',
-    method: 'POST',
-    body: JSON.stringify({ user, booking }),
-  };
-  fetchWrapper(fetchArguments)
+  fetchWrapper('/bookings', { method: 'POST', body: JSON.stringify({ user, booking }) })
     .then(
       (response) => {
         setError(response.error);

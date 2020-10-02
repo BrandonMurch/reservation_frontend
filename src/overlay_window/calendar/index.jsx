@@ -18,7 +18,7 @@ const disableDate = function addDisabledAttributeToElement(element) {
 
 const Calendar = function PopulateUsingFullCalendar({ dateClick }) {
   const [redirect, setRedirect] = useState('');
-  const { alternativeRender, response } = useFetch({ path: '/restaurant/availability' });
+  const { alternativeRender, response } = useFetch('/restaurant/availability');
 
   if (alternativeRender) {
     return alternativeRender;

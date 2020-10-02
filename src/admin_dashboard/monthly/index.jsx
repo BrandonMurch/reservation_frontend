@@ -12,12 +12,12 @@ import style from './monthly.module.css';
 
 const Monthly = () => {
   const token = useTokenContext.getToken;
-  const { alternativeRender, response, status } = useFetch({ path: '/bookings/dailyCount', headers: { authorization: `Bearer: ${token}` } });
-  if (alternativeRender) {
-    return alternativeRender;
-  }
+  const { alternativeRender, response, status } = useFetch('/bookings/dailyCount', { headers: { authorization: `Bearer: ${token}` } });
   if (status >= 400 && status < 500) {
     return <Redirect to="/admin-login" />;
+  }
+  if (alternativeRender) {
+    return alternativeRender;
   }
   return (
     <div className={style.container}>
