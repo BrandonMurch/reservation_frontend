@@ -9,10 +9,11 @@
 }
 
 .monthText {
+    font-size: 1.5rem;
     composes: text from '../../../css/project_globals.module.css';
     color: dark;
     float: left;
-    margin: 1.5rem 2rem;
+    margin: 2rem 2rem;
 }
 
 .buttonContainer {
@@ -25,10 +26,10 @@
     padding: 0 0.5rem;
     background-color: transparent;
     font-weight: 900;
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: dark;
     border: 0;
-    margin: 0 0.5rem;
+    margin: 0.5rem 0.5rem;
     cursor: pointer;
 }
 

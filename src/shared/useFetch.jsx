@@ -88,6 +88,8 @@ const useFetch = function useFetch(args) {
       setFetchResponse(await fetchWrapper(args));
     });
     getResponse();
+  // If this is set to change with args, it just constantly reloads the page...
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return fetchResponse;
