@@ -26,7 +26,7 @@ const ColumnHeaders = function GetTitlesForDaysOfWeek() {
   );
 };
 
-const Calendar = function Calendar({ onDateRender }) {
+const Calendar = function Calendar({ onDateRender, onClick }) {
   const initialDateObject = {
     dateObject: moment(),
   };
@@ -59,7 +59,7 @@ const Calendar = function Calendar({ onDateRender }) {
         <thead>
           <ColumnHeaders />
         </thead>
-        <CalendarRows dateObject={dateObject} onDateRender={onDateRender} />
+        <CalendarRows dateObject={dateObject} onDateRender={onDateRender} onClick={onClick} />
       </table>
     </div>
   );
@@ -67,10 +67,12 @@ const Calendar = function Calendar({ onDateRender }) {
 
 Calendar.propTypes = {
   onDateRender: PropTypes.func,
+  onClick: PropTypes.func,
 };
 
 Calendar.defaultProps = {
   onDateRender: () => {},
+  onClick: () => {},
 };
 
 export default Calendar;
