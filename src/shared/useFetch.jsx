@@ -39,10 +39,11 @@ const addDefaults = function addFetchDefaultsIfNotPresent(fetchArguments) {
 
 export const fetchWrapper = async function fetchFromServer(path, fetchArguments) {
   const url = `http://localhost:8080${path}`;
-  addDefaults(fetchArguments);
+  const args = fetchArguments === undefined ? {} : fetchArguments;
+  addDefaults(args);
   let response;
   try {
-    response = await fetch(url, fetchArguments);
+    response = await fetch(url, args);
   } catch (e) {
     return getError();
   }
@@ -51,7 +52,16 @@ export const fetchWrapper = async function fetchFromServer(path, fetchArguments)
   try {
     responseBody = await response.json();
   } catch (e) {
-    return getError(400);
+    if (!isStatus2xx(response.status)) {
+      return getError(response.status);
+    }
+    return {
+      status: response.status,
+      alternativeRender: null,
+      error: null,
+      loading: false,
+      body: null,
+    };
   }
 
   if (!isStatus2xx(response.status)) {
