@@ -198,6 +198,7 @@ const Daily = function DisplayDailyReservations() {
   const token = useTokenContext.getToken;
   const path = `/bookings?date=${dateObject.format('yyyy-MM-DD')}`;
   const { alternativeRender, response, status } = useFetch(path, { headers: { authorization: `Bearer: ${token}` } });
+  console.log(response);
   if (status >= 400 && status < 500) {
     return <Redirect to="/admin-login" />;
   }
