@@ -38,6 +38,15 @@ const addDefaults = function addFetchDefaultsIfNotPresent(fetchArguments) {
 };
 
 export const fetchWrapper = async function fetchFromServer(path, fetchArguments) {
+  if (fetchArguments.skip) {
+    return {
+      status: null,
+      alternativeRender: null,
+      error: null,
+      loading: false,
+      body: null,
+    };
+  }
   const url = `http://localhost:8080${path}`;
   const args = fetchArguments === undefined ? {} : fetchArguments;
   addDefaults(args);
