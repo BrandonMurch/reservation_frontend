@@ -1,3 +1,49 @@
+@value colors: "../../css/colors.module.css";
+@value primary, dark, light, accent from colors;
+
+
 .container {
    composes: bodyContainer from '../admin_dashboard.module.css';
 }
+
+.tableContainer {
+   background: primary;
+   min-height: 90vh;
+}
+
+.table {
+   width: 100%;
+}
+
+.tableInput {
+   width: 4rem;
+   text-align: center;
+}
+
+.errorTableInput {
+   composes: tableInput;
+   background-color: rgba(255, 0, 0, 0.6);
+}
+
+.row{
+   text-align: center;
+}
+
+
+.hourRow {
+   composes: row;
+   border: 5px solid black;
+}
+
+.errorText {
+   color: red;
+   font-weight: bold;
+   margin: 0.5rem;
+}
+
+.editButton {
+   width: 3rem;
+   text-align: center;
+}
+
+/* TODO: Add borders to table */

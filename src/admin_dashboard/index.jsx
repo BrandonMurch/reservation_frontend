@@ -6,6 +6,7 @@ import { Switch, Route } from 'react-router-dom';
 import Nav from './nav_bar';
 import NavItem from './nav_bar/item';
 import Monthly from './monthly';
+import Daily from './daily';
 
 const Dashboard = function AdminDashboard() {
   return (
@@ -17,6 +18,7 @@ const Dashboard = function AdminDashboard() {
       </Nav>
       <Switch>
         <Route exact path="/admin/monthly" component={Monthly} />
+        <Route path="/admin/daily/:date?" component={Daily} />
       </Switch>
     </div>
   );
