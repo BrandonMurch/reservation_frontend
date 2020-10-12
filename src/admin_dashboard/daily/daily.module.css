@@ -13,6 +13,7 @@
 
 .table {
    width: 100%;
+   padding: 2rem;
 }
 
 .tableInput {
@@ -46,5 +47,3 @@
    padding: 0;
    text-align: center;
 }
-
-/* TODO: Add borders to table */

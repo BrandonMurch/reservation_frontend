@@ -15,6 +15,7 @@ import Header from 'general_components/calendar/header';
 
 // Style sheets
 import style from './daily.module.css';
+import EditBookingOverlay from './edit_box';
 
 const Titles = function columnTitlesForBookingsTable() {
   return (
@@ -24,7 +25,8 @@ const Titles = function columnTitlesForBookingsTable() {
         <th>Table</th>
         <th>Party Size</th>
         <th>Contact</th>
-        <th>Comments</th>
+        <th>User Comments</th>
+        <th>Restaurant Comments</th>
       </tr>
     </thead>
   );
@@ -42,7 +44,6 @@ HourDisplay.propTypes = {
 
 const updateTable = async function updateTableOnServer(table, booking, setError) {
   const { status, error } = await fetchWrapper(`/bookings/${booking.id}/setTable/${table}`, { method: 'PUT' });
-  // TODO: if table is already occupied, give option to switch tables.
   if (status >= 200 && status < 300) {
     booking.tables = [{ name: table }];
   }
@@ -101,19 +102,25 @@ RestaurantTable.propTypes = {
   }).isRequired,
 };
 
-const TableRow = function TableRowForBookingTable({ booking }) {
+const TableRow = function TableRowForBookingTable({ booking, setBookingForEditOverlay }) {
   const {
-    startTime, table, partySize, user, comments,
+    startTime, table, partySize, user, userComments, restaurantComments,
   } = booking;
   return (
     <tr className={style.row}>
       <td>{moment(startTime).format('HH:mm')}</td>
       <td><RestaurantTable table={table} booking={booking} /></td>
       <td>{partySize}</td>
-      <td>{`${user.firstName} ${user.lastName}`}</td>
-      {/* TODO: allow viewing of full comment on hover with tool tip */}
-      <td>{comments}</td>
-      <td><button className={style.editButton} type="button">Edit</button></td>
+      <td>
+        {`${user.firstName} ${user.lastName}`}
+        <br />
+        { `${user.username}`}
+        <br />
+        {`${user.phoneNumber}`}
+      </td>
+      <td>{userComments}</td>
+      <td>{restaurantComments}</td>
+      <td><button className={style.editButton} type="button" onClick={() => setBookingForEditOverlay(booking)}>Edit</button></td>
       {/* TODO: make booking edit button */}
     </tr>
   );
@@ -127,9 +134,13 @@ TableRow.propTypes = {
     user: PropTypes.shape({
       firstName: PropTypes.string.isRequired,
       lastName: PropTypes.string.isRequired,
+      username: PropTypes.string.isRequired,
+      phoneNumber: PropTypes.string.isRequired,
     }).isRequired,
-    comments: PropTypes.string,
+    userComments: PropTypes.string,
+    restaurantComments: PropTypes.string,
   }).isRequired,
+  setBookingForEditOverlay: PropTypes.func.isRequired,
 
 };
 
@@ -154,7 +165,9 @@ const loadBookingsIntoMap = function loadBookingsIntoMapByHour(bookings) {
   return bookingsByHourMap;
 };
 
-const tableBookings = function placeBookingsIntoHourSlotsInTable(bookingsMap) {
+const tableBookings = function placeBookingsIntoHourSlotsInTable(
+  bookingsMap, setBookingForEditOverlay,
+) {
   const bookingDisplay = [];
 
   for (let hour = 0; hour < 24; hour++) {
@@ -165,7 +178,13 @@ const tableBookings = function placeBookingsIntoHourSlotsInTable(bookingsMap) {
       bookingDisplay.push(<HourDisplay key={hour} hour={hour} />);
       bookings.forEach((booking) => {
         const key = booking.startTime + booking.user.firstName;
-        bookingDisplay.push(<TableRow key={key} booking={booking} />);
+        bookingDisplay.push(
+          <TableRow
+            key={key}
+            booking={booking}
+            setBookingForEditOverlay={setBookingForEditOverlay}
+          />,
+        );
       });
     }
   }
@@ -175,20 +194,31 @@ const tableBookings = function placeBookingsIntoHourSlotsInTable(bookingsMap) {
 
 const Bookings = function BookingsTableByHour({ bookings }) {
   let bookingsTableComponents;
+  const [bookingForEditOverlay, setBookingForEditOverlay] = useState(null);
   if (bookings != null && bookings.length !== 0) {
     const bookingsMap = loadBookingsIntoMap(bookings);
-    bookingsTableComponents = tableBookings(bookingsMap);
+    bookingsTableComponents = tableBookings(bookingsMap, setBookingForEditOverlay);
   }
 
   return (
-    <div className={style.tableContainer}>
-      <table className={style.table}>
-        <Titles />
-        <tbody>
-          {bookingsTableComponents}
-        </tbody>
-      </table>
-    </div>
+    <>
+      {bookingForEditOverlay
+      && (
+      <EditBookingOverlay
+        booking={bookingForEditOverlay}
+        exitEditOverlay={() => setBookingForEditOverlay(null)}
+      />
+      )}
+
+      <div className={style.tableContainer}>
+        <table className={style.table}>
+          <Titles />
+          <tbody>
+            {bookingsTableComponents}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 };
 
