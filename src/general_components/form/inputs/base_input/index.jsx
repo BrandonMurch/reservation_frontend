@@ -6,10 +6,9 @@ import PropTypes from 'prop-types';
 import style from '../../form.module.css';
 
 const Input = function CreateInputAndLabel(props) {
-  const [value, setValue] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
   const {
     key,
+    value: initialValue,
     type,
     name,
     label,
@@ -24,6 +23,9 @@ const Input = function CreateInputAndLabel(props) {
     onChangeBasedOnInputType,
     onBlurBasedOnInputType,
   } = props;
+
+  const [value, setValue] = useState(initialValue);
+  const [errorMessage, setErrorMessage] = useState('');
 
   if (errorMessage === 'Please match the requested format.') {
     setErrorMessage(patternMessage);
@@ -70,6 +72,7 @@ Input.propTypes = {
   key: PropTypes.string,
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  value: PropTypes.string,
   updateValue: PropTypes.func.isRequired,
   required: PropTypes.bool,
   pattern: PropTypes.string,
@@ -85,6 +88,7 @@ Input.propTypes = {
 
 Input.defaultProps = {
   key: '',
+  value: '',
   required: false,
   pattern: null,
   patternMessage: null,
