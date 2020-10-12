@@ -42,7 +42,8 @@
 }
 
 .editButton {
-   width: 3rem;
+   width: 4rem;
+   padding: 0;
    text-align: center;
 }
 
