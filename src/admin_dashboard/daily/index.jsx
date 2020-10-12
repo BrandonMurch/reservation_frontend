@@ -52,6 +52,9 @@ const updateTable = async function updateTableOnServer(table, booking, setError)
 };
 const getTableString = function getStringOfTableNamesFromArray(tables) {
   let tableNames = '';
+  if (tables.length === 0) {
+    return tableNames;
+  }
   tables.forEach((table) => {
     tableNames += `${table.name}, `;
   });
@@ -63,6 +66,7 @@ const RestaurantTable = function InputBoxForTableInBooking({ booking }) {
   const [tableValue, setTableValue] = useState(tableString);
   const [error, setError] = useState('');
   const inputClass = error ? style.errorTableInput : style.tableInput;
+  // TODO: Dropdown menu containing all possible tables that will accomodate party size.
   return (
     <>
       <input
