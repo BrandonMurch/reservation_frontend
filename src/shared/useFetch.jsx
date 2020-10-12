@@ -27,19 +27,12 @@ const isStatus2xx = function checkStatusForSuccessfulResponses(status) {
   return (status >= 200 && status < 300);
 };
 
-const addDefaults = function addFetchDefaultsIfNotPresent(fetchArguments) {
-  if ('headers' in fetchArguments === false) {
-    fetchArguments.headers = {};
-  }
-  fetchArguments.headers['Content-Type'] = 'application/json';
-  if (!fetchArguments.method) {
-    fetchArguments.method = 'GET';
-  }
-};
-
-export const fetchWrapper = async function fetchFromServer(path, fetchArguments) {
-  const args = fetchArguments === undefined ? {} : fetchArguments;
-  if (args.skip) {
+export const fetchWrapper = async function fetchFromServer(
+  path,
+  // Defaults: an object that contains an empty header object, and a 'GET' method
+  { method = 'GET', headers = {}, ...fetchArguments } = {},
+) {
+  if (fetchArguments.skip) {
     return {
       status: null,
       alternativeRender: null,
@@ -49,10 +42,9 @@ export const fetchWrapper = async function fetchFromServer(path, fetchArguments)
     };
   }
   const url = `http://localhost:8080${path}`;
-  addDefaults(args);
   let response;
   try {
-    response = await fetch(url, args);
+    response = await fetch(url, { method, headers, fetchArguments });
   } catch (e) {
     return getError();
   }
