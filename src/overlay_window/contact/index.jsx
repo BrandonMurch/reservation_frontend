@@ -12,6 +12,8 @@ import style from './contact.module.css';
 
 const formTypes = enumeration.singleValue('NEW_USER', 'LOGIN');
 
+// TODO: break this into two files.
+
 const NewUser = function PopulateContactForm(props) {
   const { setFormDisplay } = props;
   const user = useRef({
