@@ -43,8 +43,9 @@ export const fetchWrapper = async function fetchFromServer(
   }
   const url = `http://localhost:8080${path}`;
   let response;
+  headers['Content-Type'] = 'application/json';
   try {
-    response = await fetch(url, { method, headers, fetchArguments });
+    response = await fetch(url, { method, headers, ...fetchArguments });
   } catch (e) {
     return getError();
   }
