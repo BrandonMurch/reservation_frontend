@@ -8,7 +8,7 @@ import ConfirmPassword from './confirm-password';
 import { TextInput, Checkbox } from './inputs';
 
 // Stylesheets
-import style from './form.module.css';
+import styleSheet from './form.module.css';
 
 const inputFields = enumeration.keyValue(
   { key: 'checkbox', value: Checkbox },
@@ -31,7 +31,7 @@ const touchInputs = function focusAndBlurAllInputChildren(children) {
 };
 
 const getInputs = function getListOfInputChildren(
-  inputs, onBlur, displayErrors, counterToResetChildren, fields,
+  inputs, onBlur, displayErrors, counterToResetChildren, fields, style,
 ) {
   return inputs.map((input) => {
     const Component = inputFields[input.type] || inputFields.default;
@@ -42,6 +42,7 @@ const getInputs = function getListOfInputChildren(
         updateValue={onBlur}
         {...input}
         doDisplayErrors={displayErrors}
+        style={style}
       />
     );
   });
@@ -49,8 +50,10 @@ const getInputs = function getListOfInputChildren(
 
 const Form = function CreateFormWithInputs(props) {
   const {
-    inputs, onSubmit, submitLabel, resetChildrenOnSubmit,
+    inputs, onSubmit, submitLabel, resetChildrenOnSubmit, styleProp,
   } = props;
+
+  const style = styleProp === null ? styleSheet : styleProp;
 
   const fields = {};
   const onBlur = function updateFieldsOnBlur(value, name) {
@@ -75,6 +78,7 @@ const Form = function CreateFormWithInputs(props) {
           setSubmitButtonText('Submitting...');
           await onSubmit(fields);
           resetChildren();
+          // FIXME: this doesn't work if the component gets unmounted.
           // setSubmitButtonText(submitLabel);
         } else {
           touchInputs(event.target.children);
@@ -83,8 +87,8 @@ const Form = function CreateFormWithInputs(props) {
       }}
       className={style.container}
     >
-      {getInputs(inputs, onBlur, displayErrors, counterToResetChildren, fields)}
-      <input key="submit" className={style.submit} type="submit" value={submitButtonText} disabled={submitButtonText !== submitLabel} />
+      {getInputs(inputs, onBlur, displayErrors, counterToResetChildren, fields, style)}
+      <input key="submit" className={style.button} type="submit" value={submitButtonText} disabled={submitButtonText !== submitLabel} />
     </form>
   );
 };
@@ -100,6 +104,7 @@ Form.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   submitLabel: PropTypes.string.isRequired,
   resetChildrenOnSubmit: PropTypes.bool,
+  styleProp: PropTypes.shape({}).isRequired,
 };
 
 Form.defaultProps = {

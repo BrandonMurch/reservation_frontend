@@ -5,10 +5,7 @@ import PropTypes from 'prop-types';
 // Components
 import BaseInput from './base_input';
 
-// Stylesheets
-import style from '../form.module.css';
-
-export const TextInput = function TestParent({ doDisplayErrors, ...props }) {
+export const TextInput = function TestParent({ doDisplayErrors, style, ...props }) {
   props.labelStyle = style.hiddenLabelText;
   props.inputStyle = style.input;
   props.inputStyleWithErrors = style.displayError;
@@ -28,18 +25,25 @@ export const TextInput = function TestParent({ doDisplayErrors, ...props }) {
 
   props.displayErrors = displayErrors;
 
-  return <BaseInput {...props} />;
+  return <BaseInput {...props} style={style} />;
 };
 
 TextInput.propTypes = {
   doDisplayErrors: PropTypes.bool,
+  style: PropTypes.shape({
+    hiddenLabelText: PropTypes.string.isRequired,
+    input: PropTypes.string.isRequired,
+    displayError: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 TextInput.defaultProps = {
   doDisplayErrors: false,
 };
 
-export const Checkbox = function TestParent({ updateValue, doDisplayErrors, ...props }) {
+export const Checkbox = function TestParent({
+  updateValue, doDisplayErrors, style, ...props
+}) {
   props.labelStyle = style.labelText;
   const [displayErrors, setDisplayErrors] = useState(false);
 
@@ -61,12 +65,15 @@ export const Checkbox = function TestParent({ updateValue, doDisplayErrors, ...p
     reverseUpdateValue(target.value, target.name);
   };
 
-  return <BaseInput {...props} />;
+  return <BaseInput {...props} style={style} />;
 };
 
 Checkbox.propTypes = {
   updateValue: PropTypes.func.isRequired,
   doDisplayErrors: PropTypes.bool,
+  style: PropTypes.shape({
+    labelText: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 Checkbox.defaultProps = {

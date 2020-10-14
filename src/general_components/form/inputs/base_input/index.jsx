@@ -2,9 +2,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-// Stylesheets
-import style from '../../form.module.css';
-
 const Input = function CreateInputAndLabel(props) {
   const {
     key,
@@ -18,10 +15,9 @@ const Input = function CreateInputAndLabel(props) {
     patternMessage,
     displayErrors,
     labelStyle,
-    inputStyle,
-    inputStyleWithErrors,
     onChangeBasedOnInputType,
     onBlurBasedOnInputType,
+    style,
   } = props;
 
   const [value, setValue] = useState(initialValue);
@@ -39,7 +35,7 @@ const Input = function CreateInputAndLabel(props) {
         required={required}
         pattern={pattern}
         placeholder={label}
-        className={displayErrors ? inputStyleWithErrors : inputStyle}
+        className={displayErrors ? style.displayError : style.input}
         value={value}
         id={name}
         type={type}
@@ -80,10 +76,14 @@ Input.propTypes = {
   displayErrors: PropTypes.bool,
   patternMessage: PropTypes.string,
   labelStyle: PropTypes.string,
-  inputStyle: PropTypes.string,
-  inputStyleWithErrors: PropTypes.string,
   onChangeBasedOnInputType: PropTypes.func,
   onBlurBasedOnInputType: PropTypes.func,
+  style: PropTypes.shape({
+    inputGroup: PropTypes.string.isRequired,
+    input: PropTypes.string.isRequired,
+    displayError: PropTypes.string.isRequired,
+    errorText: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 Input.defaultProps = {
@@ -94,8 +94,6 @@ Input.defaultProps = {
   patternMessage: null,
   displayErrors: false,
   labelStyle: '',
-  inputStyle: '',
-  inputStyleWithErrors: '',
   onChangeBasedOnInputType: () => {},
   onBlurBasedOnInputType: () => {},
 };
