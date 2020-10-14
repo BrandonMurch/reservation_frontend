@@ -15,7 +15,7 @@ import Header from 'general_components/calendar/header';
 
 // Style sheets
 import style from './daily.module.css';
-import EditBookingOverlay from './edit_box';
+import EditBookingOverlay from './edit_booking';
 
 const Titles = function columnTitlesForBookingsTable() {
   return (
@@ -193,6 +193,7 @@ const tableBookings = function placeBookingsIntoHourSlotsInTable(
 };
 
 const Bookings = function BookingsTableByHour({ bookings }) {
+  const [errorBanner, setErrorBanner] = useState(null);
   let bookingsTableComponents;
   const [bookingForEditOverlay, setBookingForEditOverlay] = useState(null);
   if (bookings != null && bookings.length !== 0) {
@@ -202,11 +203,14 @@ const Bookings = function BookingsTableByHour({ bookings }) {
 
   return (
     <>
+      {errorBanner}
       {bookingForEditOverlay
       && (
       <EditBookingOverlay
         booking={bookingForEditOverlay}
-        exitEditOverlay={() => setBookingForEditOverlay(null)}
+        exit={() => setBookingForEditOverlay(null)}
+        refreshBookings={() => console.log('bookings are refreshed.')}
+        setErrorBanner={setErrorBanner}
       />
       )}
 

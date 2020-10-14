@@ -1,0 +1,36 @@
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0,0,0,0.6);
+}
+
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 40rem;
+    max-height: 100vh;
+    width: 30rem;
+    max-width: 100vw;
+    background-color: rgba(0,0,0);
+    text-align: center;
+}
+
+.buttonContainer {
+    width: 100%;
+    height: 3rem;
+}
+
+.exitButton {
+    font-size: 1.5rem;
+    background-color: transparent;
+    color: white;
+    border: none;
+    float: right;
+    margin: 0.5rem 1rem 0 0;
+    cursor: pointer;
+}

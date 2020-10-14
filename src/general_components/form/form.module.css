@@ -1,3 +1,7 @@
+.container {
+  text-align: center;
+}
+
 .inputGroup {
   width: 100%;
   display: block;

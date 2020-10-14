@@ -31,10 +31,11 @@ const touchInputs = function focusAndBlurAllInputChildren(children) {
 };
 
 const getInputs = function getListOfInputChildren(
-  inputs, onBlur, displayErrors, counterToResetChildren,
+  inputs, onBlur, displayErrors, counterToResetChildren, fields,
 ) {
   return inputs.map((input) => {
     const Component = inputFields[input.type] || inputFields.default;
+    fields[input.name] = input.value;
     return (
       <Component
         key={input.name + counterToResetChildren}
@@ -74,7 +75,7 @@ const Form = function CreateFormWithInputs(props) {
           setSubmitButtonText('Submitting...');
           await onSubmit(fields);
           resetChildren();
-          setSubmitButtonText(submitLabel);
+          // setSubmitButtonText(submitLabel);
         } else {
           touchInputs(event.target.children);
           setDisplayErrors(true);
@@ -82,7 +83,7 @@ const Form = function CreateFormWithInputs(props) {
       }}
       className={style.container}
     >
-      {getInputs(inputs, onBlur, displayErrors, counterToResetChildren)}
+      {getInputs(inputs, onBlur, displayErrors, counterToResetChildren, fields)}
       <input key="submit" className={style.submit} type="submit" value={submitButtonText} disabled={submitButtonText !== submitLabel} />
     </form>
   );
