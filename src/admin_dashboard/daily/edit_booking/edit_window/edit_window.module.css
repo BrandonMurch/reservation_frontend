@@ -1,0 +1,67 @@
+@value colors: "../../../../css/colors.module.css";
+@value primary, dark, light, accent from colors;
+
+
+.button {
+  composes: button from '../../../../css/project_globals.module.css';
+  margin: 0.5rem;
+  border: 2px solid dark;
+  color: black;
+  font-weight: bold;
+}
+
+.button:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+  box-shadow: 2px 2px grey;
+  moz-box-shadow: 2px 2px grey;
+  color: accent;
+}
+
+.input {
+  composes: input from '../../../../general_components/form/form.module.css';
+  color: dark;
+  font-weight: bold;
+  border-bottom: 2px solid dark;
+}
+
+
+.input:focus {
+  border-bottom: 4px solid dark;
+}
+
+.inputGroup {
+  composes: inputGroup from '../../../../general_components/form/form.module.css';
+}
+
+.hiddenLabelText {
+  composes: hiddenLabelText from '../../../../general_components/form/form.module.css';
+}
+
+.labelText {
+  composes: labelText from '../../../../general_components/form/form.module.css';
+}
+
+.displayError {
+  composes: input;
+}
+
+.displayError:invalid {
+  box-shadow: 0px 0px;
+  border-bottom: 2px solid darkred;
+}
+
+.displayError:invalid:focus {
+  border-bottom: 4px solid darkred;
+}
+
+.errorText {
+    composes: errorText from '../../../../general_components/form/form.module.css';
+    color: darkred;
+    font-weight: bold;
+}
+
+@media screen and (max-width: 550px) {
+  .labelText {
+    margin: 0.5rem;
+  }
+}

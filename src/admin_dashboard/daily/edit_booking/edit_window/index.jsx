@@ -69,6 +69,7 @@ const EditWindow = ({
       onSubmit={(event) => {
         event.startTime = `${event.date}T${event.startTime}`;
         event.endTime = `${event.date}T${event.endTime}`;
+        event.partySize = Number.parseInt(event.partySize, 10);
         const keys = Object.keys(event);
         keys.forEach((key) => {
           booking[key] = event[key];
@@ -76,9 +77,14 @@ const EditWindow = ({
         onSubmit(booking);
       }}
       submitLabel="Save Booking"
+      styleProp={style}
     />
-    <button type="button" onClick={() => setWindowToDisplay(types.DELETE)}>Delete this booking</button>
-    <button type="button" onClick={() => exit()}>Cancel</button>
+    <div className={style.buttonContainer}>
+      <button className={style.button} type="button" onClick={() => setWindowToDisplay(types.DELETE)}>Delete this booking</button>
+    </div>
+    <div className={style.buttonContainer}>
+      <button className={style.button} type="button" onClick={() => exit()}>Cancel</button>
+    </div>
   </div>
 
 );

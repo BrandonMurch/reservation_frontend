@@ -2,20 +2,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Stylesheets
+import style from './delete_confirmation.module.css';
+
 const DeleteConfirmation = ({
   cancelDelete, booking, deleteBooking,
 }) => {
   const { startTime, partySize, user } = booking;
 
   return (
-    <>
-      <errorBanner />
-      <p>
+    <div className={style.container}>
+      <p className={style.text}>
         {`Do you really wish to delete the booking for ${user.firstName} on ${startTime} for ${partySize} people?`}
       </p>
-      <button type="button" onClick={() => deleteBooking()}>Yes</button>
-      <button type="button" onClick={() => cancelDelete()}>No</button>
-    </>
+      <button className={style.button} type="button" onClick={() => deleteBooking()}>Yes</button>
+      <button className={style.button} type="button" onClick={() => cancelDelete()}>No</button>
+    </div>
   );
 };
 
