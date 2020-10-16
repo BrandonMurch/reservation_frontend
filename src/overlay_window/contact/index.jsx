@@ -63,15 +63,11 @@ const NewUser = function PopulateContactForm(props) {
     },
   ];
 
-  const onSubmit = function contactFormSubmit() {
-    props.onSubmit(user.current);
+  const onSubmit = function contactFormSubmit(submittedUser) {
+    props.onSubmit(submittedUser);
   };
 
   const onCheckboxClick = function toggleBooleanCheckBoxVariable(name, value) {
-    user.current[name] = value;
-  };
-
-  const onTextBlur = function updateUserOnInputBlur(value, name) {
     user.current[name] = value;
   };
 
@@ -92,7 +88,6 @@ const NewUser = function PopulateContactForm(props) {
         setFormDisplay={setFormDisplay}
         submitLabel="Next"
         onCheckboxClick={(name, value) => onCheckboxClick(name, value)}
-        onTextBlur={(value, name) => onTextBlur(value, name)}
         inputs={inputs}
         onSubmit={(event) => onSubmit(event)}
       />
