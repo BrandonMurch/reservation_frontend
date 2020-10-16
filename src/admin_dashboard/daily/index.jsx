@@ -192,7 +192,7 @@ const tableBookings = function placeBookingsIntoHourSlotsInTable(
   return bookingDisplay;
 };
 
-const Bookings = function BookingsTableByHour({ bookings }) {
+const Bookings = function BookingsTableByHour({ bookings, toggleBookingRefresh }) {
   const [errorBanner, setErrorBanner] = useState(null);
   let bookingsTableComponents;
   const [bookingForEditOverlay, setBookingForEditOverlay] = useState(null);
@@ -208,8 +208,10 @@ const Bookings = function BookingsTableByHour({ bookings }) {
       && (
       <EditBookingOverlay
         booking={bookingForEditOverlay}
-        exit={() => setBookingForEditOverlay(null)}
-        refreshBookings={() => console.log('bookings are refreshed.')}
+        exit={() => {
+          setBookingForEditOverlay(null);
+          toggleBookingRefresh();
+        }}
         setErrorBanner={setErrorBanner}
       />
       )}
@@ -235,13 +237,20 @@ const Daily = function DisplayDailyReservations() {
   const { dateObject, dispatchDate } = useTimeHandler('day', date);
   const token = useTokenContext.getToken;
   const path = `/bookings?date=${dateObject.format('yyyy-MM-DD')}`;
-  const { alternativeRender, response, status } = useFetch(path, { headers: { authorization: `Bearer: ${token}` } });
+  // let toggleFetch = false;
+  const [fetchToggle, toggleFetch] = useState(false);
+  // TODO: add updateable option for useFetch
+  const { alternativeRender, response, status } = useFetch(path, { headers: { authorization: `Bearer: ${token}` } }, fetchToggle);
   if (status >= 400 && status < 500) {
     return <Redirect to="/admin-login" />;
   }
   if (alternativeRender) {
     return alternativeRender;
   }
+
+  const toggleBookingRefresh = function toggleFetchForBookingRefresh() {
+    toggleFetch(!fetchToggle);
+  };
 
   return (
     <div key={dateObject.format('dddd MMMM Do[,] YYYY')} className={style.container}>
@@ -252,7 +261,7 @@ const Daily = function DisplayDailyReservations() {
         isThisToday={dateObject.startOf('day').isSame(moment().startOf('day'))}
         goToToday={() => dispatchDate('current')}
       />
-      <Bookings bookings={response} />
+      <Bookings bookings={response} toggleBookingRefresh={() => toggleBookingRefresh()} />
     </div>
   );
 };

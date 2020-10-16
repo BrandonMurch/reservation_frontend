@@ -15,7 +15,7 @@ import Exit from './exit_button';
 import style from './edit_booking.module.css';
 
 const EditBookingOverlay = ({
-  booking, exit, refreshBookings, setErrorBanner,
+  booking, exit, setErrorBanner,
 }) => {
   const [windowToDisplay, setWindowToDisplay] = useState(types.EDIT);
 
@@ -26,7 +26,6 @@ const EditBookingOverlay = ({
       setErrorBanner(alternativeRender);
     } else {
       setErrorBanner(null);
-      refreshBookings();
     }
 
     exit();
@@ -57,7 +56,6 @@ const EditBookingOverlay = ({
         <DeleteConfirmation
           booking={booking}
           cancelDelete={() => setWindowToDisplay(types.EDIT)}
-          refreshBookings={refreshBookings}
           deleteBooking={() => deleteBooking(booking)}
         />
       );
@@ -101,7 +99,6 @@ const EditBookingOverlay = ({
 
 EditBookingOverlay.propTypes = {
   exit: PropTypes.func.isRequired,
-  refreshBookings: PropTypes.func.isRequired,
   setErrorBanner: PropTypes.func.isRequired,
   booking: PropTypes.shape({
     id: PropTypes.number.isRequired,
