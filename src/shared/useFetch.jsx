@@ -92,7 +92,7 @@ export const fetchWrapper = async function fetchFromServer(
  * @param {*} method
  * @param {*} body
  */
-const useFetch = function useFetch(path, args) {
+const useFetch = function useFetch(path, args, toggle = false) {
   const [fetchResponse, setFetchResponse] = useState(getLoadingObject());
 
   useEffect(() => {
@@ -102,7 +102,7 @@ const useFetch = function useFetch(path, args) {
     getResponse();
   // If this is set to change with args, it just constantly reloads the page...
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [path]);
+  }, [path, toggle]);
 
   return fetchResponse;
 };
