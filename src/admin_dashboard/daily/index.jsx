@@ -230,6 +230,7 @@ const Bookings = function BookingsTableByHour({ bookings, toggleBookingRefresh }
 
 Bookings.propTypes = {
   bookings: PropTypes.arrayOf(Object).isRequired,
+  toggleBookingRefresh: PropTypes.func.isRequired,
 };
 
 const Daily = function DisplayDailyReservations() {
