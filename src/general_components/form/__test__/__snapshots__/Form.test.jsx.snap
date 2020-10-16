@@ -109,7 +109,7 @@ exports[`<Form /> should match snapshot 1`] = `
       Yes, I agree to the terms and conditions:
     </label>
     <input
-      className=""
+      className="input"
       id="tAC"
       name="tAC"
       onBlur={[Function]}
@@ -123,7 +123,7 @@ exports[`<Form /> should match snapshot 1`] = `
     />
   </div>
   <input
-    className="submit"
+    className="button"
     disabled={false}
     type="submit"
     value="Submit"

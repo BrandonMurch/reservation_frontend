@@ -54,7 +54,6 @@ const Form = function CreateFormWithInputs(props) {
   } = props;
 
   const style = styleProp === null ? styleSheet : styleProp;
-
   const fields = {};
   const onBlur = function updateFieldsOnBlur(value, name) {
     fields[name] = value;
@@ -104,11 +103,12 @@ Form.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   submitLabel: PropTypes.string.isRequired,
   resetChildrenOnSubmit: PropTypes.bool,
-  styleProp: PropTypes.shape({}).isRequired,
+  styleProp: PropTypes.shape({}),
 };
 
 Form.defaultProps = {
   resetChildrenOnSubmit: false,
+  styleProp: null,
 };
 
 export default Form;

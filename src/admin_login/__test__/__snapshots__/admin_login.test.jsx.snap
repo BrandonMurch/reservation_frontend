@@ -62,7 +62,7 @@ exports[`<AdminLogin /> should match snapshot 1`] = `
         />
       </div>
       <input
-        className="submit"
+        className="button"
         disabled={false}
         type="submit"
         value="Login"
