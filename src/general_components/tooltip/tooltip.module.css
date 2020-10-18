@@ -1,0 +1,18 @@
+@value colors: "../../css/colors.module.css";
+@value primary, dark, light, accent from colors;
+
+.container {
+    position: absolute;
+    overflow: visible;
+}
+
+.toolTip {
+    position: relative;
+    background: dark;
+    color: light;
+    bottom: 4rem;
+    font-weight: bold;
+    border: 1px solid black;
+    padding: 0.5rem;
+
+}
