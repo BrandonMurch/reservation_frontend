@@ -121,7 +121,6 @@ const TableRow = function TableRowForBookingTable({ booking, setBookingForEditOv
       <td>{userComments}</td>
       <td>{restaurantComments}</td>
       <td><button className={style.editButton} type="button" onClick={() => setBookingForEditOverlay(booking)}>Edit</button></td>
-      {/* TODO: make booking edit button */}
     </tr>
   );
 };
@@ -238,9 +237,7 @@ const Daily = function DisplayDailyReservations() {
   const { dateObject, dispatchDate } = useTimeHandler('day', date);
   const token = useTokenContext.getToken;
   const path = `/bookings?date=${dateObject.format('yyyy-MM-DD')}`;
-  // let toggleFetch = false;
   const [fetchToggle, toggleFetch] = useState(false);
-  // TODO: add updateable option for useFetch
   const { alternativeRender, response, status } = useFetch(path, { headers: { authorization: `Bearer: ${token}` } }, fetchToggle);
   if (status >= 400 && status < 500) {
     return <Redirect to="/admin-login" />;
