@@ -2,6 +2,8 @@
 @value primary, dark, light, accent from colors;
 
 
+
+
 .container {
     width: 100vw;
     height: 10vh;
@@ -35,4 +37,23 @@
 
 .button:hover {
         color: light;
+}
+
+@media screen and (max-width: 900px) {
+
+    .monthText {
+        float: center;
+        margin: 0;
+        padding: 1rem;
+        width: 100%;
+        text-align: center;
+    }
+
+    .buttonContainer {
+        float: none;
+        margin: 0;
+        padding: 0.5rem;
+        text-align: center;
+        width: 100%;
+    }
 }
