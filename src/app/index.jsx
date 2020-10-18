@@ -11,6 +11,7 @@ import { TokenContextProvider } from '../contexts/token_context';
 
 // CSS
 import style from './app.module.css';
+import 'css/responsive.css';
 
 function App() {
   const [displayOverlay, setOverlayDisplay] = useState(false);
