@@ -25,8 +25,7 @@ const Titles = function columnTitlesForBookingsTable() {
         <th>Table</th>
         <th>Party Size</th>
         <th>Contact</th>
-        <th>User Comments</th>
-        <th>Restaurant Comments</th>
+        <th>Comments</th>
       </tr>
     </thead>
   );
@@ -118,8 +117,11 @@ const TableRow = function TableRowForBookingTable({ booking, setBookingForEditOv
         <br />
         {`${user.phoneNumber}`}
       </td>
-      <td>{userComments}</td>
-      <td>{restaurantComments}</td>
+      <td>
+        {userComments && `${userComments}`}
+        <br />
+        {restaurantComments && `${restaurantComments}`}
+      </td>
       <td><button className={style.editButton} type="button" onClick={() => setBookingForEditOverlay(booking)}>Edit</button></td>
     </tr>
   );
