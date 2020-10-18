@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import bookingQuickSort from '../bookingQuickSort';
 
 // Components
-import EditBookingOverlay from '../edit_booking';
+import EditBookingOverlay from './edit_booking';
 import TableRow from './table_row';
 
 // Stylesheets
