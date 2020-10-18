@@ -9,6 +9,7 @@
 
 .tableContainer {
    overflow-x: scroll;
+   height: 90%;
 }
 
 .table {
@@ -43,7 +44,6 @@
 }
 
 .editButton {
-   width: 4rem;
    padding: 0;
    text-align: center;
 }
