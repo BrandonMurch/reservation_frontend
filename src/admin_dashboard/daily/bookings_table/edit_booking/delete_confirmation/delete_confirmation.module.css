@@ -1,4 +1,4 @@
-@value colors: "../../../../css/colors.module.css";
+@value colors: "../../../../../css/colors.module.css";
 @value primary, dark, light, accent from colors;
 
 
@@ -8,7 +8,7 @@
 
 .text {
     margin: 2rem;
-    composes: text from '../../../../css/project_globals.module.css';
+    composes: text from '../../../../../css/project_globals.module.css';
     color: dark;
     font-weight: bold;
 }

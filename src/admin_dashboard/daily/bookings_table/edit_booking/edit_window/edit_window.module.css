@@ -1,9 +1,9 @@
-@value colors: "../../../../css/colors.module.css";
+@value colors: "../../../../../css/colors.module.css";
 @value primary, dark, light, accent from colors;
 
 
 .button {
-  composes: button from '../../../../css/project_globals.module.css';
+  composes: button from '../../../../../css/project_globals.module.css';
   margin: 0.5rem;
   border: 2px solid dark;
   color: black;
@@ -18,7 +18,7 @@
 }
 
 .input {
-  composes: input from '../../../../general_components/form/form.module.css';
+  composes: input from '../../../../../general_components/form/form.module.css';
   color: dark;
   font-weight: bold;
   border-bottom: 2px solid dark;
@@ -30,15 +30,15 @@
 }
 
 .inputGroup {
-  composes: inputGroup from '../../../../general_components/form/form.module.css';
+  composes: inputGroup from '../../../../../general_components/form/form.module.css';
 }
 
 .hiddenLabelText {
-  composes: hiddenLabelText from '../../../../general_components/form/form.module.css';
+  composes: hiddenLabelText from '../../../../../general_components/form/form.module.css';
 }
 
 .labelText {
-  composes: labelText from '../../../../general_components/form/form.module.css';
+  composes: labelText from '../../../../../general_components/form/form.module.css';
 }
 
 .displayError {
@@ -55,7 +55,7 @@
 }
 
 .errorText {
-    composes: errorText from '../../../../general_components/form/form.module.css';
+    composes: errorText from '../../../../../general_components/form/form.module.css';
     color: darkred;
     font-weight: bold;
 }
