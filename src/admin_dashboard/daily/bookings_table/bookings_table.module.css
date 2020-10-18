@@ -1,0 +1,14 @@
+.tableContainer {
+   overflow-x: scroll;
+   height: 90%;
+}
+
+.table {
+   width: 100%;
+   padding: 2rem;
+}
+
+.hourRow {
+   composes: row;
+   border: 5px solid black;
+}
