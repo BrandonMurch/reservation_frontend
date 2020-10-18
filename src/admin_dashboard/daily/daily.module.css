@@ -4,11 +4,11 @@
 
 .container {
    composes: bodyContainer from '../admin_dashboard.module.css';
+   background: primary;
 }
 
 .tableContainer {
-   background: primary;
-   min-height: 90vh;
+   overflow-x: scroll;
 }
 
 .table {

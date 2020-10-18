@@ -1,3 +1,11 @@
+html {
+  overflow: hidden;
+}
+
+p {
+  margin: 0;
+}
+
 .text {
   color: white;
   font-family: sans-serif;
@@ -25,8 +33,4 @@
   background-color: rgba(0, 0, 0, 0);
   padding: 0.5rem;
   border: 2px solid white;
-}
-
-p {
-  margin: 0;
 }
