@@ -8,7 +8,7 @@ import EditBookingOverlay from './edit_booking';
 import TableRow from './table_row';
 
 // Stylesheets
-import style from '../daily.module.css';
+import style from './bookings_table.module.css';
 
 const loadBookingsIntoMap = function loadBookingsIntoMapByHour(bookings) {
   const bookingsByHourMap = new Map();

@@ -9,6 +9,6 @@
 }
 
 .hourRow {
-   composes: row;
+   composes: row from '../daily.module.css';
    border: 5px solid black;
 }

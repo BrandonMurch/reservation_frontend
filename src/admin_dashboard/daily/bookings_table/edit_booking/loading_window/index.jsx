@@ -1,13 +1,8 @@
 // Dependencies
 import React from 'react';
 
-// Stylesheets
-import style from './loading_window.module.css';
-
 const LoadingWindow = () => (
-  <div className={style.container}>
-    <p>Loading Placeholder...</p>
-  </div>
+  <p>Loading Placeholder...</p>
 );
 
 export default LoadingWindow;
