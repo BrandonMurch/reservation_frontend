@@ -1,5 +1,5 @@
 // Dependencies
-import React, { useState } from 'react';
+import React, { useState, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { enumeration } from 'shared/helpers';
 
@@ -53,6 +53,7 @@ const Form = function CreateFormWithInputs(props) {
     inputs, onSubmit, submitLabel, resetChildrenOnSubmit, styleProp,
   } = props;
 
+  const elementRef = createRef();
   const style = styleProp === null ? styleSheet : styleProp;
   const fields = {};
   const onBlur = function updateFieldsOnBlur(value, name) {
@@ -69,6 +70,7 @@ const Form = function CreateFormWithInputs(props) {
 
   return (
     <form
+      ref={elementRef}
       noValidate
       data-testid="form"
       onSubmit={async (event) => {
@@ -77,8 +79,9 @@ const Form = function CreateFormWithInputs(props) {
           setSubmitButtonText('Submitting...');
           await onSubmit(fields);
           resetChildren();
-          // FIXME: this doesn't work if the component gets unmounted.
-          // setSubmitButtonText(submitLabel);
+          if (elementRef.current) {
+            setSubmitButtonText(submitLabel);
+          }
         } else {
           touchInputs(event.target.children);
           setDisplayErrors(true);
