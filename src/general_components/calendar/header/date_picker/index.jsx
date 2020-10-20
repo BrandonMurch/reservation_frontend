@@ -11,7 +11,7 @@ import MonthYearSelector from './month_selector';
 // Stylesheets
 import style from './date_picker.module.css';
 
-const DatePicker = function SmallWindowToSelectDate({ dateObject, dispatchDate }) {
+const DatePicker = function SmallWindowToSelectDate({ dateObject, dispatchDate, setDisplayDatePicker }) {
   const [displayMonthSelector, setDisplayMonthSelector] = useState(false);
   return (
     <div className={style.container}>
@@ -34,6 +34,7 @@ const DatePicker = function SmallWindowToSelectDate({ dateObject, dispatchDate }
               className={style.datePicker}
               dateObject={dateObject}
               onClick={(date) => {
+                setDisplayDatePicker(false);
                 dispatchDate({ type: 'goTo', date });
               }}
             />

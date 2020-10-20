@@ -10,7 +10,7 @@ const Header = function CalendarMonthAndButtons({
   date, prev, next, isThisToday, goToToday, dateObject, dispatchDate,
 }) {
   const [displayDatePicker, setDisplayDatePicker] = useState(false);
-  const datePickerProps = { dateObject, dispatchDate };
+  const datePickerProps = { dateObject, dispatchDate, setDisplayDatePicker };
   return (
     <div className={style.container}>
       <div>
