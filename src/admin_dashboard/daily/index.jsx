@@ -15,7 +15,7 @@ import style from './daily.module.css';
 
 const Daily = function DisplayDailyReservations() {
   const { date } = useParams();
-  const { dateObject, dispatchDate } = useTimeHandler('day', date);
+  const { dateObject, dispatchDate } = useTimeHandler(date);
   const token = useTokenContext.getToken;
   const path = `/bookings?date=${dateObject.format('yyyy-MM-DD')}`;
   const [fetchToggle, toggleFetch] = useState(false);
@@ -35,10 +35,10 @@ const Daily = function DisplayDailyReservations() {
     <div key={dateObject.format('dddd MMMM Do[,] YYYY')} className={style.container}>
       <Header
         date={dateObject.format('dddd MMMM Do[,] YYYY')}
-        prev={() => dispatchDate('prev')}
-        next={() => dispatchDate('next')}
+        prev={() => dispatchDate({ type: 'prev', unit: 'day' })}
+        next={() => dispatchDate({ type: 'next', unit: 'day' })}
         isThisToday={dateObject.startOf('day').isSame(moment().startOf('day'))}
-        goToToday={() => dispatchDate('current')}
+        goToToday={() => dispatchDate({ type: 'current' })}
         dateObject={dateObject}
         dispatchDate={dispatchDate}
       />
