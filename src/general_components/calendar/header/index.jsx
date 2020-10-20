@@ -10,12 +10,7 @@ const Header = function CalendarMonthAndButtons({
   date, prev, next, isThisToday, goToToday, dateObject, dispatchDate,
 }) {
   const [displayDatePicker, setDisplayDatePicker] = useState(false);
-  const dateClick = function () {
-    // TODO: implement this.
-    console.log('clicked.');
-  };
-  const datePickerProps = { dateObject, dispatchDate, dateClick };
-  console.log(dateObject);
+  const datePickerProps = { dateObject, dispatchDate };
   return (
     <div className={style.container}>
       <div>
@@ -46,6 +41,8 @@ Header.propTypes = {
   next: PropTypes.func.isRequired,
   isThisToday: PropTypes.bool.isRequired,
   goToToday: PropTypes.func.isRequired,
+  dateObject: PropTypes.shape({}).isRequired,
+  dispatchDate: PropTypes.func.isRequired,
 };
 
 export default Header;
