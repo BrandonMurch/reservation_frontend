@@ -24,7 +24,7 @@ const ColumnHeaders = function GetTitlesForDaysOfWeek({ titleStyle }) {
 };
 
 ColumnHeaders.propTypes = {
-  titleStyle: PropTypes.shape({}),
+  titleStyle: PropTypes.string,
 };
 
 ColumnHeaders.defaultProps = {
@@ -48,13 +48,13 @@ CalendarBody.propTypes = {
   dateObject: PropTypes.shape({}).isRequired,
   onDateRender: PropTypes.func,
   onClick: PropTypes.func,
-  titleStyle: PropTypes.shape({}),
+  titleStyle: PropTypes.string,
 };
 
 CalendarBody.defaultProps = {
   onDateRender: () => {},
   onClick: () => {},
-  titleStyle: {},
+  titleStyle: null,
 };
 
 export default CalendarBody;
