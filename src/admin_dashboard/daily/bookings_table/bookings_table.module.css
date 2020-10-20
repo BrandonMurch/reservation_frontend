@@ -1,6 +1,7 @@
 .tableContainer {
    overflow-x: scroll;
    height: 90%;
+   width: 100%;
 }
 
 .table {
