@@ -4,6 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { getMonth } from 'shared/dateHelper';
 
 // Components
 import useTimeHandler from 'shared/useTimeHandler';
@@ -14,8 +15,8 @@ import CalendarBody from './calendar_body';
 import style from './calendar.module.css';
 
 const Calendar = function Calendar({ onDateRender, onClick }) {
-  const { dateObject, dispatchDate } = useTimeHandler('month');
-  const currentMonth = moment.months()[dateObject.month()];
+  const { dateObject, dispatchDate } = useTimeHandler();
+  const currentMonth = getMonth(dateObject.month()).long;
   const currentYear = dateObject.year();
   const monthYear = `${currentMonth} ${currentYear}`;
   return (
