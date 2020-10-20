@@ -80,12 +80,13 @@ const CalendarRows = function PopulateCalendarRowsWithCalendarBoxes(
 
 CalendarRows.propTypes = {
   dateObject: PropTypes.shape({}).isRequired,
-  onDateRender: PropTypes.func.isRequired,
+  onDateRender: PropTypes.func,
   onClick: PropTypes.func,
 };
 
 CalendarRows.defaultProps = {
   onClick: () => {},
+  onDateRender: () => {},
 };
 
 export default CalendarRows;
