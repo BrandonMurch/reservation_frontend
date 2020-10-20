@@ -24,7 +24,10 @@ const Selector = function SelectorScrollWheel({
   // FIXME: after clicking, the dialog is exited. The desired action is to stay in the dialog.
   const displayButtons = function buildDisplayButtons() {
     const buttons = [];
-    for (let i = start; i <= end; i++) {
+    for (let i = start; i !== end + 1; i++) {
+      if (unit === 'months' && i > 11) {
+        i -= 12;
+      }
       const buttonText = textForButtons(i);
       buttons.push(
         <button
@@ -41,7 +44,6 @@ const Selector = function SelectorScrollWheel({
     }
     return buttons;
   };
-  // FIXME: dispatchDate 'prev' jumps 3 years...
   return (
     <div className={selectorStyle}>
       <button
@@ -76,6 +78,7 @@ Selector.propTypes = {
 };
 
 const SelectorController = function MonthAndYearSelector({ dateObject, ...props }) {
+  // FIXME: date isn't checked.
   return (
     <div className={style.container}>
       <Selector
