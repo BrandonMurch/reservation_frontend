@@ -30,9 +30,9 @@ const Daily = function DisplayDailyReservations() {
   const toggleBookingRefresh = function toggleFetchForBookingRefresh() {
     toggleFetch(!fetchToggle);
   };
-
+  // NOTE: key has been removed here in div componenet. I don't think this affects functionality but we will see...
   return (
-    <div key={dateObject.format('dddd MMMM Do[,] YYYY')} className={style.container}>
+    <div className={style.container}>
       <Header
         date={dateObject.format('dddd MMMM Do[,] YYYY')}
         prev={() => dispatchDate({ type: 'prev', unit: 'day' })}
