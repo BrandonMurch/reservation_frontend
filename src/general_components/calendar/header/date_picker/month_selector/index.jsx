@@ -1,7 +1,6 @@
 // Dependencies
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import { getMonth } from 'shared/dateHelper';
 
 // StyleSheets
@@ -19,20 +18,22 @@ const handleMonthOverflow = function handleMonthOverflowOver12Under0(monthNumber
 };
 
 // TODO: minimize this into one common function for months/years
-const MonthSelector = function MonthSelectorScrollWheel({
-  start, end, unit, textForButton, dateObject, dispatchDate,
+const Selector = function SelectorScrollWheel({
+  start, end, unit, textForButtons, dispatchDate,
 }) {
   const displayButtons = function buildDisplayButtons() {
     const buttons = [];
     for (let i = start; i <= end; i++) {
+      const buttonText = textForButtons(i);
       buttons.push(
         <button
+          key={buttonText}
           type="button"
           onClick={() => {
             dispatchDate({ type: 'set', unit: 'months', number: i });
           }}
         >
-          {textForButton(i)}
+          {buttonText}
         </button>,
       );
     }
@@ -40,76 +41,39 @@ const MonthSelector = function MonthSelectorScrollWheel({
   };
   return (
     <div>
-      <button type="button" onClick={dispatchDate({ type: 'prev', unit })}>UP</button>
+      <button type="button" onClick={() => dispatchDate({ type: 'prev', unit })}>UP</button>
 
       {displayButtons()}
 
-      <button type="button" onClick={dispatchDate({ type: 'next', unit })}>Down</button>
+      <button type="button" onClick={() => dispatchDate({ type: 'next', unit })}>Down</button>
     </div>
 
   );
 };
 
-const YearSelector = function YearSelectorScrollWheel({ dateObject, dispatchDate }) {
-  /*
-    handle monthOverflow before method
-
-    formatting button text...?
-    create function outside of method that returns the proper date Format
-
-    */
-  const startYear = dateObject.months() - 2;
-  const endYear = dateObject.months() + 2;
-  const displayYears = function getDisplayYears() {
-    const years = [];
-    for (let i = startYear; i <= endYear; i++) {
-      years.push(
-        <button
-          type="button"
-          onClick={() => {
-            dispatchDate({ type: 'set', unit: 'years', number: i });
-          }}
-        >
-          {moment().year(i).format('YYYY')}
-        </button>,
-      );
-    }
-    return years;
-  };
-  return (
-    <div className={style.yearContainer}>
-      {/* if month is < 0, then take month number and +12 */}
-      {/* shift month up one (-1) */}
-      <button type="button" onClick={dispatchDate({ type: 'prev', unit: 'years' })}>UP</button>
-
-      {/* 5 months display here (-2 to +2) */}
-      {displayYears()}
-
-      {/* if month is > 12, then take month number and -12 */}
-      {/* shift month down (+1) */}
-      <button type="button" onClick={dispatchDate({ type: 'next', unit: 'years' })}>Down</button>
-    </div>
-
-  );
+Selector.propTypes = {
+  start: PropTypes.number.isRequired,
+  end: PropTypes.number.isRequired,
+  unit: PropTypes.string.isRequired,
+  textForButtons: PropTypes.func.isRequired,
+  dispatchDate: PropTypes.func.isRequired,
 };
 
-const Selector = function MonthAndYearSelector(dateObject, { ...props }) {
+const SelectorController = function MonthAndYearSelector({ dateObject, ...props }) {
   return (
     <>
-      <MonthSelector
+      <Selector
         className={style.monthContainer}
-        start={handleMonthOverflow(dateObject.months() - 2)}
-        end={handleMonthOverflow(dateObject.months() + 2)}
-        textForButtons={(month) => {
-          getMonth(month);
-        }}
+        start={handleMonthOverflow(dateObject.month() - 2)}
+        end={handleMonthOverflow(dateObject.month() + 2)}
+        textForButtons={(month) => getMonth(handleMonthOverflow(month)).short}
         unit="months"
         {...props}
       />
-      <YearSelector
+      <Selector
         className={style.yearContainer}
-        start={dateObject.years() - 2}
-        end={dateObject.years() + 2}
+        start={dateObject.year() - 2}
+        end={dateObject.year() + 2}
         textForButtons={(year) => year}
         unit="years"
         {...props}
@@ -118,4 +82,11 @@ const Selector = function MonthAndYearSelector(dateObject, { ...props }) {
   );
 };
 
-export default Selector;
+SelectorController.propTypes = {
+  dateObject: PropTypes.shape({
+    month: PropTypes.func.isRequired,
+    year: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+export default SelectorController;
