@@ -19,18 +19,20 @@ const handleMonthOverflow = function handleMonthOverflowOver12Under0(monthNumber
 
 // TODO: minimize this into one common function for months/years
 const Selector = function SelectorScrollWheel({
-  start, end, unit, textForButtons, dispatchDate,
+  start, end, unit, textForButtons, dispatchDate, selectorStyle,
 }) {
+  // FIXME: after clicking, the dialog is exited. The desired action is to stay in the dialog.
   const displayButtons = function buildDisplayButtons() {
     const buttons = [];
     for (let i = start; i <= end; i++) {
       const buttonText = textForButtons(i);
       buttons.push(
         <button
+          className={style.wheelButton}
           key={buttonText}
           type="button"
           onClick={() => {
-            dispatchDate({ type: 'set', unit: 'months', number: i });
+            dispatchDate({ type: 'set', unit, number: i });
           }}
         >
           {buttonText}
@@ -40,12 +42,12 @@ const Selector = function SelectorScrollWheel({
     return buttons;
   };
   return (
-    <div>
-      <button type="button" onClick={() => dispatchDate({ type: 'prev', unit })}>UP</button>
+    <div className={selectorStyle}>
+      <button className={style.directionButton} type="button" onClick={() => dispatchDate({ type: 'prev', unit })}>UP</button>
 
       {displayButtons()}
 
-      <button type="button" onClick={() => dispatchDate({ type: 'next', unit })}>Down</button>
+      <button className={style.directionButton} type="button" onClick={() => dispatchDate({ type: 'next', unit })}>Down</button>
     </div>
 
   );
@@ -61,9 +63,9 @@ Selector.propTypes = {
 
 const SelectorController = function MonthAndYearSelector({ dateObject, ...props }) {
   return (
-    <>
+    <div className={style.container}>
       <Selector
-        className={style.monthContainer}
+        selectorStyle={style.monthContainer}
         start={handleMonthOverflow(dateObject.month() - 2)}
         end={handleMonthOverflow(dateObject.month() + 2)}
         textForButtons={(month) => getMonth(handleMonthOverflow(month)).short}
@@ -71,14 +73,14 @@ const SelectorController = function MonthAndYearSelector({ dateObject, ...props 
         {...props}
       />
       <Selector
-        className={style.yearContainer}
+        selectorStyle={style.yearContainer}
         start={dateObject.year() - 2}
         end={dateObject.year() + 2}
         textForButtons={(year) => year}
         unit="years"
         {...props}
       />
-    </>
+    </div>
   );
 };
 
