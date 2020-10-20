@@ -39,6 +39,16 @@
         color: light;
 }
 
+.datePickerToggle{
+    transform: rotate(-90deg);
+    background: transparent;
+    border: none;
+    color: dark;
+    font-weight: bold;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
 @media screen and (max-width: 900px) {
 
     .monthText {
