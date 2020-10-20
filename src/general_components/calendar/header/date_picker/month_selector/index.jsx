@@ -41,13 +41,26 @@ const Selector = function SelectorScrollWheel({
     }
     return buttons;
   };
+  // FIXME: dispatchDate 'prev' jumps 3 years...
   return (
     <div className={selectorStyle}>
-      <button className={style.directionButton} type="button" onClick={() => dispatchDate({ type: 'prev', unit })}>UP</button>
+      <button
+        className={style.directionButton}
+        type="button"
+        onClick={() => dispatchDate({ type: 'prev', unit })}
+      >
+        {'<'}
+      </button>
 
       {displayButtons()}
 
-      <button className={style.directionButton} type="button" onClick={() => dispatchDate({ type: 'next', unit })}>Down</button>
+      <button
+        className={style.directionButton}
+        type="button"
+        onClick={() => dispatchDate({ type: 'next', unit })}
+      >
+        {'>'}
+      </button>
     </div>
 
   );
@@ -59,6 +72,7 @@ Selector.propTypes = {
   unit: PropTypes.string.isRequired,
   textForButtons: PropTypes.func.isRequired,
   dispatchDate: PropTypes.func.isRequired,
+  selectorStyle: PropTypes.string.isRequired,
 };
 
 const SelectorController = function MonthAndYearSelector({ dateObject, ...props }) {

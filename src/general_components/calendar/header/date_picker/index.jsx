@@ -41,7 +41,6 @@ const DatePicker = function SmallWindowToSelectDate({ dateObject, dispatchDate }
           </div>
         )}
     </div>
-
   );
 };
 
