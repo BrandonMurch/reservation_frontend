@@ -15,7 +15,7 @@ const Header = function CalendarMonthAndButtons({
     <div className={style.container}>
       <div>
         <h1 className={style.monthText}>{date}</h1>
-        <button type="button" onClick={() => setDisplayDatePicker(true)}>Go To:</button>
+        <button type="button" onClick={() => setDisplayDatePicker(!displayDatePicker)}>Go To:</button>
         {displayDatePicker && <DatePicker {...datePickerProps} />}
       </div>
       <div className={style.buttonContainer}>
