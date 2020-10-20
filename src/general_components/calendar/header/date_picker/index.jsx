@@ -11,7 +11,9 @@ import MonthYearSelector from './month_selector';
 // Stylesheets
 import style from './date_picker.module.css';
 
-const DatePicker = function SmallWindowToSelectDate({ dateObject, dispatchDate, setDisplayDatePicker }) {
+const DatePicker = function SmallWindowToSelectDate(
+  { dateObject, dispatchDate, setDisplayDatePicker },
+) {
   const [displayMonthSelector, setDisplayMonthSelector] = useState(false);
   return (
     <div className={style.container}>
@@ -50,6 +52,7 @@ DatePicker.propTypes = {
     format: PropTypes.func.isRequired,
   }).isRequired,
   dispatchDate: PropTypes.func.isRequired,
+  setDisplayDatePicker: PropTypes.func.isRequired,
 };
 
 export default DatePicker;
