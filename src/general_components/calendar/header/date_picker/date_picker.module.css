@@ -1,9 +1,22 @@
+@value colors: "../../../../css/colors.module.css";
+@value primary, dark, light, accent from colors;
+
+
 .container {
     position: absolute;
+    width: 20rem;
+    height: 15rem;
+    background: dark;
+    z-index: 100;
+    text-align: center;
+    padding: 1rem;
 }
 
-.datePicker {
-    position: absolute;
-    width: 10rem;
-    height: 10rem;
+.calendarContainer {
+    height: 90%;
+}
+
+.dayTitles {
+    color: light;
+    width: 14.2857%;
 }

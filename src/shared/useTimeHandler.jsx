@@ -1,7 +1,7 @@
 import { useReducer } from 'react';
 import moment from 'moment';
 
-const useTimeHandler = (initialDate = moment()) => {
+const useTimeHandler = (initialDate) => {
   const initialDateObject = {
     dateObject: moment(initialDate),
   };
