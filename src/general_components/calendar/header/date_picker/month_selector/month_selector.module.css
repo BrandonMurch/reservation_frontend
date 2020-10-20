@@ -1,0 +1,13 @@
+.container {
+    width: 45%;
+}
+
+.monthContainer {
+    composes: container;
+    float: left;
+}
+
+.yearContainer {
+    float: right;
+    composes: container;
+}

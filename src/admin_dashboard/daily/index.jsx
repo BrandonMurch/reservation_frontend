@@ -39,6 +39,8 @@ const Daily = function DisplayDailyReservations() {
         next={() => dispatchDate('next')}
         isThisToday={dateObject.startOf('day').isSame(moment().startOf('day'))}
         goToToday={() => dispatchDate('current')}
+        dateObject={dateObject}
+        dispatchDate={dispatchDate}
       />
       <Bookings bookings={response} toggleBookingRefresh={() => toggleBookingRefresh()} />
     </div>

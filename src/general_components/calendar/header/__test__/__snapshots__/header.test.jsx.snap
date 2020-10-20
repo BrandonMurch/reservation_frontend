@@ -10,6 +10,12 @@ exports[`<Header /> should match snapshot 1`] = `
     >
       August 2020
     </h1>
+    <button
+      onClick={[Function]}
+      type="button"
+    >
+      Go To:
+    </button>
   </div>
   <div
     className="buttonContainer"
