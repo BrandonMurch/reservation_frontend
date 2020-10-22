@@ -18,6 +18,7 @@ const DirectionalButton = function DirectionalButtonForSelector({
     <button
       className={style}
       type="button"
+      aria-label={`${unit} ${direction}`}
       onClick={() => {
         dispatchDate({
           unit,
