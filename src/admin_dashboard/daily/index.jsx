@@ -30,10 +30,6 @@ const Daily = function DisplayDailyReservations() {
   const toggleBookingRefresh = function toggleFetchForBookingRefresh() {
     toggleFetch(!fetchToggle);
   };
-  /*
-   NOTE: key has been removed here in div componenet.
-   I don't think this affects functionality but we will see...
-   */
   return (
     <div className={style.container}>
       <Header
