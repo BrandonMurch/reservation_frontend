@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { fetchWrapper } from 'shared/useFetch';
 import { useTokenContext } from 'contexts/token_context';
+import moment from 'moment';
 import types from './window_types';
 
 // Components
@@ -10,14 +11,65 @@ import DeleteConfirmation from './delete_confirmation';
 import EditWindow from './edit_window';
 import LoadingWindow from './loading_window';
 import Exit from './exit_button';
+import CreateBooking from './create_booking';
 
 // Stylesheets
 import style from './edit_booking.module.css';
 
+const createBookingBody = function splitUserAndBookingForBody(booking) {
+  const splitName = booking.name.split(' ');
+  const user = {
+    username: booking.email,
+    firstName: splitName[0],
+    lastName: splitName.length > 1 ? splitName[1] : '',
+    phoneNumber: booking.phoneNumber,
+  };
+  delete booking.name;
+  delete booking.phoneNumber;
+  delete booking.email;
+  return { booking, user };
+};
+
+const createBooking = async function submitBookingCreationToServer(
+  booking, setWindowToDisplay, checkErrorAndExit,
+) {
+  setWindowToDisplay(types.LOADING);
+  const { error, alternativeRender } = await fetchWrapper(
+    '/bookings', {
+      method: 'POST',
+      body: JSON.stringify(createBookingBody(booking)),
+      authorization: `Bearer: ${useTokenContext.getToken}`,
+    },
+  );
+  checkErrorAndExit(error, alternativeRender);
+};
+
+const submitEdit = async function editBookingOnSubmit(
+  bookingId, booking, setWindowToDisplay, checkErrorAndExit,
+) {
+  setWindowToDisplay(types.LOADING);
+  const { error, alternativeRender } = await fetchWrapper(
+    `/bookings/${bookingId}`, {
+      method: 'PUT',
+      body: JSON.stringify(booking),
+      authorization: `Bearer: ${useTokenContext.getToken}`,
+    },
+  );
+  checkErrorAndExit(error, alternativeRender);
+};
+
+const deleteBooking = async function submitDeleteRequestForBookingToServer(
+  booking, setWindowToDisplay, checkErrorAndExit,
+) {
+  setWindowToDisplay(types.LOADING);
+  const { error, alternativeRender } = await fetchWrapper(`/bookings/${booking.id}`, { method: 'DELETE', authorization: `Bearer: ${useTokenContext.getToken}` });
+  checkErrorAndExit(error, alternativeRender);
+};
+
 const EditBookingOverlay = ({
-  booking, exit, setErrorBanner,
+  booking, exit, setErrorBanner, entryWindow, date,
 }) => {
-  const [windowToDisplay, setWindowToDisplay] = useState(types.EDIT);
+  const [windowToDisplay, setWindowToDisplay] = useState(entryWindow || types.CREATE);
 
   const checkErrorAndExit = function checkResponseForErrorsRefreshBookingsAndExitWindow(
     error, alternativeRender,
@@ -31,24 +83,6 @@ const EditBookingOverlay = ({
     exit();
   };
 
-  const deleteBooking = async function submitDeleteRequestForBookingToServer() {
-    setWindowToDisplay(types.LOADING);
-    const { error, alternativeRender } = await fetchWrapper(`/bookings/${booking.id}`, { method: 'DELETE', authorization: `Bearer: ${useTokenContext.getToken}` });
-    checkErrorAndExit(error, alternativeRender);
-  };
-
-  const submitEdit = async function editBookingOnSubmit(submittedBooking) {
-    setWindowToDisplay(types.LOADING);
-    const { error, alternativeRender } = await fetchWrapper(
-      `/bookings/${booking.id}`, {
-        method: 'PUT',
-        body: JSON.stringify(submittedBooking),
-        authorization: `Bearer: ${useTokenContext.getToken}`,
-      },
-    );
-    checkErrorAndExit(error, alternativeRender);
-  };
-
   let render;
   switch (windowToDisplay) {
     case types.DELETE:
@@ -56,7 +90,7 @@ const EditBookingOverlay = ({
         <DeleteConfirmation
           booking={booking}
           cancelDelete={() => setWindowToDisplay(types.EDIT)}
-          deleteBooking={() => deleteBooking(booking)}
+          deleteBooking={() => deleteBooking(booking, setWindowToDisplay, checkErrorAndExit)}
         />
       );
       break;
@@ -65,7 +99,9 @@ const EditBookingOverlay = ({
       render = (
         <EditWindow
           booking={booking}
-          onSubmit={(submittedBooking) => submitEdit(submittedBooking)}
+          onSubmit={(submittedBooking) => {
+            submitEdit(booking.id, submittedBooking, setWindowToDisplay, checkErrorAndExit);
+          }}
           setWindowToDisplay={setWindowToDisplay}
           exit={exit}
         />
@@ -75,6 +111,17 @@ const EditBookingOverlay = ({
     case types.LOADING:
       render = (
         <LoadingWindow />
+      );
+      break;
+
+    case types.CREATE:
+      render = (
+        <CreateBooking
+          date={date}
+          onSubmit={(newBooking) => {
+            createBooking(newBooking, setWindowToDisplay, checkErrorAndExit);
+          }}
+        />
       );
       break;
 
@@ -98,11 +145,17 @@ const EditBookingOverlay = ({
 };
 
 EditBookingOverlay.propTypes = {
+  entryWindow: PropTypes.shape({}).isRequired,
   exit: PropTypes.func.isRequired,
   setErrorBanner: PropTypes.func.isRequired,
   booking: PropTypes.shape({
     id: PropTypes.number.isRequired,
   }).isRequired,
+  date: PropTypes.string,
+};
+
+EditBookingOverlay.defaultProps = {
+  date: moment().format('YYYY-MM-DD'),
 };
 
 export default EditBookingOverlay;
