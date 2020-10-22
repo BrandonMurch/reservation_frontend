@@ -28,6 +28,12 @@ const Daily = function DisplayDailyReservations() {
     return alternativeRender;
   }
 
+<<<<<<< HEAD
+=======
+  const toggleBookingRefresh = function toggleFetchForBookingRefresh() {
+    toggleFetch(!fetchToggle);
+  };
+>>>>>>> Remove unneccessary comment
   return (
     <RefreshDailyBookingContextProvider refreshFunction={() => toggleFetch(!fetchToggle)}>
       <div className={style.container}>
