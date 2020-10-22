@@ -11,6 +11,10 @@ const useTimeHandler = (initialDate) => {
         return { dateObject: state.dateObject.subtract(1, action.unit) };
       case 'next':
         return { dateObject: state.dateObject.add(1, action.unit) };
+      case 'jumpPrev':
+        return { dateObject: state.dateObject.subtract(action.number, action.unit) };
+      case 'jumpNext':
+        return { dateObject: state.dateObject.add(action.number, action.unit) };
       case 'current':
         return { dateObject: moment() };
       case 'goTo':

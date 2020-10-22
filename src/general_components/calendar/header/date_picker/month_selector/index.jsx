@@ -1,5 +1,5 @@
 // Dependencies
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { getMonth } from 'shared/dateHelper';
 
@@ -21,7 +21,31 @@ const handleMonthOverflow = function handleMonthOverflowOver12Under0(monthNumber
 const Selector = function SelectorScrollWheel({
   start, end, unit, textForButtons, dispatchDate, selectorStyle,
 }) {
-  // FIXME: after clicking, the dialog is exited. The desired action is to stay in the dialog.
+  const hover = useRef(false);
+
+  useEffect(() => {
+    const handleScroll = ({ deltaY }) => {
+      if (hover.current && deltaY > 0) {
+        dispatchDate({
+          unit,
+          type: 'jumpNext',
+          number: deltaY,
+        });
+      } else if (hover.current && deltaY < 0) {
+        dispatchDate({
+          unit,
+          type: 'jumpPrev',
+          number: deltaY * -1,
+        });
+      }
+    };
+
+    window.addEventListener('wheel', handleScroll, { passive: false });
+
+    return () => {
+      window.removeEventListener('wheel', handleScroll);
+    };
+  }, [unit, dispatchDate, hover]);
   const displayButtons = function buildDisplayButtons() {
     const buttons = [];
     for (let i = start; i !== end + 1; i++) {
@@ -44,8 +68,17 @@ const Selector = function SelectorScrollWheel({
     }
     return buttons;
   };
+
   return (
-    <div className={selectorStyle}>
+    <div
+      className={selectorStyle}
+      onMouseEnter={() => {
+        hover.current = true;
+      }}
+      onMouseLeave={() => {
+        hover.current = false;
+      }}
+    >
       <button
         className={style.directionButton}
         type="button"
@@ -78,7 +111,6 @@ Selector.propTypes = {
 };
 
 const SelectorController = function MonthAndYearSelector({ dateObject, ...props }) {
-  // FIXME: date isn't checked.
   return (
     <div className={style.container}>
       <Selector
