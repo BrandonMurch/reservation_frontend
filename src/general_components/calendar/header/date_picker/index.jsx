@@ -24,7 +24,6 @@ const DatePicker = function SmallWindowToSelectDate(
       {displayMonthSelector
         ? (
           <MonthYearSelector
-            className={style.datePicker}
             dateObject={dateObject}
             dispatchDate={dispatchDate}
           />
@@ -33,7 +32,6 @@ const DatePicker = function SmallWindowToSelectDate(
           <div className={style.calendarContainer}>
             <CalendarBody
               titleStyle={style.dayTitles}
-              className={style.datePicker}
               dateObject={dateObject}
               onClick={(date) => {
                 setDisplayDatePicker(false);

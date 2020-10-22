@@ -105,7 +105,8 @@ Selector.propTypes = {
   selectorStyle: PropTypes.string.isRequired,
 };
 
-const SelectorController = function MonthAndYearSelector({ dateObject, ...props }) {
+const SelectorController = function MonthAndYearSelector(props) {
+  const { dateObject } = props;
   return (
     <div className={style.container}>
       <Selector
