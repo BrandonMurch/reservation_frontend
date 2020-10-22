@@ -3,6 +3,9 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { getMonth } from 'shared/dateHelper';
 
+// Components
+import DirectionalButton from './directional_button';
+
 // StyleSheets
 import style from './month_selector.module.css';
 
@@ -17,7 +20,6 @@ const handleMonthOverflow = function handleMonthOverflowOver12Under0(monthNumber
   return monthNumber;
 };
 
-// TODO: minimize this into one common function for months/years
 const Selector = function SelectorScrollWheel({
   start, end, unit, textForButtons, dispatchDate, selectorStyle,
 }) {
@@ -25,17 +27,11 @@ const Selector = function SelectorScrollWheel({
 
   useEffect(() => {
     const handleScroll = ({ deltaY }) => {
-      if (hover.current && deltaY > 0) {
+      if (hover.current) {
         dispatchDate({
           unit,
-          type: 'jumpNext',
+          type: 'jumpUnit',
           number: deltaY,
-        });
-      } else if (hover.current && deltaY < 0) {
-        dispatchDate({
-          unit,
-          type: 'jumpPrev',
-          number: deltaY * -1,
         });
       }
     };
@@ -46,11 +42,12 @@ const Selector = function SelectorScrollWheel({
       window.removeEventListener('wheel', handleScroll);
     };
   }, [unit, dispatchDate, hover]);
+
   const displayButtons = function buildDisplayButtons() {
     const buttons = [];
     for (let i = start; i !== end + 1; i++) {
-      if (unit === 'months' && i > 11) {
-        i -= 12;
+      if (unit === 'months') {
+        i = handleMonthOverflow(i);
       }
       const buttonText = textForButtons(i);
       buttons.push(
@@ -79,23 +76,21 @@ const Selector = function SelectorScrollWheel({
         hover.current = false;
       }}
     >
-      <button
-        className={style.directionButton}
-        type="button"
-        onClick={() => dispatchDate({ type: 'prev', unit })}
-      >
-        {'<'}
-      </button>
+      <DirectionalButton
+        style={style.directionButton}
+        dispatchDate={dispatchDate}
+        unit={unit}
+        direction="up"
+      />
 
       {displayButtons()}
 
-      <button
-        className={style.directionButton}
-        type="button"
-        onClick={() => dispatchDate({ type: 'next', unit })}
-      >
-        {'>'}
-      </button>
+      <DirectionalButton
+        style={style.directionButton}
+        dispatchDate={dispatchDate}
+        unit={unit}
+        direction="down"
+      />
     </div>
 
   );
