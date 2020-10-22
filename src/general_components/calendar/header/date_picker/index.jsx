@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 // Components
 import CalendarBody from '../../calendar_body';
-import MonthYearSelector from './month_selector';
+import MonthYearSelector from './selector';
 
 // Stylesheets
 import style from './date_picker.module.css';
