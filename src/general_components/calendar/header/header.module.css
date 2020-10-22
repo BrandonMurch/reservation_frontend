@@ -1,9 +1,6 @@
 @value colors: "../../../css/colors.module.css";
 @value primary, dark, light, accent from colors;
 
-
-
-
 .container {
     width: 100vw;
     height: 10vh;

@@ -1,0 +1,57 @@
+@value colors: "../../../../css/colors.module.css";
+@value primary, dark, light, accent from colors;
+
+.container {
+    composes: column from '../../calendar.module.css';
+    background-color: light;
+    border: 3px solid dark;
+    margin: -50px;
+    position: relative;
+}
+
+.activeContainer {
+    composes: container;
+}
+
+.todayContainer {
+    composes: container;
+    background-color: accent;
+}
+
+.button {
+    /* position: absolute;
+    top: 0; */
+    height: 100%;
+    width: 100%;
+    background-color: unset;
+    border: 0;
+    cursor: pointer;
+    color: dark;
+}
+
+.activeContainer:hover, .todayContainer:hover {
+    background-color: primary;
+}
+
+.activeContainer:active, .todayContainer:active, .button:active {
+    background-color: dark;
+    color: light;
+
+}
+
+.dateText {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 1rem;
+    text-align: right;
+    margin: 5px;
+}
+
+.hiddenLabelText {
+    display: none;
+}
+
+.messageText {
+    text-align: center;
+}
