@@ -17,7 +17,15 @@ const Header = function CalendarMonthAndButtons({
         <h1 className={style.monthText}>
           {date}
           {' '}
-          <button className={style.datePickerToggle} type="button" onClick={() => setDisplayDatePicker(!displayDatePicker)}>{'<'}</button>
+          <button
+            className={style.datePickerToggle}
+            type="button"
+            aria-label="date-picker"
+            onClick={() => setDisplayDatePicker(!displayDatePicker)}
+          >
+            {'<'}
+
+          </button>
         </h1>
 
         {displayDatePicker && <DatePicker {...datePickerProps} />}
@@ -28,10 +36,10 @@ const Header = function CalendarMonthAndButtons({
           Today
         </button>
         )}
-        <button className={style.button} type="button" onClick={prev}>
+        <button className={style.button} type="button" onClick={prev} aria-label="previous-date">
           {'<'}
         </button>
-        <button className={style.button} type="button" onClick={next}>
+        <button className={style.button} type="button" onClick={next} aria-label="next-date">
           {'>'}
         </button>
       </div>
