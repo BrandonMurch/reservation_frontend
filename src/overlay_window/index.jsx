@@ -4,6 +4,7 @@ import {
   Switch, Route, Link, Redirect,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { fetchWrapper } from 'shared/useFetch';
 
 // Components
 import Banner, { bannerTypes } from 'general_components/banner';
@@ -16,6 +17,13 @@ import Success from './success';
 // CSS
 import style from './overlay_window.module.css';
 
+const formatBooking = function formatBookingDateTime(booking) {
+  booking.startTime = `${booking.date}T${booking.time}`;
+  delete booking.date;
+  delete booking.time;
+  return booking;
+};
+
 const submitReservation = async function postReservationToServer(
   user,
   reservation,
@@ -24,38 +32,18 @@ const submitReservation = async function postReservationToServer(
   setIsLoading,
 ) {
   setIsLoading(true);
-  const booking = { ...reservation };
+  const booking = formatBooking({ ...reservation });
 
-  booking.startTime = `${booking.date}T${booking.time}`;
-  delete booking.date;
-  delete booking.time;
-  const body = JSON.stringify({
-    user,
-    booking,
-  });
-
-  try {
-    const response = await fetch('http://localhost:8080/bookings', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body,
-    });
-
-    if (response.status === 201) {
-      setIsLoading(false);
-      setRedirect('/success');
-    } else {
-      const responseBody = await response.json();
-      if (responseBody.message !== '') {
-        setError(responseBody.message);
-      } else {
-        setError('Something went wrong... \n please try again later');
-      }
-      setIsLoading(false);
-    }
-  } catch (error) {
-    setError(error.message);
-  }
+  fetchWrapper('/bookings', { method: 'POST', body: JSON.stringify({ user, booking }) })
+    .then(
+      (response) => {
+        setError(response.error);
+        if (response.error == null) {
+          setRedirect('/success');
+        }
+      },
+    );
+  setIsLoading(false);
 };
 
 const OverlayWindow = function CreateOverlayWindow(props) {
@@ -102,13 +90,7 @@ const OverlayWindow = function CreateOverlayWindow(props) {
           path="/calendar"
           render={() => (
             <Calendar
-              setError={setError}
-              dateClick={(args) => {
-                if (!args.dayEl.disabled) {
-                  reservation.current.date = args.dateStr;
-                  setRedirect('/reservation');
-                }
-              }}
+              dateClick={(dateStr) => { reservation.current.date = dateStr; }}
             />
           )}
         />

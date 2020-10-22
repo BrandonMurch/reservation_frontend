@@ -1,5 +1,5 @@
 // Dependencies
-import React, { useState } from 'react';
+import React, { useState, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { enumeration } from 'shared/helpers';
 
@@ -8,7 +8,7 @@ import ConfirmPassword from './confirm-password';
 import { TextInput, Checkbox } from './inputs';
 
 // Stylesheets
-import style from './form.module.css';
+import styleSheet from './form.module.css';
 
 const inputFields = enumeration.keyValue(
   { key: 'checkbox', value: Checkbox },
@@ -30,44 +30,67 @@ const touchInputs = function focusAndBlurAllInputChildren(children) {
   }
 };
 
-const getInputs = function getListOfInputChildren(inputs, onBlur, displayErrors) {
+const getInputs = function getListOfInputChildren(
+  inputs, onBlur, displayErrors, counterToResetChildren, fields, style,
+) {
   return inputs.map((input) => {
     const Component = inputFields[input.type] || inputFields.default;
+    fields[input.name] = input.value;
     return (
-      <Component key={input.name} updateValue={onBlur} {...input} doDisplayErrors={displayErrors} />
+      <Component
+        key={input.name + counterToResetChildren}
+        updateValue={onBlur}
+        {...input}
+        doDisplayErrors={displayErrors}
+        style={style}
+      />
     );
   });
 };
 
 const Form = function CreateFormWithInputs(props) {
-  const { inputs, onSubmit, submitLabel } = props;
+  const {
+    inputs, onSubmit, submitLabel, resetChildrenOnSubmit, styleProp,
+  } = props;
 
+  const elementRef = createRef();
+  const style = styleProp === null ? styleSheet : styleProp;
   const fields = {};
   const onBlur = function updateFieldsOnBlur(value, name) {
     fields[name] = value;
   };
   const [displayErrors, setDisplayErrors] = useState(false);
   const [submitButtonText, setSubmitButtonText] = useState(submitLabel);
+  const [counterToResetChildren, setCounterToResetChildren] = useState(0);
+  const resetChildren = function addOneToKeyToResetChildren() {
+    if (resetChildrenOnSubmit) {
+      setCounterToResetChildren(counterToResetChildren + 1);
+    }
+  };
 
   return (
     <form
+      ref={elementRef}
       noValidate
       data-testid="form"
-      onSubmit={(event) => {
+      onSubmit={async (event) => {
         event.preventDefault();
-        if (!event.target.checkValidity()) {
-          setDisplayErrors(true);
-          touchInputs(event.target.children);
-        } else {
-          event.target.lastChild.disabled = true;
+        if (event.target.checkValidity()) {
           setSubmitButtonText('Submitting...');
-          onSubmit(fields);
+          await onSubmit(fields);
+          resetChildren();
+          if (elementRef.current) {
+            setSubmitButtonText(submitLabel);
+          }
+        } else {
+          touchInputs(event.target.children);
+          setDisplayErrors(true);
         }
       }}
       className={style.container}
     >
-      {getInputs(inputs, onBlur, displayErrors)}
-      <input key="submit" className={style.submit} type="submit" value={submitButtonText} />
+      {getInputs(inputs, onBlur, displayErrors, counterToResetChildren, fields, style)}
+      <input key="submit" className={style.button} type="submit" value={submitButtonText} disabled={submitButtonText !== submitLabel} />
     </form>
   );
 };
@@ -82,6 +105,13 @@ Form.propTypes = {
   ).isRequired,
   onSubmit: PropTypes.func.isRequired,
   submitLabel: PropTypes.string.isRequired,
+  resetChildrenOnSubmit: PropTypes.bool,
+  styleProp: PropTypes.shape({}),
+};
+
+Form.defaultProps = {
+  resetChildrenOnSubmit: false,
+  styleProp: null,
 };
 
 export default Form;

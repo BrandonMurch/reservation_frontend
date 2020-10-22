@@ -23,7 +23,7 @@ exports[`<Reservation /> should match snapshot 1`] = `
         className="selectBox"
         disabled={false}
         onChange={[Function]}
-        value={0}
+        value="0"
       >
         <option
           aria-label="emptyOption"

@@ -23,7 +23,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom --transformIgnorePatterns 'node_modules/(?!(@fullcalendar))'",
+    "test": "react-scripts test --env=jsdom --runInBand --transformIgnorePatterns 'node_modules/(?!(@fullcalendar))'",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

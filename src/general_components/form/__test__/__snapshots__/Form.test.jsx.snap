@@ -22,6 +22,7 @@ exports[`<Form /> should match snapshot 1`] = `
       name="firstName"
       onBlur={[Function]}
       onChange={[Function]}
+      onKeyDown={[Function]}
       pattern={null}
       placeholder="First Name"
       required={true}
@@ -44,6 +45,7 @@ exports[`<Form /> should match snapshot 1`] = `
       name="lastName"
       onBlur={[Function]}
       onChange={[Function]}
+      onKeyDown={[Function]}
       pattern={null}
       placeholder="Last Name"
       required={true}
@@ -66,6 +68,7 @@ exports[`<Form /> should match snapshot 1`] = `
       name="email"
       onBlur={[Function]}
       onChange={[Function]}
+      onKeyDown={[Function]}
       pattern="^[\\\\w\\\\-_.+]*[\\\\w\\\\-_.]@([\\\\w]+\\\\.)+[\\\\w]+[\\\\w]$"
       placeholder="Email"
       required={true}
@@ -88,6 +91,7 @@ exports[`<Form /> should match snapshot 1`] = `
       name="phoneNumber"
       onBlur={[Function]}
       onChange={[Function]}
+      onKeyDown={[Function]}
       pattern="^\\\\+\\\\d{1,3} \\\\d{6,14}$"
       placeholder="Phone Number"
       required={true}
@@ -105,11 +109,12 @@ exports[`<Form /> should match snapshot 1`] = `
       Yes, I agree to the terms and conditions:
     </label>
     <input
-      className=""
+      className="input"
       id="tAC"
       name="tAC"
       onBlur={[Function]}
       onChange={[Function]}
+      onKeyDown={[Function]}
       pattern={null}
       placeholder="Yes, I agree to the terms and conditions"
       required={true}
@@ -118,7 +123,8 @@ exports[`<Form /> should match snapshot 1`] = `
     />
   </div>
   <input
-    className="submit"
+    className="button"
+    disabled={false}
     type="submit"
     value="Submit"
   />

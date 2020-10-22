@@ -2,13 +2,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-// Stylesheets
-import style from '../../form.module.css';
-
 const Input = function CreateInputAndLabel(props) {
-  const [value, setValue] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
   const {
+    key,
+    value: initialValue,
     type,
     name,
     label,
@@ -18,17 +15,19 @@ const Input = function CreateInputAndLabel(props) {
     patternMessage,
     displayErrors,
     labelStyle,
-    inputStyle,
-    inputStyleWithErrors,
     onChangeBasedOnInputType,
     onBlurBasedOnInputType,
+    style,
   } = props;
+
+  const [value, setValue] = useState(initialValue);
+  const [errorMessage, setErrorMessage] = useState('');
 
   if (errorMessage === 'Please match the requested format.') {
     setErrorMessage(patternMessage);
   }
   return (
-    <div className={style.inputGroup}>
+    <div key={key} className={style.inputGroup}>
       <label className={labelStyle} htmlFor={name}>
         {`${label}:`}
       </label>
@@ -36,11 +35,19 @@ const Input = function CreateInputAndLabel(props) {
         required={required}
         pattern={pattern}
         placeholder={label}
-        className={displayErrors ? inputStyleWithErrors : inputStyle}
+        className={displayErrors ? style.displayError : style.input}
         value={value}
         id={name}
         type={type}
         name={name}
+        onKeyDown={((event) => {
+          // Fixes where enter is clicked on last input, and the field isn't updated.
+          if (event.keyCode === 13) {
+            event.preventDefault();
+            event.target.blur();
+            event.target.parentElement.parentElement.requestSubmit();
+          }
+        })}
         onBlur={({ target }) => {
           setErrorMessage(target.validationMessage);
           updateValue(target.value, target.name);
@@ -58,8 +65,10 @@ const Input = function CreateInputAndLabel(props) {
 };
 
 Input.propTypes = {
+  key: PropTypes.string,
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  value: PropTypes.string,
   updateValue: PropTypes.func.isRequired,
   required: PropTypes.bool,
   pattern: PropTypes.string,
@@ -67,20 +76,24 @@ Input.propTypes = {
   displayErrors: PropTypes.bool,
   patternMessage: PropTypes.string,
   labelStyle: PropTypes.string,
-  inputStyle: PropTypes.string,
-  inputStyleWithErrors: PropTypes.string,
   onChangeBasedOnInputType: PropTypes.func,
   onBlurBasedOnInputType: PropTypes.func,
+  style: PropTypes.shape({
+    inputGroup: PropTypes.string.isRequired,
+    input: PropTypes.string.isRequired,
+    displayError: PropTypes.string.isRequired,
+    errorText: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 Input.defaultProps = {
+  key: '',
+  value: '',
   required: false,
   pattern: null,
   patternMessage: null,
   displayErrors: false,
   labelStyle: '',
-  inputStyle: '',
-  inputStyleWithErrors: '',
   onChangeBasedOnInputType: () => {},
   onBlurBasedOnInputType: () => {},
 };

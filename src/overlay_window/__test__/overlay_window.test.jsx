@@ -24,6 +24,7 @@ const mockCalendarFetch = function mockFetchResponseFromServer() {
   };
   const mockJsonPromise = Promise.resolve(mockSuccessResponse);
   return Promise.resolve({
+    status: 200,
     json: () => mockJsonPromise,
   });
 };
@@ -117,22 +118,23 @@ describe('<OverlayWindow />', () => {
     fetchSpy = jest
       .spyOn(global, 'fetch')
       .mockImplementation(() => Promise.reject(new Error('Error!')));
-
-    component = await renderWithRouter(
-      <OverlayWindow
-        closeOverlay={mockCloseOverlayFunction}
-        reservationInfo={reservation}
-        userInfo={user}
-      />,
-      { route: '/review' },
-    );
+    await act(async () => {
+      component = await renderWithRouter(
+        <OverlayWindow
+          closeOverlay={mockCloseOverlayFunction}
+          reservationInfo={reservation}
+          userInfo={user}
+        />,
+        { route: '/review' },
+      );
+    });
     const submit = component.getByRole('button', { name: 'Make reservation.' });
     await act(async () => {
       await fireEvent.click(submit);
     });
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    const errorText = component.getByText('Error!');
+    const errorText = component.getByText(/Something went wrong/i);
     expect(errorText).toBeInTheDocument();
   });
 
@@ -173,15 +175,17 @@ describe('<OverlayWindow />', () => {
     expect(text).toBeInTheDocument();
   });
 
-  it('should display reservation on /reservation', () => {
-    component = renderWithRouter(
-      <OverlayWindow
-        closeOverlay={mockCloseOverlayFunction}
-        reservationInfo={reservation}
-        userInfo={user}
-      />,
-      { route: '/reservation' },
-    );
+  it('should display reservation on /reservation', async () => {
+    await act(async () => {
+      component = await renderWithRouter(
+        <OverlayWindow
+          closeOverlay={mockCloseOverlayFunction}
+          reservationInfo={reservation}
+          userInfo={user}
+        />,
+        { route: '/reservation' },
+      );
+    });
 
     const comboBoxes = component.getAllByRole('combobox');
     expect(comboBoxes).toHaveLength(2);

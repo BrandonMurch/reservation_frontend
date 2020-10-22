@@ -1,0 +1,39 @@
+@value colors: "../../../../../css/colors.module.css";
+@value primary, dark, light, accent from colors;
+
+
+.container{
+    margin: 1rem;
+}
+
+.selectorContainer {
+    width: 45%;
+}
+
+.monthContainer {
+    composes: selectorContainer;
+    float: left;
+}
+
+.yearContainer {
+    float: right;
+    composes: selectorContainer;
+}
+
+.button {
+    color: light;
+    font-weight: bold;
+    background: transparent;
+    border: none;
+}
+
+.wheelButton {
+    composes: button;
+    margin: 0 1rem;
+}
+
+.directionButton {
+    composes: button;
+    margin: 1rem 2rem;
+    transform: rotate(90deg);
+}

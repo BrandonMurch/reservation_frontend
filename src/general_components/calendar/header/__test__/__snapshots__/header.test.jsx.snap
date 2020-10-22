@@ -9,6 +9,15 @@ exports[`<Header /> should match snapshot 1`] = `
       className="monthText"
     >
       August 2020
+       
+      <button
+        aria-label="date-picker"
+        className="datePickerToggle"
+        onClick={[Function]}
+        type="button"
+      >
+        &lt;
+      </button>
     </h1>
   </div>
   <div
@@ -22,6 +31,7 @@ exports[`<Header /> should match snapshot 1`] = `
       Today
     </button>
     <button
+      aria-label="previous-date"
       className="button"
       onClick={[MockFunction]}
       type="button"
@@ -29,6 +39,7 @@ exports[`<Header /> should match snapshot 1`] = `
       &lt;
     </button>
     <button
+      aria-label="next-date"
       className="button"
       onClick={[MockFunction]}
       type="button"

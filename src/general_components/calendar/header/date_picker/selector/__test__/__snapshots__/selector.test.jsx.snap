@@ -1,0 +1,122 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Selector /> should match snapshot 1`] = `
+<div
+  className="container"
+>
+  <div
+    className="monthContainer"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+  >
+    <button
+      aria-label="months up"
+      className="directionButton"
+      onClick={[Function]}
+      type="button"
+    >
+      &lt;
+    </button>
+    <button
+      className="wheelButton"
+      onClick={[Function]}
+      type="button"
+    >
+      Aug
+    </button>
+    <button
+      className="wheelButton"
+      onClick={[Function]}
+      type="button"
+    >
+      Sep
+    </button>
+    <button
+      className="wheelButton"
+      onClick={[Function]}
+      type="button"
+    >
+      Oct
+    </button>
+    <button
+      className="wheelButton"
+      onClick={[Function]}
+      type="button"
+    >
+      Nov
+    </button>
+    <button
+      className="wheelButton"
+      onClick={[Function]}
+      type="button"
+    >
+      Dec
+    </button>
+    <button
+      aria-label="months down"
+      className="directionButton"
+      onClick={[Function]}
+      type="button"
+    >
+      &gt;
+    </button>
+  </div>
+  <div
+    className="yearContainer"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+  >
+    <button
+      aria-label="years up"
+      className="directionButton"
+      onClick={[Function]}
+      type="button"
+    >
+      &lt;
+    </button>
+    <button
+      className="wheelButton"
+      onClick={[Function]}
+      type="button"
+    >
+      2018
+    </button>
+    <button
+      className="wheelButton"
+      onClick={[Function]}
+      type="button"
+    >
+      2019
+    </button>
+    <button
+      className="wheelButton"
+      onClick={[Function]}
+      type="button"
+    >
+      2020
+    </button>
+    <button
+      className="wheelButton"
+      onClick={[Function]}
+      type="button"
+    >
+      2021
+    </button>
+    <button
+      className="wheelButton"
+      onClick={[Function]}
+      type="button"
+    >
+      2022
+    </button>
+    <button
+      aria-label="years down"
+      className="directionButton"
+      onClick={[Function]}
+      type="button"
+    >
+      &gt;
+    </button>
+  </div>
+</div>
+`;

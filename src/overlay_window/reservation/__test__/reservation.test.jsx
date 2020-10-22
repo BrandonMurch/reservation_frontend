@@ -2,7 +2,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { unmountComponentAtNode } from 'react-dom';
-import { create } from 'react-test-renderer';
+import { create, act as reactAct } from 'react-test-renderer';
 import { act } from 'react-dom/test-utils';
 
 // Components
@@ -50,13 +50,17 @@ describe('<Reservation />', () => {
     container = null;
   });
 
-  it('should match snapshot', () => {
-    const tree = create(<Reservation
-      setError={mockSetErrorFunction}
-      onSubmit={mockSubmitFunction}
-      date="2020-10-09"
-    />).toJSON();
-    expect(tree).toMatchSnapshot();
+  it('should match snapshot', async () => {
+    let tree;
+    await reactAct(async () => {
+      tree = await create(<Reservation
+        setError={mockSetErrorFunction}
+        onSubmit={mockSubmitFunction}
+        date="2020-10-09"
+      />);
+    });
+
+    expect(tree.toJSON()).toMatchSnapshot();
   });
 
   it('should fetch data from the server', async () => {
@@ -85,6 +89,7 @@ describe('<Reservation />', () => {
     const submit = component.getByRole('button', { name: 'Submit' });
     expect(submit).toBeDisabled();
   });
+
   it('should disable submit if no time is chosen', async () => {
     await act(async () => {
       await selectTime(component);

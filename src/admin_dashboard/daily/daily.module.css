@@ -1,0 +1,8 @@
+@value colors: "../../css/colors.module.css";
+@value primary, dark, light, accent from colors;
+
+
+.container {
+   composes: bodyContainer from '../admin_dashboard.module.css';
+   background: primary;
+}

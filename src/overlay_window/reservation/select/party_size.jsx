@@ -1,10 +1,9 @@
 // Dependencies
 import React from 'react';
-import PropTypes from 'prop-types';
 import { emptyOption } from './shared';
 
-// Stylesheets
-import style from './select.module.css';
+// Components
+import BaseSelect from './base_select';
 
 const partySizeOptions = function createAListOfPartySizeOptionsForASelectInput() {
   // TODO: get max party size from server;
@@ -22,44 +21,13 @@ const partySizeOptions = function createAListOfPartySizeOptionsForASelectInput()
 };
 
 const PartySizeSelect = function CreateAPartySizeDropDownSelectForForm(props) {
-  const {
-    onChange,
-    value,
-    label,
-    disabled,
-  } = props;
-
   return (
-    <div className={style.inputGroup}>
-      <label className={style.labelText} htmlFor="party-size">
-        {label}
-        <select
-          key="party-size"
-          className={style.selectBox}
-          value={value}
-          aria-label="party-size"
-          disabled={disabled}
-          onChange={(event) => {
-            onChange(event);
-          }}
-        >
-          {partySizeOptions()}
-        </select>
-      </label>
-    </div>
+    <BaseSelect
+      {...props}
+      options={partySizeOptions()}
+      type="party-size"
+    />
   );
-};
-
-PartySizeSelect.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  label: PropTypes.string.isRequired,
-  value: PropTypes.number,
-  disabled: PropTypes.bool,
-};
-
-PartySizeSelect.defaultProps = {
-  value: 0,
-  disabled: false,
 };
 
 export default PartySizeSelect;

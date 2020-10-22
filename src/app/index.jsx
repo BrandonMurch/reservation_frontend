@@ -11,6 +11,7 @@ import { TokenContextProvider } from '../contexts/token_context';
 
 // CSS
 import style from './app.module.css';
+import 'css/responsive.css';
 
 function App() {
   const [displayOverlay, setOverlayDisplay] = useState(false);
@@ -28,7 +29,7 @@ function App() {
         <Route
           path="/admin"
           render={() => (
-            // TODO: Temporarily disabled route protection, re-enable after development
+            // NOTE: Temporarily disabled route protection, re-enable after development
             // <AuthorizationWrapper>
             <AdminDashboard />
             // </AuthorizationWrapper>

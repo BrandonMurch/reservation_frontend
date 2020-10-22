@@ -30,6 +30,7 @@ exports[`<AdminLogin /> should match snapshot 1`] = `
           name="username"
           onBlur={[Function]}
           onChange={[Function]}
+          onKeyDown={[Function]}
           pattern={null}
           placeholder="Username"
           required={true}
@@ -52,6 +53,7 @@ exports[`<AdminLogin /> should match snapshot 1`] = `
           name="password"
           onBlur={[Function]}
           onChange={[Function]}
+          onKeyDown={[Function]}
           pattern={null}
           placeholder="Password"
           required={true}
@@ -60,7 +62,8 @@ exports[`<AdminLogin /> should match snapshot 1`] = `
         />
       </div>
       <input
-        className="submit"
+        className="button"
+        disabled={false}
         type="submit"
         value="Login"
       />

@@ -1,0 +1,15 @@
+.tableContainer {
+   overflow-x: scroll;
+   height: 90%;
+   width: 100%;
+}
+
+.table {
+   width: 100%;
+   padding: 2rem;
+}
+
+.hourRow {
+   composes: row from '../daily.module.css';
+   border: 5px solid black;
+}

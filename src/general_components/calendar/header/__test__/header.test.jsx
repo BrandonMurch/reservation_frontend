@@ -3,6 +3,7 @@ import React from 'react';
 import { unmountComponentAtNode } from 'react-dom';
 import { render, fireEvent } from '@testing-library/react';
 import { create } from 'react-test-renderer';
+import moment from 'moment';
 
 // Components
 import Header from '../index';
@@ -11,11 +12,13 @@ describe('<Header />', () => {
   let component;
   let container = null;
   const props = {
-    month: 'August 2020',
+    date: 'August 2020',
     prev: jest.fn(),
     next: jest.fn(),
-    isThisMonth: false,
-    goToCurrentMonth: jest.fn(),
+    isThisToday: false,
+    goToToday: jest.fn(),
+    dateObject: moment(),
+    dispatchDate: () => {},
 
   };
 
@@ -44,11 +47,11 @@ describe('<Header />', () => {
   it('call functions with buttons', () => {
     let button = component.getByRole('button', { name: 'Today' });
     fireEvent.click(button);
-    expect(props.goToCurrentMonth).toHaveBeenCalled();
-    button = component.getByRole('button', { name: '>' });
+    expect(props.goToToday).toHaveBeenCalled();
+    button = component.getByLabelText('next-date');
     fireEvent.click(button);
     expect(props.next).toHaveBeenCalled();
-    button = component.getByRole('button', { name: '<' });
+    button = component.getByLabelText('previous-date');
     fireEvent.click(button);
     expect(props.prev).toHaveBeenCalled();
   });

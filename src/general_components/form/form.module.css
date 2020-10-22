@@ -1,3 +1,7 @@
+.container {
+  text-align: center;
+}
+
 .inputGroup {
   width: 100%;
   display: block;
@@ -43,11 +47,11 @@
   color: red;
 }
 
-.submit {
+.button {
   composes: button from '../../css/project_globals.module.css';
 }
 
-.submit:hover {
+.button:hover {
   background-color: rgba(0, 0, 0, 0.3);
   box-shadow: 2px 2px grey;
   moz-box-shadow: 2px 2px grey;

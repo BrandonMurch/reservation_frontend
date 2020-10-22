@@ -1,76 +1,61 @@
 // Dependencies
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-
-// Components
-import Loading from 'general_components/loading';
+import { Redirect } from 'react-router-dom';
 
 // Stylesheets
+import useFetch from 'shared/useFetch';
 import style from './calendar.module.css';
 
-const getValidRange = function getAvailableDatesFromServer(
-  setError,
-  setIsLoaded,
-  setStartDate,
-  setEndDate,
-  setDates,
-) {
-  setIsLoaded(false);
-  fetch('http://localhost:8080/restaurant/availability')
-    .then((res) => res.json())
-    .then(
-      (result) => {
-        setDates(result.availableDates);
-        setStartDate(result.start);
-        setEndDate(result.end);
-        setIsLoaded(true);
-      },
-      (error) => {
-        setError(error.message);
-      },
-    );
+const disableDate = function addDisabledAttributeToElement(element) {
+  element.setAttribute('data-testid', 'disabledDate');
+  element.className += ' fc-day-disabled';
+  element.disabled = true;
 };
 
-const dayRenderHook = function disableCertainDaysFromList({ date, el }, dates) {
-  const dateString = date.toLocaleString('en-ca').slice(0, 10);
+const Calendar = function PopulateUsingFullCalendar({ dateClick }) {
+  const [redirect, setRedirect] = useState('');
+  const { alternativeRender, response } = useFetch('/restaurant/availability');
 
-  if (!dates.includes(dateString)) {
-    el.setAttribute('data-testid', 'disabledDate');
-    el.className += ' fc-day-disabled';
-    el.disabled = true;
+  if (alternativeRender) {
+    return alternativeRender;
   }
-  // else {
-  //   el.setAttribute('data-testid', 'clickableDate');
-  // }
-};
 
-const Calendar = function PopulateUsingFullCalendar(props) {
-  const { dateClick, setError } = props;
-  const [loaded, setIsLoaded] = useState(false);
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
-  const [dates, setDates] = useState([]);
-  useEffect(() => {
-    getValidRange(setError, setIsLoaded, setStartDate, setEndDate, setDates);
-  }, [setError]);
-  if (!loaded) {
-    return <Loading />;
+  let availableDates;
+  let startDate;
+  let endDate;
+  if (response) {
+    availableDates = response.availableDates;
+    startDate = response.start;
+    endDate = response.end;
   }
 
   return (
     <div className={style.container}>
+      {redirect && <Redirect to={redirect} />}
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
         showNonCurrentDates={false}
         fixedWeekCount={false}
         height="100%"
+        dateClick={({ dayEl, dateStr }) => {
+          if (!dayEl.disabled) {
+            dateClick(dateStr);
+            setRedirect('/reservation');
+          }
+        }}
         validRange={{ start: startDate, end: endDate }}
-        dayCellDidMount={(args) => dayRenderHook(args, dates)}
-        dateClick={dateClick}
+        dayCellDidMount={({ date, el }) => {
+          const dateString = date.toLocaleString('en-ca').slice(0, 10);
+
+          if (!availableDates.includes(dateString)) {
+            disableDate(el);
+          }
+        }}
       />
     </div>
   );
@@ -78,7 +63,6 @@ const Calendar = function PopulateUsingFullCalendar(props) {
 
 Calendar.propTypes = {
   dateClick: PropTypes.func.isRequired,
-  setError: PropTypes.func.isRequired,
 };
 
 export default Calendar;

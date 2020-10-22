@@ -1,0 +1,41 @@
+@value colors: "../../../../css/colors.module.css";
+@value primary, dark, light, accent from colors;
+
+
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0,0,0,0.6);
+}
+
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 95vw;
+    width: 30rem;
+    background-color: primary;
+    text-align: center;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.buttonContainer {
+    width: 100%;
+    height: 3rem;
+}
+
+.exitButton {
+    font-size: 1.5rem;
+    background-color: transparent;
+    color: dark;
+    border: none;
+    float: right;
+    margin: 0.5rem 1rem 0 0;
+    cursor: pointer;
+    font-weight: bold;
+}

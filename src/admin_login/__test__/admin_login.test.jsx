@@ -99,7 +99,7 @@ describe('<AdminLogin />', () => {
     await fillOutForm(component);
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    expect(component.history.location.pathname).toEqual('/admin-dashboard');
+    expect(component.history.location.pathname).toEqual('/admin');
   });
 
   it('should set error when server returns an error', async () => {
@@ -109,7 +109,7 @@ describe('<AdminLogin />', () => {
     await fillOutForm(component);
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    const errorMessage = component.getByText(/Something went wrong/i);
+    const errorMessage = component.getByText(/Username or password was not correct/i);
     expect(errorMessage).toBeInTheDocument();
   });
 });

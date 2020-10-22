@@ -12,6 +12,8 @@ import style from './contact.module.css';
 
 const formTypes = enumeration.singleValue('NEW_USER', 'LOGIN');
 
+// TODO: break this into two files.
+
 const NewUser = function PopulateContactForm(props) {
   const { setFormDisplay } = props;
   const user = useRef({
@@ -61,15 +63,11 @@ const NewUser = function PopulateContactForm(props) {
     },
   ];
 
-  const onSubmit = function contactFormSubmit() {
-    props.onSubmit(user.current);
+  const onSubmit = function contactFormSubmit(submittedUser) {
+    props.onSubmit(submittedUser);
   };
 
   const onCheckboxClick = function toggleBooleanCheckBoxVariable(name, value) {
-    user.current[name] = value;
-  };
-
-  const onTextBlur = function updateUserOnInputBlur(value, name) {
     user.current[name] = value;
   };
 
@@ -90,7 +88,6 @@ const NewUser = function PopulateContactForm(props) {
         setFormDisplay={setFormDisplay}
         submitLabel="Next"
         onCheckboxClick={(name, value) => onCheckboxClick(name, value)}
-        onTextBlur={(value, name) => onTextBlur(value, name)}
         inputs={inputs}
         onSubmit={(event) => onSubmit(event)}
       />
@@ -116,7 +113,7 @@ const Login = function CreateLoginForm(props) {
   ];
 
   const onSubmit = function GetUserFromServer() {
-    // TODO pass back user that is received from server
+    // TODO: pass back user that is received from server
     // Stub for testing purposes
     const user = {
       firstName: 'John',

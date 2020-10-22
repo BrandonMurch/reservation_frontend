@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CalendarBox /> should match snapshot 1`] = `
+<td
+  className="activeContainer"
+  onClick={[Function]}
+  onKeyUp={[Function]}
+  role="gridcell"
+>
+  <p
+    className="dateText"
+  >
+    11
+  </p>
+  <p
+    className="messageText"
+  >
+    is a message
+  </p>
+</td>
+`;

@@ -2,7 +2,6 @@
 import React from 'react';
 import { unmountComponentAtNode } from 'react-dom';
 import { render, fireEvent } from '@testing-library/react';
-import { create } from 'react-test-renderer';
 import moment from 'moment';
 
 // Components
@@ -29,18 +28,13 @@ describe('<Calendar />', () => {
     container = null;
   });
 
-  it('should match snapshot', () => {
-    const tree = create(<Calendar />).toJSON();
-    expect(tree).toMatchSnapshot();
-  });
-
   it('should call onDateRender', () => {
     expect(mockOnDateRender).toHaveBeenCalled();
   });
 
   it('should go to the next month when the button is pressed', () => {
     const dateObject = moment();
-    const button = component.getByRole('button', { name: '>' });
+    const button = component.getByLabelText('next-date');
     fireEvent.click(button);
     // 2 months is due to React.StrictMode calling the reducer twice in development.
     dateObject.add(2, 'months');
@@ -50,7 +44,7 @@ describe('<Calendar />', () => {
 
   it('should go to the previous month when the button is pressed', () => {
     const dateObject = moment();
-    const button = component.getByRole('button', { name: '<' });
+    const button = component.getByLabelText('previous-date');
     fireEvent.click(button);
     // 2 months is due to React.StrictMode calling the reducer twice in development.
     dateObject.subtract(2, 'months');
@@ -60,7 +54,7 @@ describe('<Calendar />', () => {
 
   it('should go to the current month when the button is pressed', () => {
     const dateObject = moment();
-    let button = component.getByRole('button', { name: '>' });
+    let button = component.getByLabelText('next-date');
     fireEvent.click(button);
     fireEvent.click(button);
     button = component.getByRole('button', { name: 'Today' });

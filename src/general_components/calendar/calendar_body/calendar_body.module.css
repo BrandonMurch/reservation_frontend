@@ -1,0 +1,18 @@
+@value colors: "../../../css/colors.module.css";
+@value primary, dark, light, accent from colors;
+
+.container {
+    height: 100%;
+    width: 100%;
+    background-color: primary;
+    color: dark;
+}
+
+.table {
+    width: 100%;
+    height: 80%
+}
+
+.column {
+    width: 14.2857%;
+}

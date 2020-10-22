@@ -1,0 +1,34 @@
+@value colors: "../../../../css/colors.module.css";
+@value primary, dark, light, accent from colors;
+
+
+.absoluteReference {
+    position: absolute;
+}
+.container {
+    position: absolute;
+    top: 5rem;
+    left: 5rem;
+    width: 20rem;
+    height: 15rem;
+    background: dark;
+    z-index: 100;
+    text-align: center;
+    padding: 1rem;
+}
+
+.calendarContainer {
+    height: 90%;
+}
+
+.dayTitles {
+    color: light;
+    width: 14.2857%;
+}
+
+@media screen and (max-width: 900px) {
+    .container {
+        left: 50%;
+        transform: translate(-50%, 0);
+    }
+}

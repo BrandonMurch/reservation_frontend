@@ -1,6 +1,3 @@
 .container {
-    position: absolute;
-    top: 6vh;
-    height: 94vh;
-    width: 100vw;
+   composes: bodyContainer from '../admin_dashboard.module.css';
 }

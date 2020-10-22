@@ -1,0 +1,15 @@
+.tableInput {
+   width: 4rem;
+   text-align: center;
+}
+
+.errorTableInput {
+   composes: tableInput;
+   background-color: rgba(255, 0, 0, 0.6);
+}
+
+.errorText {
+   color: red;
+   font-weight: bold;
+   margin: 0.5rem;
+}
