@@ -458,7 +458,7 @@ exports[`<DatePicker /> should match snapshot 1`] = `
             />
           </td>
           <td
-            className="activeContainer"
+            className="todayContainer"
             onClick={[Function]}
             onKeyUp={[Function]}
             role="gridcell"
