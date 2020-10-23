@@ -1,13 +1,16 @@
 // Dependencies
 import React from 'react';
 import PropTypes from 'prop-types';
+import { fetchWrapper } from 'shared/useFetch';
+import { useTokenContext } from 'contexts/token_context';
+
+// Components
 import Form from 'general_components/form';
 
 // Stylesheets
 import style from '../edit_window/edit_window.module.css';
 
 const getInputs = function getInputsFromBooking(date) {
-  // TODO: remove default values that were used for testing
   return [{
     name: 'date',
     type: 'date',
@@ -73,18 +76,42 @@ const getInputs = function getInputsFromBooking(date) {
   ];
 };
 
+const createBookingBody = function splitUserAndBookingForBody(booking) {
+  const splitName = booking.name.split(' ');
+  const user = {
+    username: booking.email,
+    firstName: splitName[0],
+    // TODO: should put the remaining names in last name
+    lastName: splitName.length > 1 ? splitName[1] : '',
+    phoneNumber: booking.phoneNumber,
+  };
+  delete booking.name;
+  delete booking.phoneNumber;
+  delete booking.email;
+
+  booking.startTime = `${booking.date}T${booking.startTime}`;
+  booking.endTime = `${booking.date}T${booking.endTime}`;
+  booking.partySize = Number.parseInt(booking.partySize, 10);
+  return { booking, user };
+};
+
+const createBooking = function submitBookingCreationToServer(booking) {
+  return fetchWrapper(
+    '/bookings', {
+      method: 'POST',
+      body: JSON.stringify(createBookingBody(booking)),
+      authorization: `Bearer: ${useTokenContext.getToken}`,
+    },
+  );
+};
+
 const CreateBooking = ({
   date, onSubmit,
 }) => (
   <div className={style.formContainer}>
     <Form
       inputs={getInputs(date)}
-      onSubmit={(event) => {
-        event.startTime = `${event.date}T${event.startTime}`;
-        event.endTime = `${event.date}T${event.endTime}`;
-        event.partySize = Number.parseInt(event.partySize, 10);
-        onSubmit(event);
-      }}
+      onSubmit={(event) => onSubmit(() => createBooking(event))}
       submitLabel="Create booking"
       styleProp={style}
     />
