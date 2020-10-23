@@ -67,36 +67,6 @@ exports[`<CalendarRow /> should match snapshot 1`] = `
       />
     </td>
     <td
-      className="container"
-      onClick={[Function]}
-      onKeyUp={[Function]}
-      role="gridcell"
-    >
-      <p
-        className="dateText"
-      >
-        
-      </p>
-      <p
-        className="messageText"
-      />
-    </td>
-    <td
-      className="container"
-      onClick={[Function]}
-      onKeyUp={[Function]}
-      role="gridcell"
-    >
-      <p
-        className="dateText"
-      >
-        
-      </p>
-      <p
-        className="messageText"
-      />
-    </td>
-    <td
       className="activeContainer"
       onClick={[Function]}
       onKeyUp={[Function]}
@@ -113,8 +83,6 @@ exports[`<CalendarRow /> should match snapshot 1`] = `
         hello
       </p>
     </td>
-  </tr>
-  <tr>
     <td
       className="activeContainer"
       onClick={[Function]}
@@ -149,6 +117,8 @@ exports[`<CalendarRow /> should match snapshot 1`] = `
         hello
       </p>
     </td>
+  </tr>
+  <tr>
     <td
       className="activeContainer"
       onClick={[Function]}
@@ -234,8 +204,6 @@ exports[`<CalendarRow /> should match snapshot 1`] = `
         hello
       </p>
     </td>
-  </tr>
-  <tr>
     <td
       className="activeContainer"
       onClick={[Function]}
@@ -270,6 +238,8 @@ exports[`<CalendarRow /> should match snapshot 1`] = `
         hello
       </p>
     </td>
+  </tr>
+  <tr>
     <td
       className="activeContainer"
       onClick={[Function]}
@@ -322,7 +292,7 @@ exports[`<CalendarRow /> should match snapshot 1`] = `
       </p>
     </td>
     <td
-      className="todayContainer"
+      className="activeContainer"
       onClick={[Function]}
       onKeyUp={[Function]}
       role="gridcell"
@@ -355,8 +325,6 @@ exports[`<CalendarRow /> should match snapshot 1`] = `
         hello
       </p>
     </td>
-  </tr>
-  <tr>
     <td
       className="activeContainer"
       onClick={[Function]}
@@ -391,6 +359,8 @@ exports[`<CalendarRow /> should match snapshot 1`] = `
         hello
       </p>
     </td>
+  </tr>
+  <tr>
     <td
       className="activeContainer"
       onClick={[Function]}
@@ -476,10 +446,8 @@ exports[`<CalendarRow /> should match snapshot 1`] = `
         hello
       </p>
     </td>
-  </tr>
-  <tr>
     <td
-      className="activeContainer"
+      className="todayContainer"
       onClick={[Function]}
       onKeyUp={[Function]}
       role="gridcell"
@@ -512,6 +480,8 @@ exports[`<CalendarRow /> should match snapshot 1`] = `
         hello
       </p>
     </td>
+  </tr>
+  <tr>
     <td
       className="activeContainer"
       onClick={[Function]}
@@ -597,8 +567,6 @@ exports[`<CalendarRow /> should match snapshot 1`] = `
         hello
       </p>
     </td>
-  </tr>
-  <tr>
     <td
       className="activeContainer"
       onClick={[Function]}
@@ -632,81 +600,6 @@ exports[`<CalendarRow /> should match snapshot 1`] = `
       >
         hello
       </p>
-    </td>
-    <td
-      className="container"
-      onClick={[Function]}
-      onKeyUp={[Function]}
-      role="gridcell"
-    >
-      <p
-        className="dateText"
-      >
-        
-      </p>
-      <p
-        className="messageText"
-      />
-    </td>
-    <td
-      className="container"
-      onClick={[Function]}
-      onKeyUp={[Function]}
-      role="gridcell"
-    >
-      <p
-        className="dateText"
-      >
-        
-      </p>
-      <p
-        className="messageText"
-      />
-    </td>
-    <td
-      className="container"
-      onClick={[Function]}
-      onKeyUp={[Function]}
-      role="gridcell"
-    >
-      <p
-        className="dateText"
-      >
-        
-      </p>
-      <p
-        className="messageText"
-      />
-    </td>
-    <td
-      className="container"
-      onClick={[Function]}
-      onKeyUp={[Function]}
-      role="gridcell"
-    >
-      <p
-        className="dateText"
-      >
-        
-      </p>
-      <p
-        className="messageText"
-      />
-    </td>
-    <td
-      className="container"
-      onClick={[Function]}
-      onKeyUp={[Function]}
-      role="gridcell"
-    >
-      <p
-        className="dateText"
-      >
-        
-      </p>
-      <p
-        className="messageText"
-      />
     </td>
   </tr>
 </tbody>
