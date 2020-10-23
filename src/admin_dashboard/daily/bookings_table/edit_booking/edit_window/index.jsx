@@ -12,8 +12,16 @@ import Form from 'general_components/form';
 import style from './edit_window.module.css';
 
 const getInputs = function getInputsFromBooking(booking) {
-  const startTime = moment(booking.startTime).format('HH:mm');
-  const endTime = moment(booking.endTime).format('HH:mm');
+  const startTime = booking.startTime
+    ? moment(booking.startTime).format('HH:mm')
+    : undefined;
+  const endTime = booking.endTime
+    ? moment(booking.endTime).format('HH:mm')
+    : undefined;
+  const partySize = booking.partySize
+    ? booking.partySize.toString()
+    : undefined;
+
   return [{
     name: 'date',
     type: 'date',
@@ -25,21 +33,21 @@ const getInputs = function getInputsFromBooking(booking) {
     name: 'startTime',
     type: 'time',
     label: 'Start Time',
-    value: startTime || undefined,
+    value: startTime,
     required: true,
   },
   {
     name: 'endTime',
     type: 'time',
     label: 'End Time',
-    value: endTime || undefined,
+    value: endTime,
     required: true,
   },
   {
     name: 'partySize',
     type: 'text',
     label: 'Party Size',
-    value: booking.partySize.toString() || undefined,
+    value: partySize,
     required: true,
     pattern: '^[1-9][0-9]*$',
     patternMessage: 'Party size must be a number greater than zero',
@@ -110,11 +118,8 @@ EditWindow.propTypes = {
   deleteBooking: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   booking: PropTypes.shape({
-    startTime: PropTypes.string.isRequired,
-    partySize: PropTypes.number.isRequired,
-    user: PropTypes.shape({
-      firstName: PropTypes.string.isRequired,
-    }).isRequired,
+    startTime: PropTypes.string,
+    partySize: PropTypes.number,
   }).isRequired,
 
 };
