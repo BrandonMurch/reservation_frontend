@@ -1,7 +1,7 @@
 // Dependences
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import fetchWrapper from 'shared/useFetch';
+import { fetchWrapper } from 'shared/useFetch';
 
 // StyleSheets
 import style from './restaurant_table.module.css';
@@ -31,7 +31,6 @@ const RestaurantTable = function InputBoxForTableInBooking({ booking }) {
   const [tableValue, setTableValue] = useState(tableString);
   const [error, setError] = useState('');
   const inputClass = error ? style.errorTableInput : style.tableInput;
-  // TODO: Dropdown menu containing all possible tables that will accomodate party size.
   return (
     <>
       <input
