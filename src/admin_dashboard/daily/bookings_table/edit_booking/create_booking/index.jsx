@@ -19,14 +19,12 @@ const getInputs = function getInputsFromBooking(date) {
     name: 'startTime',
     type: 'time',
     label: 'Start Time',
-    value: '20:00',
     required: true,
   },
   {
     name: 'endTime',
     type: 'time',
     label: 'End Time',
-    value: '23:00',
     required: true,
   },
   {
@@ -34,7 +32,6 @@ const getInputs = function getInputsFromBooking(date) {
     type: 'text',
     label: 'Party Size',
     required: true,
-    value: '2',
     pattern: '^[1-9][0-9]*$',
     patternMessage: 'Party size must be a number greater than zero',
   },
@@ -42,7 +39,6 @@ const getInputs = function getInputsFromBooking(date) {
     name: 'name',
     type: 'text',
     label: 'Name',
-    value: 'John Johnson',
     required: true,
   },
   {
@@ -50,7 +46,6 @@ const getInputs = function getInputsFromBooking(date) {
     type: 'email',
     label: 'Email',
     required: true,
-    value: 'John@john.com',
     pattern: '^[\\w\\-_.+]*[\\w\\-_.]@([\\w]+\\.)+[\\w]+[\\w]$',
     patternMessage: 'Email must be properly formatted',
   },
@@ -59,7 +54,6 @@ const getInputs = function getInputsFromBooking(date) {
     type: 'tel',
     label: 'Phone Number',
     required: true,
-    value: '+1 12323232',
     pattern: '^\\+\\d{1,3} \\d{6,14}$',
     patternMessage:
         'Phone number must be in the format of +1 123456789 where +1 is the country code, followed by the phone number',
@@ -68,7 +62,6 @@ const getInputs = function getInputsFromBooking(date) {
     name: 'restaurantComments',
     type: 'text-area',
     label: 'Restaurant Comments',
-    value: 'comment',
     required: false,
   },
   {
