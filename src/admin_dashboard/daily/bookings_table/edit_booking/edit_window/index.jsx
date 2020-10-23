@@ -2,10 +2,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import Form from 'general_components/form';
-import types from '../window_types';
+import { fetchWrapper } from 'shared/useFetch';
+import { useTokenContext } from 'contexts/token_context';
 
 // Components
+import Form from 'general_components/form';
 
 // Stylesheets
 import style from './edit_window.module.css';
@@ -60,38 +61,53 @@ const getInputs = function getInputsFromBooking(booking) {
   ];
 };
 
+const submitEdit = async function editBookingOnSubmit(booking) {
+  return fetchWrapper(
+    `/bookings/${booking.id}`, {
+      method: 'PUT',
+      body: JSON.stringify(booking),
+      authorization: `Bearer: ${useTokenContext.getToken}`,
+    },
+  );
+};
+
+const formatEventDateTime = function joinDateAndTimeForStartAndEnd(event) {
+  event.startTime = `${event.date}T${event.startTime}`;
+  event.endTime = `${event.date}T${event.endTime}`;
+};
+
 const EditWindow = ({
-  exit, booking, setWindowToDisplay, onSubmit,
+  booking, deleteBooking, onSubmit,
 }) => (
   <div className={style.formContainer}>
     <Form
       inputs={getInputs(booking)}
       onSubmit={(event) => {
-        event.startTime = `${event.date}T${event.startTime}`;
-        event.endTime = `${event.date}T${event.endTime}`;
+        formatEventDateTime(event);
         event.partySize = Number.parseInt(event.partySize, 10);
-        const keys = Object.keys(event);
-        keys.forEach((key) => {
+        Object.keys(event).forEach((key) => {
           booking[key] = event[key];
         });
-        onSubmit(booking);
+        onSubmit(() => submitEdit(booking));
       }}
       submitLabel="Save Booking"
       styleProp={style}
     />
     <div className={style.buttonContainer}>
-      <button className={style.button} type="button" onClick={() => setWindowToDisplay(types.DELETE)}>Delete this booking</button>
-    </div>
-    <div className={style.buttonContainer}>
-      <button className={style.button} type="button" onClick={() => exit()}>Cancel</button>
+      <button
+        className={style.button}
+        type="button"
+        onClick={deleteBooking}
+      >
+        Delete this booking
+      </button>
     </div>
   </div>
 
 );
 
 EditWindow.propTypes = {
-  exit: PropTypes.func.isRequired,
-  setWindowToDisplay: PropTypes.func.isRequired,
+  deleteBooking: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   booking: PropTypes.shape({
     startTime: PropTypes.string.isRequired,

@@ -1,8 +1,6 @@
 // Dependencies
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { fetchWrapper } from 'shared/useFetch';
-import { useTokenContext } from 'contexts/token_context';
 import moment from 'moment';
 import types from './window_types';
 
@@ -16,81 +14,25 @@ import CreateBooking from './create_booking';
 // Stylesheets
 import style from './edit_booking.module.css';
 
-const createBookingBody = function splitUserAndBookingForBody(booking) {
-  const splitName = booking.name.split(' ');
-  const user = {
-    username: booking.email,
-    firstName: splitName[0],
-    lastName: splitName.length > 1 ? splitName[1] : '',
-    phoneNumber: booking.phoneNumber,
-  };
-  delete booking.name;
-  delete booking.phoneNumber;
-  delete booking.email;
-  return { booking, user };
-};
-
-const createBooking = async function submitBookingCreationToServer(
-  booking, setWindowToDisplay, checkErrorAndExit,
-) {
-  setWindowToDisplay(types.LOADING);
-  const { error, alternativeRender } = await fetchWrapper(
-    '/bookings', {
-      method: 'POST',
-      body: JSON.stringify(createBookingBody(booking)),
-      authorization: `Bearer: ${useTokenContext.getToken}`,
-    },
-  );
-  checkErrorAndExit(error, alternativeRender);
-};
-
-const submitEdit = async function editBookingOnSubmit(
-  bookingId, booking, setWindowToDisplay, checkErrorAndExit,
-) {
-  setWindowToDisplay(types.LOADING);
-  const { error, alternativeRender } = await fetchWrapper(
-    `/bookings/${bookingId}`, {
-      method: 'PUT',
-      body: JSON.stringify(booking),
-      authorization: `Bearer: ${useTokenContext.getToken}`,
-    },
-  );
-  checkErrorAndExit(error, alternativeRender);
-};
-
-const deleteBooking = async function submitDeleteRequestForBookingToServer(
-  booking, setWindowToDisplay, checkErrorAndExit,
-) {
-  setWindowToDisplay(types.LOADING);
-  const { error, alternativeRender } = await fetchWrapper(`/bookings/${booking.id}`, { method: 'DELETE', authorization: `Bearer: ${useTokenContext.getToken}` });
-  checkErrorAndExit(error, alternativeRender);
-};
-
 const EditBookingOverlay = ({
   booking, exit, setErrorBanner, entryWindow, date,
 }) => {
   const [windowToDisplay, setWindowToDisplay] = useState(entryWindow || types.CREATE);
 
-  const checkErrorAndExit = function checkResponseForErrorsRefreshBookingsAndExitWindow(
-    error, alternativeRender,
-  ) {
-    if (error) {
-      setErrorBanner(alternativeRender);
-    } else {
-      setErrorBanner(null);
-    }
-
+  const handleFetchAndExit = async function handleLoadingAndErrorsForFetch(fetchCallBack) {
+    setWindowToDisplay(types.LOADING);
+    const { error } = await fetchCallBack();
+    setErrorBanner(error);
     exit();
   };
 
   let render;
   switch (windowToDisplay) {
-    case types.DELETE:
+    case types.CREATE:
       render = (
-        <DeleteConfirmation
-          booking={booking}
-          cancelDelete={() => setWindowToDisplay(types.EDIT)}
-          deleteBooking={() => deleteBooking(booking, setWindowToDisplay, checkErrorAndExit)}
+        <CreateBooking
+          date={date}
+          onSubmit={(fetchCall) => handleFetchAndExit(fetchCall)}
         />
       );
       break;
@@ -99,11 +41,18 @@ const EditBookingOverlay = ({
       render = (
         <EditWindow
           booking={booking}
-          onSubmit={(submittedBooking) => {
-            submitEdit(booking.id, submittedBooking, setWindowToDisplay, checkErrorAndExit);
-          }}
-          setWindowToDisplay={setWindowToDisplay}
-          exit={exit}
+          onSubmit={(fetchCall) => handleFetchAndExit(fetchCall)}
+          deleteBooking={() => setWindowToDisplay(types.DELETE)}
+        />
+      );
+      break;
+
+    case types.DELETE:
+      render = (
+        <DeleteConfirmation
+          booking={booking}
+          cancelDelete={() => setWindowToDisplay(types.EDIT)}
+          onSubmit={(fetchCall) => handleFetchAndExit(fetchCall)}
         />
       );
       break;
@@ -111,17 +60,6 @@ const EditBookingOverlay = ({
     case types.LOADING:
       render = (
         <LoadingWindow />
-      );
-      break;
-
-    case types.CREATE:
-      render = (
-        <CreateBooking
-          date={date}
-          onSubmit={(newBooking) => {
-            createBooking(newBooking, setWindowToDisplay, checkErrorAndExit);
-          }}
-        />
       );
       break;
 
