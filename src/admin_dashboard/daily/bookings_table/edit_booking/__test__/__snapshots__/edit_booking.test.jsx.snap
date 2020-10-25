@@ -20,228 +20,27 @@ exports[`<EditBooking /> should match snapshot 1`] = `
       </button>
     </div>
     <div
-      className="formContainer"
+      className="container"
     >
-      <form
-        className="container"
-        data-testid="form"
-        noValidate={true}
-        onSubmit={[Function]}
+      <p
+        className="text"
       >
-        <div
-          className="inputGroup"
-        >
-          <label
-            className="hiddenLabelText"
-            htmlFor="date"
-          >
-            Date:
-          </label>
-          <input
-            className="input"
-            id="date"
-            name="date"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onKeyDown={[Function]}
-            pattern={null}
-            placeholder="Date"
-            required={true}
-            type="date"
-            value="2020-10-24"
-          />
-        </div>
-        <div
-          className="inputGroup"
-        >
-          <label
-            className="hiddenLabelText"
-            htmlFor="startTime"
-          >
-            Start Time:
-          </label>
-          <input
-            className="input"
-            id="startTime"
-            name="startTime"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onKeyDown={[Function]}
-            pattern={null}
-            placeholder="Start Time"
-            required={true}
-            type="time"
-            value=""
-          />
-        </div>
-        <div
-          className="inputGroup"
-        >
-          <label
-            className="hiddenLabelText"
-            htmlFor="endTime"
-          >
-            End Time:
-          </label>
-          <input
-            className="input"
-            id="endTime"
-            name="endTime"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onKeyDown={[Function]}
-            pattern={null}
-            placeholder="End Time"
-            required={true}
-            type="time"
-            value=""
-          />
-        </div>
-        <div
-          className="inputGroup"
-        >
-          <label
-            className="hiddenLabelText"
-            htmlFor="partySize"
-          >
-            Party Size:
-          </label>
-          <input
-            className="input"
-            id="partySize"
-            name="partySize"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onKeyDown={[Function]}
-            pattern="^[1-9][0-9]*$"
-            placeholder="Party Size"
-            required={true}
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="inputGroup"
-        >
-          <label
-            className="hiddenLabelText"
-            htmlFor="name"
-          >
-            Name:
-          </label>
-          <input
-            className="input"
-            id="name"
-            name="name"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onKeyDown={[Function]}
-            pattern={null}
-            placeholder="Name"
-            required={true}
-            type="text"
-            value=""
-          />
-        </div>
-        <div
-          className="inputGroup"
-        >
-          <label
-            className="hiddenLabelText"
-            htmlFor="email"
-          >
-            Email:
-          </label>
-          <input
-            className="input"
-            id="email"
-            name="email"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onKeyDown={[Function]}
-            pattern="^[\\\\w\\\\-_.+]*[\\\\w\\\\-_.]@([\\\\w]+\\\\.)+[\\\\w]+[\\\\w]$"
-            placeholder="Email"
-            required={true}
-            type="email"
-            value=""
-          />
-        </div>
-        <div
-          className="inputGroup"
-        >
-          <label
-            className="hiddenLabelText"
-            htmlFor="phoneNumber"
-          >
-            Phone Number:
-          </label>
-          <input
-            className="input"
-            id="phoneNumber"
-            name="phoneNumber"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onKeyDown={[Function]}
-            pattern="^\\\\+\\\\d{1,3} \\\\d{6,14}$"
-            placeholder="Phone Number"
-            required={true}
-            type="tel"
-            value=""
-          />
-        </div>
-        <div
-          className="inputGroup"
-        >
-          <label
-            className="hiddenLabelText"
-            htmlFor="restaurantComments"
-          >
-            Restaurant Comments:
-          </label>
-          <input
-            className="input"
-            id="restaurantComments"
-            name="restaurantComments"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onKeyDown={[Function]}
-            pattern={null}
-            placeholder="Restaurant Comments"
-            required={false}
-            type="text-area"
-            value=""
-          />
-        </div>
-        <div
-          className="inputGroup"
-        >
-          <label
-            className="hiddenLabelText"
-            htmlFor="userComments"
-          >
-            User Comments:
-          </label>
-          <input
-            className="input"
-            id="userComments"
-            name="userComments"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onKeyDown={[Function]}
-            pattern={null}
-            placeholder="User Comments"
-            required={false}
-            type="text-area"
-            value=""
-          />
-        </div>
-        <input
-          className="button"
-          disabled={false}
-          type="submit"
-          value="Create booking"
-        />
-      </form>
+        Do you really wish to delete the booking for name on Saturday October 24th, 2020 at 8:00 PM for 2 people?
+      </p>
+      <button
+        className="button"
+        onClick={[Function]}
+        type="button"
+      >
+        Yes
+      </button>
+      <button
+        className="button"
+        onClick={[Function]}
+        type="button"
+      >
+        No
+      </button>
     </div>
   </div>
 </div>
