@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DeleteConfirmation /> should match snapshot 1`] = `
+<div
+  className="container"
+>
+  <p
+    className="text"
+  >
+    Do you really wish to delete the booking for John on Saturday October 24th, 2020 at 8:00 PM for 2 people?
+  </p>
+  <button
+    className="button"
+    onClick={[Function]}
+    type="button"
+  >
+    Yes
+  </button>
+  <button
+    className="button"
+    onClick={[Function]}
+    type="button"
+  >
+    No
+  </button>
+</div>
+`;
