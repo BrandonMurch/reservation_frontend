@@ -80,8 +80,12 @@ const submitEdit = async function editBookingOnSubmit(booking) {
 };
 
 const formatEventDateTime = function joinDateAndTimeForStartAndEnd(event) {
-  event.startTime = `${event.date}T${event.startTime}`;
-  event.endTime = `${event.date}T${event.endTime}`;
+  event.startTime = event.startTime
+    ? `${event.date}T${event.startTime}`
+    : null;
+  event.endTime = event.endTime
+    ? `${event.date}T${event.endTime}`
+    : null;
 };
 
 const EditWindow = ({
