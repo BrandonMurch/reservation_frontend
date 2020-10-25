@@ -26,57 +26,37 @@ const BookingOverlay = ({
     exit();
   };
 
-  let render;
-  switch (windowToDisplay) {
-    case types.CREATE:
-      render = (
-        <CreateBooking
-          date={date}
-          onSubmit={(fetchCall) => handleFetchAndExit(fetchCall)}
-        />
-      );
-      break;
+  const getOverlay = ({ value }) => ({
+    create: (
+      <CreateBooking
+        date={date}
+        onSubmit={(fetchCall) => handleFetchAndExit(fetchCall)}
+      />
+    ),
+    edit: (
+      <EditWindow
+        booking={booking}
+        onSubmit={(fetchCall) => handleFetchAndExit(fetchCall)}
+        deleteBooking={() => setWindowToDisplay(types.DELETE)}
+      />),
+    delete: (
+      <DeleteConfirmation
+        booking={booking}
+        cancelDelete={() => setWindowToDisplay(types.EDIT)}
+        onSubmit={(fetchCall) => handleFetchAndExit(fetchCall)}
+      />
+    ),
+    loading: (
+      <LoadingWindow />
+    ),
 
-    case types.EDIT:
-      render = (
-        <EditWindow
-          booking={booking}
-          onSubmit={(fetchCall) => handleFetchAndExit(fetchCall)}
-          deleteBooking={() => setWindowToDisplay(types.DELETE)}
-        />
-      );
-      break;
-
-    case types.DELETE:
-      render = (
-        <DeleteConfirmation
-          booking={booking}
-          cancelDelete={() => setWindowToDisplay(types.EDIT)}
-          onSubmit={(fetchCall) => handleFetchAndExit(fetchCall)}
-        />
-      );
-      break;
-
-    case types.LOADING:
-      render = (
-        <LoadingWindow />
-      );
-      break;
-
-    default:
-      render = (
-        <h1>
-          {'OH NO! This shouldn\'t happen...'}
-        </h1>
-      );
-      break;
-  }
+  })[value];
 
   return (
     <div className={style.background}>
       <div className={style.container}>
         <Exit onClick={exit} />
-        {render}
+        {getOverlay(windowToDisplay)}
       </div>
     </div>
   );
