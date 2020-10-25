@@ -59,7 +59,6 @@ const ReservationForm = function CreateAReservationForm(props) {
         availableTimes={availableTimes}
         onChange={({ target }) => { setTime(target.value); }}
       />
-      {/* TODO: insert comments box here */}
       <input type="submit" value="Next" disabled={(time === '' || partySize === '') || isLoading} />
     </form>
   );

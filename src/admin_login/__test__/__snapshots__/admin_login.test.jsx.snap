@@ -22,7 +22,7 @@ exports[`<AdminLogin /> should match snapshot 1`] = `
           className="hiddenLabelText"
           htmlFor="username"
         >
-          Username:
+          Username
         </label>
         <input
           className="input"
@@ -45,7 +45,7 @@ exports[`<AdminLogin /> should match snapshot 1`] = `
           className="hiddenLabelText"
           htmlFor="password"
         >
-          Password:
+          Password
         </label>
         <input
           className="input"
