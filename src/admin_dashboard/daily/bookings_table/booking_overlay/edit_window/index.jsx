@@ -88,10 +88,15 @@ const formatEventDateTime = function joinDateAndTimeForStartAndEnd(event) {
     : null;
 };
 
+const getDetails = function getBookingDetails({ user, startTime, partySize }) {
+  return (`Booking for ${user.firstName} ${user.lastName} on ${moment(startTime).format('dddd MMMM Do[,] YYYY')} at ${moment(startTime).format('h:mm A')} for ${partySize} people`);
+};
+
 const EditWindow = ({
   booking, deleteBooking, onSubmit,
 }) => (
   <div className={style.formContainer}>
+    <div className={style.description}>{getDetails(booking)}</div>
     <Form
       inputs={getInputs(booking)}
       onSubmit={(event) => {
