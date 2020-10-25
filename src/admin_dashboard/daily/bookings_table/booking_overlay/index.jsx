@@ -1,76 +1,84 @@
 // Dependencies
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import types from './window_types';
 
 // Components
-import DeleteConfirmation from './confirmation/delete_confirmation';
-import ForcibleConfirmation from './confirmation/forcible_confirmation';
+import DeleteConfirmation from './confirmation';
 import EditWindow from './edit_window';
 import LoadingWindow from './loading_window';
+import Exit from './exit_button';
 import CreateBooking from './create_booking';
 
 // Stylesheets
-import OverlayContainer from './overlay_container';
+import style from './edit_booking.module.css';
 
 const BookingOverlay = ({
   booking, exit, setErrorBanner, entryWindow, date,
 }) => {
   const [windowToDisplay, setWindowToDisplay] = useState(entryWindow || types.CREATE);
 
-  const fetchStore = useRef({});
-
-  const handleFetchAndExit = async function handleLoadingAndErrorsForFetch(fetchCall) {
+  const handleFetchAndExit = async function handleLoadingAndErrorsForFetch(fetchCallBack) {
     setWindowToDisplay(types.LOADING);
-    fetchStore.current = await fetchCall();
-    if (fetchStore.current.forceFetch) {
-      setWindowToDisplay(types.FORCIBLE);
-    } else {
-      setErrorBanner(fetchStore.current.error);
-      exit();
-    }
+    const { error } = await fetchCallBack();
+    setErrorBanner(error);
+    exit();
   };
 
-  const getOverlay = ({ value }) => ({
-    create: (
-      <CreateBooking
-        date={date}
-        onSubmit={(fetchCall) => handleFetchAndExit(fetchCall)}
-      />
-    ),
-    edit: (
-      <EditWindow
-        booking={booking}
-        onSubmit={(fetchCall) => handleFetchAndExit(fetchCall)}
-        deleteBooking={() => setWindowToDisplay(types.DELETE)}
-      />),
-    delete: (
-      <DeleteConfirmation
-        booking={booking}
-        cancelDelete={() => setWindowToDisplay(types.EDIT)}
-        onSubmit={(fetchCall) => handleFetchAndExit(fetchCall)}
-      />
-    ),
-    loading: (
-      <LoadingWindow />
-    ),
-    forcible: (
-      <ForcibleConfirmation
-        exit={exit}
-        previousFetch={async () => {
-          handleFetchAndExit(fetchStore.current.forceFetch);
-        }}
-        error={fetchStore.current.fetchError}
-      />
-    ),
+  let render;
+  switch (windowToDisplay) {
+    case types.CREATE:
+      render = (
+        <CreateBooking
+          date={date}
+          onSubmit={(fetchCall) => handleFetchAndExit(fetchCall)}
+        />
+      );
+      break;
 
-  })[value];
+    case types.EDIT:
+      render = (
+        <EditWindow
+          booking={booking}
+          onSubmit={(fetchCall) => handleFetchAndExit(fetchCall)}
+          deleteBooking={() => setWindowToDisplay(types.DELETE)}
+        />
+      );
+      break;
+
+    case types.DELETE:
+      render = (
+        <DeleteConfirmation
+          booking={booking}
+          cancelDelete={() => setWindowToDisplay(types.EDIT)}
+          onSubmit={(fetchCall) => handleFetchAndExit(fetchCall)}
+        />
+      );
+      break;
+
+    case types.LOADING:
+      render = (
+        <LoadingWindow />
+      );
+      break;
+
+    default:
+      render = (
+        <h1>
+          {'OH NO! This shouldn\'t happen...'}
+        </h1>
+      );
+      break;
+  }
 
   return (
-    <OverlayContainer exit={exit}>
-      {getOverlay(windowToDisplay)}
-    </OverlayContainer>
+    <div className={style.background}>
+      <div className={style.container}>
+        <Exit onClick={exit} />
+        {render}
+      </div>
+    </div>
   );
 };
 
@@ -79,21 +87,13 @@ BookingOverlay.propTypes = {
   exit: PropTypes.func.isRequired,
   setErrorBanner: PropTypes.func.isRequired,
   booking: PropTypes.shape({
-    id: PropTypes.number,
-  }),
+    id: PropTypes.number.isRequired,
+  }).isRequired,
   date: PropTypes.string,
 };
 
 BookingOverlay.defaultProps = {
   date: moment().format('YYYY-MM-DD'),
-  booking: {
-    id: 0,
-    startTime: '',
-    partySize: 0,
-    user: {
-      firstName: '',
-    },
-  },
 };
 
 export default BookingOverlay;

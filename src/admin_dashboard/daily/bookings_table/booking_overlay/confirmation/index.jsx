@@ -1,27 +1,41 @@
 // Dependencies
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
+import { fetchWrapper } from 'shared/useFetch';
+import { useTokenContext } from 'contexts/token_context';
 
 // Stylesheets
-import style from './confirmation.module.css';
+import style from './delete_confirmation.module.css';
 
-const Confirmation = ({
-  message, cancel, confirm,
+const deleteBooking = async function submitDeleteRequestForBookingToServer(
+  booking,
+) {
+  return fetchWrapper(
+    `/bookings/${booking.id}`,
+    {
+      method: 'DELETE',
+      authorization: `Bearer: ${useTokenContext.getToken}`,
+    },
+  );
+};
+
+const DeleteConfirmation = ({
+  cancelDelete, booking, onSubmit,
 }) => {
-  const messageWithNewLines = message
-    .split('\n')
-  // eslint-disable-next-line react/no-array-index-key
-    .map((item, i) => <p className={style.text} key={i}>{item}</p>);
+  const { startTime, partySize, user } = booking;
 
   return (
     <div className={style.container}>
 
-      <div className={style.textContainer}>{messageWithNewLines}</div>
+      <p className={style.text}>
+        {`Do you really wish to delete the booking for ${user.firstName} on ${moment(startTime).format('dddd MMMM Do[,] YYYY')} at ${moment(startTime).format('h:mm A')} for ${partySize} people?`}
+      </p>
 
       <button
         className={style.button}
         type="button"
-        onClick={() => confirm()}
+        onClick={() => onSubmit(() => deleteBooking(booking))}
       >
         Yes
       </button>
@@ -29,7 +43,7 @@ const Confirmation = ({
       <button
         className={style.button}
         type="button"
-        onClick={() => cancel()}
+        onClick={() => cancelDelete()}
       >
         No
 
@@ -38,10 +52,16 @@ const Confirmation = ({
   );
 };
 
-Confirmation.propTypes = {
-  message: PropTypes.string.isRequired,
-  cancel: PropTypes.func.isRequired,
-  confirm: PropTypes.func.isRequired,
+DeleteConfirmation.propTypes = {
+  cancelDelete: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  booking: PropTypes.shape({
+    startTime: PropTypes.string.isRequired,
+    partySize: PropTypes.number.isRequired,
+    user: PropTypes.shape({
+      firstName: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
-export default Confirmation;
+export default DeleteConfirmation;
