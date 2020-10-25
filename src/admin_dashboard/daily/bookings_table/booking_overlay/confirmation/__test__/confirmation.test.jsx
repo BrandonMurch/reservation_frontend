@@ -3,7 +3,6 @@ import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { unmountComponentAtNode } from 'react-dom';
 import { create } from 'react-test-renderer';
-import moment from 'moment';
 
 // Components
 import DeleteConfirmation from '../index';
