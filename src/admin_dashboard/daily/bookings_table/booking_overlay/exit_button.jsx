@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import style from './edit_booking.module.css';
+import style from './booking_overlay.module.css';
 
 const Exit = function ButtonToExitEditBookingWindow({ onClick }) {
   return (

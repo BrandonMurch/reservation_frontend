@@ -1,67 +1,40 @@
 // Dependencies
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
-import { fetchWrapper } from 'shared/useFetch';
-import { useTokenContext } from 'contexts/token_context';
 
 // Stylesheets
-import style from './delete_confirmation.module.css';
+import style from './confirmation.module.css';
 
-const deleteBooking = async function submitDeleteRequestForBookingToServer(
-  booking,
-) {
-  return fetchWrapper(
-    `/bookings/${booking.id}`,
-    {
-      method: 'DELETE',
-      authorization: `Bearer: ${useTokenContext.getToken}`,
-    },
-  );
+const Confirmation = ({
+  message, cancel, confirm,
+}) => (
+  <div className={style.container}>
+
+    <p className={style.text}>{message}</p>
+
+    <button
+      className={style.button}
+      type="button"
+      onClick={confirm}
+    >
+      Yes
+    </button>
+
+    <button
+      className={style.button}
+      type="button"
+      onClick={cancel}
+    >
+      No
+
+    </button>
+  </div>
+);
+
+Confirmation.propTypes = {
+  message: PropTypes.string.isRequired,
+  cancel: PropTypes.func.isRequired,
+  confirm: PropTypes.func.isRequired,
 };
 
-const DeleteConfirmation = ({
-  cancelDelete, booking, onSubmit,
-}) => {
-  const { startTime, partySize, user } = booking;
-
-  return (
-    <div className={style.container}>
-
-      <p className={style.text}>
-        {`Do you really wish to delete the booking for ${user.firstName} on ${moment(startTime).format('dddd MMMM Do[,] YYYY')} at ${moment(startTime).format('h:mm A')} for ${partySize} people?`}
-      </p>
-
-      <button
-        className={style.button}
-        type="button"
-        onClick={() => onSubmit(() => deleteBooking(booking))}
-      >
-        Yes
-      </button>
-
-      <button
-        className={style.button}
-        type="button"
-        onClick={() => cancelDelete()}
-      >
-        No
-
-      </button>
-    </div>
-  );
-};
-
-DeleteConfirmation.propTypes = {
-  cancelDelete: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  booking: PropTypes.shape({
-    startTime: PropTypes.string.isRequired,
-    partySize: PropTypes.number.isRequired,
-    user: PropTypes.shape({
-      firstName: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
-};
-
-export default DeleteConfirmation;
+export default Confirmation;

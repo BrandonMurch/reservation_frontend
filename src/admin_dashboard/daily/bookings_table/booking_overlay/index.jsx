@@ -5,14 +5,14 @@ import moment from 'moment';
 import types from './window_types';
 
 // Components
-import DeleteConfirmation from './confirmation';
+import DeleteConfirmation from './confirmation/delete_confirmation';
 import EditWindow from './edit_window';
 import LoadingWindow from './loading_window';
 import Exit from './exit_button';
 import CreateBooking from './create_booking';
 
 // Stylesheets
-import style from './edit_booking.module.css';
+import style from './booking_overlay.module.css';
 
 const BookingOverlay = ({
   booking, exit, setErrorBanner, entryWindow, date,
