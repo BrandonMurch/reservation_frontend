@@ -2,9 +2,16 @@
 @value primary, dark, light, accent from colors;
 
 
+.description {
+  text-align: center;
+  margin: 0.5rem 2rem;
+  font-weight: bold;
+  color: dark;
+}
+
 .button {
   composes: button from '../../../../../css/project_globals.module.css';
-  margin: 0.5rem;
+  margin: 1rem;
   border: 2px solid dark;
   color: black;
   font-weight: bold;
