@@ -5,7 +5,7 @@ import moment from 'moment';
 import types from './window_types';
 
 // Components
-import DeleteConfirmation from './delete_confirmation';
+import DeleteConfirmation from './confirmation';
 import EditWindow from './edit_window';
 import LoadingWindow from './loading_window';
 import Exit from './exit_button';
@@ -14,7 +14,7 @@ import CreateBooking from './create_booking';
 // Stylesheets
 import style from './edit_booking.module.css';
 
-const EditBookingOverlay = ({
+const BookingOverlay = ({
   booking, exit, setErrorBanner, entryWindow, date,
 }) => {
   const [windowToDisplay, setWindowToDisplay] = useState(entryWindow || types.CREATE);
@@ -82,7 +82,7 @@ const EditBookingOverlay = ({
   );
 };
 
-EditBookingOverlay.propTypes = {
+BookingOverlay.propTypes = {
   entryWindow: PropTypes.shape({}).isRequired,
   exit: PropTypes.func.isRequired,
   setErrorBanner: PropTypes.func.isRequired,
@@ -92,8 +92,8 @@ EditBookingOverlay.propTypes = {
   date: PropTypes.string,
 };
 
-EditBookingOverlay.defaultProps = {
+BookingOverlay.defaultProps = {
   date: moment().format('YYYY-MM-DD'),
 };
 
-export default EditBookingOverlay;
+export default BookingOverlay;

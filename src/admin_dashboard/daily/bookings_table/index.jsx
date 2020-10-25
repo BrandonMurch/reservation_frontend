@@ -2,10 +2,10 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import bookingQuickSort from '../bookingQuickSort';
-import types from './edit_booking/window_types';
+import types from './booking_overlay/window_types';
 
 // Components
-import EditBookingOverlay from './edit_booking';
+import EditBookingOverlay from './booking_overlay';
 import TableRow from './table_row';
 
 // Stylesheets
