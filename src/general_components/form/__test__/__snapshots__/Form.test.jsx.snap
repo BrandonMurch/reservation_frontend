@@ -14,7 +14,7 @@ exports[`<Form /> should match snapshot 1`] = `
       className="hiddenLabelText"
       htmlFor="firstName"
     >
-      First Name:
+      First Name
     </label>
     <input
       className="input"
@@ -37,7 +37,7 @@ exports[`<Form /> should match snapshot 1`] = `
       className="hiddenLabelText"
       htmlFor="lastName"
     >
-      Last Name:
+      Last Name
     </label>
     <input
       className="input"
@@ -60,7 +60,7 @@ exports[`<Form /> should match snapshot 1`] = `
       className="hiddenLabelText"
       htmlFor="email"
     >
-      Email:
+      Email
     </label>
     <input
       className="input"
@@ -83,7 +83,7 @@ exports[`<Form /> should match snapshot 1`] = `
       className="hiddenLabelText"
       htmlFor="phoneNumber"
     >
-      Phone Number:
+      Phone Number
     </label>
     <input
       className="input"
@@ -106,7 +106,7 @@ exports[`<Form /> should match snapshot 1`] = `
       className="labelText"
       htmlFor="tAC"
     >
-      Yes, I agree to the terms and conditions:
+      Yes, I agree to the terms and conditions
     </label>
     <input
       className="input"

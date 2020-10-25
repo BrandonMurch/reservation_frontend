@@ -17,7 +17,7 @@ exports[`<CreateBooking /> should match snapshot 1`] = `
         className="hiddenLabelText"
         htmlFor="date"
       >
-        Date:
+        Date
       </label>
       <input
         className="input"
@@ -40,7 +40,7 @@ exports[`<CreateBooking /> should match snapshot 1`] = `
         className="hiddenLabelText"
         htmlFor="startTime"
       >
-        Start Time:
+        Start Time
       </label>
       <input
         className="input"
@@ -63,7 +63,7 @@ exports[`<CreateBooking /> should match snapshot 1`] = `
         className="hiddenLabelText"
         htmlFor="endTime"
       >
-        End Time:
+        End Time
       </label>
       <input
         className="input"
@@ -86,7 +86,7 @@ exports[`<CreateBooking /> should match snapshot 1`] = `
         className="hiddenLabelText"
         htmlFor="partySize"
       >
-        Party Size:
+        Party Size
       </label>
       <input
         className="input"
@@ -109,7 +109,7 @@ exports[`<CreateBooking /> should match snapshot 1`] = `
         className="hiddenLabelText"
         htmlFor="name"
       >
-        Name:
+        Name
       </label>
       <input
         className="input"
@@ -132,7 +132,7 @@ exports[`<CreateBooking /> should match snapshot 1`] = `
         className="hiddenLabelText"
         htmlFor="email"
       >
-        Email:
+        Email
       </label>
       <input
         className="input"
@@ -155,7 +155,7 @@ exports[`<CreateBooking /> should match snapshot 1`] = `
         className="hiddenLabelText"
         htmlFor="phoneNumber"
       >
-        Phone Number:
+        Phone Number
       </label>
       <input
         className="input"
@@ -178,7 +178,7 @@ exports[`<CreateBooking /> should match snapshot 1`] = `
         className="hiddenLabelText"
         htmlFor="restaurantComments"
       >
-        Restaurant Comments:
+        Restaurant Comments
       </label>
       <input
         className="input"
@@ -201,7 +201,7 @@ exports[`<CreateBooking /> should match snapshot 1`] = `
         className="hiddenLabelText"
         htmlFor="userComments"
       >
-        User Comments:
+        User Comments
       </label>
       <input
         className="input"

@@ -29,7 +29,7 @@ const Input = function CreateInputAndLabel(props) {
   return (
     <div key={key} className={style.inputGroup}>
       <label className={labelStyle} htmlFor={name}>
-        {`${label}:`}
+        {`${label}`}
       </label>
       <input
         required={required}
