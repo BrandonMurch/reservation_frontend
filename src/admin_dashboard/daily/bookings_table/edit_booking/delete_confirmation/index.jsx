@@ -1,6 +1,7 @@
 // Dependencies
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { fetchWrapper } from 'shared/useFetch';
 import { useTokenContext } from 'contexts/token_context';
 
@@ -28,7 +29,7 @@ const DeleteConfirmation = ({
     <div className={style.container}>
 
       <p className={style.text}>
-        {`Do you really wish to delete the booking for ${user.firstName} on ${startTime} for ${partySize} people?`}
+        {`Do you really wish to delete the booking for ${user.firstName} on ${moment(startTime).format('dddd MMMM Do[,] YYYY')} at ${moment(startTime).format('h:mm A')} for ${partySize} people?`}
       </p>
 
       <button
