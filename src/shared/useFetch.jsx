@@ -56,7 +56,10 @@ export const fetchWrapper = async function fetchFromServer(
     return getError();
   }
 
-  const forcible = response.headers.get('forcible-request');
+  let forcible;
+  if (response.headers && response.headers.has('forcible-request')) {
+    forcible = response.headers.get('forcible-request');
+  }
   let responseBody;
   try {
     responseBody = await response.json();
