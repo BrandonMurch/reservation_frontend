@@ -14,7 +14,12 @@ const getLoadingObject = function getLoadingComponent() {
   };
 };
 
-const getError = function getErrorObject(status = 500, error = 'Something went wrong... \n please try again later', forcible = false) {
+const getError = function getErrorObject(status = 500, passedInError, forcible = false) {
+  let error = passedInError;
+  // Server sends this message and I can't figure out where it is coming from...
+  if (!error || error === 'No message available') {
+    error = 'Something went wrong... \n please try again later';
+  }
   return {
     forcible,
     status,
