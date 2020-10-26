@@ -2,11 +2,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { fetchWrapper } from 'shared/useFetch';
+import { useRefreshContext } from '../../../refresh_booking_context';
+// Components
+import OverlayContainer from '../../booking_overlay/overlay_container';
+import ForcibleConfirmation from '../../booking_overlay/confirmation/forcible_confirmation';
 
 // StyleSheets
 import style from './restaurant_table.module.css';
-import OverlayContainer from '../../booking_overlay/overlay_container';
-import ForcibleConfirmation from '../../booking_overlay/confirmation/forcible_confirmation';
 
 const forceWindow = function getForcibleConfirmationDialog(setOverlay, error, forceUpdate, exit) {
   return new Promise((resolve) => {
@@ -60,6 +62,7 @@ const getTableString = function getStringOfTableNamesFromArray(tables) {
 };
 
 const RestaurantTable = function InputBoxForTableInBooking({ booking }) {
+  const { refresh } = useRefreshContext();
   const tableString = getTableString(booking.tables);
   const [tableValue, setTableValue] = useState(tableString);
   const [overlay, setOverlay] = useState(null);
@@ -81,6 +84,7 @@ const RestaurantTable = function InputBoxForTableInBooking({ booking }) {
               getTableString(booking.tables),
             );
             setOverlay(null);
+            refresh();
           }
         }}
       />

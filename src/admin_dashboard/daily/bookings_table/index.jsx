@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Banner, { bannerTypes } from 'general_components/banner';
 import bookingQuickSort from '../bookingQuickSort';
 import types from './booking_overlay/window_types';
+import { useRefreshContext } from '../refresh_booking_context';
 
 // Components
 import EditBookingOverlay from './booking_overlay';
@@ -73,7 +74,7 @@ const tableBookings = function placeBookingsIntoHourSlotsInTable(
   return bookingDisplay;
 };
 
-const Bookings = function BookingsTableByHour({ bookings, toggleBookingRefresh }) {
+const Bookings = function BookingsTableByHour({ bookings }) {
   const [errorMessage, setErrorMessage] = useState(null);
   const [bookingOverlayWindow, setBookingOverlayWindow] = useState(null);
   const selectedBooking = useRef();
@@ -93,7 +94,7 @@ const Bookings = function BookingsTableByHour({ bookings, toggleBookingRefresh }
         exit={() => {
           selectedBooking.current = null;
           setBookingOverlayWindow(null);
-          toggleBookingRefresh();
+          useRefreshContext.refresh();
         }}
         setErrorBanner={setErrorMessage}
       />
@@ -122,7 +123,6 @@ const Bookings = function BookingsTableByHour({ bookings, toggleBookingRefresh }
 
 Bookings.propTypes = {
   bookings: PropTypes.arrayOf(Object).isRequired,
-  toggleBookingRefresh: PropTypes.func.isRequired,
 };
 
 export default Bookings;
