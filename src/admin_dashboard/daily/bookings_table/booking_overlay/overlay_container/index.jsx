@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Components
-import Exit from '../exit_button';
+import Exit from './exit_button';
 
 // Stylesheet
 import style from './overlay_container.module.css';
@@ -20,7 +20,7 @@ const OverlayContainer = function ContainerForBookingOverlay({ children, exit })
 };
 
 OverlayContainer.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.node.isRequired).isRequired,
+  children: PropTypes.shape(PropTypes.node.isRequired).isRequired,
   exit: PropTypes.func.isRequired,
 };
 
