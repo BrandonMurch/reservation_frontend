@@ -7,29 +7,36 @@ import style from './confirmation.module.css';
 
 const Confirmation = ({
   message, cancel, confirm,
-}) => (
-  <div className={style.container}>
+}) => {
+  const messageWithNewLines = message
+    .split('\n')
+  // eslint-disable-next-line react/no-array-index-key
+    .map((item, i) => <p className={style.text} key={i}>{item}</p>);
 
-    <p className={style.text}>{message}</p>
+  return (
+    <div className={style.container}>
 
-    <button
-      className={style.button}
-      type="button"
-      onClick={confirm}
-    >
-      Yes
-    </button>
+      <div className={style.textContainer}>{messageWithNewLines}</div>
 
-    <button
-      className={style.button}
-      type="button"
-      onClick={cancel}
-    >
-      No
+      <button
+        className={style.button}
+        type="button"
+        onClick={() => confirm()}
+      >
+        Yes
+      </button>
 
-    </button>
-  </div>
-);
+      <button
+        className={style.button}
+        type="button"
+        onClick={() => cancel()}
+      >
+        No
+
+      </button>
+    </div>
+  );
+};
 
 Confirmation.propTypes = {
   message: PropTypes.string.isRequired,

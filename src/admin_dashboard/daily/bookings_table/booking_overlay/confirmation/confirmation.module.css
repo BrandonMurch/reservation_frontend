@@ -6,8 +6,12 @@
     composes: button from '../edit_window/edit_window.module.css';
 }
 
-.text {
+.textContainer {
     margin: 2rem;
+}
+
+.text {
+    margin: .5rem;
     composes: text from '../../../../../css/project_globals.module.css';
     color: dark;
     font-weight: bold;

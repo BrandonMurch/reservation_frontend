@@ -14,8 +14,9 @@ const getLoadingObject = function getLoadingComponent() {
   };
 };
 
-const getError = function getErrorObject(status = 500, error = 'Something went wrong... \n please try again later') {
+const getError = function getErrorObject(status = 500, error = 'Something went wrong... \n please try again later', forcible = false) {
   return {
+    forcible,
     status,
     error,
     alternativeRender: <Banner type={bannerTypes.ERROR} message={error} />,
@@ -50,13 +51,15 @@ export const fetchWrapper = async function fetchFromServer(
     return getError();
   }
 
+  const forcible = response.headers.get('forcible-request');
   let responseBody;
   try {
     responseBody = await response.json();
   } catch (e) {
     if (!isStatus2xx(response.status)) {
-      return getError(response.status);
+      return getError(response.status, null, forcible);
     }
+
     return {
       status: response.status,
       alternativeRender: null,
@@ -68,9 +71,9 @@ export const fetchWrapper = async function fetchFromServer(
 
   if (!isStatus2xx(response.status)) {
     if (responseBody && responseBody.message) {
-      return getError(response.status, responseBody.message);
+      return getError(response.status, responseBody.message, forcible);
     }
-    return getError(response.status);
+    return getError(response.status, null, forcible);
   }
   return {
     status: response.status,
