@@ -7,13 +7,13 @@ import { create } from 'react-test-renderer';
 import types from '../window_types';
 
 // Components
-import EditBooking from '../index';
+import BookingOverlay from '../index';
 
-describe('<EditBooking />', () => {
+describe('<BookingOverlay />', () => {
   let props;
 
   const buildComponent = () => render(
-    <EditBooking {...props} />,
+    <BookingOverlay {...props} />,
   );
 
   beforeEach(async () => {
@@ -44,7 +44,7 @@ describe('<EditBooking />', () => {
 
   it('should match snapshot', () => {
     const tree = create(
-      <EditBooking {...props} />,
+      <BookingOverlay {...props} />,
     ).toJSON();
     expect(tree).toMatchSnapshot();
   });

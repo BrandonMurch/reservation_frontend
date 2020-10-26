@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<EditBooking /> should match snapshot 1`] = `
+exports[`<BookingOverlay /> should match snapshot 1`] = `
 <div
   className="background"
 >
@@ -22,11 +22,15 @@ exports[`<EditBooking /> should match snapshot 1`] = `
     <div
       className="container"
     >
-      <p
-        className="text"
+      <div
+        className="textContainer"
       >
-        Do you really wish to delete the booking for name on Saturday October 24th, 2020 at 8:00 PM for 2 people?
-      </p>
+        <p
+          className="text"
+        >
+          Do you really wish to delete the booking for name on Saturday October 24th, 2020 at 8:00 PM for 2 people?
+        </p>
+      </div>
       <button
         className="button"
         onClick={[Function]}
