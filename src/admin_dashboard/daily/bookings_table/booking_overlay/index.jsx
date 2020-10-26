@@ -1,29 +1,37 @@
 // Dependencies
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import types from './window_types';
 
 // Components
 import DeleteConfirmation from './confirmation/delete_confirmation';
+import ForcibleConfirmation from './confirmation/forcible_confirmation';
 import EditWindow from './edit_window';
 import LoadingWindow from './loading_window';
-import Exit from './exit_button';
 import CreateBooking from './create_booking';
 
 // Stylesheets
-import style from './booking_overlay.module.css';
+import OverlayContainer from './overlay_container';
 
 const BookingOverlay = ({
   booking, exit, setErrorBanner, entryWindow, date,
 }) => {
   const [windowToDisplay, setWindowToDisplay] = useState(entryWindow || types.CREATE);
 
+  const previousFetchCall = useRef({});
+
   const handleFetchAndExit = async function handleLoadingAndErrorsForFetch(fetchCallBack) {
+    previousFetchCall.current.call = fetchCallBack;
     setWindowToDisplay(types.LOADING);
-    const { error } = await fetchCallBack();
-    setErrorBanner(error);
-    exit();
+    const { error, forcible } = await fetchCallBack();
+    if (forcible) {
+      previousFetchCall.current.error = error;
+      setWindowToDisplay(types.CONFIRM);
+    } else {
+      setErrorBanner(error);
+      exit();
+    }
   };
 
   const getOverlay = ({ value }) => ({
@@ -49,16 +57,19 @@ const BookingOverlay = ({
     loading: (
       <LoadingWindow />
     ),
+    forcible: (
+      <ForcibleConfirmation
+        exit={exit}
+        {...previousFetchCall.current}
+      />
+    ),
 
   })[value];
 
   return (
-    <div className={style.background}>
-      <div className={style.container}>
-        <Exit onClick={exit} />
-        {getOverlay(windowToDisplay)}
-      </div>
-    </div>
+    <OverlayContainer exit={exit}>
+      {getOverlay(windowToDisplay)}
+    </OverlayContainer>
   );
 };
 
