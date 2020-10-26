@@ -12,6 +12,7 @@ import Bookings from './bookings_table';
 
 // Style sheets
 import style from './daily.module.css';
+import { RefreshDailyBookingContextProvider } from './refresh_booking_context';
 
 const Daily = function DisplayDailyReservations() {
   const { date } = useParams();
@@ -27,22 +28,21 @@ const Daily = function DisplayDailyReservations() {
     return alternativeRender;
   }
 
-  const toggleBookingRefresh = function toggleFetchForBookingRefresh() {
-    toggleFetch(!fetchToggle);
-  };
   return (
-    <div className={style.container}>
-      <Header
-        date={dateObject.format('dddd MMMM Do[,] YYYY')}
-        prev={() => dispatchDate({ type: 'prev', unit: 'day' })}
-        next={() => dispatchDate({ type: 'next', unit: 'day' })}
-        isThisToday={dateObject.startOf('day').isSame(moment().startOf('day'))}
-        goToToday={() => dispatchDate({ type: 'current' })}
-        dateObject={dateObject}
-        dispatchDate={dispatchDate}
-      />
-      <Bookings bookings={response} toggleBookingRefresh={() => toggleBookingRefresh()} />
-    </div>
+    <RefreshDailyBookingContextProvider refreshFunction={() => toggleFetch(!fetchToggle)}>
+      <div className={style.container}>
+        <Header
+          date={dateObject.format('dddd MMMM Do[,] YYYY')}
+          prev={() => dispatchDate({ type: 'prev', unit: 'day' })}
+          next={() => dispatchDate({ type: 'next', unit: 'day' })}
+          isThisToday={dateObject.startOf('day').isSame(moment().startOf('day'))}
+          goToToday={() => dispatchDate({ type: 'current' })}
+          dateObject={dateObject}
+          dispatchDate={dispatchDate}
+        />
+        <Bookings bookings={response} />
+      </div>
+    </RefreshDailyBookingContextProvider>
   );
 };
 
