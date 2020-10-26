@@ -5,7 +5,7 @@ import { unmountComponentAtNode } from 'react-dom';
 import { create } from 'react-test-renderer';
 
 // Components
-import DeleteConfirmation from '../index';
+import DeleteConfirmation from '../delete_confirmation';
 
 describe('<DeleteConfirmation />', () => {
   let container = null;
