@@ -4,6 +4,11 @@ exports[`<EditWindow /> should match snapshot 1`] = `
 <div
   className="formContainer"
 >
+  <div
+    className="description"
+  >
+    Booking for John undefined on Saturday October 24th, 2020 at 8:00 PM for 2 people
+  </div>
   <form
     className="container"
     data-testid="form"
