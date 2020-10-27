@@ -14,14 +14,15 @@ const getLoadingObject = function getLoadingComponent() {
   };
 };
 
-const getError = function getErrorObject(status = 500, passedInError, forcible = false) {
+const getError = function getErrorObject(status = 500, passedInError, forceFetch) {
   let error = passedInError;
   // Server sends this message and I can't figure out where it is coming from...
   if (!error || error === 'No message available') {
     error = 'Something went wrong... \n please try again later';
   }
+
   return {
-    forcible,
+    forceFetch,
     status,
     error,
     alternativeRender: <Banner type={bannerTypes.ERROR} message={error} />,
@@ -56,24 +57,17 @@ export const fetchWrapper = async function fetchFromServer(
     return getError();
   }
 
-  let forcible;
+  let forceFetch;
   if (response.headers && response.headers.has('forcible-request')) {
     headers.force = true;
-    forcible = {
-      path,
-      fetchArguments: {
-        method,
-        headers,
-        ...fetchArguments,
-      },
-    };
+    forceFetch = () => fetchWrapper(path, { method, headers, ...fetchArguments });
   }
   let responseBody;
   try {
     responseBody = await response.json();
   } catch (e) {
     if (!isStatus2xx(response.status)) {
-      return getError(response.status, null, forcible);
+      return getError(response.status, null, forceFetch);
     }
 
     return {
@@ -89,12 +83,12 @@ export const fetchWrapper = async function fetchFromServer(
     if (responseBody.subErrors) {
       const subErrors = responseBody.subErrors.map((subError) => `${subError.object} : ${subError.message}`);
       const message = subErrors.join(', ');
-      return getError(response.status, message, forcible);
+      return getError(response.status, message, forceFetch);
     }
     if (responseBody.message) {
-      return getError(response.status, responseBody.message, forcible);
+      return getError(response.status, responseBody.message, forceFetch);
     }
-    return getError(response.status, null, forcible);
+    return getError(response.status, null, forceFetch);
   }
   return {
     status: response.status,

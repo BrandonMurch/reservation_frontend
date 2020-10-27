@@ -10,17 +10,15 @@ import ForcibleConfirmation from '../../booking_overlay/confirmation/forcible_co
 // StyleSheets
 import style from './restaurant_table.module.css';
 
-const forceWindow = function getForcibleConfirmationDialog(setOverlay, error, forceUpdate) {
+const ForceWindow = function getForcibleConfirmationDialog(setOverlay, error, forceUpdate) {
   return new Promise((resolve) => {
-    const forcibleArguments = {
-      error,
-      previousFetch: () => resolve(forceUpdate()),
-      exit: () => resolve(false),
-    };
-
     setOverlay(
       <OverlayContainer exit={() => setOverlay(null)}>
-        <ForcibleConfirmation {...forcibleArguments} />
+        <ForcibleConfirmation
+          error={error}
+          previousFetch={() => resolve(forceUpdate())}
+          exit={() => resolve(false)}
+        />
       </OverlayContainer>,
     );
   });
@@ -35,20 +33,16 @@ const getUpdateFetch = function getFetchToUpdateTableOnServer(booking, table) {
 const updateTable = async function updateTableOnServerAndHandleErrors(
   setError, setOverlay, fetchCall,
 ) {
-  const { status, error, forcible } = await fetchCall();
+  const { status, error, forceFetch } = await fetchCall();
 
   if ((status >= 200 && status < 300)) {
     setError(null);
     return true;
   }
 
-  if (forcible) {
-    const forceUpdate = () => updateTable(
-      setError,
-      setOverlay,
-      () => fetchWrapper(forcible.path, forcible.fetchArguments),
-    );
-    return forceWindow(setOverlay, error, forceUpdate);
+  if (forceFetch != null) {
+    const forceUpdate = () => updateTable(setError, setOverlay, forceFetch);
+    return ForceWindow(setOverlay, error, forceUpdate);
   }
 
   setError(error);
