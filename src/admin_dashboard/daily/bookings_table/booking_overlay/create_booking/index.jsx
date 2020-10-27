@@ -30,8 +30,6 @@ const getInputs = function getInputsFromBooking(date) {
     name: 'endTime',
     type: 'time',
     label: 'End Time',
-    value: '09:00',
-    required: true,
   },
   {
     name: 'partySize',
