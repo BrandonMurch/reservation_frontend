@@ -10,12 +10,12 @@ import ForcibleConfirmation from '../../booking_overlay/confirmation/forcible_co
 // StyleSheets
 import style from './restaurant_table.module.css';
 
-const forceWindow = function getForcibleConfirmationDialog(setOverlay, error, forceUpdate, exit) {
+const forceWindow = function getForcibleConfirmationDialog(setOverlay, error, forceUpdate) {
   return new Promise((resolve) => {
     const forcibleArguments = {
       error,
       previousFetch: () => resolve(forceUpdate()),
-      exit: () => resolve(exit()),
+      exit: () => resolve(false),
     };
 
     setOverlay(
@@ -26,27 +26,33 @@ const forceWindow = function getForcibleConfirmationDialog(setOverlay, error, fo
   });
 };
 
-const updateTable = async function updateTableOnServerAndHandleErrors(
-  table, booking, setError, setOverlay, force = false,
-) {
+const getUpdateFetch = function getFetchToUpdateTableOnServer(booking, table) {
   const path = `/bookings/${booking.id}/setTable`;
   const body = table;
-  const headers = force ? { Force: true } : {};
-  const { status, error, forcible } = await fetchWrapper(path, { method: 'PUT', headers, body });
+  return fetchWrapper(path, { method: 'PUT', body });
+};
+
+const updateTable = async function updateTableOnServerAndHandleErrors(
+  setError, setOverlay, fetchCall,
+) {
+  const { status, error, forcible } = await fetchCall();
 
   if ((status >= 200 && status < 300)) {
     setError(null);
-    return [{ name: table }];
+    return true;
   }
 
   if (forcible) {
-    const forceUpdate = () => updateTable(table, booking, setError, setOverlay, true);
-    const exit = () => booking.tables;
-    return forceWindow(setOverlay, error, forceUpdate, exit);
+    const forceUpdate = () => updateTable(
+      setError,
+      setOverlay,
+      () => fetchWrapper(forcible.path, forcible.fetchArguments),
+    );
+    return forceWindow(setOverlay, error, forceUpdate);
   }
 
   setError(error);
-  return booking.tables;
+  return false;
 };
 
 const getTableString = function getStringOfTableNamesFromArray(tables) {
@@ -79,7 +85,14 @@ const RestaurantTable = function InputBoxForTableInBooking({ booking }) {
         onChange={(event) => setTableValue(event.target.value)}
         onBlur={async () => {
           if (tableString !== tableValue) {
-            booking.tables = await updateTable(tableValue, booking, setError, setOverlay);
+            const tableUpdated = await updateTable(
+              setError,
+              setOverlay,
+              () => getUpdateFetch(booking, tableValue),
+            );
+            if (tableUpdated) {
+              booking.tables = [{ name: tableValue }];
+            }
             setTableValue(
               getTableString(booking.tables),
             );
