@@ -58,7 +58,15 @@ export const fetchWrapper = async function fetchFromServer(
 
   let forcible;
   if (response.headers && response.headers.has('forcible-request')) {
-    forcible = response.headers.get('forcible-request');
+    headers.force = true;
+    forcible = {
+      path,
+      fetchArguments: {
+        method,
+        headers,
+        ...fetchArguments,
+      },
+    };
   }
   let responseBody;
   try {
@@ -78,7 +86,12 @@ export const fetchWrapper = async function fetchFromServer(
   }
 
   if (!isStatus2xx(response.status)) {
-    if (responseBody && responseBody.message) {
+    if (responseBody.subErrors) {
+      const subErrors = responseBody.subErrors.map((subError) => `${subError.object} : ${subError.message}`);
+      const message = subErrors.join(', ');
+      return getError(response.status, message, forcible);
+    }
+    if (responseBody.message) {
       return getError(response.status, responseBody.message, forcible);
     }
     return getError(response.status, null, forcible);
