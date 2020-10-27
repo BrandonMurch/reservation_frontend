@@ -20,6 +20,7 @@ const getError = function getErrorObject(status = 500, passedInError, forceFetch
   if (!error || error === 'No message available') {
     error = 'Something went wrong... \n please try again later';
   }
+
   return {
     forceFetch,
     status,
