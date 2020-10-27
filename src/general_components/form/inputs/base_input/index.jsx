@@ -19,10 +19,10 @@ const Input = function CreateInputAndLabel(props) {
     onBlurBasedOnInputType,
     style,
   } = props;
-
   const [value, setValue] = useState(initialValue);
   const [errorMessage, setErrorMessage] = useState('');
 
+  updateValue(initialValue);
   if (errorMessage === 'Please match the requested format.') {
     setErrorMessage(patternMessage);
   }
