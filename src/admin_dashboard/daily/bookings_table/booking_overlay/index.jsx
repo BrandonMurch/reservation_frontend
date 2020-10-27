@@ -2,6 +2,7 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { fetchWrapper } from 'shared/useFetch';
 import types from './window_types';
 
 // Components
@@ -19,17 +20,15 @@ const BookingOverlay = ({
 }) => {
   const [windowToDisplay, setWindowToDisplay] = useState(entryWindow || types.CREATE);
 
-  const previousFetchCall = useRef({});
+  const previousFetch = useRef({});
 
-  const handleFetchAndExit = async function handleLoadingAndErrorsForFetch(fetchCallBack) {
-    previousFetchCall.current.call = fetchCallBack;
+  const handleFetchAndExit = async function handleLoadingAndErrorsForFetch(fetchCall) {
     setWindowToDisplay(types.LOADING);
-    const { error, forcible } = await fetchCallBack();
-    if (forcible) {
-      previousFetchCall.current.error = error;
-      setWindowToDisplay(types.CONFIRM);
+    previousFetch.current = await fetchCall();
+    if (previousFetch.current.forceFetch) {
+      setWindowToDisplay(types.FORCIBLE);
     } else {
-      setErrorBanner(error);
+      setErrorBanner(previousFetch.current.error);
       exit();
     }
   };
@@ -60,7 +59,10 @@ const BookingOverlay = ({
     forcible: (
       <ForcibleConfirmation
         exit={exit}
-        {...previousFetchCall.current}
+        previousFetch={async () => {
+          handleFetchAndExit(previousFetch.current.forceFetch);
+        }}
+        error={previousFetch.current.fetchError}
       />
     ),
 
@@ -78,13 +80,21 @@ BookingOverlay.propTypes = {
   exit: PropTypes.func.isRequired,
   setErrorBanner: PropTypes.func.isRequired,
   booking: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-  }).isRequired,
+    id: PropTypes.number,
+  }),
   date: PropTypes.string,
 };
 
 BookingOverlay.defaultProps = {
   date: moment().format('YYYY-MM-DD'),
+  booking: {
+    id: 0,
+    startTime: '',
+    partySize: 0,
+    user: {
+      firstName: '',
+    },
+  },
 };
 
 export default BookingOverlay;
