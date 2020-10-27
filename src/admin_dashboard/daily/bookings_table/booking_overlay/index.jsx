@@ -2,7 +2,6 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { fetchWrapper } from 'shared/useFetch';
 import types from './window_types';
 
 // Components
