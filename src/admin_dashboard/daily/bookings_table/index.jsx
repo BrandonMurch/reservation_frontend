@@ -75,7 +75,7 @@ const tableBookings = function placeBookingsIntoHourSlotsInTable(
   return bookingDisplay;
 };
 
-const Bookings = function BookingsTableByHour({ bookings }) {
+const Bookings = function BookingsTableByHour({ bookings, date }) {
   const { refresh } = useRefreshContext();
   const [errorMessage, setErrorMessage] = useState(null);
   const [bookingOverlayWindow, setBookingOverlayWindow] = useState(null);
@@ -99,6 +99,7 @@ const Bookings = function BookingsTableByHour({ bookings }) {
           refresh();
         }}
         setErrorBanner={setErrorMessage}
+        date={date}
       />
       )}
 

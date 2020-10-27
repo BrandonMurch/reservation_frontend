@@ -40,7 +40,7 @@ const Daily = function DisplayDailyReservations() {
           dateObject={dateObject}
           dispatchDate={dispatchDate}
         />
-        <Bookings bookings={response} />
+        <Bookings bookings={response} date={dateObject.format('YYYY-MM-DD')} />
       </div>
     </RefreshDailyBookingContextProvider>
   );
