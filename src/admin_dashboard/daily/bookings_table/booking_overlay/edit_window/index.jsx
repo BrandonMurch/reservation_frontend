@@ -124,13 +124,18 @@ const EditWindow = ({
 );
 
 EditWindow.propTypes = {
-  deleteBooking: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  deleteBooking: PropTypes.func,
+  onSubmit: PropTypes.func,
   booking: PropTypes.shape({
     startTime: PropTypes.string,
     partySize: PropTypes.number,
-  }).isRequired,
+  }),
+};
 
+EditWindow.defaultProps = {
+  deleteBooking: () => {},
+  onSubmit: () => {},
+  booking: {},
 };
 
 export default EditWindow;

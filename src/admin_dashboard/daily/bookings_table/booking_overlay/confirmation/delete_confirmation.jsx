@@ -33,15 +33,22 @@ const DeleteConfirmation = function DeleteUsingConfirmationComponent({
 };
 
 DeleteConfirmation.propTypes = {
-  cancelDelete: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  cancelDelete: PropTypes.func,
+  onSubmit: PropTypes.func,
   booking: PropTypes.shape({
-    startTime: PropTypes.string.isRequired,
-    partySize: PropTypes.number.isRequired,
+    startTime: PropTypes.string,
+    partySize: PropTypes.number,
     user: PropTypes.shape({
-      firstName: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
+      firstName: PropTypes.string,
+    }),
+  }),
+};
+
+DeleteConfirmation.defaultProps = {
+  cancelDelete: () => {},
+  onSubmit: () => {},
+  booking: {},
+
 };
 
 export default DeleteConfirmation;
