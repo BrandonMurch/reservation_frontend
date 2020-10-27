@@ -126,6 +126,7 @@ const Bookings = function BookingsTableByHour({ bookings, date }) {
 
 Bookings.propTypes = {
   bookings: PropTypes.arrayOf(Object).isRequired,
+  date: PropTypes.string.isRequired,
 };
 
 export default Bookings;
