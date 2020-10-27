@@ -17,9 +17,13 @@ const ForcibleConfirmation = function AskUserIfTheyWouldLikeToForcePreviousFetch
 };
 
 ForcibleConfirmation.propTypes = {
-  error: PropTypes.string.isRequired,
+  error: PropTypes.string,
   previousFetch: PropTypes.func.isRequired,
   exit: PropTypes.func.isRequired,
+};
+
+ForcibleConfirmation.defaultProps = {
+  error: 'Unexpected error',
 };
 
 export default ForcibleConfirmation;
