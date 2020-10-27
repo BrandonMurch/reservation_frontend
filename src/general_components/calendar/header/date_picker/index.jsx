@@ -3,6 +3,7 @@
 // Dependencies
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import useTimeHandler from 'shared/useTimeHandler';
 
 // Components
 import CalendarBody from '../../calendar_body';
@@ -15,25 +16,26 @@ const DatePicker = function SmallWindowToSelectDate(
   { dateObject, dispatchDate, setDisplayDatePicker },
 ) {
   const [displayMonthSelector, setDisplayMonthSelector] = useState(false);
+  const { dateObject: dateBuilder, dispatchDate: dispatchDateBuilder } = useTimeHandler(dateObject);
   return (
     <div className={style.container}>
       <button type="button" onClick={() => setDisplayMonthSelector(!displayMonthSelector)}>
-        {dateObject.format('MMMM YYYY')}
+        {dateBuilder.format('MMMM YYYY')}
       </button>
 
       {displayMonthSelector
         ? (
           <MonthYearSelector
-            dateObject={dateObject}
-            dispatchDate={dispatchDate}
+            dateObject={dateBuilder}
+            dispatchDate={dispatchDateBuilder}
           />
         )
         : (
           <div className={style.calendarContainer}>
             <CalendarBody
               titleStyle={style.dayTitles}
-              dateObject={dateObject}
-              onClick={(date) => {
+              dateObject={dateBuilder}
+              onClick={async (date) => {
                 setDisplayDatePicker(false);
                 dispatchDate({ type: 'goTo', date });
               }}
