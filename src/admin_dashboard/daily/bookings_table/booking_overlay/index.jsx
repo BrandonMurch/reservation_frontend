@@ -2,7 +2,6 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { fetchWrapper } from 'shared/useFetch';
 import types from './window_types';
 
 // Components
@@ -20,10 +19,7 @@ const BookingOverlay = ({
 }) => {
   const [windowToDisplay, setWindowToDisplay] = useState(entryWindow || types.CREATE);
 
-  const fetchStore = useRef({
-    // error: '',
-    // forceFetch: () => {},
-  });
+  const fetchStore = useRef({});
 
   const handleFetchAndExit = async function handleLoadingAndErrorsForFetch(fetchCall) {
     setWindowToDisplay(types.LOADING);

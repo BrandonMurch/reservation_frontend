@@ -16,8 +16,7 @@ const getInputs = function getInputsFromBooking(date) {
     name: 'date',
     type: 'date',
     label: 'Date',
-    value: '2020-11-27',
-    // value: date || undefined,
+    value: date || undefined,
     required: true,
   },
   {
