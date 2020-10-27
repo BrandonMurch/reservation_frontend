@@ -14,7 +14,7 @@ import CalendarBody from './calendar_body';
 // Stylesheets
 import style from './calendar.module.css';
 
-const Calendar = function Calendar({ onDateRender, onClick }) {
+const Calendar = function Calendar({ onDateRender, onClick, monthlyView }) {
   const { dateObject, dispatchDate } = useTimeHandler();
   const currentMonth = getMonth(dateObject.month()).long;
   const currentYear = dateObject.year();
@@ -30,6 +30,7 @@ const Calendar = function Calendar({ onDateRender, onClick }) {
         goToDate={(date) => dispatchDate({ type: 'goTo', date })}
         dateObject={dateObject}
         dispatchDate={dispatchDate}
+        monthlyView={monthlyView}
       />
       <CalendarBody dateObject={dateObject} onDateRender={onDateRender} onClick={onClick} />
     </div>
@@ -39,11 +40,13 @@ const Calendar = function Calendar({ onDateRender, onClick }) {
 Calendar.propTypes = {
   onDateRender: PropTypes.func,
   onClick: PropTypes.func,
+  monthlyView: PropTypes.bool,
 };
 
 Calendar.defaultProps = {
   onDateRender: () => {},
   onClick: () => {},
+  monthlyView: false,
 };
 
 export default Calendar;

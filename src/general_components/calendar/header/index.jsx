@@ -7,7 +7,7 @@ import style from './header.module.css';
 import DatePicker from './date_picker';
 
 const Header = function CalendarMonthAndButtons({
-  date, prev, next, isThisToday, goToToday, dateObject, dispatchDate,
+  date, prev, next, isThisToday, goToToday, dateObject, dispatchDate, monthlyView,
 }) {
   const [displayDatePicker, setDisplayDatePicker] = useState(false);
   const datePickerProps = { dateObject, dispatchDate, setDisplayDatePicker };
@@ -28,7 +28,7 @@ const Header = function CalendarMonthAndButtons({
           </button>
         </h1>
 
-        {displayDatePicker && <DatePicker {...datePickerProps} />}
+        {displayDatePicker && <DatePicker {...datePickerProps} onlyMonth={monthlyView} />}
       </div>
       <div className={style.buttonContainer}>
         {isThisToday || (
@@ -55,6 +55,11 @@ Header.propTypes = {
   goToToday: PropTypes.func.isRequired,
   dateObject: PropTypes.shape({}).isRequired,
   dispatchDate: PropTypes.func.isRequired,
+  monthlyView: PropTypes.bool,
+};
+
+Header.defaultProps = {
+  monthlyView: false,
 };
 
 export default Header;

@@ -30,6 +30,7 @@ const Monthly = () => {
   return (
     <div className={style.container}>
       <Calendar
+        monthlyView
         onDateRender={({ date, setMessage }) => {
           if (response[date]) {
             setMessage(`${response[date]} reservations`);
