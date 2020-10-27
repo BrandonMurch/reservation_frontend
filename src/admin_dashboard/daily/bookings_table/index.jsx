@@ -19,9 +19,10 @@ const loadBookingsIntoMap = function loadBookingsIntoMapByHour(bookings) {
     /* REGEX: get index 11 + 12, if 11 is 0, get only index 12
     example 2020-10-10T18:00:00 would get 18, but if it was T08:00:00, it would only get 8;
     */
-    const getHourInIsoPattern = '([0-9-T]{11})([1-9])([0-9])';
+    const getHourInIsoPattern = /([0-9-T]{11})(?!0[1-9])(\d+)/;
     const bookingHourMatch = booking.startTime.match(getHourInIsoPattern);
-    const bookingHour = bookingHourMatch[2] + bookingHourMatch[3];
+    const bookingHour = bookingHourMatch[2];
+
     let bookingList;
     if (bookingsByHourMap.has(bookingHour)) {
       bookingList = bookingsByHourMap.get(bookingHour);
@@ -75,6 +76,7 @@ const tableBookings = function placeBookingsIntoHourSlotsInTable(
 };
 
 const Bookings = function BookingsTableByHour({ bookings }) {
+  const { refresh } = useRefreshContext();
   const [errorMessage, setErrorMessage] = useState(null);
   const [bookingOverlayWindow, setBookingOverlayWindow] = useState(null);
   const selectedBooking = useRef();
@@ -94,7 +96,7 @@ const Bookings = function BookingsTableByHour({ bookings }) {
         exit={() => {
           selectedBooking.current = null;
           setBookingOverlayWindow(null);
-          useRefreshContext.refresh();
+          refresh();
         }}
         setErrorBanner={setErrorMessage}
       />
