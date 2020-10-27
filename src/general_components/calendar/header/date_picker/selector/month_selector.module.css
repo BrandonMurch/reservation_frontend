@@ -25,6 +25,7 @@
     font-weight: bold;
     background: transparent;
     border: none;
+    cursor: pointer;
 }
 
 .wheelButton {
