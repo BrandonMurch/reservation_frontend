@@ -1,5 +1,5 @@
 // Dependencies
-import React, { useState, createRef } from 'react';
+import React, { useState, createRef, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { enumeration } from 'shared/helpers';
 
@@ -35,7 +35,9 @@ const getInputs = function getListOfInputChildren(
 ) {
   return inputs.map((input) => {
     const Component = inputFields[input.type] || inputFields.default;
-    fields[input.name] = input.value;
+    if (!fields.current[input.name]) {
+      fields.current[input.name] = input.value;
+    }
     return (
       <Component
         key={input.name + counterToResetChildren}
@@ -55,9 +57,9 @@ const Form = function CreateFormWithInputs(props) {
 
   const elementRef = createRef();
   const style = styleProp === null ? styleSheet : styleProp;
-  const fields = {};
+  const fields = useRef({});
   const onBlur = function updateFieldsOnBlur(value, name) {
-    fields[name] = value;
+    fields.current[name] = value;
   };
   const [displayErrors, setDisplayErrors] = useState(false);
   const [submitButtonText, setSubmitButtonText] = useState(submitLabel);
@@ -77,7 +79,7 @@ const Form = function CreateFormWithInputs(props) {
         event.preventDefault();
         if (event.target.checkValidity()) {
           setSubmitButtonText('Submitting...');
-          await onSubmit(fields);
+          await onSubmit(fields.current);
           resetChildren();
           if (elementRef.current) {
             setSubmitButtonText(submitLabel);
