@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AutoCompleteInput /> should match snapshot 1`] = `
+<div
+  className="inputGroup"
+>
+  <label
+    className=""
+    htmlFor="InputBox"
+  >
+    Autocomplete!
+  </label>
+  <input
+    className="input"
+    id="InputBox"
+    name="InputBox"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    pattern={null}
+    placeholder="Autocomplete!"
+    required={false}
+    type="text"
+    value=""
+  />
+</div>
+`;

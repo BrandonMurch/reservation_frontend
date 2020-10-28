@@ -57,6 +57,22 @@
   moz-box-shadow: 2px 2px grey;
 }
 
+.suggestionContainer {
+    list-style: none;
+    background-color: white;
+    color: black;
+    z-index: 99;
+    border: 2px solid black;
+    position: absolute;
+}
+
+.suggestion {
+}
+
+.suggestion:hover{
+  background-color: grey;
+}
+
 @media screen and (max-width: 550px) {
   .labelText {
     margin: 0.5rem;
