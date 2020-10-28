@@ -1,11 +1,13 @@
 // Dependences
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { fetchWrapper } from 'shared/useFetch';
+import useFetch, { fetchWrapper } from 'shared/useFetch';
 import { useRefreshContext } from '../../../refresh_booking_context';
+
 // Components
 import OverlayContainer from '../../booking_overlay/overlay_container';
 import ForcibleConfirmation from '../../booking_overlay/confirmation/forcible_confirmation';
+import AutoCompleteInput from 'general_components/form/inputs/autocomplete_input';
 
 // StyleSheets
 import style from './restaurant_table.module.css';
@@ -67,41 +69,59 @@ const RestaurantTable = function InputBoxForTableInBooking({ booking }) {
   const [tableValue, setTableValue] = useState(tableString);
   const [overlay, setOverlay] = useState(null);
   const [error, setError] = useState('');
+  const { alternativeRender, response } = useFetch('/restaurant/all-tables');
   const inputClass = error ? style.errorTableInput : style.tableInput;
+  if (alternativeRender) {
+    return alternativeRender;
+  }
+
+  const filter = (suggestion, input) => (
+    suggestion.name.indexOf(input) > -1 && suggestion.seats >= booking.partySize
+  );
+  const display = (suggestion) => suggestion.name;
   return (
-    <>
+    <div className={style.container}>
       {overlay}
-      <input
+      <AutoCompleteInput
+        hiddenLabel
+        possibleEntries={response}
+        label="Restaurant Table"
+        filter={filter}
+        display={display}
         className={inputClass}
         type="text"
         value={tableValue}
+        updateValue={(value) => setTableValue(value)}
         onFocus={() => setError('')}
-        onChange={(event) => setTableValue(event.target.value)}
-        onBlur={async () => {
-          if (tableString !== tableValue) {
+        onChange={({ value }) => setTableValue(value)}
+        onBlur={async ({ value: tables }) => {
+          if (tableString !== tables && tables !== '') {
             const tableUpdated = await updateTable(
               setError,
               setOverlay,
-              () => getUpdateFetch(booking, tableValue),
+              () => getUpdateFetch(booking, tables),
             );
             if (tableUpdated) {
-              booking.tables = [{ name: tableValue }];
+              booking.tables = [{ name: tables }];
             }
             setTableValue(
               getTableString(booking.tables),
             );
             setOverlay(null);
             refresh();
+          } else {
+            // TODO: return this to its original value!
           }
         }}
       />
       {error && <p className={style.errorText}>{error}</p>}
-    </>
+    </div>
   );
 };
 
 RestaurantTable.propTypes = {
   booking: PropTypes.shape({
+    partySize: PropTypes.number.isRequired,
     tables: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string,

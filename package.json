@@ -27,7 +27,11 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "parserOptions":
+    {
+      "ecmaVersion": 2020
+    }
   },
   "browserslist": {
     "production": [
