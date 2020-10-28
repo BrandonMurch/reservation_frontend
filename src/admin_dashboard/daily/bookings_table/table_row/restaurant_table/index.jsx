@@ -66,19 +66,21 @@ const getTableString = function getStringOfTableNamesFromArray(tables) {
 const RestaurantTable = function InputBoxForTableInBooking({ booking }) {
   const { refresh } = useRefreshContext();
   const tableString = getTableString(booking.tables);
-  const [tableValue, setTableValue] = useState(tableString);
   const [overlay, setOverlay] = useState(null);
   const [error, setError] = useState('');
+
   const { alternativeRender, response } = useFetch('/restaurant/all-tables');
-  const inputClass = error ? style.errorTableInput : style.tableInput;
   if (alternativeRender) {
     return alternativeRender;
   }
 
+  const inputClass = error ? style.errorTableInput : style.tableInput;
   const filter = (suggestion, input) => (
     suggestion.name.indexOf(input) > -1 && suggestion.seats >= booking.partySize
   );
+
   const display = (suggestion) => suggestion.name;
+
   return (
     <div className={style.container}>
       {overlay}
@@ -86,15 +88,14 @@ const RestaurantTable = function InputBoxForTableInBooking({ booking }) {
         hiddenLabel
         possibleEntries={response}
         label="Restaurant Table"
+        name="table"
+        type="text"
         filter={filter}
         display={display}
         className={inputClass}
-        type="text"
-        value={tableValue}
-        updateValue={(value) => setTableValue(value)}
+        value={tableString}
         onFocus={() => setError('')}
-        onChange={({ value }) => setTableValue(value)}
-        onBlur={async ({ value: tables }) => {
+        onBlur={async ({ value: tables }, reset) => {
           if (tableString !== tables && tables !== '') {
             const tableUpdated = await updateTable(
               setError,
@@ -103,14 +104,13 @@ const RestaurantTable = function InputBoxForTableInBooking({ booking }) {
             );
             if (tableUpdated) {
               booking.tables = [{ name: tables }];
+            } else {
+              reset();
             }
-            setTableValue(
-              getTableString(booking.tables),
-            );
             setOverlay(null);
             refresh();
           } else {
-            // TODO: return this to its original value!
+            reset();
           }
         }}
       />

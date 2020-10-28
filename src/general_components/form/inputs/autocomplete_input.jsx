@@ -1,5 +1,5 @@
 // Dependencies
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 // Components
@@ -11,7 +11,6 @@ import styleSheet from '../form.module.css';
 const AutoCompleteInput = ({
   possibleEntries,
   propsStyle,
-  onChange,
   onBlur,
   filter: propsFilter,
   display: propsDisplay,
@@ -26,7 +25,8 @@ const AutoCompleteInput = ({
   const filter = propsFilter ?? defaultFilter;
   const display = propsDisplay ?? defaultDisplay;
 
-  let mouseOverSelections = false;
+  const mouseOverSelections = useRef(false);
+  const mouseOverInput = useRef(false);
 
   const updateSuggestions = function updateSuggestionsOnChange(input) {
     setSuggestions(() => (
@@ -34,6 +34,12 @@ const AutoCompleteInput = ({
         .filter((suggestion) => filter(suggestion, input))
     ));
   };
+
+  window.addEventListener('click', () => {
+    if (!mouseOverSelections.current && !mouseOverInput.current && displaySuggestions) {
+      setDisplaySuggestions(false);
+    }
+  });
 
   const onClick = (selection) => {
     setDisplaySuggestions(false);
@@ -46,29 +52,29 @@ const AutoCompleteInput = ({
     <>
       <Input
         {...props}
-        onBlur={(value) => {
-          if (!mouseOverSelections) {
-            setDisplaySuggestions(false);
-            onBlur(value);
-          }
-        }}
-        onFocus={() => setDisplaySuggestions(true)}
         style={style}
-        onChange={(target) => {
-          updateSuggestions(target.value);
-          onChange(target);
+        onFocus={() => setDisplaySuggestions(true)}
+        onMouseEnter={() => { mouseOverInput.current = true; }}
+        onMouseLeave={() => { mouseOverInput.current = false; }}
+        onChange={({ value }) => {
+          updateSuggestions(value);
+        }}
+        onBlur={(target, reset) => {
+          if (!mouseOverSelections.current) {
+            onBlur(target, reset);
+          }
         }}
       />
       {displaySuggestions && suggestions.length > 0
         ? (
           <ul
             className={style.suggestionContainer}
-            onMouseEnter={() => { mouseOverSelections = true; }}
-            onMouseLeave={() => { mouseOverSelections = false; }}
+            onMouseEnter={() => { mouseOverSelections.current = true; }}
+            onMouseLeave={() => { mouseOverSelections.current = false; }}
           >
             {suggestions.map(
               (suggestion) => (
-                <li>
+                <li key={display(suggestion)}>
                   <option
                   // TODO: how to trigger a key press here?
                     onKeyPress={(event) => console.log(event)}
@@ -89,9 +95,9 @@ const AutoCompleteInput = ({
 };
 
 AutoCompleteInput.propTypes = {
-  possibleEntries: PropTypes.arrayOf(PropTypes.string).isRequired,
+  // eslint-disable-next-line
+  possibleEntries: PropTypes.array.isRequired,
   onBlur: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
   filter: PropTypes.func.isRequired,
   display: PropTypes.func.isRequired,
   propsStyle: PropTypes.shape({

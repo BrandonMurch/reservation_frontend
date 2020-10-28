@@ -19,6 +19,8 @@ const Input = function CreateInputAndLabel(props) {
     onBlur,
     style,
     hiddenLabel,
+    onMouseEnter,
+    onMouseLeave,
   } = props;
   const [value, setValue] = useState(initialValue);
   const [errorMessage, setErrorMessage] = useState('');
@@ -28,13 +30,17 @@ const Input = function CreateInputAndLabel(props) {
     setErrorMessage(patternMessage);
   }
 
+  const reset = () => {
+    setValue(initialValue);
+  };
+
   return (
     <div key={key} className={style.inputGroup}>
       <label
         className={hiddenLabel ? style.hiddenLabelText : style.labelText}
         htmlFor={name}
       >
-        {`${label}`}
+        {label}
       </label>
       <input
         onFocus={onFocus}
@@ -46,6 +52,8 @@ const Input = function CreateInputAndLabel(props) {
         id={name}
         type={type}
         name={name}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
         onKeyDown={((event) => {
           // Fixes where enter is clicked on last input, and the field isn't updated.
           if (event.keyCode === 13) {
@@ -57,7 +65,7 @@ const Input = function CreateInputAndLabel(props) {
         onBlur={({ target }) => {
           setErrorMessage(target.validationMessage);
           updateValue(target.value, target.name);
-          onBlur(target);
+          onBlur(target, () => reset());
         }}
         onChange={({ target }) => {
           setErrorMessage(target.validationMessage);
@@ -75,11 +83,13 @@ Input.propTypes = {
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   value: PropTypes.string,
-  updateValue: PropTypes.func.isRequired,
+  updateValue: PropTypes.func,
   required: PropTypes.bool,
   pattern: PropTypes.string,
   label: PropTypes.string.isRequired,
   displayErrors: PropTypes.bool,
+  onMouseEnter: PropTypes.func,
+  onMouseLeave: PropTypes.func,
   patternMessage: PropTypes.string,
   hiddenLabel: PropTypes.bool,
   onFocus: PropTypes.func,
@@ -106,6 +116,9 @@ Input.defaultProps = {
   onChange: () => {},
   onBlur: () => {},
   onFocus: () => {},
+  updateValue: () => {},
+  onMouseEnter: () => {},
+  onMouseLeave: () => {},
 };
 
 export default Input;
