@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import Box from './calendar_box';
 
 // Stylesheets
+import style from './calendar_rows.module.css';
 
 const getBlanks = function getBlanksToAlignCalendarCorrectly(number, numberForStartingKey = 0) {
   const blanks = [];

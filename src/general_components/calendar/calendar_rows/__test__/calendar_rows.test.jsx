@@ -11,7 +11,7 @@ import Row from '../index';
 describe('<CalendarRow />', () => {
   let component;
   let container = null;
-  const dateObject = moment();
+  const dateObject = moment('2020-10-23');
   const mockRenderFunction = jest.fn(({ setMessage }) => { setMessage('hello'); });
 
   beforeEach(() => {

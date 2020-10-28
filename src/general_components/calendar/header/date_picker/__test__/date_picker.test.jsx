@@ -13,7 +13,7 @@ describe('<DatePicker />', () => {
   let container = null;
   const props = {
     setDisplayDatePicker: jest.fn(),
-    dateObject: moment(),
+    dateObject: moment('2020-10-23'),
     dispatchDate: jest.fn(),
   };
 
