@@ -9,9 +9,28 @@ import Exit from './exit_button';
 import style from './overlay_container.module.css';
 
 const OverlayContainer = function ContainerForBookingOverlay({ children, exit }) {
+  let isMouseOutsideContainer = true;
+  const clickOutsideBox = () => {
+    if (isMouseOutsideContainer) {
+      exit();
+    }
+  };
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      exit();
+    }
+  });
   return (
-    <div className={style.background}>
-      <div className={style.container}>
+    <div
+      className={style.background}
+      role="none"
+      onClick={() => clickOutsideBox()}
+    >
+      <div
+        className={style.container}
+        onMouseEnter={() => { isMouseOutsideContainer = false; }}
+        onMouseLeave={() => { isMouseOutsideContainer = true; }}
+      >
         <Exit onClick={exit} />
         {children}
       </div>
