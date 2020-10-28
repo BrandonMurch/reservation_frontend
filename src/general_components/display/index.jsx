@@ -32,14 +32,14 @@ function DisplayUser({ user }) {
   const {
     firstName,
     lastName,
-    email,
+    username,
     phoneNumber,
   } = user;
   return (
     <p className={style.title}>
       {`${firstName} ${lastName}`}
       <br />
-      {email}
+      {username}
       <br />
       {phoneNumber}
     </p>
@@ -50,7 +50,7 @@ DisplayUser.propTypes = {
   user: PropTypes.shape({
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
     phoneNumber: PropTypes.string.isRequired,
   }).isRequired,
 };

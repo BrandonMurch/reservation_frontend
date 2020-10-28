@@ -39,7 +39,7 @@ const NewUser = function PopulateContactForm(props) {
       required: true,
     },
     {
-      name: 'email',
+      name: 'username',
       type: 'email',
       label: 'Email',
       required: true,
@@ -54,6 +54,11 @@ const NewUser = function PopulateContactForm(props) {
       pattern: '^\\+\\d{1,3} \\d{6,14}$',
       patternMessage:
         'Phone number must be in the format of +1 123456789 where +1 is the country code, followed by the phone number',
+    },
+    {
+      name: 'comments',
+      type: 'textarea',
+      label: 'Comments / Dietary requirements',
     },
     {
       name: 'tAC',

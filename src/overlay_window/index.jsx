@@ -24,6 +24,11 @@ const formatBooking = function formatBookingDateTime(booking) {
   return booking;
 };
 
+const swapComments = function swapCommentsFromUserToBooking(user, booking) {
+  booking.userComments = user.comments;
+  delete user.comments;
+};
+
 const submitReservation = async function postReservationToServer(
   user,
   reservation,
@@ -33,6 +38,7 @@ const submitReservation = async function postReservationToServer(
 ) {
   setIsLoading(true);
   const booking = formatBooking({ ...reservation });
+  swapComments(user, booking);
 
   fetchWrapper('/bookings', { method: 'POST', body: JSON.stringify({ user, booking }) })
     .then(
