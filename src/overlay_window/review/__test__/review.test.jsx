@@ -19,7 +19,7 @@ describe('<Review />', () => {
   const user = {
     firstName: 'john',
     lastName: 'johnson',
-    email: 'john@john.com',
+    username: 'john@john.com',
     phoneNumber: '+1 123456787',
     tAC: true,
   };
@@ -73,7 +73,7 @@ describe('<Review />', () => {
     expect(element).toBeInTheDocument();
     element = component.getByText(new RegExp(user.lastName));
     expect(element).toBeInTheDocument();
-    element = component.getByText(new RegExp(user.email));
+    element = component.getByText(new RegExp(user.username));
     expect(element).toBeInTheDocument();
   });
 });

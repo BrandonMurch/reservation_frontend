@@ -83,14 +83,14 @@ exports[`<ContactForm /> should match snapshot 1`] = `
     >
       <label
         className="hiddenLabelText"
-        htmlFor="email"
+        htmlFor="username"
       >
         Email
       </label>
       <input
         className="input"
-        id="email"
-        name="email"
+        id="username"
+        name="username"
         onBlur={[Function]}
         onChange={[Function]}
         onKeyDown={[Function]}
@@ -121,6 +121,29 @@ exports[`<ContactForm /> should match snapshot 1`] = `
         placeholder="Phone Number"
         required={true}
         type="tel"
+        value=""
+      />
+    </div>
+    <div
+      className="inputGroup"
+    >
+      <label
+        className="hiddenLabelText"
+        htmlFor="comments"
+      >
+        Comments / Dietary requirements
+      </label>
+      <input
+        className="input"
+        id="comments"
+        name="comments"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onKeyDown={[Function]}
+        pattern={null}
+        placeholder="Comments / Dietary requirements"
+        required={false}
+        type="textarea"
         value=""
       />
     </div>

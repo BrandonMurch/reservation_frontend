@@ -51,7 +51,7 @@ describe('<DisplayUser />', () => {
   const user = {
     firstName: 'john',
     lastName: 'johnson',
-    email: 'john@john.com',
+    username: 'john@john.com',
     phoneNumber: '+1 123456787',
     tAC: true,
   };
@@ -72,11 +72,11 @@ describe('<DisplayUser />', () => {
     expect(tree).toMatchSnapshot();
   });
   it('should display user\'s first and last name', () => {
-    const element = component.getByText(/john johnson/i);
+    const element = component.getByText(new RegExp(`${user.firstName} ${user.lastName}`));
     expect(element).toBeInTheDocument();
   });
   it('should display user\'s email', () => {
-    const element = component.getByText(/john@john.com/i);
+    const element = component.getByText(new RegExp(user.username));
     expect(element).toBeInTheDocument();
   });
   it('should display user\'s phone number', () => {
