@@ -12,12 +12,12 @@ const OverlayContainer = function ContainerForBookingOverlay({ children, exit })
   let isMouseOutsideContainer = true;
   const clickOutsideBox = () => {
     if (isMouseOutsideContainer) {
-      exit();
+      exit(true);
     }
   };
   window.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
-      exit();
+      exit(true);
     }
   });
   return (
@@ -31,7 +31,7 @@ const OverlayContainer = function ContainerForBookingOverlay({ children, exit })
         onMouseEnter={() => { isMouseOutsideContainer = false; }}
         onMouseLeave={() => { isMouseOutsideContainer = true; }}
       >
-        <Exit onClick={exit} />
+        <Exit onClick={(exit)} />
         {children}
       </div>
     </div>

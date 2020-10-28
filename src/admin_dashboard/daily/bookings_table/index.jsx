@@ -93,10 +93,12 @@ const Bookings = function BookingsTableByHour({ bookings, date }) {
       <EditBookingOverlay
         booking={selectedBooking.current}
         entryWindow={bookingOverlayWindow}
-        exit={() => {
+        exit={(blockRefresh) => {
           selectedBooking.current = null;
           setBookingOverlayWindow(null);
-          refresh();
+          if (!blockRefresh) {
+            refresh();
+          }
         }}
         setErrorBanner={setErrorMessage}
         date={date}
