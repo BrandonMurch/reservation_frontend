@@ -99,3 +99,5 @@ NewUser.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   setFormDisplay: PropTypes.func.isRequired,
 };
+
+export default NewUser;
