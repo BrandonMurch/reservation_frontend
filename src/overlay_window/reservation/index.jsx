@@ -1,9 +1,9 @@
 // Dependencies
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import useFetch, { fetchWrapper } from 'shared/useFetch';
 
 // Components
-import { fetchWrapper } from 'shared/useFetch';
 import TimeSelect from './select/time';
 import PartySizeSelect from './select/party_size';
 
@@ -19,6 +19,8 @@ const ReservationForm = function CreateAReservationForm(props) {
   const [availableTimes, setAvailableTimes] = useState([]);
   const reservation = { date, time, partySize };
 
+  const { response: maxPartySize, alternativeRender } = useFetch('/restaurant/largest-table');
+
   useEffect(() => {
     if (date != null && partySize > 0) {
       const getAvailableTimes = async function getAvailableTimesFromServer() {
@@ -33,6 +35,9 @@ const ReservationForm = function CreateAReservationForm(props) {
     }
   }, [partySize, date, setError]);
 
+  if (alternativeRender) {
+    return alternativeRender;
+  }
   return (
     <form
       onSubmit={(event) => {
@@ -45,6 +50,7 @@ const ReservationForm = function CreateAReservationForm(props) {
         label="Party size:"
         value={partySize}
         disabled={(isLoading)}
+        max={maxPartySize}
         onChange={({ target }) => {
           setPartySize(target.value);
           if (partySize === '') {
