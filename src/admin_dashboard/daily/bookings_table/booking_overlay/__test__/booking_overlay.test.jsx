@@ -8,6 +8,7 @@ import types from '../window_types';
 
 // Components
 import BookingOverlay from '../index';
+import userEvent from '@testing-library/user-event';
 
 describe('<BookingOverlay />', () => {
   let props;
@@ -77,7 +78,7 @@ describe('<BookingOverlay />', () => {
     const jestSpy = jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({ status: 200 }));
     const submitButton = screen.getByRole('button', { name: 'Yes' });
     await act(async () => {
-      await fireEvent.click(submitButton);
+      await userEvent.click(submitButton);
     });
     expect(jestSpy).toBeCalledTimes(1);
     expect(props.exit).toBeCalledTimes(1);

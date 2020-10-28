@@ -3,9 +3,13 @@
 exports[`<BookingOverlay /> should match snapshot 1`] = `
 <div
   className="background"
+  onClick={[Function]}
+  role="none"
 >
   <div
     className="container"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
   >
     <div
       className="buttonContainer"
