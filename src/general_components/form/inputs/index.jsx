@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import BaseInput from './base_input';
 
 export const TextInput = function TestParent({ doDisplayErrors, style, ...props }) {
-  props.labelStyle = style.hiddenLabelText;
   props.inputStyle = style.input;
   props.inputStyleWithErrors = style.displayError;
   const [displayErrors, setDisplayErrors] = useState(false);
@@ -17,7 +16,7 @@ export const TextInput = function TestParent({ doDisplayErrors, style, ...props 
     }
   }, [doDisplayErrors]);
 
-  props.onBlurBasedOnInputType = function validateOnBlur() {
+  props.onBlur = function validateOnBlur() {
     if (!displayErrors) {
       setDisplayErrors(true);
     }
@@ -25,7 +24,7 @@ export const TextInput = function TestParent({ doDisplayErrors, style, ...props 
 
   props.displayErrors = displayErrors;
 
-  return <BaseInput {...props} style={style} />;
+  return <BaseInput {...props} style={style} hiddenLabel />;
 };
 
 TextInput.propTypes = {
@@ -44,7 +43,6 @@ TextInput.defaultProps = {
 export const Checkbox = function TestParent({
   updateValue, doDisplayErrors, style, ...props
 }) {
-  props.labelStyle = style.labelText;
   const [displayErrors, setDisplayErrors] = useState(false);
 
   function reverseUpdateValue(value, name) {
@@ -60,7 +58,7 @@ export const Checkbox = function TestParent({
   props.updateValue = reverseUpdateValue;
   props.displayErrors = displayErrors;
 
-  props.onChangeBasedOnInputType = (target) => {
+  props.onChange = (target) => {
     setDisplayErrors(true);
     reverseUpdateValue(target.value, target.name);
   };

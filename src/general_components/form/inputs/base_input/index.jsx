@@ -14,10 +14,11 @@ const Input = function CreateInputAndLabel(props) {
     updateValue,
     patternMessage,
     displayErrors,
-    labelStyle,
-    onChangeBasedOnInputType,
-    onBlurBasedOnInputType,
+    onChange,
+    onFocus,
+    onBlur,
     style,
+    hiddenLabel,
   } = props;
   const [value, setValue] = useState(initialValue);
   const [errorMessage, setErrorMessage] = useState('');
@@ -26,12 +27,17 @@ const Input = function CreateInputAndLabel(props) {
   if (errorMessage === 'Please match the requested format.') {
     setErrorMessage(patternMessage);
   }
+
   return (
     <div key={key} className={style.inputGroup}>
-      <label className={labelStyle} htmlFor={name}>
+      <label
+        className={hiddenLabel ? style.hiddenLabelText : style.labelText}
+        htmlFor={name}
+      >
         {`${label}`}
       </label>
       <input
+        onFocus={onFocus}
         required={required}
         pattern={pattern}
         placeholder={label}
@@ -51,12 +57,12 @@ const Input = function CreateInputAndLabel(props) {
         onBlur={({ target }) => {
           setErrorMessage(target.validationMessage);
           updateValue(target.value, target.name);
-          onBlurBasedOnInputType(target);
+          onBlur(target);
         }}
         onChange={({ target }) => {
           setErrorMessage(target.validationMessage);
           setValue(target.value);
-          onChangeBasedOnInputType(target);
+          onChange(target);
         }}
       />
       {displayErrors && errorMessage !== '' && <p className={style.errorText}>{errorMessage}</p>}
@@ -75,10 +81,13 @@ Input.propTypes = {
   label: PropTypes.string.isRequired,
   displayErrors: PropTypes.bool,
   patternMessage: PropTypes.string,
-  labelStyle: PropTypes.string,
-  onChangeBasedOnInputType: PropTypes.func,
-  onBlurBasedOnInputType: PropTypes.func,
+  hiddenLabel: PropTypes.bool,
+  onFocus: PropTypes.func,
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func,
   style: PropTypes.shape({
+    hiddenLabelText: PropTypes.string.isRequired,
+    labelText: PropTypes.string.isRequired,
     inputGroup: PropTypes.string.isRequired,
     input: PropTypes.string.isRequired,
     displayError: PropTypes.string.isRequired,
@@ -93,9 +102,10 @@ Input.defaultProps = {
   pattern: null,
   patternMessage: null,
   displayErrors: false,
-  labelStyle: '',
-  onChangeBasedOnInputType: () => {},
-  onBlurBasedOnInputType: () => {},
+  hiddenLabel: false,
+  onChange: () => {},
+  onBlur: () => {},
+  onFocus: () => {},
 };
 
 export default Input;
