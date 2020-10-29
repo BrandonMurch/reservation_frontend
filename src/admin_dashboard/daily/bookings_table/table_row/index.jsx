@@ -12,12 +12,12 @@ import style from './table_row.module.css';
 
 const TableRow = function TableRowForBookingTable({ booking, setBookingForEditOverlay }) {
   const {
-    startTime, tables, partySize, user, userComments, restaurantComments,
+    startTime, partySize, user, userComments, restaurantComments,
   } = booking;
   return (
     <tr className={style.row}>
       <td>{moment(startTime).format('H:mm')}</td>
-      <td><RestaurantTable key={tables} booking={booking} /></td>
+      <td><RestaurantTable key={booking.tables} booking={booking} /></td>
       <td>{partySize}</td>
       <UserDetails user={user} />
       <td>

@@ -69,7 +69,7 @@ const RestaurantTable = function InputBoxForTableInBooking({ booking }) {
   const [overlay, setOverlay] = useState(null);
   const [error, setError] = useState('');
 
-  const { alternativeRender, response } = useFetch('/restaurant/all-tables');
+  const { alternativeRender, response: tableList } = useFetch('/restaurant/all-tables');
   if (alternativeRender) {
     return alternativeRender;
   }
@@ -85,8 +85,9 @@ const RestaurantTable = function InputBoxForTableInBooking({ booking }) {
     <div className={style.container}>
       {overlay}
       <AutoCompleteInput
+        key={tableString}
         hiddenLabel
-        possibleEntries={response}
+        possibleEntries={tableList}
         label="Restaurant Table"
         name="table"
         type="text"
