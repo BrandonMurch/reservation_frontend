@@ -16,14 +16,14 @@ const AutoCompleteInput = ({
   display: propsDisplay,
   ...props
 }) => {
-  const [suggestions, setSuggestions] = useState(possibleEntries);
-  const [displaySuggestions, setDisplaySuggestions] = useState(false);
-  const style = propsStyle ?? styleSheet;
-
   const defaultFilter = (suggestion, input) => suggestion.indexOf(input) > -1;
   const defaultDisplay = (suggestion) => suggestion;
   const filter = propsFilter ?? defaultFilter;
   const display = propsDisplay ?? defaultDisplay;
+
+  const [suggestions, setSuggestions] = useState(possibleEntries.filter((suggestion) => filter(suggestion, '')));
+  const [displaySuggestions, setDisplaySuggestions] = useState(false);
+  const style = propsStyle ?? styleSheet;
 
   const mouseOverSelections = useRef(false);
   const mouseOverInput = useRef(false);
