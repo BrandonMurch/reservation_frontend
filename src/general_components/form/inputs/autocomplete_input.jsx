@@ -16,17 +16,16 @@ const AutoCompleteInput = ({
   display: propsDisplay,
   ...props
 }) => {
-  const defaultFilter = (suggestion, input) => suggestion.indexOf(input) > -1;
-  const defaultDisplay = (suggestion) => suggestion;
-  const filter = propsFilter ?? defaultFilter;
-  const display = propsDisplay ?? defaultDisplay;
-
-  const [suggestions, setSuggestions] = useState(possibleEntries.filter((suggestion) => filter(suggestion, '')));
   const [displaySuggestions, setDisplaySuggestions] = useState(false);
   const style = propsStyle ?? styleSheet;
-
   const mouseOverSelections = useRef(false);
   const mouseOverInput = useRef(false);
+  const filter = propsFilter
+    ?? ((suggestion, input) => suggestion.indexOf(input) > -1);
+  const display = propsDisplay ?? ((suggestion) => suggestion);
+  const [suggestions, setSuggestions] = useState(
+    possibleEntries.filter((suggestion) => filter(suggestion, '')),
+  );
 
   const updateSuggestions = function updateSuggestionsOnChange(input) {
     setSuggestions(() => (
@@ -35,13 +34,14 @@ const AutoCompleteInput = ({
     ));
   };
 
-  window.addEventListener('click', () => {
+  const closeSuggestions = function closeSuggestionsBoxIfNotHoveringAndOpen() {
     if (!mouseOverSelections.current && !mouseOverInput.current && displaySuggestions) {
       setDisplaySuggestions(false);
     }
-  });
+  };
+  window.addEventListener('click', closeSuggestions);
 
-  const onClick = (selection) => {
+  const onSuggestionClick = function onSuggestionClickUpdateValue(selection) {
     setDisplaySuggestions(false);
     props.value = selection;
     onBlur({ value: display(selection) });
@@ -78,7 +78,7 @@ const AutoCompleteInput = ({
                   <option
                   // TODO: how to trigger a key press here?
                     onKeyPress={(event) => console.log(event)}
-                    onClick={() => onClick(suggestion)}
+                    onClick={() => onSuggestionClick(suggestion)}
                     key={suggestion}
                     className={style.suggestion}
                   >

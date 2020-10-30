@@ -65,7 +65,6 @@ const getTableString = function getStringOfTableNamesFromArray(tables) {
 
 const RestaurantTable = function InputBoxForTableInBooking({ booking }) {
   const { refresh } = useRefreshContext();
-  const tableString = getTableString(booking.tables);
   const [overlay, setOverlay] = useState(null);
   const [error, setError] = useState('');
 
@@ -74,11 +73,11 @@ const RestaurantTable = function InputBoxForTableInBooking({ booking }) {
     return alternativeRender;
   }
 
+  const tableString = getTableString(booking.tables);
   const inputClass = error ? style.errorTableInput : style.tableInput;
   const filter = (suggestion, input) => (
     suggestion.name.indexOf(input) > -1 && suggestion.seats >= booking.partySize
   );
-
   const display = (suggestion) => suggestion.name;
 
   return (

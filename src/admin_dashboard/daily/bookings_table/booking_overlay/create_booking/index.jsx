@@ -23,7 +23,7 @@ const getInputs = function getInputsFromBooking(date) {
     name: 'startTime',
     type: 'time',
     label: 'Start Time',
-    value: '02:00',
+    value: '20:00',
     required: true,
   },
   {
