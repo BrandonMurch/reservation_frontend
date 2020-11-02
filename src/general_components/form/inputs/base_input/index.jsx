@@ -59,7 +59,6 @@ const Input = function CreateInputAndLabel(props) {
           if (event.keyCode === 13) {
             event.preventDefault();
             event.target.blur();
-            event.target.parentElement.parentElement.requestSubmit();
           }
         })}
         onBlur={({ target }) => {
