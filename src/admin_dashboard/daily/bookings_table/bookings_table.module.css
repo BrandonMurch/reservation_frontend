@@ -1,3 +1,7 @@
+@value colors: "../../../css/colors.module.css";
+@value primary, dark, light, accent from colors;
+
+
 .tableContainer {
    overflow-x: scroll;
    height: 90%;
@@ -11,5 +15,16 @@
 
 .hourRow {
    composes: row from '../daily.module.css';
-   border: 5px solid black;
+}
+
+.button {
+   composes: button from '../../../css/project_globals.module.css';
+   color: black;
+   font-weight: bold;
+   border: 2px solid dark;
+}
+
+.button:hover {
+   color: light;
+   background-color: dark;
 }

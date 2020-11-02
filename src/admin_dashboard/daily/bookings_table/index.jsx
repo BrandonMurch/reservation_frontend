@@ -114,7 +114,7 @@ const Bookings = function BookingsTableByHour({ bookings, date }) {
               <th>Party Size</th>
               <th>Contact</th>
               <th>Comments</th>
-              <th><button type="button" onClick={() => setBookingOverlayWindow(types.CREATE)}>Make a booking</button></th>
+              <th><button type="button" className={style.button} onClick={() => setBookingOverlayWindow(types.CREATE)}>Make a booking</button></th>
             </tr>
           </thead>
           <tbody>

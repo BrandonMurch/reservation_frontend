@@ -17,7 +17,7 @@ const TableRow = function TableRowForBookingTable({ booking, setBookingForEditOv
   return (
     <tr className={style.row}>
       <td>{moment(startTime).format('H:mm')}</td>
-      <td><RestaurantTable key={booking.tables} booking={booking} /></td>
+      <td style={{ width: '5rem' }}><RestaurantTable key={booking.tables} booking={booking} /></td>
       <td>{partySize}</td>
       <UserDetails user={user} />
       <td>

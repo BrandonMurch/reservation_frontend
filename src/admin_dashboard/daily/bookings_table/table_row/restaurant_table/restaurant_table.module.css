@@ -1,3 +1,6 @@
+@value colors: "../../../../../css/colors.module.css";
+@value primary, dark, light, accent from colors;
+
 .tableInput {
    width: 4rem;
    text-align: center;
@@ -16,4 +19,35 @@
 
 .container {
    width: 5rem;
+}
+
+.hiddenLabelText {
+  display: none;
+}
+
+.input {
+  composes: text from '../../../../../css/project_globals.module.css';
+  color: dark;
+  width: 85%;
+  background-color: transparent;
+  border: 0px;
+  border-bottom: 2px solid dark;
+  text-align: center;
+}
+
+.input:focus {
+  border-bottom: 4px solid dark;
+}
+
+.suggestionContainer {
+    list-style: none;
+    background-color: white;
+    color: black;
+    z-index: 99;
+    border: 2px solid black;
+    position: absolute;
+}
+
+.suggestion:hover{
+  background-color: grey;
 }

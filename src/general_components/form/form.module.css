@@ -66,9 +66,6 @@
     position: absolute;
 }
 
-.suggestion {
-}
-
 .suggestion:hover{
   background-color: grey;
 }

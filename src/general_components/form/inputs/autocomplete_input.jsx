@@ -10,14 +10,14 @@ import styleSheet from '../form.module.css';
 
 const AutoCompleteInput = ({
   possibleEntries,
-  propsStyle,
+  style: propStyle,
   onBlur,
   filter: propsFilter,
   display: propsDisplay,
   ...props
 }) => {
   const [displaySuggestions, setDisplaySuggestions] = useState(false);
-  const style = propsStyle ?? styleSheet;
+  const style = propStyle ?? styleSheet;
   const mouseOverSelections = useRef(false);
   const mouseOverInput = useRef(false);
   const filter = propsFilter
@@ -100,7 +100,7 @@ AutoCompleteInput.propTypes = {
   onBlur: PropTypes.func.isRequired,
   filter: PropTypes.func.isRequired,
   display: PropTypes.func.isRequired,
-  propsStyle: PropTypes.shape({
+  style: PropTypes.shape({
     suggestionContainer: PropTypes.string.isRequired,
     suggestion: PropTypes.string.isRequired,
   }),
@@ -108,7 +108,7 @@ AutoCompleteInput.propTypes = {
 };
 
 AutoCompleteInput.defaultProps = {
-  propsStyle: null,
+  style: null,
 };
 
 export default AutoCompleteInput;

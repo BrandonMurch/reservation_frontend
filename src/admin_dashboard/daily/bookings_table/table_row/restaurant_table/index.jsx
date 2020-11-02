@@ -85,6 +85,7 @@ const RestaurantTable = function InputBoxForTableInBooking({ booking }) {
       {overlay}
       <AutoCompleteInput
         key={tableString}
+        style={style}
         hiddenLabel
         possibleEntries={tableList}
         label="Restaurant Table"

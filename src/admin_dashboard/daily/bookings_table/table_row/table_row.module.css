@@ -1,3 +1,6 @@
+@value colors: "../../../../css/colors.module.css";
+@value primary, dark, light, accent from colors;
+
 .row{
    text-align: center;
 }
@@ -5,4 +8,14 @@
 .editButton {
    padding: 0;
    text-align: center;
+   border: 2px solid dark;
+   background-color: transparent;
+   color: dark;
+   font-weight: bold;
+   padding: 0.5rem
+}
+
+.editButton:hover {
+   background-color: dark;
+   color: light;
 }
