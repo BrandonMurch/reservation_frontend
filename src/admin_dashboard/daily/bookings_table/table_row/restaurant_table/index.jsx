@@ -95,23 +95,16 @@ const RestaurantTable = function InputBoxForTableInBooking({ booking }) {
         className={inputClass}
         value={tableString}
         onFocus={() => setError('')}
-        onBlur={async ({ value: tables }, reset) => {
+        onBlur={async ({ value: tables }) => {
           if (tableString !== tables && tables !== '') {
-            const tableUpdated = await updateTable(
+            await updateTable(
               setError,
               setOverlay,
               () => getUpdateFetch(booking, tables),
             );
-            if (tableUpdated) {
-              booking.tables = [{ name: tables }];
-            } else {
-              reset();
-            }
-            setOverlay(null);
-            refresh();
-          } else {
-            reset();
           }
+          setOverlay(null);
+          refresh();
         }}
       />
       {error && <p className={style.errorText}>{error}</p>}
