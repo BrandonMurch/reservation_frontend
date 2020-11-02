@@ -80,7 +80,7 @@ export const fetchWrapper = async function fetchFromServer(
   }
 
   if (!isStatus2xx(response.status)) {
-    if (responseBody.subErrors) {
+    if (responseBody.subErrors && responseBody.subErrors.length > 0) {
       const subErrors = responseBody.subErrors.map((subError) => `${subError.object} : ${subError.message}`);
       const message = subErrors.join(', ');
       return getError(response.status, message, forceFetch);
