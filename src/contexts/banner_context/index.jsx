@@ -9,6 +9,7 @@ const BannerContext = createContext();
 
 const BannerContextProvider = function BoilerPlateForBannerContextProvider({
   children,
+  value,
 }) {
   const initialObject = {
     type: null,
@@ -39,7 +40,7 @@ const BannerContextProvider = function BoilerPlateForBannerContextProvider({
   }, [initialObject]);
 
   return (
-    <BannerContext.Provider value={setBanner}>
+    <BannerContext.Provider value={value || setBanner}>
       {message !== null ? <Banner type={type} message={message} /> : null}
       {children}
     </BannerContext.Provider>
@@ -48,6 +49,11 @@ const BannerContextProvider = function BoilerPlateForBannerContextProvider({
 
 BannerContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
+  value: PropTypes.func,
+};
+
+BannerContextProvider.defaultProps = {
+  value: null,
 };
 
 const useBannerContext = function CustomHookToConsumeBannerContext() {
