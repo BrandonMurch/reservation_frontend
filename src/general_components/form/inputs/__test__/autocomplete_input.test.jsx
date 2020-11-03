@@ -53,6 +53,6 @@ describe('<AutoCompleteInput />', () => {
     userEvent.type(input, 'ba');
     const suggestion = screen.getByText('banana');
     userEvent.click(suggestion);
-    expect(props.onBlur).toHaveBeenCalledWith('banana');
+    expect(props.onBlur).toHaveBeenCalledWith({ value: 'banana' });
   });
 });
