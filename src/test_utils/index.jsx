@@ -30,12 +30,13 @@ export const renderWithRouter = function createWrapperForRouting(
   };
 };
 
-export const mockFetch = function mockFetchResponse(status, returnBody) {
+export const mockFetch = function mockFetchResponse(status = 200, returnBody = {}) {
   return new Promise((resolve) => {
     resolve({
+      status,
+      headers: new Map(),
       ok: true,
-      status: status || 200,
-      json: () => Promise.resolve(returnBody || {}),
+      json: () => Promise.resolve(returnBody),
     });
   });
 };
