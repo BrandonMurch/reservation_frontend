@@ -6,7 +6,7 @@ const useEventListener = (event, func) => {
     return () => {
       window.removeEventListener(event, func);
     };
-  }, [func]);
+  }, [event, func]);
 };
 
 export default useEventListener;

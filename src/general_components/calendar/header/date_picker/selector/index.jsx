@@ -1,5 +1,5 @@
 // Dependencies
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { getMonth } from 'shared/dateHelper';
 
@@ -8,6 +8,7 @@ import DirectionalButton from './directional_button';
 
 // StyleSheets
 import style from './month_selector.module.css';
+import useEventListener from 'shared/useEventListener';
 
 const handleMonthOverflow = function handleMonthOverflowOver12Under0(monthNumber) {
   if (monthNumber > 11) {
@@ -25,23 +26,17 @@ const Selector = function SelectorScrollWheel({
 }) {
   const hover = useRef(false);
 
-  useEffect(() => {
-    const handleScroll = ({ deltaY }) => {
-      if (hover.current) {
-        dispatchDate({
-          unit,
-          type: 'jumpUnit',
-          number: deltaY,
-        });
-      }
-    };
+  const handleScroll = ({ deltaY }) => {
+    if (hover.current) {
+      dispatchDate({
+        unit,
+        type: 'jumpUnit',
+        number: deltaY,
+      });
+    }
+  };
 
-    window.addEventListener('wheel', handleScroll, { passive: false });
-
-    return () => {
-      window.removeEventListener('wheel', handleScroll);
-    };
-  }, [unit, dispatchDate, hover]);
+  useEventListener('wheel', handleScroll);
 
   const displayButtons = function buildDisplayButtons() {
     const buttons = [];
