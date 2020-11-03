@@ -1,14 +1,14 @@
 // Dependencies
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { fireEvent } from '@testing-library/react';
-import { unmountComponentAtNode } from 'react-dom';
+import { fireEvent, screen } from '@testing-library/react';
 import { create } from 'react-test-renderer';
 import { act } from 'react-dom/test-utils';
 import { renderWithRouter, mockFetch } from 'test_utils';
 
 // Components
 import OverlayWindow from '../index';
+import { BannerContextProvider } from 'contexts/banner_context';
 
 const mockCalendarFetch = function mockFetchResponseFromServer() {
   const today = new Date();
@@ -30,10 +30,8 @@ const mockCalendarFetch = function mockFetchResponseFromServer() {
 };
 
 describe('<OverlayWindow />', () => {
-  let component;
   let mockCloseOverlayFunction;
   let fetchSpy;
-  let container = null;
   const reservation = {
     date: '2020-10-10',
     time: '21:00',
@@ -42,23 +40,28 @@ describe('<OverlayWindow />', () => {
   const user = {
     firstName: 'john',
     lastName: 'johnson',
-    email: 'john@john.com',
+    username: 'john@john.com',
     phoneNumber: '+1 123456787',
     tAC: true,
   };
+
+  const renderOverlay = (route) => (renderWithRouter(
+    <BannerContextProvider>
+      <OverlayWindow
+        closeOverlay={mockCloseOverlayFunction}
+        reservationInfo={reservation}
+        userInfo={user}
+      />
+    </BannerContextProvider>,
+    { route },
+  )
+  );
   beforeEach(async () => {
-    container = document.createElement('div');
-    document.body.appendChild(container);
     mockCloseOverlayFunction = jest.fn();
   });
 
   afterEach(() => {
-    if (fetchSpy) {
-      fetchSpy.mockClear();
-    }
-    unmountComponentAtNode(container);
-    container.remove();
-    container = null;
+    jest.clearAllMocks();
   });
 
   it('should match snapshot', () => {
@@ -73,15 +76,8 @@ describe('<OverlayWindow />', () => {
   it('should submit reservation to server', async () => {
     fetchSpy = jest.spyOn(global, 'fetch').mockImplementation(() => mockFetch(201));
 
-    component = await renderWithRouter(
-      <OverlayWindow
-        closeOverlay={mockCloseOverlayFunction}
-        reservationInfo={reservation}
-        userInfo={user}
-      />,
-      { route: '/review' },
-    );
-    const submit = component.getByRole('button', { name: 'Make reservation.' });
+    const component = renderOverlay('/review');
+    const submit = screen.getByRole('button', { name: 'Make reservation.' });
     await act(async () => {
       await fireEvent.click(submit);
     });
@@ -95,22 +91,15 @@ describe('<OverlayWindow />', () => {
       .spyOn(global, 'fetch')
       .mockImplementation(() => mockFetch(409, { message: 'Error!' }));
 
-    component = renderWithRouter(
-      <OverlayWindow
-        closeOverlay={mockCloseOverlayFunction}
-        reservationInfo={reservation}
-        userInfo={user}
-      />,
-      { route: '/review' },
-    );
-    const submit = component.getByRole('button', { name: 'Make reservation.' });
+    renderOverlay('/review');
+    const submit = screen.getByRole('button', { name: 'Make reservation.' });
 
     await act(async () => {
       await fireEvent.click(submit);
     });
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    const errorText = component.getByText('Error!');
+    const errorText = screen.getByText('Error!');
     expect(errorText).toBeInTheDocument();
   });
 
@@ -119,35 +108,21 @@ describe('<OverlayWindow />', () => {
       .spyOn(global, 'fetch')
       .mockImplementation(() => Promise.reject(new Error('Error!')));
     await act(async () => {
-      component = await renderWithRouter(
-        <OverlayWindow
-          closeOverlay={mockCloseOverlayFunction}
-          reservationInfo={reservation}
-          userInfo={user}
-        />,
-        { route: '/review' },
-      );
+      renderOverlay('/review');
     });
-    const submit = component.getByRole('button', { name: 'Make reservation.' });
+    const submit = screen.getByRole('button', { name: 'Make reservation.' });
     await act(async () => {
       await fireEvent.click(submit);
     });
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    const errorText = component.getByText(/Something went wrong/i);
+    const errorText = screen.getByText(/Something went wrong/i);
     expect(errorText).toBeInTheDocument();
   });
 
   it('display a link to close the overlay', () => {
-    component = renderWithRouter(
-      <OverlayWindow
-        closeOverlay={mockCloseOverlayFunction}
-        reservationInfo={reservation}
-        userInfo={user}
-      />,
-      { route: '/review' },
-    );
-    const exitLink = component.getByRole('link');
+    const component = renderOverlay('/review');
+    const exitLink = screen.getByRole('link');
     expect(exitLink).toBeInTheDocument();
     act(() => {
       fireEvent.click(exitLink);
@@ -160,67 +135,39 @@ describe('<OverlayWindow />', () => {
   it('should display calendar on /calendar', async () => {
     fetchSpy = jest.spyOn(global, 'fetch').mockImplementation(() => mockCalendarFetch());
     await act(async () => {
-      component = await renderWithRouter(
-        <OverlayWindow
-          closeOverlay={mockCloseOverlayFunction}
-          reservationInfo={reservation}
-          userInfo={user}
-        />,
-        { route: '/calendar' },
-      );
+      await renderOverlay('/calendar');
     });
-    let text = component.getByText('Wed');
+    let text = screen.getByText('Wed');
     expect(text).toBeInTheDocument();
-    text = component.getByText('Fri');
+    text = screen.getByText('Fri');
     expect(text).toBeInTheDocument();
   });
 
   it('should display reservation on /reservation', async () => {
     await act(async () => {
-      component = await renderWithRouter(
-        <OverlayWindow
-          closeOverlay={mockCloseOverlayFunction}
-          reservationInfo={reservation}
-          userInfo={user}
-        />,
-        { route: '/reservation' },
-      );
+      await renderOverlay('/reservation');
     });
 
-    const comboBoxes = component.getAllByRole('combobox');
+    const comboBoxes = screen.getAllByRole('combobox');
     expect(comboBoxes).toHaveLength(2);
-    const text = component.getByText(/Desired date/i);
+    const text = screen.getByText(/Desired date/i);
     expect(text).toBeInTheDocument();
   });
 
   it('should display review on /review', () => {
-    component = renderWithRouter(
-      <OverlayWindow
-        closeOverlay={mockCloseOverlayFunction}
-        reservationInfo={reservation}
-        userInfo={user}
-      />,
-      { route: '/review' },
-    );
-    const buttons = component.getAllByRole('button');
+    renderOverlay('/review');
+    const buttons = screen.getAllByRole('button');
     expect(buttons).toHaveLength(4);
-    const text = component.getByText(new RegExp(user.firstName));
+    const text = screen.getByText(new RegExp(user.firstName));
     expect(text).toBeInTheDocument();
   });
 
   it('should display success on /success', () => {
     act(() => {
-      component = renderWithRouter(
-        <OverlayWindow
-          closeOverlay={mockCloseOverlayFunction}
-          reservationInfo={reservation}
-          userInfo={user}
-        />,
-        { route: '/success' },
-      );
+      renderOverlay('/success');
     });
 
-    const success = component.getByText(/Reservation was made successfully/i);
+    const success = screen.getByText(/Reservation was made successfully/i);
     expect(success).toBeInTheDocument();
   });
 });

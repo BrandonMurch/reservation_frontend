@@ -6,7 +6,6 @@ exports[`<OverlayWindow /> should match snapshot 1`] = `
   data-testid="overlay-window"
 >
   
-  
   <div
     className="exitContainer"
   >

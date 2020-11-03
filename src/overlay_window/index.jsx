@@ -1,5 +1,5 @@
 // Dependencies
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   Switch, Route, Link, Redirect,
 } from 'react-router-dom';
@@ -16,6 +16,7 @@ import Success from './success';
 
 // CSS
 import style from './overlay_window.module.css';
+import { useBannerContext } from 'contexts/banner_context';
 
 const formatBooking = function formatBookingDateTime(booking) {
   booking.startTime = `${booking.date}T${booking.time}`;
@@ -43,7 +44,7 @@ const submitReservation = async function postReservationToServer(
   fetchWrapper('/bookings', { method: 'POST', body: JSON.stringify({ user, booking }) })
     .then(
       (response) => {
-        setError(response.error);
+        setError(bannerTypes.ERROR, response.error);
         if (response.error == null) {
           setRedirect('/success');
         }
@@ -55,40 +56,15 @@ const submitReservation = async function postReservationToServer(
 const OverlayWindow = function CreateOverlayWindow(props) {
   const { closeOverlay, reservationInfo, userInfo } = props;
   const [redirect, setRedirect] = useState('');
-  const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
+  const setBanner = useBannerContext();
   const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setError('');
-      setMessage('');
-    }, 10000);
 
-    return () => clearTimeout(timeout);
-  }, [error, message]);
-
-  // test stub
-  // const reservation = useRef({
-  //   date: '2020-10-10',
-  //   time: '21:00:00.00',
-  //   partySize: 2,
-  // });
-  // const user = useRef({
-  //   firstName: 'john',
-  //   lastName: 'johnson',
-  //   email: 'john@john.com',
-  //   phoneNumber: '+1 123456787',
-  //   tAC: true,
-  // });
-
-  // production
   const reservation = useRef(reservationInfo);
   const user = useRef(userInfo);
 
   return (
     <div data-testid="overlay-window" className={style.overlay}>
       {redirect && <Redirect to={redirect} />}
-      {error && <Banner type={bannerTypes.ERROR} message={error} />}
       {isLoading && <Banner type={bannerTypes.STANDARD} message="Loading..." />}
       <ExitOverlay closeOverlay={closeOverlay} />
       <Switch>
@@ -104,7 +80,6 @@ const OverlayWindow = function CreateOverlayWindow(props) {
           path="/reservation"
           render={() => (
             <ReservationForm
-              setError={setError}
               date={reservation.current.date}
               onSubmit={(event, results) => {
                 event.preventDefault();
@@ -139,7 +114,7 @@ const OverlayWindow = function CreateOverlayWindow(props) {
                   submitReservation(
                     user.current,
                     reservation.current,
-                    setError,
+                    setBanner,
                     setRedirect,
                     setIsLoading,
                   );
