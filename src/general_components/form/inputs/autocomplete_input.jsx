@@ -148,7 +148,6 @@ AutoCompleteInput.propTypes = {
   display: PropTypes.func.isRequired,
   style: PropTypes.shape({
     suggestionContainer: PropTypes.string.isRequired,
-    suggestion: PropTypes.string.isRequired,
     hoveredSuggestion: PropTypes.string.isRequired,
   }),
 
