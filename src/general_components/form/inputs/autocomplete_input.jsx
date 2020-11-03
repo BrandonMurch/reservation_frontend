@@ -1,5 +1,7 @@
 // Dependencies
-import React, { useState, useRef } from 'react';
+import React, {
+  useRef, useReducer, useCallback,
+} from 'react';
 import PropTypes from 'prop-types';
 
 // Components
@@ -7,43 +9,79 @@ import Input from './base_input';
 
 // Stylesheets
 import styleSheet from '../form.module.css';
+import useEventListener from 'shared/useEventListener';
+
+const getInitialSuggestionObject = (possibleEntries, filter) => ({
+  displaySuggestions: false,
+  selectedSuggestion: 0,
+  suggestions: possibleEntries.filter((suggestion) => filter(suggestion, '')),
+});
+
+const reducer = ((state, action) => {
+  switch (action.type) {
+    case 'setDisplay':
+      return {
+        ...state,
+        displaySuggestions: action.display,
+      };
+    case 'up':
+      return {
+        ...state,
+        selectedSuggestion: state.selectedSuggestion > 0
+          ? state.selectedSuggestion - 1
+          : 0,
+      };
+    case 'down':
+      return {
+        ...state,
+        selectedSuggestion:
+        state.selectedSuggestion > state.suggestions.length - 1
+          ? state.suggestions.length - 1
+          : state.selectedSuggestion + 1,
+      };
+    case 'select':
+      return { ...state, selectedSuggestion: action.index };
+    case 'setSuggestions':
+      return { ...state, suggestions: action.callBack() };
+    default: throw new Error('No such action exists.');
+  }
+});
 
 const AutoCompleteInput = ({
   possibleEntries,
-  style: propStyle,
+  style = styleSheet,
   onBlur,
-  filter: propsFilter,
-  display: propsDisplay,
+  filter = ((suggestion, input) => suggestion.indexOf(input) > -1),
+  display = ((suggestion) => suggestion),
   ...props
 }) => {
-  const [displaySuggestions, setDisplaySuggestions] = useState(false);
-  const style = propStyle ?? styleSheet;
+  const [
+    { displaySuggestions, selectedSuggestion, suggestions }, dispatchSuggestions,
+  ] = useReducer(reducer, getInitialSuggestionObject(possibleEntries, filter));
+
   const mouseOverSelections = useRef(false);
   const mouseOverInput = useRef(false);
-  const filter = propsFilter
-    ?? ((suggestion, input) => suggestion.indexOf(input) > -1);
-  const display = propsDisplay ?? ((suggestion) => suggestion);
-  const [suggestions, setSuggestions] = useState(
-    possibleEntries.filter((suggestion) => filter(suggestion, '')),
-  );
+
+  const closeSuggestions = useCallback(() => {
+    if (!mouseOverSelections.current && !mouseOverInput.current && displaySuggestions) {
+      dispatchSuggestions({ type: 'setDisplay', display: false });
+    }
+  }, [displaySuggestions]);
+
+  useEventListener('click', closeSuggestions);
 
   const updateSuggestions = function updateSuggestionsOnChange(input) {
-    setSuggestions(() => (
-      possibleEntries
-        .filter((suggestion) => filter(suggestion, input))
-    ));
+    dispatchSuggestions({
+      type: 'setSuggestions',
+      callBack: () => (
+        possibleEntries
+          .filter((suggestion) => filter(suggestion, input))
+      ),
+    });
   };
-
-  const closeSuggestions = function closeSuggestionsBoxIfNotHoveringAndOpen() {
-    if (!mouseOverSelections.current && !mouseOverInput.current && displaySuggestions) {
-      setDisplaySuggestions(false);
-    }
-  };
-  window.addEventListener('click', closeSuggestions);
 
   const onSuggestionClick = function onSuggestionClickUpdateValue(selection) {
-    setDisplaySuggestions(false);
-    props.value = selection;
+    dispatchSuggestions({ type: 'setDisplay', display: false });
     onBlur({ value: display(selection) });
   };
   props.type = 'text';
@@ -53,7 +91,16 @@ const AutoCompleteInput = ({
       <Input
         {...props}
         style={style}
-        onFocus={() => setDisplaySuggestions(true)}
+        onFocus={() => dispatchSuggestions({ type: 'setDisplay', display: true })}
+        onKeyDown={({ key }) => {
+          if (key === 'ArrowDown') {
+            dispatchSuggestions({ type: 'down' });
+          } else if (key === 'ArrowUp') {
+            dispatchSuggestions({ type: 'up' });
+          } else if (key === 'Enter') {
+            onSuggestionClick(suggestions[selectedSuggestion]);
+          }
+        }}
         onMouseEnter={() => { mouseOverInput.current = true; }}
         onMouseLeave={() => { mouseOverInput.current = false; }}
         onChange={({ value }) => {
@@ -73,14 +120,13 @@ const AutoCompleteInput = ({
             onMouseLeave={() => { mouseOverSelections.current = false; }}
           >
             {suggestions.map(
-              (suggestion) => (
+              (suggestion, index) => (
                 <li key={display(suggestion)}>
                   <option
-                  // TODO: how to trigger a key press here?
-                    onKeyPress={(event) => console.log(event)}
+                    onMouseEnter={() => dispatchSuggestions({ type: 'select', index })}
                     onClick={() => onSuggestionClick(suggestion)}
                     key={suggestion}
-                    className={style.suggestion}
+                    className={index === selectedSuggestion ? style.hoveredSuggestion : null}
                   >
                     {display(suggestion)}
                   </option>
@@ -103,6 +149,7 @@ AutoCompleteInput.propTypes = {
   style: PropTypes.shape({
     suggestionContainer: PropTypes.string.isRequired,
     suggestion: PropTypes.string.isRequired,
+    hoveredSuggestion: PropTypes.string.isRequired,
   }),
 
 };

@@ -65,6 +65,10 @@
   display: none;
 }
 
+.hoveredSuggestion {
+  background-color: grey;
+}
+
 .suggestionContainer {
     list-style: none;
     background-color: white;
@@ -72,8 +76,4 @@
     z-index: 99;
     border: 2px solid black;
     position: absolute;
-}
-
-.suggestion:hover{
-  background-color: grey;
 }
