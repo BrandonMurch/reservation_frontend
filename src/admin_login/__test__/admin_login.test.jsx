@@ -1,8 +1,7 @@
 // Dependencies
 import React from 'react';
-import { fireEvent } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { unmountComponentAtNode } from 'react-dom';
 import { create } from 'react-test-renderer';
 import { act } from 'react-dom/test-utils';
 import { mockFetch, renderWithRouter } from 'test_utils';
@@ -10,66 +9,44 @@ import { TokenContextProvider } from '../../contexts/token_context';
 
 // Components
 import AdminLogin from '../index';
-import { BannerContextProvider, bannerTypes } from 'contexts/banner_context';
+import { BannerContextProvider } from 'contexts/banner_context';
+import userEvent from '@testing-library/user-event';
 
-const fillInInput = async function enterTextIntoInput(element) {
-  await fireEvent.focus(element);
-  await fireEvent.change(element, { target: { value: 'String' } });
-  await fireEvent.blur(element);
-};
-
-const fillOutForm = async function fillOutAdminLoginForm(component) {
-  const username = component.getByLabelText(/Username/i);
-  const password = component.getByLabelText(/Password/i);
-  const submit = component.getByRole('button', { name: 'Submit' });
+const fillOutForm = async function fillOutAdminLoginForm() {
+  const username = screen.getByLabelText(/Username/i);
+  const password = screen.getByLabelText(/Password/i);
+  const submit = screen.getByRole('button', { name: 'Submit' });
   await act(async () => {
-    await fillInInput(username);
-    await fillInInput(password);
-    await fireEvent.click(submit);
+    await userEvent.type(username, 'string');
+    await userEvent.type(password, 'string');
+    await userEvent.click(submit);
   });
 };
 
 describe('<AdminLogin />', () => {
-  let component;
-  let mockSetErrorFunction;
-  let mockSetMessageFunction;
-  let fetchSpy;
   let setBanner;
-  let container = null;
 
   const renderAdminLogin = function boilerplateForRenderingAdminLogin() {
     setBanner = jest.fn();
     return renderWithRouter(
       <BannerContextProvider value={setBanner}>
         <TokenContextProvider>
-          <AdminLogin setError={mockSetErrorFunction} setMessage={mockSetMessageFunction} />
+          <AdminLogin />
         </TokenContextProvider>
       </BannerContextProvider>,
       { route: '/admin-login' },
     );
   };
 
-  beforeEach(() => {
-    container = document.createElement('div');
-    document.body.appendChild(container);
-    mockSetErrorFunction = jest.fn();
-    mockSetMessageFunction = jest.fn();
-  });
-
   afterEach(() => {
-    if (fetchSpy) {
-      fetchSpy.mockClear();
-    }
-    unmountComponentAtNode(container);
-    container.remove();
-    container = null;
+    jest.resetAllMocks();
   });
 
   it('should match snapshot', () => {
     const tree = create(
       <TokenContextProvider>
         <Router>
-          <AdminLogin setError={mockSetErrorFunction} setMessage={mockSetMessageFunction} />
+          <AdminLogin />
         </Router>
       </TokenContextProvider>,
     ).toJSON();
@@ -77,18 +54,18 @@ describe('<AdminLogin />', () => {
   });
 
   it('should render email and password inputs', () => {
-    component = renderAdminLogin();
+    renderAdminLogin();
 
-    const emailInput = component.getByLabelText(/Username/i);
+    const emailInput = screen.getByLabelText(/Username/i);
     expect(emailInput).toBeInTheDocument();
-    const passwordInput = component.getByLabelText(/Password/i);
+    const passwordInput = screen.getByLabelText(/Password/i);
     expect(passwordInput).toBeInTheDocument();
   });
 
   it('should render a submit button', () => {
-    component = renderAdminLogin();
+    renderAdminLogin();
 
-    const submitButton = component.getByRole('button', { name: 'Submit' });
+    const submitButton = screen.getByRole('button', { name: 'Submit' });
     expect(submitButton).toBeInTheDocument();
   });
 
@@ -97,21 +74,21 @@ describe('<AdminLogin />', () => {
       token: 'this is a token',
     };
 
-    fetchSpy = jest.spyOn(global, 'fetch').mockImplementation(() => mockFetch(200, body));
+    global.fetch = jest.fn().mockImplementationOnce(() => mockFetch(200, body));
 
-    component = renderAdminLogin();
+    const component = renderAdminLogin();
 
-    await fillOutForm(component);
+    await fillOutForm();
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
     expect(component.history.location.pathname).toEqual('/admin');
   });
 
   it('should set error when server returns an error', async () => {
-    fetchSpy = jest.spyOn(global, 'fetch').mockImplementation(() => mockFetch(400));
-    component = renderAdminLogin();
+    global.fetch = jest.fn().mockImplementationOnce(() => mockFetch(400));
+    renderAdminLogin();
 
-    await fillOutForm(component);
+    await fillOutForm();
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
     expect(setBanner).toHaveBeenCalledWith({ value: 'error' }, 'Username or password was not correct');
