@@ -5,17 +5,22 @@ import PropTypes from 'prop-types';
 const Input = function CreateInputAndLabel({
   key,
   value: initialValue,
+  type,
   name,
   label,
+  required,
+  pattern,
   updateValue,
   patternMessage,
   displayErrors,
   onChange,
+  onFocus,
   onBlur,
   style,
   hiddenLabel,
+  onMouseEnter,
+  onMouseLeave,
   onKeyDown,
-  ...props
 }) {
   const [value, setValue] = useState(initialValue);
   const [errorMessage, setErrorMessage] = useState('');
@@ -38,9 +43,13 @@ const Input = function CreateInputAndLabel({
         {label}
       </label>
       <input
-        // eslint-disable-next-line
-        {...props}
+        onFocus={onFocus}
+        pattern={pattern}
+        required={required}
         placeholder={label}
+        type={type}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
         className={displayErrors ? style.displayError : style.input}
         value={value}
         id={name}
@@ -71,13 +80,19 @@ const Input = function CreateInputAndLabel({
 
 Input.propTypes = {
   key: PropTypes.string,
+  type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   value: PropTypes.string,
   updateValue: PropTypes.func,
+  required: PropTypes.bool,
+  pattern: PropTypes.string,
   label: PropTypes.string.isRequired,
   displayErrors: PropTypes.bool,
+  onMouseEnter: PropTypes.func,
+  onMouseLeave: PropTypes.func,
   patternMessage: PropTypes.string,
   hiddenLabel: PropTypes.bool,
+  onFocus: PropTypes.func,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   onKeyDown: PropTypes.func,
@@ -95,12 +110,17 @@ Input.defaultProps = {
   key: '',
   value: '',
   patternMessage: null,
+  required: false,
+  pattern: null,
   displayErrors: false,
   hiddenLabel: false,
   onChange: () => {},
   onBlur: () => {},
+  onFocus: () => {},
   updateValue: () => {},
   onKeyDown: () => {},
+  onMouseEnter: () => {},
+  onMouseLeave: () => {},
 };
 
 export default Input;
