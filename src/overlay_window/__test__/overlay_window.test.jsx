@@ -31,7 +31,7 @@ const mockCalendarFetch = function mockFetchResponseFromServer() {
 
 describe('<OverlayWindow />', () => {
   let mockCloseOverlayFunction;
-  let fetchSpy;
+  let setBanner;
   const reservation = {
     date: '2020-10-10',
     time: '21:00',
@@ -45,23 +45,25 @@ describe('<OverlayWindow />', () => {
     tAC: true,
   };
 
-  const renderOverlay = (route) => (renderWithRouter(
-    <BannerContextProvider>
-      <OverlayWindow
-        closeOverlay={mockCloseOverlayFunction}
-        reservationInfo={reservation}
-        userInfo={user}
-      />
-    </BannerContextProvider>,
-    { route },
-  )
-  );
+  const renderOverlay = (route) => {
+    setBanner = jest.fn();
+    return renderWithRouter(
+      <BannerContextProvider>
+        <OverlayWindow
+          closeOverlay={mockCloseOverlayFunction}
+          reservationInfo={reservation}
+          userInfo={user}
+        />
+      </BannerContextProvider>,
+      { route },
+    );
+  };
   beforeEach(async () => {
     mockCloseOverlayFunction = jest.fn();
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    jest.resetAllMocks();
   });
 
   it('should match snapshot', () => {
@@ -74,7 +76,7 @@ describe('<OverlayWindow />', () => {
   });
 
   it('should submit reservation to server', async () => {
-    fetchSpy = jest.spyOn(global, 'fetch').mockImplementation(() => mockFetch(201));
+    global.fetch = jest.fn().mockImplementationOnce(() => mockFetch(201));
 
     const component = renderOverlay('/review');
     const submit = screen.getByRole('button', { name: 'Make reservation.' });
@@ -87,9 +89,8 @@ describe('<OverlayWindow />', () => {
   });
 
   it('should setError on server error', async () => {
-    fetchSpy = jest
-      .spyOn(global, 'fetch')
-      .mockImplementation(() => mockFetch(409, { message: 'Error!' }));
+    global.fetch = jest.fn()
+      .mockImplementationOnce(() => mockFetch(409, { message: 'Error!' }));
 
     renderOverlay('/review');
     const submit = screen.getByRole('button', { name: 'Make reservation.' });
@@ -104,9 +105,8 @@ describe('<OverlayWindow />', () => {
   });
 
   it('should setError on fetch error', async () => {
-    fetchSpy = jest
-      .spyOn(global, 'fetch')
-      .mockImplementation(() => Promise.reject(new Error('Error!')));
+    global.fetch = jest.fn()
+      .mockImplementationOnce(() => Promise.reject(new Error('Error!')));
     await act(async () => {
       renderOverlay('/review');
     });
@@ -133,7 +133,7 @@ describe('<OverlayWindow />', () => {
   });
 
   it('should display calendar on /calendar', async () => {
-    fetchSpy = jest.spyOn(global, 'fetch').mockImplementation(() => mockCalendarFetch());
+    global.fetch = jest.fn().mockImplementationOnce(() => mockCalendarFetch());
     await act(async () => {
       await renderOverlay('/calendar');
     });
@@ -144,6 +144,8 @@ describe('<OverlayWindow />', () => {
   });
 
   it('should display reservation on /reservation', async () => {
+    global.fetch = jest.fn().mockImplementationOnce(() => mockFetch(200, 8));
+
     await act(async () => {
       await renderOverlay('/reservation');
     });

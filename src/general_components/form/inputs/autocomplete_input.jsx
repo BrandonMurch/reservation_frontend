@@ -144,8 +144,8 @@ AutoCompleteInput.propTypes = {
   // eslint-disable-next-line
   possibleEntries: PropTypes.array.isRequired,
   onBlur: PropTypes.func.isRequired,
-  filter: PropTypes.func.isRequired,
-  display: PropTypes.func.isRequired,
+  filter: PropTypes.func,
+  display: PropTypes.func,
   style: PropTypes.shape({
     suggestionContainer: PropTypes.string.isRequired,
     hoveredSuggestion: PropTypes.string.isRequired,
@@ -155,6 +155,8 @@ AutoCompleteInput.propTypes = {
 
 AutoCompleteInput.defaultProps = {
   style: null,
+  filter: ((suggestion, input) => suggestion.indexOf(input) > -1),
+  display: (suggestion) => suggestion,
 };
 
 export default AutoCompleteInput;
