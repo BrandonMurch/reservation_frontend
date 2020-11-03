@@ -12,6 +12,7 @@ import { TokenContextProvider } from '../contexts/token_context';
 // CSS
 import style from './app.module.css';
 import 'css/responsive.css';
+import { BannerContextProvider } from 'contexts/banner_context';
 
 function App() {
   const [displayOverlay, setOverlayDisplay] = useState(false);
@@ -24,37 +25,39 @@ function App() {
 
   return (
     <TokenContextProvider>
-      <Switch className={style.app}>
-        <Route path="/admin-login" component={AdminLogin} />
-        <Route
-          path="/admin"
-          render={() => (
+      <BannerContextProvider>
+        <Switch className={style.app}>
+          <Route path="/admin-login" component={AdminLogin} />
+          <Route
+            path="/admin"
+            render={() => (
             // NOTE: Temporarily disabled route protection, re-enable after development
             // <AuthorizationWrapper>
-            <AdminDashboard />
+              <AdminDashboard />
             // </AuthorizationWrapper>
-          )}
-        />
-        <Route
-          render={() => (
-            <>
-              <div className={textOpacity}>
-                <Link
-                  to="/calendar"
-                  data-testid="opening-link-calendar"
-                  className={style.text}
-                  onClick={() => setOverlayDisplay(!displayOverlay)}
-                >
-                  Click here to make a reservation
-                </Link>
-              </div>
-              {displayOverlay && (
+            )}
+          />
+          <Route
+            render={() => (
+              <>
+                <div className={textOpacity}>
+                  <Link
+                    to="/calendar"
+                    data-testid="opening-link-calendar"
+                    className={style.text}
+                    onClick={() => setOverlayDisplay(!displayOverlay)}
+                  >
+                    Click here to make a reservation
+                  </Link>
+                </div>
+                {displayOverlay && (
                 <OverlayWindow closeOverlay={() => setOverlayDisplay(!displayOverlay)} />
-              )}
-            </>
-          )}
-        />
-      </Switch>
+                )}
+              </>
+            )}
+          />
+        </Switch>
+      </BannerContextProvider>
     </TokenContextProvider>
   );
 }
