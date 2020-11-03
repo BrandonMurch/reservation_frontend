@@ -9,15 +9,17 @@ import PartySizeSelect from './select/party_size';
 
 // CSS
 import style from './reservation.module.css';
+import { useBannerContext, bannerTypes } from 'contexts/banner_context';
 
 const ReservationForm = function CreateAReservationForm(props) {
-  const { date, onSubmit, setError } = props;
+  const { date, onSubmit } = props;
   const dateString = new Date(date).toDateString();
   const [time, setTime] = useState('');
   const [partySize, setPartySize] = useState('0');
   const [isLoading, setIsLoading] = useState(false);
   const [availableTimes, setAvailableTimes] = useState([]);
   const reservation = { date, time, partySize };
+  const setBanner = useBannerContext();
 
   const { response: maxPartySize, alternativeRender } = useFetch('/restaurant/largest-table');
 
@@ -27,13 +29,16 @@ const ReservationForm = function CreateAReservationForm(props) {
         setIsLoading(false);
         const path = `/restaurant/availability/?date=${date}&size=${partySize}`;
         const { response, error, loading } = await fetchWrapper(path);
-        setError(error);
-        setAvailableTimes(response);
+        if (error) {
+          setBanner(bannerTypes.ERROR, error);
+        } else {
+          setAvailableTimes(response);
+        }
         setIsLoading(loading);
       };
       getAvailableTimes();
     }
-  }, [partySize, date, setError]);
+  }, [partySize, date, setBanner]);
 
   if (alternativeRender) {
     return alternativeRender;
@@ -73,7 +78,6 @@ const ReservationForm = function CreateAReservationForm(props) {
 ReservationForm.propTypes = {
   date: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
-  setError: PropTypes.func.isRequired,
 };
 
 ReservationForm.defaultProps = {

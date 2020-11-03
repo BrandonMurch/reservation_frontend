@@ -1,60 +1,53 @@
 // Dependencies
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import { unmountComponentAtNode } from 'react-dom';
+import {
+  render, fireEvent, screen, waitForElementToBeRemoved,
+} from '@testing-library/react';
 import { create, act as reactAct } from 'react-test-renderer';
 import { act } from 'react-dom/test-utils';
+import { mockFetch as mockFetchResponse } from 'test_utils';
 
 // Components
 import Reservation from '../index';
+import { BannerContextProvider } from 'contexts/banner_context';
 
-const mockFetch = function mockFetchCallToServer() {
-  const mockSuccessResponse = [
+const selectTime = function selectTimeToCallServer() {
+  const hoursArray = [
     '18:00', '19:00', '20:00',
   ];
-  const mockJsonPromise = Promise.resolve(mockSuccessResponse);
-  return Promise.resolve({
-    json: () => mockJsonPromise,
-  });
-};
-
-const selectTime = function selectTimeToCallServer(component) {
-  const selectBox = component.getByRole('combobox', { name: 'party-size' });
+  global.fetch = jest.fn().mockImplementationOnce(() => mockFetchResponse(200, hoursArray));
+  const selectBox = screen.getByRole('combobox', { name: 'party-size' });
   fireEvent.change(selectBox, { target: { value: 2 } });
 };
 
 describe('<Reservation />', () => {
-  let component;
   let mockSubmitFunction;
-  let mockSetErrorFunction;
-  let container = null;
+  let mockSetBanner;
 
   beforeEach(async () => {
-    container = document.createElement('div');
-    document.body.appendChild(container);
     mockSubmitFunction = jest.fn();
-    mockSetErrorFunction = jest.fn();
-    jest.spyOn(global, 'fetch').mockImplementation(() => mockFetch());
-    await act(async () => {
-      component = await render(<Reservation
-        setError={mockSetErrorFunction}
-        onSubmit={mockSubmitFunction}
-        date="2020-10-09"
-      />);
-    });
+    mockSetBanner = jest.fn();
+    global.fetch = jest.fn().mockImplementationOnce(() => mockFetchResponse(200, 8));
+    render(
+      <BannerContextProvider value={mockSetBanner}>
+        <Reservation
+          onSubmit={mockSubmitFunction}
+          date="2020-10-09"
+        />
+      </BannerContextProvider>,
+    );
+    await waitForElementToBeRemoved(() => screen.getByText(/loading/i));
   });
 
   afterEach(() => {
-    unmountComponentAtNode(container);
-    container.remove();
-    container = null;
+    jest.clearAllMocks();
   });
 
   it('should match snapshot', async () => {
+    global.fetch = jest.fn().mockImplementationOnce(() => mockFetchResponse(200, 8));
     let tree;
     await reactAct(async () => {
       tree = await create(<Reservation
-        setError={mockSetErrorFunction}
         onSubmit={mockSubmitFunction}
         date="2020-10-09"
       />);
@@ -64,45 +57,40 @@ describe('<Reservation />', () => {
   });
 
   it('should fetch data from the server', async () => {
-    await act(async () => {
-      await selectTime(component);
-    });
+    await act(async () => { await selectTime(); });
     expect(global.fetch).toHaveBeenCalled();
   });
 
   it('should call setError if server is unavailable', async () => {
+    global.fetch = jest.fn().mockImplementationOnce(() => Promise.reject(new Error('Error!')));
+    const selectBox = screen.getByRole('combobox', { name: 'party-size' });
+
     await act(async () => {
-      jest.spyOn(global, 'fetch').mockImplementation(() => Promise.reject(new Error('Error!')));
-      await component.rerender(<Reservation
-        setError={mockSetErrorFunction}
-        onSubmit={mockSubmitFunction}
-        date="2020-10-09"
-      />);
-      await selectTime(component);
+      await fireEvent.change(selectBox, { target: { value: 2 } });
     });
-    expect(mockSetErrorFunction).toHaveBeenCalled();
+    expect(mockSetBanner).toHaveBeenCalled();
   });
 
   it('should disable time select and submit if no party size is chosen', () => {
-    const timeSelect = component.getByRole('combobox', { name: 'time' });
+    const timeSelect = screen.getByRole('combobox', { name: 'time' });
     expect(timeSelect).toBeDisabled();
-    const submit = component.getByRole('button', { name: 'Submit' });
+    const submit = screen.getByRole('button', { name: 'Submit' });
     expect(submit).toBeDisabled();
   });
 
   it('should disable submit if no time is chosen', async () => {
     await act(async () => {
-      await selectTime(component);
+      await selectTime();
     });
-    const submit = component.getByRole('button', { name: 'Submit' });
+    const submit = screen.getByRole('button', { name: 'Submit' });
     expect(submit).toBeDisabled();
   });
   it('should have two select boxes', () => {
-    const comboBoxes = component.getAllByRole('combobox');
+    const comboBoxes = screen.getAllByRole('combobox');
     expect(comboBoxes).toHaveLength(2);
   });
   it('should display the desired date', () => {
-    const date = component.getByText(/Fri Oct 09 2020/i);
+    const date = screen.getByText(/Fri Oct 09 2020/i);
     expect(date).toBeInTheDocument();
   });
 });
