@@ -10,6 +10,7 @@ import { TokenContextProvider } from '../../contexts/token_context';
 
 // Components
 import AdminLogin from '../index';
+import { BannerContextProvider, bannerTypes } from 'contexts/banner_context';
 
 const fillInInput = async function enterTextIntoInput(element) {
   await fireEvent.focus(element);
@@ -33,13 +34,17 @@ describe('<AdminLogin />', () => {
   let mockSetErrorFunction;
   let mockSetMessageFunction;
   let fetchSpy;
+  let setBanner;
   let container = null;
 
   const renderAdminLogin = function boilerplateForRenderingAdminLogin() {
+    setBanner = jest.fn();
     return renderWithRouter(
-      <TokenContextProvider>
-        <AdminLogin setError={mockSetErrorFunction} setMessage={mockSetMessageFunction} />
-      </TokenContextProvider>,
+      <BannerContextProvider value={setBanner}>
+        <TokenContextProvider>
+          <AdminLogin setError={mockSetErrorFunction} setMessage={mockSetMessageFunction} />
+        </TokenContextProvider>
+      </BannerContextProvider>,
       { route: '/admin-login' },
     );
   };
@@ -109,7 +114,6 @@ describe('<AdminLogin />', () => {
     await fillOutForm(component);
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    const errorMessage = component.getByText(/Username or password was not correct/i);
-    expect(errorMessage).toBeInTheDocument();
+    expect(setBanner).toHaveBeenCalledWith({ value: 'error' }, 'Username or password was not correct');
   });
 });
