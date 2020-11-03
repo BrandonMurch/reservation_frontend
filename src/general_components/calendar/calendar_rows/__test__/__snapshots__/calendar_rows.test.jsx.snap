@@ -534,7 +534,7 @@ exports[`<CalendarRow /> should match snapshot 1`] = `
       </p>
     </td>
     <td
-      className="todayContainer"
+      className="activeContainer"
       onClick={[Function]}
       onKeyUp={[Function]}
       role="gridcell"
