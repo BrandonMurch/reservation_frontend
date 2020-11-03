@@ -1,7 +1,6 @@
 // Dependencies
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import Banner, { bannerTypes } from 'general_components/banner';
 import bookingQuickSort from '../bookingQuickSort';
 import types from './booking_overlay/window_types';
 import { useRefreshContext } from '../refresh_booking_context';
@@ -77,7 +76,6 @@ const tableBookings = function placeBookingsIntoHourSlotsInTable(
 
 const Bookings = function BookingsTableByHour({ bookings, date }) {
   const { refresh } = useRefreshContext();
-  const [errorMessage, setErrorMessage] = useState(null);
   const [bookingOverlayWindow, setBookingOverlayWindow] = useState(null);
   const selectedBooking = useRef();
   let bookingsTableComponents;
@@ -87,7 +85,6 @@ const Bookings = function BookingsTableByHour({ bookings, date }) {
   }
   return (
     <>
-      {errorMessage && <Banner type={bannerTypes.ERROR} message={errorMessage} />}
       {bookingOverlayWindow
       && (
       <EditBookingOverlay
@@ -100,7 +97,6 @@ const Bookings = function BookingsTableByHour({ bookings, date }) {
             refresh();
           }
         }}
-        setErrorBanner={setErrorMessage}
         date={date}
       />
       )}

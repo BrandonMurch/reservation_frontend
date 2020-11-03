@@ -13,13 +13,15 @@ import CreateBooking from './create_booking';
 
 // Stylesheets
 import OverlayContainer from './overlay_container';
+import { useBannerContext, bannerTypes } from 'contexts/banner_context';
 
 const BookingOverlay = ({
-  booking, exit, setErrorBanner, entryWindow, date,
+  booking, exit, entryWindow, date,
 }) => {
   const [windowToDisplay, setWindowToDisplay] = useState(entryWindow || types.CREATE);
 
   const previousFetch = useRef({});
+  const setBanner = useBannerContext();
 
   const handleFetchAndExit = async function handleLoadingAndErrorsForFetch(fetchCall) {
     setWindowToDisplay(types.LOADING);
@@ -27,7 +29,7 @@ const BookingOverlay = ({
     if (previousFetch.current.forceFetch) {
       setWindowToDisplay(types.FORCIBLE);
     } else {
-      setErrorBanner(previousFetch.current.error);
+      setBanner(bannerTypes.ERROR, previousFetch.current.error);
       exit();
     }
   };
@@ -77,7 +79,6 @@ const BookingOverlay = ({
 BookingOverlay.propTypes = {
   entryWindow: PropTypes.shape({}).isRequired,
   exit: PropTypes.func.isRequired,
-  setErrorBanner: PropTypes.func.isRequired,
   booking: PropTypes.shape({
     id: PropTypes.number,
   }),

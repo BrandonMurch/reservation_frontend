@@ -9,13 +9,21 @@ import types from '../window_types';
 // Components
 import BookingOverlay from '../index';
 import userEvent from '@testing-library/user-event';
+import { BannerContextProvider } from 'contexts/banner_context';
 
 describe('<BookingOverlay />', () => {
   let props;
+  let banner;
 
-  const buildComponent = () => render(
-    <BookingOverlay {...props} />,
-  );
+  const buildComponent = () => {
+    banner = jest.fn();
+    return render(
+      <BannerContextProvider value={banner}>
+        <BookingOverlay {...props} />
+
+      </BannerContextProvider>,
+    );
+  };
 
   beforeEach(async () => {
     jest
@@ -24,7 +32,6 @@ describe('<BookingOverlay />', () => {
 
     props = {
       exit: jest.fn(),
-      setErrorBanner: jest.fn(),
       entryWindow: types.DELETE,
       date: '2020-10-24',
       booking: {
@@ -99,6 +106,6 @@ describe('<BookingOverlay />', () => {
       await fireEvent.click(submitButton);
     });
     expect(jestSpy).toHaveBeenCalledTimes(1);
-    expect(props.setErrorBanner).toHaveBeenCalledTimes(1);
+    expect(banner).toHaveBeenCalledTimes(1);
   });
 });
