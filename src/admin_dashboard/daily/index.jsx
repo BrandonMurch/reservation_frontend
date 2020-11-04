@@ -1,5 +1,6 @@
 // Dependences
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import useFetch from 'shared/useFetch';
 import useTimeHandler from 'shared/useTimeHandler';
 import moment from 'moment';
@@ -14,11 +15,21 @@ import Bookings from './bookings_table';
 import style from './daily.module.css';
 import { RefreshDailyBookingContextProvider } from './refresh_booking_context';
 
-const Daily = function DisplayDailyReservations() {
+const DailyController = function ControlDailyDate() {
   const { date } = useParams();
-  const { dateObject, dispatchDate } = useTimeHandler(date);
+  const timeHandler = useTimeHandler(date);
+  const dateString = timeHandler.dateObject.format('yyyy-MM-DD');
+  if (date !== dateString) {
+    return <Redirect to={`/admin/daily/${dateString}`} />;
+  }
+
+  return <Daily {...timeHandler} />;
+};
+
+const Daily = function DisplayDailyReservations({ dateObject, dispatchDate }) {
   const token = useTokenContext.getToken;
-  const path = `/bookings?date=${dateObject.format('yyyy-MM-DD')}`;
+  const dateString = dateObject.format('yyyy-MM-DD');
+  const path = `/bookings?date=${dateString}`;
   const [fetchToggle, toggleFetch] = useState(false);
   const { alternativeRender, response, status } = useFetch(path, { headers: { authorization: `Bearer: ${token}` } }, fetchToggle);
   if (status >= 400 && status < 500) {
@@ -32,17 +43,30 @@ const Daily = function DisplayDailyReservations() {
       <div className={style.container}>
         <Header
           date={dateObject.format('dddd MMMM Do[,] YYYY')}
-          prev={() => dispatchDate({ type: 'prev', unit: 'day' })}
-          next={() => dispatchDate({ type: 'next', unit: 'day' })}
+          prev={() => {
+            dispatchDate({ type: 'prev', unit: 'day' });
+          }}
+          next={() => {
+            console.log('next outside handler');
+            dispatchDate({ type: 'next', unit: 'day' });
+          }}
           isThisToday={dateObject.startOf('day').isSame(moment().startOf('day'))}
           goToToday={() => dispatchDate({ type: 'current' })}
           dateObject={dateObject}
           dispatchDate={dispatchDate}
         />
-        <Bookings bookings={response} date={dateObject.format('YYYY-MM-DD')} />
+        <Bookings bookings={response} date={dateString} />
       </div>
     </RefreshDailyBookingContextProvider>
   );
 };
 
-export default Daily;
+Daily.propTypes = {
+  dispatchDate: PropTypes.func.isRequired,
+  dateObject: PropTypes.shape({
+    format: PropTypes.func.isRequired,
+    startOf: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+export default DailyController;
