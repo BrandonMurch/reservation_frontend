@@ -36,8 +36,7 @@ describe('<Calendar />', () => {
     const dateObject = moment();
     const button = component.getByLabelText('next-date');
     fireEvent.click(button);
-    // 2 months is due to React.StrictMode calling the reducer twice in development.
-    dateObject.add(2, 'months');
+    dateObject.add(1, 'months');
     const dateText = component.getByText(new RegExp(getMonth(dateObject.get('months'))));
     expect(dateText).toBeInTheDocument();
   });
@@ -46,8 +45,7 @@ describe('<Calendar />', () => {
     const dateObject = moment();
     const button = component.getByLabelText('previous-date');
     fireEvent.click(button);
-    // 2 months is due to React.StrictMode calling the reducer twice in development.
-    dateObject.subtract(2, 'months');
+    dateObject.subtract(1, 'months');
     const dateText = component.getByText(new RegExp(getMonth(dateObject.get('months'))));
     expect(dateText).toBeInTheDocument();
   });
