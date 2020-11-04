@@ -6,6 +6,7 @@
   composes: transparentBackground from '../../css/project_globals.module.css';
   color: white;
   text-align: center;
+  pointer-events: none;
 }
 
 .error {
