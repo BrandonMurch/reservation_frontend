@@ -26,7 +26,7 @@ const ReservationForm = function CreateAReservationForm(props) {
   useEffect(() => {
     if (date != null && partySize > 0) {
       const getAvailableTimes = async function getAvailableTimesFromServer() {
-        setIsLoading(false);
+        setIsLoading(true);
         const path = `/restaurant/availability/?date=${date}&size=${partySize}`;
         const { response, error, loading } = await fetchWrapper(path);
         if (error) {
@@ -63,10 +63,12 @@ const ReservationForm = function CreateAReservationForm(props) {
           }
         }}
       />
+
       <TimeSelect
+        loading={isLoading}
         label="Desired time:"
         value={time}
-        disabled={(isLoading || partySize === '0')}
+        disabled={(isLoading || partySize === '0' || partySize === '')}
         availableTimes={availableTimes}
         onChange={({ target }) => { setTime(target.value); }}
       />
