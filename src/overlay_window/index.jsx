@@ -58,7 +58,7 @@ const OverlayWindow = function CreateOverlayWindow(props) {
   const { closeOverlay, reservationInfo, userInfo } = props;
   const [redirect, setRedirect] = useState('');
   const setBanner = useBannerContext();
-  const [isLoading, setIsLoading] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const reservation = useRef(reservationInfo);
   const user = useRef(userInfo);
@@ -116,7 +116,6 @@ const OverlayWindow = function CreateOverlayWindow(props) {
             <Review
               user={user.current}
               reservation={reservation.current}
-              isLoading={isLoading}
               onClick={(target) => {
                 if (target === 'success') {
                   submitReservation(
