@@ -2,8 +2,10 @@
     height: 40px;
     width: 40px;
     position: absolute;
-    top:40%;
-    left: 40%;
+    top:50%;
+    left: 50%;
+    margin-top: -20px;
+    margin-left: -20px;
     border-top: 2px solid white;
     border-right: 2px solid white;
     border-radius: 100%;
@@ -16,6 +18,8 @@
     width: 20px;
     border-top: 1px solid white;
     border-right: 1px solid white;
+    margin-top: -10px;
+    margin-left: -10px;
 }
 
 .largeSpinner {
@@ -24,6 +28,8 @@ composes: spinner;
     width: 200px;
     border-top: 8px solid white;
     border-right: 8px solid white;
+    margin-top: -100px;
+    margin-left: -100px;
 }
 
 @keyframes spinner {
