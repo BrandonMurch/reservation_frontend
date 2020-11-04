@@ -11,5 +11,11 @@
 }
 
 .selectBox {
-    float: Right;
+    float: right;
+}
+
+.loadingContainer {
+    position: relative;
+    float: right;
+    margin: 0.8rem;
 }
