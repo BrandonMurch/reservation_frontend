@@ -8,5 +8,5 @@
   background-color: dark;
   display: inline-block;
   border-bottom: 5px solid accent;
-  z-index: 100;
+  z-index: 5;
 }
