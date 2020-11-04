@@ -7,7 +7,7 @@ import Banner, { bannerTypes } from 'general_components/banner';
 
 const getLoadingObject = function getLoadingComponent() {
   return {
-    alternativeRender: <Loading />,
+    alternativeRender: <Loading size="large" />,
     response: null,
     error: null,
     loading: true,
