@@ -3,17 +3,17 @@ import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import types from './window_types';
+import { useBannerContext, bannerTypes } from 'contexts/banner_context';
 
 // Components
 import DeleteConfirmation from './confirmation/delete_confirmation';
 import ForcibleConfirmation from './confirmation/forcible_confirmation';
 import EditWindow from './edit_window';
-import LoadingWindow from './loading_window';
 import CreateBooking from './create_booking';
+import Loading from 'general_components/loading';
 
 // Stylesheets
 import OverlayContainer from './overlay_container';
-import { useBannerContext, bannerTypes } from 'contexts/banner_context';
 
 const BookingOverlay = ({
   booking, exit, entryWindow, date,
@@ -55,7 +55,9 @@ const BookingOverlay = ({
       />
     ),
     loading: (
-      <LoadingWindow />
+      <div style={{ height: '200px' }}>
+        <Loading />
+      </div>
     ),
     forcible: (
       <ForcibleConfirmation

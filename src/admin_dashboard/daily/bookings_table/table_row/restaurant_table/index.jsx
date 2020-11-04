@@ -8,6 +8,7 @@ import { useRefreshContext } from '../../../refresh_booking_context';
 import OverlayContainer from '../../booking_overlay/overlay_container';
 import ForcibleConfirmation from '../../booking_overlay/confirmation/forcible_confirmation';
 import AutoCompleteInput from 'general_components/form/inputs/autocomplete_input';
+import Loading from 'general_components/loading';
 
 // StyleSheets
 import style from './restaurant_table.module.css';
@@ -67,10 +68,18 @@ const RestaurantTable = function InputBoxForTableInBooking({ booking }) {
   const { refresh } = useRefreshContext();
   const [overlay, setOverlay] = useState(null);
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const { alternativeRender, response: tableList } = useFetch('/restaurant/all-tables');
-  if (alternativeRender) {
-    return alternativeRender;
+  const { loading, response: tableList } = useFetch('/restaurant/all-tables');
+  if (loading || isLoading) {
+    return (
+      <>
+        {overlay}
+        <div style={{ position: 'relative' }}>
+          <Loading size="small" />
+        </div>
+      </>
+    );
   }
 
   const tableString = getTableString(booking.tables);
@@ -98,12 +107,14 @@ const RestaurantTable = function InputBoxForTableInBooking({ booking }) {
         onFocus={() => setError('')}
         onBlur={async ({ value: tables }) => {
           if (tableString !== tables && tables !== '') {
+            setIsLoading(true);
             await updateTable(
               setError,
               setOverlay,
               () => getUpdateFetch(booking, tables),
             );
           }
+          setIsLoading(false);
           setOverlay(null);
           refresh();
         }}

@@ -17,6 +17,7 @@ import Success from './success';
 // CSS
 import style from './overlay_window.module.css';
 import { useBannerContext } from 'contexts/banner_context';
+import Loading from 'general_components/loading';
 
 const formatBooking = function formatBookingDateTime(booking) {
   booking.startTime = `${booking.date}T${booking.time}`;
@@ -41,7 +42,7 @@ const submitReservation = async function postReservationToServer(
   const booking = formatBooking({ ...reservation });
   swapComments(user, booking);
 
-  fetchWrapper('/bookings', { method: 'POST', body: JSON.stringify({ user, booking }) })
+  await fetchWrapper('/bookings', { method: 'POST', body: JSON.stringify({ user, booking }) })
     .then(
       (response) => {
         setError(bannerTypes.ERROR, response.error);
@@ -57,15 +58,22 @@ const OverlayWindow = function CreateOverlayWindow(props) {
   const { closeOverlay, reservationInfo, userInfo } = props;
   const [redirect, setRedirect] = useState('');
   const setBanner = useBannerContext();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState();
 
   const reservation = useRef(reservationInfo);
   const user = useRef(userInfo);
 
+  if (isLoading) {
+    return (
+      <div data-testid="overlay-window" className={style.overlay}>
+        <Loading size="large" />
+      </div>
+    );
+  }
+
   return (
     <div data-testid="overlay-window" className={style.overlay}>
       {redirect && <Redirect to={redirect} />}
-      {isLoading && <Banner type={bannerTypes.STANDARD} message="Loading..." />}
       <ExitOverlay closeOverlay={closeOverlay} />
       <Switch>
         <Route
