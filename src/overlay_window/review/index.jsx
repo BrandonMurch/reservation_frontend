@@ -8,13 +8,12 @@ import { DisplayReservation, DisplayUser } from '../../general_components/displa
 // Stylesheets
 import style from './review.module.css';
 
-const ButtonsList = function getButtonsFromList({ buttonsInfo, onClick, isLoading }) {
+const ButtonsList = function getButtonsFromList({ buttonsInfo, onClick }) {
   const buttons = [];
 
   buttonsInfo.forEach((button) => {
     buttons.push(
       <button
-        disabled={isLoading}
         key={button.target}
         className={style.button}
         name={button.target}
@@ -30,7 +29,7 @@ const ButtonsList = function getButtonsFromList({ buttonsInfo, onClick, isLoadin
 };
 
 const Review = function DisplayDetailsForReview({
-  reservation, user, onClick, isLoading,
+  reservation, user, onClick,
 }) {
   const buttons = [
     { target: 'calendar', text: 'Choose a new date.' },
@@ -45,14 +44,12 @@ const Review = function DisplayDetailsForReview({
       <ButtonsList
         buttonsInfo={buttons}
         onClick={onClick}
-        isLoading={isLoading}
       />
     </div>
   );
 };
 
 Review.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
   reservation: PropTypes.shape({
     date: PropTypes.string,
