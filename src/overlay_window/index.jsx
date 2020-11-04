@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { fetchWrapper } from 'shared/useFetch';
 
 // Components
-import Banner, { bannerTypes } from 'general_components/banner';
+import { bannerTypes } from 'general_components/banner';
 import Calendar from './calendar';
 import ReservationForm from './reservation';
 import ContactForm from './contact';
