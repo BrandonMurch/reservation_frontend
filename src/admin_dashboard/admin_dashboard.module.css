@@ -1,6 +1,17 @@
+@value colors: "../css/colors.module.css";
+@value primary, dark, light, accent from colors;
+
 .bodyContainer {
     position: absolute;
     top: 3vh;
     height: 97vh;
     width: 100vw;
+}
+
+.container {
+    position: absolute;
+    z-index: -1;
+    background: primary;
+    width: 100vw;
+    height: 100vh;
 }

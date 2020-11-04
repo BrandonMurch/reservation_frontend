@@ -2,6 +2,9 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
+// Stylesheets
+import style from './admin_dashboard.module.css';
+
 // Components
 import Nav from './nav_bar';
 import NavItem from './nav_bar/item';
@@ -10,7 +13,7 @@ import Daily from './daily';
 
 const Dashboard = function AdminDashboard() {
   return (
-    <div>
+    <div className={style.container}>
       <Nav>
         <NavItem label="Monthly" to="/admin/monthly" />
         <NavItem label="Daily Run Sheet" to="/admin/daily" />
