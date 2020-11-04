@@ -47,7 +47,6 @@ const Daily = function DisplayDailyReservations({ dateObject, dispatchDate }) {
             dispatchDate({ type: 'prev', unit: 'day' });
           }}
           next={() => {
-            console.log('next outside handler');
             dispatchDate({ type: 'next', unit: 'day' });
           }}
           isThisToday={dateObject.startOf('day').isSame(moment().startOf('day'))}
