@@ -8,11 +8,42 @@
 }
 
 .monthText {
+    position: relative;
     font-size: 1.5rem;
     composes: text from '../../../css/project_globals.module.css';
     color: dark;
     float: left;
     margin: 2rem 2rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.monthText::before{
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: dark;
+    bottom: 0;
+    z-index: 7;
+}
+
+.monthText:hover::before {
+    width: 26rem;
+    animation: grow 1s linear;
+}
+
+@keyframes grow {
+    0% {
+        width: 0;
+    }
+    50% {
+        width: 20rem;
+    }
+    100% {
+        width: 26rem;
+    }
 }
 
 .monthText::after {

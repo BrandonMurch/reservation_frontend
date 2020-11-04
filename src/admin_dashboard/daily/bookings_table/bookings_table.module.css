@@ -19,13 +19,13 @@
 
 .hourRow::before {
    content: '';
-   width: 108%;
+   width: 100%;
    background-color: dark;
    display: block;
    height: 1.6rem;
    position: absolute;
    top: 0.7rem;
-   left: -4%;
+   left: 0;
    z-index: 1;
    border-radius: 5px;
 
@@ -33,7 +33,7 @@
 
 .hourText {
    position: relative;
-   left: -2rem;
+   left: -5vw;
    font-size: 1rem;
    z-index: 3;
    color: light;

@@ -14,19 +14,14 @@ const Header = function CalendarMonthAndButtons({
   return (
     <div className={style.container}>
       <div>
-        <h1 className={style.monthText}>
+        <button
+          className={style.monthText}
+          type="button"
+          aria-label="date-picker"
+          onClick={() => setDisplayDatePicker(!displayDatePicker)}
+        >
           {date}
-          {/* {' '}
-          <button
-            className={style.datePickerToggle}
-            type="button"
-            aria-label="date-picker"
-            onClick={() => setDisplayDatePicker(!displayDatePicker)}
-          >
-            {'<'}
-
-          </button> */}
-        </h1>
+        </button>
 
         {displayDatePicker && <DatePicker {...datePickerProps} onlyMonth={monthlyView} />}
       </div>
