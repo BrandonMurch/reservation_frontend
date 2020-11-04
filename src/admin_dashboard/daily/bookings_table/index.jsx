@@ -36,7 +36,7 @@ const loadBookingsIntoMap = function loadBookingsIntoMapByHour(bookings) {
 
 const HourRow = ({ hour }) => (
   <tr className={style.hourRow}>
-    <td><h2>{`${hour}:00`}</h2></td>
+    <td><h2 className={style.hourText}>{`${hour}:00`}</h2></td>
   </tr>
 );
 

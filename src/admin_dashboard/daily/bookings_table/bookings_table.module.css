@@ -14,7 +14,27 @@
 }
 
 .hourRow {
-   composes: row from '../daily.module.css';
+   position: relative;
+}
+
+.hourRow::after {
+   content: '';
+   width: 95vw;
+   background-color: dark;
+   display: block;
+   height: 3rem;
+   position: absolute;
+   top: 0.7rem;
+   left: -1vw;
+   z-index: 1;
+   border-radius: 5px;
+
+}
+
+.hourText {
+   position: relative;
+   z-index: 3;
+   color: light;
 }
 
 .button {
