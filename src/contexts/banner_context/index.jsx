@@ -1,6 +1,5 @@
 import React, {
   createContext, useContext, useReducer,
-  useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
 import Banner, { bannerTypes } from 'general_components/banner';
@@ -27,17 +26,10 @@ const BannerContextProvider = function BoilerPlateForBannerContextProvider({
 
   const setBanner = (newType, newMessage) => {
     dispatchBanner({ type: newType, message: newMessage });
-  };
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      dispatchBanner(initialObject);
+    setTimeout(() => {
+      dispatchBanner({ type: null, message: null });
     }, 10000);
-
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [initialObject]);
+  };
 
   return (
     <BannerContext.Provider value={value || setBanner}>
