@@ -36,7 +36,7 @@ describe('<Reservation />', () => {
         />
       </BannerContextProvider>,
     );
-    await waitForElementToBeRemoved(() => screen.getByText(/loading/i));
+    await waitForElementToBeRemoved(() => screen.getByLabelText('loading'));
   });
 
   afterEach(() => {

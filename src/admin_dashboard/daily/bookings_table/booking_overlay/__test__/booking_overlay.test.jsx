@@ -96,7 +96,7 @@ describe('<BookingOverlay />', () => {
     const submitButton = screen.getByRole('button', { name: 'Yes' });
     fireEvent.click(submitButton);
     expect(jestSpy).toHaveBeenCalledTimes(1);
-    expect(screen.getByText(/loading/i)).toBeInTheDocument();
+    expect(screen.getByLabelText('loading')).toBeInTheDocument();
   });
 
   it('should call setErrorBanner on error', async () => {

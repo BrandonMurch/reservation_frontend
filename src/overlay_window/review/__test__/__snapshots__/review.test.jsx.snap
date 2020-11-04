@@ -24,7 +24,6 @@ exports[`<Review /> should match snapshot 1`] = `
   </p>
   <button
     className="button"
-    disabled={false}
     name="calendar"
     onClick={[Function]}
     type="button"
@@ -33,7 +32,6 @@ exports[`<Review /> should match snapshot 1`] = `
   </button>
   <button
     className="button"
-    disabled={false}
     name="reservation"
     onClick={[Function]}
     type="button"
@@ -42,7 +40,6 @@ exports[`<Review /> should match snapshot 1`] = `
   </button>
   <button
     className="button"
-    disabled={false}
     name="contact"
     onClick={[Function]}
     type="button"
@@ -51,7 +48,6 @@ exports[`<Review /> should match snapshot 1`] = `
   </button>
   <button
     className="button"
-    disabled={false}
     name="success"
     onClick={[Function]}
     type="button"
