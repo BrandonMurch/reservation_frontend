@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useCallback, useReducer } from 'react';
 import moment from 'moment';
 
 const useTimeHandler = (initialDate) => {
@@ -15,7 +15,7 @@ const useTimeHandler = (initialDate) => {
     return number;
   };
 
-  const reducer = ((state, action) => {
+  const reducer = useCallback((state, action) => {
     switch (action.type) {
       case 'prev':
         return { dateObject: state.dateObject.subtract(1, action.unit) };
@@ -39,7 +39,7 @@ const useTimeHandler = (initialDate) => {
         return { dateObject: state.dateObject.set(action.unit, action.number) };
       default: throw new Error('No such action exists.');
     }
-  });
+  }, []);
   const [{ dateObject }, dispatchDate] = useReducer(reducer, initialDateObject);
 
   return { dateObject, dispatchDate };
