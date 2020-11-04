@@ -3,14 +3,22 @@ import PropTypes from 'prop-types';
 
 import style from './loading.module.css';
 
-const getSpinnerSize = (size) => ({
-  small: (<div className={style.smallSpinner} />),
-  normal: (<div className={style.spinner} />),
-  large: (<div className={style.largeSpinner} />),
+const getSpinnerStyle = (size) => ({
+  small: style.smallSpinner,
+  normal: style.spinner,
+  large: style.largeSpinner,
 })[size];
 
 const Loading = function CreateLoadingScreen({ size }) {
-  return getSpinnerSize(size);
+  const spinnerStyle = getSpinnerStyle(size);
+
+  return (
+    <div
+      className={spinnerStyle}
+      role="presentation"
+      aria-label="loading"
+    />
+  );
 };
 
 Loading.propTypes = {
