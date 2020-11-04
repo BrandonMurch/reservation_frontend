@@ -1,0 +1,41 @@
+.spinner {
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    top:40%;
+    left: 40%;
+    border-top: 2px solid white;
+    border-right: 2px solid white;
+    border-radius: 100%;
+    animation: spinner 1s linear infinite;
+}
+
+.smallSpinner {
+    composes: spinner;
+    height: 20px;
+    width: 20px;
+    border-top: 1px solid white;
+    border-right: 1px solid white;
+}
+
+.largeSpinner {
+composes: spinner;
+    height: 200px;
+    width: 200px;
+    border-top: 8px solid white;
+    border-right: 8px solid white;
+}
+
+@keyframes spinner {
+    0% {
+        transform: rotate(90deg);
+    }
+    50% { 
+        transform: rotate(180deg);
+
+    }
+    100% {
+        transform: rotate(810deg);
+
+    }
+}
