@@ -4,6 +4,14 @@ import { createMemoryHistory } from 'history';
 import { render } from '@testing-library/react';
 import PropTypes from 'prop-types';
 
+export const sleep = function sleepProgram(ms) {
+  const date = Date.now();
+  let currentDate = null;
+  do {
+    currentDate = Date.now();
+  } while (currentDate - date < ms);
+};
+
 // eslint-disable-next-line import/prefer-default-export
 export const renderWithRouter = function createWrapperForRouting(
   ui,
