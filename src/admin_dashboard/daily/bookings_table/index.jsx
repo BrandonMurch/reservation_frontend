@@ -63,7 +63,7 @@ const tableBookings = function placeBookingsIntoHourSlotsInTable(
             booking={booking}
             setBookingForEditOverlay={(selectedBooking) => {
               bookingToEdit.current = selectedBooking;
-              setBookingOverlayWindow(types.EDIT);
+              setBookingOverlayWindow(types.EDITBOOKING);
             }}
           />,
         );
