@@ -8,7 +8,7 @@ import { useBannerContext, bannerTypes } from 'contexts/banner_context';
 // Components
 import DeleteConfirmation from './confirmation/delete_confirmation';
 import ForcibleConfirmation from './confirmation/forcible_confirmation';
-import EditWindow from './edit_window';
+import EditBooking from './edit_window/edit_booking';
 import CreateBooking from './create_booking';
 import Loading from 'general_components/loading';
 
@@ -21,6 +21,7 @@ const BookingOverlay = ({
   const [windowToDisplay, setWindowToDisplay] = useState(entryWindow || types.CREATE);
 
   const previousFetch = useRef({});
+  const previousWindow = useRef(null);
   const setBanner = useBannerContext();
 
   const handleFetchAndExit = async function handleLoadingAndErrorsForFetch(fetchCall) {
@@ -41,16 +42,22 @@ const BookingOverlay = ({
         onSubmit={(fetchCall) => handleFetchAndExit(fetchCall)}
       />
     ),
-    edit: (
-      <EditWindow
+    editbooking: (
+      <EditBooking
         booking={booking}
         onSubmit={(fetchCall) => handleFetchAndExit(fetchCall)}
-        deleteBooking={() => setWindowToDisplay(types.DELETE)}
+        deleteBooking={() => {
+          previousWindow.current = windowToDisplay;
+          setWindowToDisplay(types.DELETE);
+        }}
       />),
     delete: (
       <DeleteConfirmation
         booking={booking}
-        cancelDelete={() => setWindowToDisplay(types.EDIT)}
+        cancelDelete={() => {
+          setWindowToDisplay(previousWindow.current);
+          previousWindow.current = null;
+        }}
         onSubmit={(fetchCall) => handleFetchAndExit(fetchCall)}
       />
     ),

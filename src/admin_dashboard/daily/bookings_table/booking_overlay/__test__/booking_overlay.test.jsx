@@ -70,7 +70,7 @@ describe('<BookingOverlay />', () => {
   });
 
   it('should display edit window', async () => {
-    props.entryWindow = types.EDIT;
+    props.entryWindow = types.EDITBOOKING;
     buildComponent();
     const editDisplay = screen.getByText(/Save booking/i);
     expect(editDisplay).toBeInTheDocument();
