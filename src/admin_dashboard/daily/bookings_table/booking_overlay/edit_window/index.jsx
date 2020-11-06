@@ -19,15 +19,19 @@ const EditWindow = ({
       submitLabel={submitLabel}
       styleProp={style}
     />
-    <div className={style.buttonContainer}>
-      <button
-        className={style.button}
-        type="button"
-        onClick={deleteCallback}
-      >
-        {deleteText}
-      </button>
-    </div>
+    {deleteCallback
+      ? (
+        <div className={style.buttonContainer}>
+          <button
+            className={style.button}
+            type="button"
+            onClick={deleteCallback}
+          >
+            {deleteText}
+          </button>
+        </div>
+      )
+      : null}
   </div>
 
 );
@@ -37,12 +41,14 @@ EditWindow.propTypes = {
   inputs: PropTypes.arrayOf(PropTypes.shape).isRequired,
   onSubmit: PropTypes.func.isRequired,
   submitLabel: PropTypes.string.isRequired,
-  deleteCallback: PropTypes.func.isRequired,
-  deleteText: PropTypes.string.isRequired,
+  deleteCallback: PropTypes.func,
+  deleteText: PropTypes.string,
 
 };
 
 EditWindow.defaultProps = {
+  deleteCallback: null,
+  deleteText: '',
 };
 
 export default EditWindow;
