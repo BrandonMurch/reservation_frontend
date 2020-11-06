@@ -11,17 +11,15 @@ import ForcibleConfirmation from './confirmation/forcible_confirmation';
 import EditBooking from './edit_window/edit_booking';
 import CreateBooking from './create_booking';
 import Loading from 'general_components/loading';
-
-// Stylesheets
+import EditUser from './edit_window/edit_user';
 import OverlayContainer from './overlay_container';
 
 const BookingOverlay = ({
-  booking, exit, entryWindow, date,
+  booking, exit, entryWindow, date, user,
 }) => {
   const [windowToDisplay, setWindowToDisplay] = useState(entryWindow || types.CREATE);
 
   const previousFetch = useRef({});
-  const previousWindow = useRef(null);
   const setBanner = useBannerContext();
 
   const handleFetchAndExit = async function handleLoadingAndErrorsForFetch(fetchCall) {
@@ -42,21 +40,24 @@ const BookingOverlay = ({
         onSubmit={(fetchCall) => handleFetchAndExit(fetchCall)}
       />
     ),
-    editbooking: (
+    edit_booking: (
       <EditBooking
         booking={booking}
         onSubmit={(fetchCall) => handleFetchAndExit(fetchCall)}
         deleteBooking={() => {
-          previousWindow.current = windowToDisplay;
           setWindowToDisplay(types.DELETE);
         }}
+      />),
+    edit_user: (
+      <EditUser
+        user={user || booking.user}
+        onSubmit={(fetchCall) => handleFetchAndExit(fetchCall)}
       />),
     delete: (
       <DeleteConfirmation
         booking={booking}
         cancelDelete={() => {
-          setWindowToDisplay(previousWindow.current);
-          previousWindow.current = null;
+          setWindowToDisplay(types.EDIT_BOOKING);
         }}
         onSubmit={(fetchCall) => handleFetchAndExit(fetchCall)}
       />
@@ -90,12 +91,15 @@ BookingOverlay.propTypes = {
   exit: PropTypes.func.isRequired,
   booking: PropTypes.shape({
     id: PropTypes.number,
+    user: PropTypes.shape({}),
   }),
   date: PropTypes.string,
+  user: PropTypes.shape({}),
 };
 
 BookingOverlay.defaultProps = {
   date: moment().format('YYYY-MM-DD'),
+  user: {},
   booking: {
     id: 0,
     startTime: '',

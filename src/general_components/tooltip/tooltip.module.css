@@ -10,9 +10,11 @@
     position: relative;
     background: dark;
     color: light;
-    bottom: 4rem;
+    top: 0;
+    transform: translateY(-100%);
     font-weight: bold;
     border: 1px solid black;
     padding: 0.5rem;
+    z-index: 20;
 
 }

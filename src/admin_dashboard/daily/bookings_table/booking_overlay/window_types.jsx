@@ -1,5 +1,5 @@
 import { enumeration } from 'shared/helpers';
 
-const types = enumeration.singleValue('EDITBOOKING', 'EDITUSER', 'DELETE', 'LOADING', 'CREATE', 'FORCIBLE');
+const types = enumeration.singleValue('EDIT_BOOKING', 'EDIT_USER', 'DELETE', 'LOADING', 'CREATE', 'FORCIBLE');
 
 export default types;
