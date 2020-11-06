@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<UserDetails /> should match snapshot 1`] = `
+<td>
+  <div
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+    role="presentation"
+  >
+    John Smith
+  </div>
+</td>
+`;
