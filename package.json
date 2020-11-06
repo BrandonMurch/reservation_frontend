@@ -28,8 +28,7 @@
   },
   "eslintConfig": {
     "extends": "react-app",
-    "parserOptions":
-    {
+    "parserOptions": {
       "ecmaVersion": 2020
     }
   },
