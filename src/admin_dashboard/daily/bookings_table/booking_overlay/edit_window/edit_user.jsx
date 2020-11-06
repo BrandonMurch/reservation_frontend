@@ -67,6 +67,9 @@ const EditUser = function OverlayWindowToEditUser({ onSubmit, user }) {
       onSubmit={(event) => {
         splitName(event);
         Object.keys(event).forEach((key) => {
+          if (key === 'email') {
+            user.username = event.email;
+          }
           if (key !== 'undefined' && key !== 'name') {
             user[key] = event[key];
           }
@@ -83,7 +86,9 @@ const EditUser = function OverlayWindowToEditUser({ onSubmit, user }) {
 
 EditUser.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  user: PropTypes.shape({}).isRequired,
+  user: PropTypes.shape({
+    username: PropTypes.string,
+  }).isRequired,
 };
 
 EditUser.defaultProps = {
