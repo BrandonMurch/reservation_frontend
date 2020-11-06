@@ -13,7 +13,7 @@ const Header = function CalendarMonthAndButtons({
   const datePickerProps = { dateObject, dispatchDate, setDisplayDatePicker };
   return (
     <div className={style.container}>
-      <div>
+      <div className={style.monthTextContainer}>
         <button
           className={style.monthText}
           type="button"
