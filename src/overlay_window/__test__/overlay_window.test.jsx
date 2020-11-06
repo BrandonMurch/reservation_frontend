@@ -31,7 +31,6 @@ const mockCalendarFetch = function mockFetchResponseFromServer() {
 
 describe('<OverlayWindow />', () => {
   let mockCloseOverlayFunction;
-  let setBanner;
   const reservation = {
     date: '2020-10-10',
     time: '21:00',
@@ -45,19 +44,16 @@ describe('<OverlayWindow />', () => {
     tAC: true,
   };
 
-  const renderOverlay = (route) => {
-    setBanner = jest.fn();
-    return renderWithRouter(
-      <BannerContextProvider>
-        <OverlayWindow
-          closeOverlay={mockCloseOverlayFunction}
-          reservationInfo={reservation}
-          userInfo={user}
-        />
-      </BannerContextProvider>,
-      { route },
-    );
-  };
+  const renderOverlay = (route) => renderWithRouter(
+    <BannerContextProvider>
+      <OverlayWindow
+        closeOverlay={mockCloseOverlayFunction}
+        reservationInfo={reservation}
+        userInfo={user}
+      />
+    </BannerContextProvider>,
+    { route },
+  );
   beforeEach(async () => {
     mockCloseOverlayFunction = jest.fn();
   });

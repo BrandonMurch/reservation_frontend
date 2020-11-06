@@ -1,13 +1,13 @@
 // Dependencies
 import React from 'react';
 import PropTypes from 'prop-types';
+import useEventListener from 'shared/useEventListener';
 
 // Components
 import Exit from './exit_button';
 
 // Stylesheet
 import style from './overlay_container.module.css';
-import useEventListener from 'shared/useEventListener';
 
 const OverlayContainer = function ContainerForBookingOverlay({ children, exit }) {
   let isMouseOutsideContainer = true;

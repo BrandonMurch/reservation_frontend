@@ -10,7 +10,6 @@ import Form from 'general_components/form';
 // Stylesheets
 import style from '../edit_window/edit_window.module.css';
 
-// TODO: remove defaults after testing
 const getInputs = function getInputsFromBooking(date) {
   return [{
     name: 'date',
@@ -23,7 +22,6 @@ const getInputs = function getInputsFromBooking(date) {
     name: 'startTime',
     type: 'time',
     label: 'Start Time',
-    value: '20:00',
     required: true,
   },
   {
@@ -36,7 +34,6 @@ const getInputs = function getInputsFromBooking(date) {
     type: 'text',
     label: 'Party Size',
     required: true,
-    value: '2',
     pattern: '^[1-9][0-9]*$',
     patternMessage: 'Party size must be a number greater than zero',
   },
@@ -44,7 +41,6 @@ const getInputs = function getInputsFromBooking(date) {
     name: 'name',
     type: 'text',
     label: 'Name',
-    value: 'john',
     required: true,
   },
   {
@@ -52,7 +48,6 @@ const getInputs = function getInputsFromBooking(date) {
     type: 'email',
     label: 'Email',
     required: true,
-    value: 'john@john.com',
     pattern: '^[\\w\\-_.+]*[\\w\\-_.]@([\\w]+\\.)+[\\w]+[\\w]$',
     patternMessage: 'Email must be properly formatted',
   },
@@ -60,7 +55,6 @@ const getInputs = function getInputsFromBooking(date) {
     name: 'phoneNumber',
     type: 'tel',
     label: 'Phone Number',
-    value: '+1 1231233',
     required: true,
     pattern: '^\\+\\d{1,3} \\d{6,14}$',
     patternMessage:
@@ -85,9 +79,8 @@ const createBookingBody = function splitUserAndBookingForBody(booking) {
   const splitName = booking.name.split(' ');
   const user = {
     username: booking.email,
-    firstName: splitName[0],
-    // TODO: should put the remaining names in last name
-    lastName: splitName.length > 1 ? splitName[1] : '',
+    firstName: splitName.splice(0, 1)[0],
+    lastName: splitName,
     phoneNumber: booking.phoneNumber,
   };
   delete booking.name;

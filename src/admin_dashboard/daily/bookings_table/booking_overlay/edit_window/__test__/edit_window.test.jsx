@@ -7,7 +7,7 @@ import { create } from 'react-test-renderer';
 
 // Components
 import userEvent from '@testing-library/user-event';
-import EditWindow from '../index';
+import EditWindow from '../edit_booking';
 
 describe('<EditWindow />', () => {
   const props = {
@@ -49,7 +49,7 @@ describe('<EditWindow />', () => {
   });
 
   it('should call deleteBooking when button is pressed', async () => {
-    await fireEvent.click(screen.getByRole('button', { name: /delete this booking/i }));
+    await fireEvent.click(screen.getByRole('button', { name: /delete/i }));
     expect(props.deleteBooking).toBeCalledTimes(1);
   });
 

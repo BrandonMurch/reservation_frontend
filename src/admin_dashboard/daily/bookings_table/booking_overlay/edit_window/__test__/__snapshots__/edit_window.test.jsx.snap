@@ -175,7 +175,7 @@ exports[`<EditWindow /> should match snapshot 1`] = `
       className="button"
       disabled={false}
       type="submit"
-      value="Save Booking"
+      value="Save booking"
     />
   </form>
   <div
@@ -186,7 +186,7 @@ exports[`<EditWindow /> should match snapshot 1`] = `
       onClick={[MockFunction]}
       type="button"
     >
-      Delete this booking
+      Delete
     </button>
   </div>
 </div>

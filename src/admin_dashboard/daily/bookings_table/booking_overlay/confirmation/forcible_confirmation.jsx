@@ -5,8 +5,6 @@ import Confirmation from '.';
 const ForcibleConfirmation = function AskUserIfTheyWouldLikeToForcePreviousFetch({
   error, previousFetch, exit,
 }) {
-  // TODO: how do you modify previousFetch headers from here...?
-
   const props = {
     message: `The following error occured: \n ${error} \n Would you like to force this action to occur?`,
     confirm: () => previousFetch(),

@@ -59,7 +59,7 @@ exports[`<CreateBooking /> should match snapshot 1`] = `
         placeholder="Start Time"
         required={true}
         type="time"
-        value="20:00"
+        value=""
       />
     </div>
     <div
@@ -111,7 +111,7 @@ exports[`<CreateBooking /> should match snapshot 1`] = `
         placeholder="Party Size"
         required={true}
         type="text"
-        value="2"
+        value=""
       />
     </div>
     <div
@@ -137,7 +137,7 @@ exports[`<CreateBooking /> should match snapshot 1`] = `
         placeholder="Name"
         required={true}
         type="text"
-        value="john"
+        value=""
       />
     </div>
     <div
@@ -163,7 +163,7 @@ exports[`<CreateBooking /> should match snapshot 1`] = `
         placeholder="Email"
         required={true}
         type="email"
-        value="john@john.com"
+        value=""
       />
     </div>
     <div
@@ -189,7 +189,7 @@ exports[`<CreateBooking /> should match snapshot 1`] = `
         placeholder="Phone Number"
         required={true}
         type="tel"
-        value="+1 1231233"
+        value=""
       />
     </div>
     <div
