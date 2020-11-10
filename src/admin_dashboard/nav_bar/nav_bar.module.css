@@ -10,3 +10,8 @@
   border-bottom: 5px solid accent;
   z-index: 5;
 }
+
+.secondary {
+  composes: container;
+  top: 3.5vh;
+}
