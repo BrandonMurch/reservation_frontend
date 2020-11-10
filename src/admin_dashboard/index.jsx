@@ -10,6 +10,7 @@ import Nav from './nav_bar';
 import NavItem from './nav_bar/item';
 import Monthly from './monthly';
 import Daily from './daily';
+import Options from './options';
 
 const Dashboard = function AdminDashboard() {
   return (
@@ -21,7 +22,10 @@ const Dashboard = function AdminDashboard() {
       </Nav>
       <Switch>
         <Route exact path="/admin/monthly" component={Monthly} />
-        <Route path="/admin/daily" component={Daily} />
+        <Route path="/admin/daily/:date?" component={Daily} />
+        <Route path="/admin/options">
+          <Options locationOfParent="/admin/options" />
+        </Route>
       </Switch>
     </div>
   );

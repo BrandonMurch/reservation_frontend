@@ -1,0 +1,60 @@
+@value colors: "../../../css/colors.module.css";
+@value primary, dark, light, accent from colors;
+
+
+.container {
+    margin:auto;
+    overflow-y: scroll;
+}
+
+.table {
+    width:30%;
+    margin: auto;
+}
+
+.row {
+    cursor: pointer;
+    position: relative;
+}
+
+.cell {
+    height: 1rem;
+    background: light;
+    text-align: center;
+    padding: 0 0.5rem;
+    height: 2rem;
+    width:50%;
+    box-sizing: border-box;
+}
+
+
+.editButton {
+    composes: button from '../../../css/project_globals.module.css';
+    color: black;
+    border: 1px solid black;
+    border-radius: 2px;
+    padding: 0.2rem;
+    opacity: 0;
+    margin:0;
+    background-color: light;
+    position: absolute;
+    height: 2rem;
+    width: 3rem;
+    right: -3rem;
+}
+
+.row:hover > .editButton {
+    opacity: 1;
+    transition: 0.5s;
+}
+
+.droppable {
+    display: none;
+    transition: display 1s;
+    height: 2rem;
+    width: 100%;
+    border: 1px dotted black;
+    border-radius: 5px;
+    border-style: dashed;
+    border-spacing: 1px;
+}
