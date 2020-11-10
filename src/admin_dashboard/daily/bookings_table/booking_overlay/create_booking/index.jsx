@@ -80,7 +80,7 @@ const createBookingBody = function splitUserAndBookingForBody(booking) {
   const user = {
     username: booking.email,
     firstName: splitName.splice(0, 1)[0],
-    lastName: splitName,
+    lastName: splitName.length > 0 ? splitName.join(' ') : '',
     phoneNumber: booking.phoneNumber,
   };
   delete booking.name;

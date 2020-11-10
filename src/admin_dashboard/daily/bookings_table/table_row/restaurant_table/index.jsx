@@ -70,7 +70,7 @@ const RestaurantTable = function InputBoxForTableInBooking({ booking }) {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const { loading, response: tableList } = useFetch('/restaurant/all-tables');
+  const { loading, response: tableList } = useFetch('/restaurant/tables');
   if (loading || isLoading) {
     return (
       <>
