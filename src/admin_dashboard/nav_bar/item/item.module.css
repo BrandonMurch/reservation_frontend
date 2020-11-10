@@ -8,15 +8,15 @@
     cursor: pointer;
 }
 
-/* .container:hover {
+.container:hover {
     background-color: accent;
-} */
+}
 
 
 .text {
     composes: centerVertically from '../../../css/helpers.module.css';
     display: inline-block;
-    padding: 0.5rem 1rem;
+    padding: 0 1rem;
     height: 1rem;
     text-decoration: none;
     color: light;
