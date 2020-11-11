@@ -14,6 +14,10 @@
     width: 100%;
 }
 
+.tableContainer {
+    width:100%;
+}
+
 .table {
     height: 92vh;
     width: 25%;
@@ -62,10 +66,10 @@
     border: 1px solid black;
     border-radius: 5px;
     padding: 0.2rem;
-    opacity: 0;
+    opacity: 1;
     margin:0;
     background-color: light;
-    position: absolute;
+    position: relative;
     height: 2rem;
     margin-left: 1rem;
     box-shadow: 3px 3px rgba(40, 40, 40, 0.5);
@@ -123,4 +127,10 @@
 
 .displayError:invalid {
     border-bottom: 2px solid red;
+}
+
+.activeDroppable {
+    composes: droppable;
+    display: block;
+    transition: 1s;
 }

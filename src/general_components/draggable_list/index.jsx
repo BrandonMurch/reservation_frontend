@@ -96,9 +96,9 @@ DraggableList.propTypes = {
   DisplayComponent: PropTypes.func.isRequired,
   getName: PropTypes.func,
   styleSheet: PropTypes.shape({
+    tableContainer: PropTypes.string.isRequired,
     table: PropTypes.string.isRequired,
     row: PropTypes.string.isRequired,
-    tableContainer: PropTypes.string.isRequired,
   }),
   AddComponent: PropTypes.func.isRequired,
 };
