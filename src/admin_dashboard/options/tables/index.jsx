@@ -1,6 +1,6 @@
 // Dependencies
 import DraggableList from 'general_components/draggable_list';
-import React from 'react';
+import React, { useCallback } from 'react';
 import useFetch from 'shared/useFetch';
 
 // Stylesheets
@@ -25,19 +25,19 @@ the draggable list is reloaded
 const TableList = function RestaurantTableList() {
   const { response, alternativeRender } = useFetch('/restaurant/tables');
 
-  if (alternativeRender) {
-    return alternativeRender;
-  }
-
-  const displayComponent = (table) => (
+  const displayComponent = useCallback((table) => (
     <>
       <td className={style.cell}>{table.name}</td>
       <td className={style.cell}>{table.seats}</td>
-      <td>
+      <td className={style.buttonContainer}>
         <button className={style.editButton} type="button">Edit</button>
       </td>
     </>
-  );
+  ), []);
+
+  if (alternativeRender) {
+    return alternativeRender;
+  }
 
   const updateList = () => {
     console.log('updated');
