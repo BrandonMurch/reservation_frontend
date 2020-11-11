@@ -1,70 +1,67 @@
-import React, { createRef, useRef } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
-const DraggableItem = function ItemInDraggableList({
-  item, index, getDisplay, styleSheet, onDrop,
-}) {
-  const itemRef = createRef();
-  const droppableRef = createRef();
-  const to = useRef();
+const DraggableItem = React.memo(({
+  item, index, getDisplay, styleSheet, onDrop: handleDrop, displayDroppable, setHovered,
+}) => {
+  const itemRef = useRef();
+  const droppableRef = useRef();
   const onDragStart = (event) => {
-    event.dataTransfer.setData('draggingFrom', event.currentTarget.dataset.position);
+    event.dataTransfer.setData('draggingFrom', index);
     setTimeout(() => {
       itemRef.current.style.display = 'none';
     }, 0);
   };
-  const onDragEnter = (event) => {
-    // TODO: can this be done in a purely CSS way? Only show when hovered?
-    droppableRef.current.style.display = 'block';
-    to.current = event.currentTarget.dataset.position;
-  };
 
-  const onDragLeave = () => {
-    droppableRef.current.style.display = 'none';
+  const onDragEnter = (event) => {
+    event.preventDefault();
+    setHovered(index);
   };
 
   const onDragOver = (event) => {
     event.preventDefault();
   };
 
+  const onDrop = (event) => {
+    setHovered(-1);
+    handleDrop(event, index);
+  };
+
   return (
     <>
       <tr
-        className={styleSheet.droppable}
         ref={droppableRef}
+        className={displayDroppable ? styleSheet.activeDroppable : styleSheet.droppable}
         onDragOver={onDragOver}
-        onDrop={(event) => {
-          onDrop(event, to.current);
-        }}
-        onDragLeave={onDragLeave}
-        onMouseleave={onDragLeave}
+        onDrop={onDrop}
       />
       <tr
         className={styleSheet.row}
         ref={itemRef}
+        id={`table ${index}`}
         data-position={index}
         draggable
         onDragOver={onDragOver}
         onDragStart={onDragStart}
         onDragEnter={onDragEnter}
-        onDragLeave={onDragLeave}
-        onMouseleave={onDragLeave}
+        onDrop={onDrop}
       >
         {getDisplay(item)}
       </tr>
-
     </>
-
   );
-};
+});
 
 DraggableItem.propTypes = {
   item: PropTypes.shape({}),
   index: PropTypes.number.isRequired,
   getDisplay: PropTypes.func,
   onDrop: PropTypes.func.isRequired,
+  setHovered: PropTypes.func.isRequired,
+  displayDroppable: PropTypes.bool.isRequired,
   styleSheet: PropTypes.shape({
     droppable: PropTypes.string.isRequired,
+    activeDroppable: PropTypes.string.isRequired,
     row: PropTypes.string.isRequired,
   }).isRequired,
 };
