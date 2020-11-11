@@ -7,9 +7,15 @@
     overflow-y: scroll;
 }
 
+.tableContainer {
+    width:100%;
+}
+
 .table {
-    width:30%;
-    margin: auto;
+    width: 30%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%)
 }
 
 .row {
@@ -34,27 +40,38 @@
     border: 1px solid black;
     border-radius: 2px;
     padding: 0.2rem;
-    opacity: 0;
+    opacity: 1;
     margin:0;
     background-color: light;
-    position: absolute;
+    position: relative;
     height: 2rem;
     width: 3rem;
-    right: -3rem;
 }
 
-.row:hover > .editButton {
+.buttonContainer {
+    opacity: 0;
+    position: relative;
+    top: 0;
+}
+
+.row:hover > .buttonContainer {
     opacity: 1;
     transition: 0.5s;
 }
 
 .droppable {
     display: none;
-    transition: display 1s;
+    transition: 1s;
     height: 2rem;
     width: 100%;
     border: 1px dotted black;
     border-radius: 5px;
     border-style: dashed;
     border-spacing: 1px;
+}
+
+.activeDroppable {
+    composes: droppable;
+    display: block;
+    transition: 1s;
 }
