@@ -35,14 +35,18 @@ const isStatus2xx = function checkStatusForSuccessfulResponses(status) {
 };
 
 const getMessageWithSubErrors = (message, subErrors) => {
-  const subErrorsText = subErrors
-    .map((subError) => `${subError.object} : ${subError.message}`)
-    .join(', ');
-    // TODO: return message \n subErrors
+  const subErrorsParagraphs = subErrors
+    .map((subError) => (
+      <p key={subError.message}>
+        {subError.object}
+        {' '}
+        {subError.message}
+      </p>
+    ));
   return (
     <>
       <p>{message}</p>
-      <p>{subErrorsText}</p>
+      {subErrorsParagraphs}
     </>
   );
 };
@@ -94,7 +98,7 @@ export const fetchWrapper = async function fetchFromServer(
 
   if (!isStatus2xx(response.status)) {
     if (responseBody.subErrors && responseBody.subErrors.length > 0) {
-      const message = getMessageWithSubErrors(response.message, response.subErrors);
+      const message = getMessageWithSubErrors(responseBody.message, responseBody.subErrors);
       return getError(response.status, message, forceFetch);
     }
     if (responseBody.message) {
