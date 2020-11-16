@@ -1,6 +1,7 @@
 // Dependencies
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import functionalStyle from './functional_style';
 
 // Components
 import DraggableItem from './draggable_item';
@@ -24,7 +25,7 @@ const getReorderedList = (list, draggedFrom, draggedTo) => {
 };
 
 const DraggableList = function ListWithDraggableElementsToSort({
-  items, headers, updateList, getDisplay, styleSheet,
+  items, headers, updateList, DisplayComponent, styleSheet, getName,
 }) {
   const [list, setList] = useState(items);
   const [hovered, setHovered] = useState(-1);
@@ -38,11 +39,15 @@ const DraggableList = function ListWithDraggableElementsToSort({
     updateList(newList);
   }, [list, updateList]);
 
-  const getEmptyDisplay = useCallback(() => <td style={{ height: '2rem' }} />, []);
+  const EmptyDisplay = () => <td style={{ height: '2rem' }} />;
+
+  const commonListProps = {
+    styleSheet, onDrop, setHovered,
+  };
 
   return (
     <div
-      className={styleSheet.tableContainer}
+      style={functionalStyle.tableContainer}
       onDragOver={(event) => event.preventDefault()}
       onDrop={(event) => {
         event.preventDefault();
@@ -51,7 +56,7 @@ const DraggableList = function ListWithDraggableElementsToSort({
         setHovered(-1);
       }}
     >
-      <table className={styleSheet.table}>
+      <table style={functionalStyle.table}>
         <thead>
           <tr>
             {headers.map((header) => (
@@ -63,25 +68,21 @@ const DraggableList = function ListWithDraggableElementsToSort({
           {
             list.map((item, index) => (
               <DraggableItem
-                // TODO: Get keys for this
+                key={getName(item)}
                 item={item}
                 index={index}
-                getDisplay={getDisplay}
-                styleSheet={styleSheet}
-                onDrop={onDrop}
+                DisplayComponent={DisplayComponent}
                 displayDroppable={hovered === index}
-                setHovered={setHovered}
+                {...commonListProps}
               />
             ))
         }
           <DraggableItem
             item={null}
             index={items.length}
-            getDisplay={getEmptyDisplay}
-            styleSheet={styleSheet}
-            onDrop={onDrop}
+            DisplayComponent={EmptyDisplay}
             displayDroppable={hovered === items.length}
-            setHovered={setHovered}
+            {...commonListProps}
           />
         </tbody>
       </table>
@@ -94,15 +95,13 @@ DraggableList.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   headers: PropTypes.arrayOf(PropTypes.string).isRequired,
   updateList: PropTypes.func.isRequired,
-  getDisplay: PropTypes.func,
-  styleSheet: PropTypes.shape({
-    tableContainer: PropTypes.string.isRequired,
-    table: PropTypes.string.isRequired,
-  }).isRequired,
+  DisplayComponent: PropTypes.func.isRequired,
+  getName: PropTypes.func,
+  styleSheet: PropTypes.shape({}).isRequired,
 };
 
 DraggableList.defaultProps = {
-  getDisplay: () => {},
+  getName: (name) => name,
 };
 
 export default DraggableList;

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 // Components
 import BaseInput from './base_input';
 
-export const TextInput = function TestParent({ doDisplayErrors, style, ...props }) {
+export const TextInput = function CreateTextInputAndLabel({ doDisplayErrors, style, ...props }) {
   props.inputStyle = style.input;
   props.inputStyleWithErrors = style.displayError;
   const [displayErrors, setDisplayErrors] = useState(false);
@@ -16,31 +16,35 @@ export const TextInput = function TestParent({ doDisplayErrors, style, ...props 
     }
   }, [doDisplayErrors]);
 
-  props.onBlur = function validateOnBlur() {
+  const onBlur = function validateOnBlur({ value }) {
     if (!displayErrors) {
       setDisplayErrors(true);
+      props.onBlur(value);
     }
   };
 
   props.displayErrors = displayErrors;
 
-  return <BaseInput {...props} style={style} hiddenLabel />;
+  return <BaseInput {...props} style={style} hiddenLabel onBlur={(target) => onBlur(target)} />;
 };
 
 TextInput.propTypes = {
   doDisplayErrors: PropTypes.bool,
+  onBlur: PropTypes.func,
   style: PropTypes.shape({
-    hiddenLabelText: PropTypes.string.isRequired,
-    input: PropTypes.string.isRequired,
-    displayError: PropTypes.string.isRequired,
+    hiddenLabelText: PropTypes.string,
+    input: PropTypes.string,
+    displayError: PropTypes.string,
   }).isRequired,
 };
 
 TextInput.defaultProps = {
   doDisplayErrors: false,
+  onBlur: () => {},
+
 };
 
-export const Checkbox = function TestParent({
+export const Checkbox = function CreateCheckboxAndLabel({
   updateValue, doDisplayErrors, style, ...props
 }) {
   const [displayErrors, setDisplayErrors] = useState(false);
@@ -70,7 +74,7 @@ Checkbox.propTypes = {
   updateValue: PropTypes.func.isRequired,
   doDisplayErrors: PropTypes.bool,
   style: PropTypes.shape({
-    labelText: PropTypes.string.isRequired,
+    labelText: PropTypes.string,
   }).isRequired,
 };
 
