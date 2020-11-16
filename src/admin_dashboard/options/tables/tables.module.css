@@ -1,26 +1,12 @@
 @value colors: "../../../css/colors.module.css";
 @value primary, dark, light, accent from colors;
 
-
-.container {
-    margin:auto;
-    overflow-y: scroll;
-}
-
-.tableContainer {
-    width:100%;
-}
-
-.table {
-    width: 30%;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%)
-}
-
-.row {
-    cursor: pointer;
-    position: relative;
+.loadingContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 92vh;
+    width: 100vw
 }
 
 .cell {
@@ -45,7 +31,6 @@
     background-color: light;
     position: relative;
     height: 2rem;
-    width: 3rem;
 }
 
 .buttonContainer {
@@ -54,24 +39,22 @@
     top: 0;
 }
 
-.row:hover > .buttonContainer {
+.row:hover .buttonContainer {
     opacity: 1;
     transition: 0.5s;
 }
 
 .droppable {
-    display: none;
-    transition: 1s;
     height: 2rem;
     width: 100%;
     border: 1px dotted black;
     border-radius: 5px;
-    border-style: dashed;
-    border-spacing: 1px;
 }
 
-.activeDroppable {
-    composes: droppable;
-    display: block;
-    transition: 1s;
+.hiddenLabelText {
+    display: none;
+}
+
+.input {
+    width: 8rem;
 }

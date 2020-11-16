@@ -6,6 +6,7 @@ import useTimeHandler from 'shared/useTimeHandler';
 import moment from 'moment';
 import { Redirect, useParams } from 'react-router-dom';
 import { useTokenContext } from 'contexts/token_context';
+import { RefreshDailyBookingContextProvider } from './refresh_booking_context';
 
 // Components
 import Header from 'general_components/calendar/header';
@@ -13,7 +14,6 @@ import Bookings from './bookings_table';
 
 // Style sheets
 import style from './daily.module.css';
-import { RefreshDailyBookingContextProvider } from './refresh_booking_context';
 
 const DailyController = function ControlDailyDate() {
   const { date } = useParams();

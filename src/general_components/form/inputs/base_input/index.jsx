@@ -30,10 +30,6 @@ const Input = function CreateInputAndLabel({
     setErrorMessage(patternMessage);
   }
 
-  const reset = () => {
-    setValue(initialValue);
-  };
-
   return (
     <div key={key} className={style.inputGroup}>
       <label
@@ -65,7 +61,7 @@ const Input = function CreateInputAndLabel({
         onBlur={({ target }) => {
           setErrorMessage(target.validationMessage);
           updateValue(target.value, target.name);
-          onBlur(target, () => reset());
+          onBlur(target);
         }}
         onChange={({ target }) => {
           setErrorMessage(target.validationMessage);
@@ -97,12 +93,12 @@ Input.propTypes = {
   onBlur: PropTypes.func,
   onKeyDown: PropTypes.func,
   style: PropTypes.shape({
-    hiddenLabelText: PropTypes.string.isRequired,
-    labelText: PropTypes.string.isRequired,
-    inputGroup: PropTypes.string.isRequired,
-    input: PropTypes.string.isRequired,
-    displayError: PropTypes.string.isRequired,
-    errorText: PropTypes.string.isRequired,
+    hiddenLabelText: PropTypes.string,
+    labelText: PropTypes.string,
+    inputGroup: PropTypes.string,
+    input: PropTypes.string,
+    displayError: PropTypes.string,
+    errorText: PropTypes.string,
   }).isRequired,
 };
 
