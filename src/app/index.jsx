@@ -8,6 +8,7 @@ import AdminLogin from '../admin_login';
 import AdminDashboard from '../admin_dashboard';
 // import AuthorizationWrapper from '../authorization_wrapper';
 import { TokenContextProvider } from '../contexts/token_context';
+import { OverlayContextProvider } from '../contexts/overlay_context';
 
 // CSS
 import style from './app.module.css';
@@ -26,37 +27,39 @@ function App() {
   return (
     <TokenContextProvider>
       <BannerContextProvider>
-        <Switch className={style.app}>
-          <Route path="/admin-login" component={AdminLogin} />
-          <Route
-            path="/admin"
-            render={() => (
-            // NOTE: Temporarily disabled route protection, re-enable after development
-            // <AuthorizationWrapper>
-              <AdminDashboard />
-            // </AuthorizationWrapper>
-            )}
-          />
-          <Route
-            render={() => (
-              <>
-                <div className={textOpacity}>
-                  <Link
-                    to="/calendar"
-                    data-testid="opening-link-calendar"
-                    className={style.text}
-                    onClick={() => setOverlayDisplay(!displayOverlay)}
-                  >
-                    Click here to make a reservation
-                  </Link>
-                </div>
-                {displayOverlay && (
-                <OverlayWindow closeOverlay={() => setOverlayDisplay(!displayOverlay)} />
-                )}
-              </>
-            )}
-          />
-        </Switch>
+        <OverlayContextProvider>
+          <Switch className={style.app}>
+            <Route path="/admin-login" component={AdminLogin} />
+            <Route
+              path="/admin"
+              render={() => (
+                // NOTE: Temporarily disabled route protection, re-enable after development
+                // <AuthorizationWrapper>
+                <AdminDashboard />
+                // </AuthorizationWrapper>
+              )}
+            />
+            <Route
+              render={() => (
+                <>
+                  <div className={textOpacity}>
+                    <Link
+                      to="/calendar"
+                      data-testid="opening-link-calendar"
+                      className={style.text}
+                      onClick={() => setOverlayDisplay(!displayOverlay)}
+                    >
+                      Click here to make a reservation
+                    </Link>
+                  </div>
+                  {displayOverlay && (
+                  <OverlayWindow closeOverlay={() => setOverlayDisplay(!displayOverlay)} />
+                  )}
+                </>
+              )}
+            />
+          </Switch>
+        </OverlayContextProvider>
       </BannerContextProvider>
     </TokenContextProvider>
   );
