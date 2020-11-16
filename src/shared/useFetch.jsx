@@ -34,6 +34,19 @@ const isStatus2xx = function checkStatusForSuccessfulResponses(status) {
   return (status >= 200 && status < 300);
 };
 
+const getMessageWithSubErrors = (message, subErrors) => {
+  const subErrorsText = subErrors
+    .map((subError) => `${subError.object} : ${subError.message}`)
+    .join(', ');
+    // TODO: return message \n subErrors
+  return (
+    <>
+      <p>{message}</p>
+      <p>{subErrorsText}</p>
+    </>
+  );
+};
+
 export const fetchWrapper = async function fetchFromServer(
   path,
   // Defaults: an object that contains an empty header object, and a 'GET' method
@@ -81,8 +94,7 @@ export const fetchWrapper = async function fetchFromServer(
 
   if (!isStatus2xx(response.status)) {
     if (responseBody.subErrors && responseBody.subErrors.length > 0) {
-      const subErrors = responseBody.subErrors.map((subError) => `${subError.object} : ${subError.message}`);
-      const message = subErrors.join(', ');
+      const message = getMessageWithSubErrors(response.message, response.subErrors);
       return getError(response.status, message, forceFetch);
     }
     if (responseBody.message) {
