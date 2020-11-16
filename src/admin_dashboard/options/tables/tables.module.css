@@ -129,8 +129,10 @@
     border-bottom: 2px solid red;
 }
 
-.activeDroppable {
-    composes: droppable;
-    display: block;
-    transition: 1s;
+.hiddenLabelText {
+    display: none;
+}
+
+.input {
+    width: 8rem;
 }

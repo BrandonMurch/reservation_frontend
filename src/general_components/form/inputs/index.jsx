@@ -19,6 +19,7 @@ export const TextInput = function CreateTextInputAndLabel({ doDisplayErrors, sty
   const onBlur = function validateOnBlur({ value }) {
     if (!displayErrors) {
       setDisplayErrors(true);
+      props.onBlur(value);
     }
     props.onBlur(value);
   };

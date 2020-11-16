@@ -1,5 +1,4 @@
 const functionalStyle = {
-
   row: {
     cursor: 'pointer',
     position: 'relative',
