@@ -2,10 +2,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import useFetch from 'shared/useFetch';
+import { useOverlayContext } from 'contexts/overlay_context';
 
 // Components
 import DraggableList from 'general_components/draggable_list';
 import { TextInput } from 'general_components/form/inputs';
+import Confirmation from 'admin_dashboard/daily/bookings_table/booking_overlay/confirmation';
+import OverlayContainer from 'admin_dashboard/daily/bookings_table/booking_overlay/overlay_container';
 
 // Stylesheets
 import style from './tables.module.css';
@@ -37,14 +40,17 @@ TableInput.propTypes = {
 };
 
 const deleteTable = () => {
-  // TODO: display confirmation error, reallocating tables, may take a few minutes
+  // TODO: display tables that have not been reallocated in a permanent message.
+
   console.log('deleted');
 };
 
 const DisplayComponent = function ComponentToDisplayInsideDraggableList({ item: table }) {
+  const setOverlay = useOverlayContext();
   const [displayEditInput, setDisplayEditInput] = useState(false);
   return (
     <>
+
       <td className={style.cell}>{table.name}</td>
 
       <td className={style.cell}>
@@ -61,8 +67,34 @@ const DisplayComponent = function ComponentToDisplayInsideDraggableList({ item: 
 
       </td>
       <td className={style.buttonContainer}>
-        <button className={style.editButton} onClick={() => setDisplayEditInput((current) => !current)} type="button">Edit</button>
-        <button className={style.editButton} type="button" onClick={deleteTable}>Delete</button>
+        <button
+          className={style.editButton}
+          onClick={() => setDisplayEditInput((current) => !current)}
+          type="button"
+        >
+          Edit
+        </button>
+        <button
+          className={style.editButton}
+          type="button"
+          onClick={() => {
+            setOverlay(
+              <OverlayContainer exit={() => setOverlay(null)}>
+                <Confirmation
+                  message="Deleting a table requires all bookings be allocated a new table. \n This may take a few minutes \n Are you sure you wish to continue?"
+                  confirm={() => {
+                    deleteTable(table);
+                    setOverlay(null);
+                  }}
+                  cancel={() => setOverlay(null)}
+                />
+              </OverlayContainer>
+              ,
+            );
+          }}
+        >
+          Delete
+        </button>
       </td>
     </>
   );
