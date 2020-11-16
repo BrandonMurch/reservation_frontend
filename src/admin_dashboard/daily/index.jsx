@@ -32,7 +32,7 @@ const Daily = function DisplayDailyReservations({ dateObject, dispatchDate }) {
   const path = `/bookings?date=${dateString}`;
   const [fetchToggle, toggleFetch] = useState(false);
   const { alternativeRender, response, status } = useFetch(path, { headers: { authorization: `Bearer: ${token}` } }, fetchToggle);
-  if (status >= 400 && status < 500) {
+  if (status === 401) {
     return <Redirect to="/admin-login" />;
   }
   if (alternativeRender) {
