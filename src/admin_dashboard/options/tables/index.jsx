@@ -1,14 +1,17 @@
 // Dependencies
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import useFetch from 'shared/useFetch';
+import useFetch, { fetchWrapper } from 'shared/useFetch';
 import { useOverlayContext } from 'contexts/overlay_context';
+import { useTokenContext } from 'contexts/token_context';
+import { useBannerContext, bannerTypes } from 'contexts/banner_context';
 
 // Components
 import DraggableList from 'general_components/draggable_list';
 import { TextInput } from 'general_components/form/inputs';
 import Confirmation from 'admin_dashboard/daily/bookings_table/booking_overlay/confirmation';
 import OverlayContainer from 'admin_dashboard/daily/bookings_table/booking_overlay/overlay_container';
+import Loading from 'general_components/loading';
 
 // Stylesheets
 import style from './tables.module.css';
@@ -109,6 +112,8 @@ DisplayComponent.propTypes = {
 
 const TableList = function RestaurantTableList() {
   const { response, alternativeRender } = useFetch('/restaurant/tables');
+  const setOverlay = useOverlayContext();
+  const setBanner = useBannerContext();
 
   if (alternativeRender) {
     return (
@@ -118,9 +123,24 @@ const TableList = function RestaurantTableList() {
     );
   }
 
-  const updateList = () => {
-    console.log('updated');
-    // TODO: loop through list, change priority to match the index, send list to server
+  const updatePriorities = function loopThroughTablesChangePriorityToReflectPosition(tables) {
+    tables.forEach((table, index) => { table.priority = index; });
+  };
+
+  const submitUpdate = async function submitNewTablePrioritiesToServer(tables) {
+    const {
+      error, loading,
+    } = await fetchWrapper('/restaurant/tables', {
+      method: 'PUT',
+      authorization: `Bearer: ${useTokenContext.getToken}`,
+      body: JSON.stringify(tables),
+    });
+
+    if (loading) {
+      setOverlay(<div className={style.loadingContainer}><Loading size="large" /></div>);
+    } else if (error) {
+      setBanner(bannerTypes.ERROR, error);
+    }
   };
 
   return (
@@ -131,7 +151,10 @@ const TableList = function RestaurantTableList() {
         items={response}
         headers={['Name', 'Seats']}
         DisplayComponent={DisplayComponent}
-        updateList={updateList}
+        updateList={(tables) => {
+          updatePriorities(tables);
+          submitUpdate(tables);
+        }}
       />
     </>
   );
