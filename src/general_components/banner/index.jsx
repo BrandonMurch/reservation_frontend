@@ -20,7 +20,7 @@ Banner.propTypes = {
   type: PropTypes.shape({
     value: PropTypes.string.isRequired,
   }),
-  message: PropTypes.shape({}).isRequired,
+  message: PropTypes.string.isRequired,
 };
 
 Banner.defaultProps = {
