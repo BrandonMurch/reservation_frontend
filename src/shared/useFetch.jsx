@@ -35,20 +35,9 @@ const isStatus2xx = function checkStatusForSuccessfulResponses(status) {
 };
 
 const getMessageWithSubErrors = (message, subErrors) => {
-  const subErrorsParagraphs = subErrors
-    .map((subError) => (
-      <p key={subError.message}>
-        {subError.object}
-        {' '}
-        {subError.message}
-      </p>
-    ));
-  return (
-    <>
-      <p>{message}</p>
-      {subErrorsParagraphs}
-    </>
-  );
+  const subErrorsToString = subErrors.map((subError) => `${subError.object} ${subError.message}`);
+  const subErrorsWithNewLines = subErrorsToString.join('\n');
+  return `${message}\n${subErrorsWithNewLines}`;
 };
 
 export const fetchWrapper = async function fetchFromServer(
