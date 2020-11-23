@@ -6,19 +6,30 @@
     top: 0;
     left: 0;
     height: 92vh;
-    width: 100vw
+    width: 100vw;
+    background-color: rgba(40, 40, 40, 0.5);
+}
+
+.tableContainer {
+    width: 100%;
+}
+
+.table {
+    width: 40%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-40%);
+    overflow: auto;
 }
 
 .cell {
-    height: 1rem;
     background: light;
     text-align: center;
     padding: 0 0.5rem;
-    height: 2rem;
-    width:50%;
+    min-height: 1rem;
+    width:35%;
     box-sizing: border-box;
 }
-
 
 .editButton {
     composes: button from '../../../css/project_globals.module.css';
@@ -39,6 +50,10 @@
     top: 0;
 }
 
+.displayButtonContainer {
+    opacity: 1;
+}
+
 .row:hover .buttonContainer {
     opacity: 1;
     transition: 0.5s;
@@ -57,4 +72,13 @@
 
 .input {
     width: 8rem;
+    margin: 0.5rem;
+}
+
+.displayError {
+    composes: input;
+}
+
+.displayError:invalid {
+    border: 2px solid red;
 }

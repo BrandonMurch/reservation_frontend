@@ -1,7 +1,6 @@
 // Dependencies
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import functionalStyle from './functional_style';
 
 // Components
 import DraggableItem from './draggable_item';
@@ -25,7 +24,7 @@ const getReorderedList = (list, draggedFrom, draggedTo) => {
 };
 
 const DraggableList = function ListWithDraggableElementsToSort({
-  items, headers, updateList, DisplayComponent, styleSheet, getName,
+  items, headers, updateList, DisplayComponent, styleSheet, getName, AddComponent,
 }) {
   const [list, setList] = useState(items);
   const [hovered, setHovered] = useState(-1);
@@ -47,7 +46,7 @@ const DraggableList = function ListWithDraggableElementsToSort({
 
   return (
     <div
-      style={functionalStyle.tableContainer}
+      className={styleSheet.tableContainer}
       onDragOver={(event) => event.preventDefault()}
       onDrop={(event) => {
         event.preventDefault();
@@ -56,7 +55,7 @@ const DraggableList = function ListWithDraggableElementsToSort({
         setHovered(-1);
       }}
     >
-      <table style={functionalStyle.table}>
+      <table className={styleSheet.table}>
         <thead>
           <tr>
             {headers.map((header) => (
@@ -84,6 +83,9 @@ const DraggableList = function ListWithDraggableElementsToSort({
             displayDroppable={hovered === items.length}
             {...commonListProps}
           />
+          <tr className={styleSheet.row}>
+            <AddComponent />
+          </tr>
         </tbody>
       </table>
     </div>
@@ -97,7 +99,12 @@ DraggableList.propTypes = {
   updateList: PropTypes.func.isRequired,
   DisplayComponent: PropTypes.func.isRequired,
   getName: PropTypes.func,
-  styleSheet: PropTypes.shape({}).isRequired,
+  styleSheet: PropTypes.shape({
+    table: PropTypes.string.isRequired,
+    row: PropTypes.string.isRequired,
+    tableContainer: PropTypes.string.isRequired,
+  }).isRequired,
+  AddComponent: PropTypes.element.isRequired,
 };
 
 DraggableList.defaultProps = {
