@@ -11,7 +11,7 @@ export const bannerTypes = enumeration.singleValue('SUCCESS', 'ERROR', 'STANDARD
 const Banner = function InformationBannerTopOfPage({ type, message }) {
   return (
     <div className={style[type.value]} role="banner">
-      <p style={{ whiteSpace: 'pre' }}>{message}</p>
+      <p style={{ whiteSpace: 'break-spaces' }}>{message}</p>
     </div>
   );
 };

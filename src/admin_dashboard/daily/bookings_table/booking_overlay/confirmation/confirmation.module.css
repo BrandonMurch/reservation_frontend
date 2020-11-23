@@ -15,4 +15,5 @@
     composes: text from '../../../../../css/project_globals.module.css';
     color: dark;
     font-weight: bold;
+    white-space: break-spaces;
 }
