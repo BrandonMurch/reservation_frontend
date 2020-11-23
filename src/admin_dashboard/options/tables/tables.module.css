@@ -135,4 +135,13 @@
 
 .input {
     width: 8rem;
+    margin: 0.5rem;
+}
+
+.displayError {
+    composes: input;
+}
+
+.displayError:invalid {
+    border: 2px solid red;
 }
