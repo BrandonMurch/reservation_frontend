@@ -85,7 +85,6 @@ const NewUser = function PopulateContactForm(props) {
         </button>
       </p>
       <Form
-        setFormDisplay={setFormDisplay}
         submitLabel="Next"
         onCheckboxClick={(name, value) => onCheckboxClick(name, value)}
         inputs={inputs}
