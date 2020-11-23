@@ -104,7 +104,7 @@ DraggableList.propTypes = {
     row: PropTypes.string.isRequired,
     tableContainer: PropTypes.string.isRequired,
   }).isRequired,
-  AddComponent: PropTypes.element.isRequired,
+  AddComponent: PropTypes.func.isRequired,
 };
 
 DraggableList.defaultProps = {
