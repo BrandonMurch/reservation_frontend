@@ -1,0 +1,268 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TableList /> should match snapshot 1`] = `
+<div
+  className="tableContainer"
+  onDragOver={[Function]}
+  onDrop={[Function]}
+>
+  <div
+    className="table"
+  >
+    <div>
+      <h2
+        className="header"
+      >
+        Name
+      </h2>
+      <h2
+        className="header"
+      >
+        Seats
+      </h2>
+    </div>
+    <ul
+      className="list"
+    >
+      <li
+        className="droppable"
+        onDragOver={[Function]}
+        onDrop={[Function]}
+        style={
+          Object {
+            "display": "none",
+          }
+        }
+      />
+      <li
+        className="row"
+        data-position={0}
+        draggable={true}
+        id="table 0"
+        onDragEnter={[Function]}
+        onDragOver={[Function]}
+        onDragStart={[Function]}
+        onDrop={[Function]}
+        style={
+          Object {
+            "cursor": "pointer",
+            "position": "relative",
+          }
+        }
+      >
+        <div
+          className="itemContainer"
+        >
+          <div
+            className="itemBackground"
+          >
+            <div
+              className="item"
+            >
+              21
+            </div>
+            <div
+              className="item"
+            >
+              2
+            </div>
+          </div>
+          <button
+            className="editButton"
+            onClick={[Function]}
+            type="button"
+          >
+            Edit
+          </button>
+          <button
+            className="deleteButton"
+            onClick={[Function]}
+            type="button"
+          >
+            Delete
+          </button>
+        </div>
+      </li>
+      <li
+        className="droppable"
+        onDragOver={[Function]}
+        onDrop={[Function]}
+        style={
+          Object {
+            "display": "none",
+          }
+        }
+      />
+      <li
+        className="row"
+        data-position={1}
+        draggable={true}
+        id="table 1"
+        onDragEnter={[Function]}
+        onDragOver={[Function]}
+        onDragStart={[Function]}
+        onDrop={[Function]}
+        style={
+          Object {
+            "cursor": "pointer",
+            "position": "relative",
+          }
+        }
+      >
+        <div
+          className="itemContainer"
+        >
+          <div
+            className="itemBackground"
+          >
+            <div
+              className="item"
+            >
+              22
+            </div>
+            <div
+              className="item"
+            >
+              4
+            </div>
+          </div>
+          <button
+            className="editButton"
+            onClick={[Function]}
+            type="button"
+          >
+            Edit
+          </button>
+          <button
+            className="deleteButton"
+            onClick={[Function]}
+            type="button"
+          >
+            Delete
+          </button>
+        </div>
+      </li>
+      <li
+        className="droppable"
+        onDragOver={[Function]}
+        onDrop={[Function]}
+        style={
+          Object {
+            "display": "none",
+          }
+        }
+      />
+      <li
+        className="row"
+        data-position={2}
+        draggable={true}
+        id="table 2"
+        onDragEnter={[Function]}
+        onDragOver={[Function]}
+        onDragStart={[Function]}
+        onDrop={[Function]}
+        style={
+          Object {
+            "cursor": "pointer",
+            "position": "relative",
+          }
+        }
+      >
+        <div
+          data-testid="endOfList"
+          style={
+            Object {
+              "height": "2rem",
+            }
+          }
+        />
+      </li>
+      <div
+        className="row"
+      >
+        <div
+          className="itemContainer"
+          onBlur={[Function]}
+        >
+          <div
+            className="itemBackground"
+          >
+            <div
+              className="item"
+            >
+              <div
+                className="inputGroup"
+              >
+                <label
+                  className="hiddenLabelText"
+                  htmlFor="name"
+                >
+                  Name
+                </label>
+                <input
+                  className="input"
+                  id="name"
+                  name="name"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
+                  pattern={null}
+                  placeholder="Name"
+                  required={true}
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+            <div
+              className="item"
+            >
+              <div
+                className="inputGroup"
+              >
+                <label
+                  className="hiddenLabelText"
+                  htmlFor="numberOfSeats"
+                >
+                  Seats
+                </label>
+                <input
+                  className="input"
+                  id="numberOfSeats"
+                  name="numberOfSeats"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onMouseEnter={[Function]}
+                  onMouseLeave={[Function]}
+                  pattern={null}
+                  placeholder="Seats"
+                  required={true}
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
+          <button
+            className="addButton"
+            onClick={[Function]}
+            style={
+              Object {
+                "opacity": 0,
+              }
+            }
+            type="button"
+          >
+            Add Table
+          </button>
+        </div>
+      </div>
+    </ul>
+  </div>
+</div>
+`;
