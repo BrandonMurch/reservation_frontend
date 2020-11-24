@@ -21,7 +21,7 @@ const Dashboard = function AdminDashboard() {
       </Nav>
       <Switch>
         <Route exact path="/admin/monthly" component={Monthly} />
-        <Route path="/admin/daily/:date?" component={Daily} />
+        <Route path="/admin/daily" component={Daily} />
       </Switch>
     </div>
   );

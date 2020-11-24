@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import useFetch from 'shared/useFetch';
 import useTimeHandler from 'shared/useTimeHandler';
 import moment from 'moment';
-import { Redirect, useParams } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { useTokenContext } from 'contexts/token_context';
 
 // Components
@@ -15,24 +15,33 @@ import Bookings from './bookings_table';
 import style from './daily.module.css';
 import { RefreshDailyBookingContextProvider } from './refresh_booking_context';
 
-const DailyController = function ControlDailyDate() {
-  const { date } = useParams();
+const DailyController = function ControlDailyDate({ location }) {
+  const dateQuery = location.search;
+  const date = dateQuery
+    ? dateQuery.match(/(\?date=)(.*)$/)[2]
+    : moment();
   const timeHandler = useTimeHandler(date);
   const dateString = timeHandler.dateObject.format('yyyy-MM-DD');
   if (date !== dateString) {
-    return <Redirect to={`/admin/daily/${dateString}`} />;
+    return <Redirect to={`/admin/daily?date=${dateString}`} />;
   }
 
   return <Daily {...timeHandler} />;
 };
 
-const Daily = function DisplayDailyReservations({ dateObject, dispatchDate }) {
+DailyController.propTypes = {
+  location: PropTypes.shape({
+    search: PropTypes.string,
+  }).isRequired,
+};
+
+export const Daily = function DisplayDailyReservations({ dateObject, dispatchDate }) {
   const token = useTokenContext.getToken;
   const dateString = dateObject.format('yyyy-MM-DD');
   const path = `/bookings?date=${dateString}`;
   const [fetchToggle, toggleFetch] = useState(false);
   const { alternativeRender, response, status } = useFetch(path, { headers: { authorization: `Bearer: ${token}` } }, fetchToggle);
-  if (status >= 400 && status < 500) {
+  if (status === 401) {
     return <Redirect to="/admin-login" />;
   }
   if (alternativeRender) {
