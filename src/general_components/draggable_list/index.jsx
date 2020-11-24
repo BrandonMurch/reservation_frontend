@@ -24,9 +24,9 @@ const getReorderedList = (list, draggedFrom, draggedTo) => {
 };
 
 const DraggableList = function ListWithDraggableElementsToSort({
-  items, headers, updateList, DisplayComponent, styleSheet, getName, AddComponent,
+  items, Headers, updateList, DisplayComponent, styleSheet: style, getName, AddComponent,
 }) {
-  const [list, setList] = useState(items);
+  const [list, setList] = useState([...items]);
   const [hovered, setHovered] = useState(-1);
 
   const onDrop = useCallback((event, to) => {
@@ -38,15 +38,15 @@ const DraggableList = function ListWithDraggableElementsToSort({
     updateList(newList);
   }, [list, updateList]);
 
-  const EmptyDisplay = () => <td style={{ height: '2rem' }} />;
+  const EmptyDisplay = () => <div data-testid="endOfList" style={{ height: '2rem' }} />;
 
   const commonListProps = {
-    styleSheet, onDrop, setHovered,
+    styleSheet: style, onDrop, setHovered,
   };
 
   return (
     <div
-      className={styleSheet.tableContainer}
+      className={style.tableContainer}
       onDragOver={(event) => event.preventDefault()}
       onDrop={(event) => {
         event.preventDefault();
@@ -55,15 +55,11 @@ const DraggableList = function ListWithDraggableElementsToSort({
         setHovered(-1);
       }}
     >
-      <table className={styleSheet.table}>
-        <thead>
-          <tr>
-            {headers.map((header) => (
-              <th key={header}>{header}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
+      <div className={style.table}>
+        <div>
+          <Headers />
+        </div>
+        <ul className={style.list}>
           {
             list.map((item, index) => (
               <DraggableItem
@@ -78,16 +74,16 @@ const DraggableList = function ListWithDraggableElementsToSort({
         }
           <DraggableItem
             item={null}
-            index={items.length}
+            index={list.length}
             DisplayComponent={EmptyDisplay}
-            displayDroppable={hovered === items.length}
+            displayDroppable={hovered === list.length}
             {...commonListProps}
           />
-          <tr className={styleSheet.row}>
+          <div className={style.row}>
             <AddComponent />
-          </tr>
-        </tbody>
-      </table>
+          </div>
+        </ul>
+      </div>
     </div>
 
   );
@@ -95,7 +91,7 @@ const DraggableList = function ListWithDraggableElementsToSort({
 
 DraggableList.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  headers: PropTypes.arrayOf(PropTypes.string).isRequired,
+  Headers: PropTypes.func.isRequired,
   updateList: PropTypes.func.isRequired,
   DisplayComponent: PropTypes.func.isRequired,
   getName: PropTypes.func,
@@ -103,12 +99,17 @@ DraggableList.propTypes = {
     table: PropTypes.string.isRequired,
     row: PropTypes.string.isRequired,
     tableContainer: PropTypes.string.isRequired,
-  }).isRequired,
+  }),
   AddComponent: PropTypes.func.isRequired,
 };
 
 DraggableList.defaultProps = {
   getName: (name) => name,
+  styleSheet: {
+    table: 'Table',
+    row: 'Row',
+    tableContainer: 'TableContainer',
+  },
 };
 
 export default DraggableList;

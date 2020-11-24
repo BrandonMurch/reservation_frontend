@@ -1,0 +1,135 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DraggableList /> should match snapshot 1`] = `
+<div
+  className="TableContainer"
+  onDragOver={[Function]}
+  onDrop={[Function]}
+>
+  <div
+    className="Table"
+  >
+    <div>
+      <h2>
+        Name
+      </h2>
+      <h2>
+        Gender
+      </h2>
+    </div>
+    <ul>
+      <li
+        onDragOver={[Function]}
+        onDrop={[Function]}
+        style={
+          Object {
+            "display": "none",
+          }
+        }
+      />
+      <li
+        className="Row"
+        data-position={0}
+        draggable={true}
+        id="table 0"
+        onDragEnter={[Function]}
+        onDragOver={[Function]}
+        onDragStart={[Function]}
+        onDrop={[Function]}
+        style={
+          Object {
+            "cursor": "pointer",
+            "position": "relative",
+          }
+        }
+      >
+        <div>
+          <h1>
+            George
+          </h1>
+          <h1>
+            male
+          </h1>
+        </div>
+      </li>
+      <li
+        onDragOver={[Function]}
+        onDrop={[Function]}
+        style={
+          Object {
+            "display": "none",
+          }
+        }
+      />
+      <li
+        className="Row"
+        data-position={1}
+        draggable={true}
+        id="table 1"
+        onDragEnter={[Function]}
+        onDragOver={[Function]}
+        onDragStart={[Function]}
+        onDrop={[Function]}
+        style={
+          Object {
+            "cursor": "pointer",
+            "position": "relative",
+          }
+        }
+      >
+        <div>
+          <h1>
+            Sarah
+          </h1>
+          <h1>
+            female
+          </h1>
+        </div>
+      </li>
+      <li
+        onDragOver={[Function]}
+        onDrop={[Function]}
+        style={
+          Object {
+            "display": "none",
+          }
+        }
+      />
+      <li
+        className="Row"
+        data-position={2}
+        draggable={true}
+        id="table 2"
+        onDragEnter={[Function]}
+        onDragOver={[Function]}
+        onDragStart={[Function]}
+        onDrop={[Function]}
+        style={
+          Object {
+            "cursor": "pointer",
+            "position": "relative",
+          }
+        }
+      >
+        <div
+          data-testid="endOfList"
+          style={
+            Object {
+              "height": "2rem",
+            }
+          }
+        />
+      </li>
+      <div
+        className="Row"
+      >
+        <button
+          type="button"
+        >
+          Add
+        </button>
+      </div>
+    </ul>
+  </div>
+</div>
+`;
