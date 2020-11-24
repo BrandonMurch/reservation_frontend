@@ -47,6 +47,7 @@ export const Daily = function DisplayDailyReservations({ dateObject, dispatchDat
   if (alternativeRender) {
     return alternativeRender;
   }
+
   return (
     <RefreshDailyBookingContextProvider refreshFunction={() => toggleFetch(!fetchToggle)}>
       <div className={style.container}>
