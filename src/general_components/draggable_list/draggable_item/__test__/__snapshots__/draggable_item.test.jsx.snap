@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DraggableItem /> should match snapshot 1`] = `
+Array [
+  <li
+    className="droppable"
+    onDragOver={[Function]}
+    onDrop={[Function]}
+    style={
+      Object {
+        "display": "block",
+      }
+    }
+  />,
+  <li
+    className="row"
+    data-position={0}
+    draggable={true}
+    id="table 0"
+    onDragEnter={[Function]}
+    onDragOver={[Function]}
+    onDragStart={[Function]}
+    onDrop={[Function]}
+    style={
+      Object {
+        "cursor": "pointer",
+        "position": "relative",
+      }
+    }
+  >
+    <h2>
+      Hello World
+    </h2>
+  </li>,
+]
+`;
