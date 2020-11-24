@@ -69,12 +69,15 @@ DraggableItem.propTypes = {
   styleSheet: PropTypes.shape({
     droppable: PropTypes.string,
     row: PropTypes.string,
-  }).isRequired,
+  }),
 };
 
 DraggableItem.defaultProps = {
-  // getDisplay: () => {},
   item: {},
+  styleSheet: {
+    droppable: 'droppable',
+    row: 'row',
+  },
 };
 
 export default DraggableItem;
