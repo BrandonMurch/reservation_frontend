@@ -33,7 +33,7 @@ const DraggableItem = React.memo(({
 
   return (
     <>
-      <tr
+      <li
         style={displayDroppable
           ? functionalStyle.activeDroppable
           : functionalStyle.droppable}
@@ -41,7 +41,7 @@ const DraggableItem = React.memo(({
         onDragOver={onDragOver}
         onDrop={onDrop}
       />
-      <tr
+      <li
         className={styleSheet.row}
         style={functionalStyle.row}
         ref={itemRef}
@@ -54,7 +54,7 @@ const DraggableItem = React.memo(({
         onDrop={onDrop}
       >
         <DisplayComponent item={item} />
-      </tr>
+      </li>
     </>
   );
 });
@@ -67,8 +67,8 @@ DraggableItem.propTypes = {
   setHovered: PropTypes.func.isRequired,
   displayDroppable: PropTypes.bool.isRequired,
   styleSheet: PropTypes.shape({
-    droppable: PropTypes.string.isRequired,
-    row: PropTypes.string.isRequired,
+    droppable: PropTypes.string,
+    row: PropTypes.string,
   }).isRequired,
 };
 
