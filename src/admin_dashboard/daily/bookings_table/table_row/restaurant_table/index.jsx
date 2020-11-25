@@ -64,11 +64,10 @@ const getTableString = function getStringOfTableNamesFromArray(tables) {
   return tableNames.match('(.+)(, )')[1];
 };
 
-const RestaurantTable = function InputBoxForTableInBooking({ booking }) {
-  const { refresh } = useRefreshContext();
+const FetchTableWrapper = (props) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [overlay, setOverlay] = useState(null);
   const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
   const { loading, response: tableList } = useFetch('/restaurant/tables');
   if (loading || isLoading) {
@@ -82,16 +81,33 @@ const RestaurantTable = function InputBoxForTableInBooking({ booking }) {
     );
   }
 
+  return (
+    <>
+      {overlay}
+      <RestaurantTable
+        {...props}
+        setOverlay={setOverlay}
+        errorState={{ error, setError }}
+        setIsLoading={setIsLoading}
+        tableList={tableList}
+      />
+    </>
+  );
+};
+
+const RestaurantTable = function InputBoxForTableInBooking({
+  booking, setIsLoading, tableList, setOverlay, errorState,
+}) {
+  const { error, setError } = errorState;
+  const { refresh } = useRefreshContext();
+
   const tableString = getTableString(booking.tables);
-  const inputClass = error ? style.errorTableInput : style.tableInput;
   const filter = (suggestion, input) => (
     suggestion.name.indexOf(input) > -1 && suggestion.seats >= booking.partySize
   );
-  const display = (suggestion) => suggestion.name;
 
   return (
     <div className={style.container}>
-      {overlay}
       <AutoCompleteInput
         key={tableString}
         style={style}
@@ -101,8 +117,8 @@ const RestaurantTable = function InputBoxForTableInBooking({ booking }) {
         name="table"
         type="text"
         filter={filter}
-        display={display}
-        className={inputClass}
+        display={(suggestion) => suggestion.name}
+        className={error ? style.errorTableInput : style.tableInput}
         value={tableString}
         onFocus={() => setError('')}
         onBlur={async ({ value: tables }) => {
@@ -125,6 +141,18 @@ const RestaurantTable = function InputBoxForTableInBooking({ booking }) {
 };
 
 RestaurantTable.propTypes = {
+  setOverlay: PropTypes.func.isRequired,
+  errorState: PropTypes.shape({
+    error: PropTypes.string,
+    setError: PropTypes.func,
+  }).isRequired,
+  tableList: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      seats: PropTypes.number.isRequired,
+    }).isRequired,
+  ).isRequired,
+  setIsLoading: PropTypes.func.isRequired,
   booking: PropTypes.shape({
     partySize: PropTypes.number.isRequired,
     tables: PropTypes.arrayOf(
@@ -136,4 +164,4 @@ RestaurantTable.propTypes = {
   }).isRequired,
 };
 
-export default RestaurantTable;
+export default FetchTableWrapper;
