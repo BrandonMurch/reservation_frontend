@@ -56,7 +56,7 @@ describe('<RestaurantTable />', () => {
     userEvent.type(input, 'a');
     fireEvent.blur(input);
 
-    await waitForElementToBeRemoved(() => screen.queryByRole('presentation'));
+    await waitForElementToBeRemoved(() => screen.queryByLabelText('loading'));
     expect(fetchSpy).toHaveBeenCalledTimes(2);
   });
 });
