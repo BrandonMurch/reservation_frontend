@@ -17,7 +17,7 @@ exports[`<BookingOverlay /> should match snapshot 1`] = `
       <button
         className="exitButton"
         label="Exit Edit Window"
-        onClick={[MockFunction]}
+        onClick={[Function]}
         type="button"
       >
         X

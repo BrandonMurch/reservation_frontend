@@ -1,7 +1,7 @@
 // Dependencies
 import React from 'react';
 import {
-  render, fireEvent, screen, act,
+  render, fireEvent, screen, cleanup, wait,
 } from '@testing-library/react';
 import { create } from 'react-test-renderer';
 import types from '../window_types';
@@ -10,40 +10,38 @@ import types from '../window_types';
 import BookingOverlay from '../index';
 import userEvent from '@testing-library/user-event';
 import { BannerContextProvider } from 'contexts/banner_context';
+import { mockFetch } from 'test_utils';
 
 describe('<BookingOverlay />', () => {
-  let props;
   let banner;
-
-  const buildComponent = () => {
-    banner = jest.fn();
-    return render(
-      <BannerContextProvider value={banner}>
-        <BookingOverlay {...props} />
-
-      </BannerContextProvider>,
-    );
+  let exit;
+  const props = {
+    entryWindow: types.DELETE,
+    date: '2020-10-24',
+    booking: {
+      id: 20,
+      startTime: '2020-10-24T20:00',
+      partySize: 2,
+      user: {
+        firstName: 'name',
+      },
+    },
   };
+
+  let getComponentUnderTest;
 
   beforeEach(async () => {
     jest
       .spyOn(global.console, 'error')
       .mockImplementation(() => {});
-
-    props = {
-      exit: jest.fn(),
-      entryWindow: types.DELETE,
-      date: '2020-10-24',
-      booking: {
-        id: 20,
-        startTime: '2020-10-24T20:00',
-        partySize: 2,
-        user: {
-          firstName: 'name',
-        },
-      },
-    };
-    buildComponent();
+    banner = jest.fn();
+    exit = jest.fn();
+    getComponentUnderTest = () => (
+      <BannerContextProvider value={banner}>
+        <BookingOverlay {...props} exit={exit} />
+      </BannerContextProvider>
+    );
+    render(getComponentUnderTest());
   });
 
   afterEach(() => {
@@ -52,7 +50,7 @@ describe('<BookingOverlay />', () => {
 
   it('should match snapshot', () => {
     const tree = create(
-      <BookingOverlay {...props} />,
+      <BookingOverlay {...props} exit={exit} />,
     ).toJSON();
     expect(tree).toMatchSnapshot();
   });
@@ -62,37 +60,42 @@ describe('<BookingOverlay />', () => {
     expect(exitButton).toBeInTheDocument();
   });
 
-  it('should display create window', () => {
+  it('should display create window', async () => {
+    cleanup();
     props.entryWindow = types.CREATE;
-    buildComponent();
-    const createDisplay = screen.getByText(/Create (b|B)ooking/i);
+    render(getComponentUnderTest());
+    const createDisplay = await screen.findByText(/create booking/i);
     expect(createDisplay).toBeInTheDocument();
   });
 
   it('should display edit window', async () => {
+    cleanup();
     props.entryWindow = types.EDIT_BOOKING;
-    buildComponent();
-    const editDisplay = screen.getByText(/Save booking/i);
+    render(getComponentUnderTest());
+
+    const editDisplay = await screen.findByText(/save booking/i);
     expect(editDisplay).toBeInTheDocument();
   });
 
   it('should display delete window', async () => {
-    const editDisplay = screen.getByText(/delete the booking/i);
+    cleanup();
+    props.entryWindow = types.DELETE;
+    render(getComponentUnderTest());
+
+    const editDisplay = await screen.findByText(/delete the booking/i);
     expect(editDisplay).toBeInTheDocument();
   });
 
   it('should call exit after fetch', async () => {
-    const jestSpy = jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({ status: 200 }));
+    const jestSpy = jest.spyOn(global, 'fetch').mockImplementation(() => mockFetch(200));
     const submitButton = screen.getByRole('button', { name: 'Yes' });
-    await act(async () => {
-      await userEvent.click(submitButton);
-    });
+    userEvent.click(submitButton);
     expect(jestSpy).toBeCalledTimes(1);
-    expect(props.exit).toBeCalledTimes(1);
+    await wait(() => expect(exit).toBeCalledTimes(1));
   });
 
   it('should display loading after fetch', () => {
-    const jestSpy = jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({ status: 200 }));
+    const jestSpy = jest.spyOn(global, 'fetch').mockImplementation(() => mockFetch(200));
     const submitButton = screen.getByRole('button', { name: 'Yes' });
     fireEvent.click(submitButton);
     expect(jestSpy).toHaveBeenCalledTimes(1);
@@ -102,10 +105,8 @@ describe('<BookingOverlay />', () => {
   it('should call setErrorBanner on error', async () => {
     const jestSpy = jest.spyOn(global, 'fetch').mockImplementation(() => Promise.reject(new Error('Error!')));
     const submitButton = screen.getByRole('button', { name: 'Yes' });
-    await act(async () => {
-      await fireEvent.click(submitButton);
-    });
+    fireEvent.click(submitButton);
     expect(jestSpy).toHaveBeenCalledTimes(1);
-    expect(banner).toHaveBeenCalledTimes(1);
+    await wait(() => expect(banner).toHaveBeenCalledTimes(1));
   });
 });
