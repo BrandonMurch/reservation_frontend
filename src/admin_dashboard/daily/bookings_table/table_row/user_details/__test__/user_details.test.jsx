@@ -37,25 +37,30 @@ describe('<UserDetails />', () => {
     ).toJSON();
     expect(tree).toMatchSnapshot();
   });
-  it('should display user details when hovered.', () => {
+
+  it('should display user details when hovered.', async () => {
     const element = screen.getByRole('presentation');
-    act(() => { userEvent.click(element); });
+    userEvent.hover(element);
     expect(screen.getByText(props.user.username)).toBeInTheDocument();
     expect(screen.getByText(props.user.phoneNumber)).toBeInTheDocument();
   });
-  it('should hide user details when unhovered.', () => {
+
+  it('should hide user details when unhovered.', async () => {
     const element = screen.getByRole('presentation');
-    act(() => { userEvent.click(element); });
+    userEvent.hover(element);
     expect(screen.getByText(props.user.username)).toBeInTheDocument();
-    act(() => { userEvent.click(element.parentElement); });
+    userEvent.unhover(element);
     expect(screen.queryByText(props.user.username)).not.toBeInTheDocument();
   });
-  it('should display edit window when button is clicked.', () => {
+
+  it('should display edit window when button is clicked.', async () => {
     const element = screen.getByRole('presentation');
-    act(() => { userEvent.click(element); });
-    act(() => {
-      userEvent.click(screen.getByRole('button', { name: 'Edit' }));
-    });
-    expect(screen.getAllByRole('textbox')[0]).toBeInTheDocument();
+    userEvent.hover(element);
+    await screen.findByRole('button', { name: 'Edit' });
+    // must be wrapped in act due to event listener removal on unmountu
+    act(() => userEvent.click(screen.getByRole('button', { name: 'Edit' })));
+    const textbox = await screen.findAllByRole('textbox');
+    expect(textbox[0]).toBeInTheDocument();
+    userEvent.unhover(element);
   });
 });
