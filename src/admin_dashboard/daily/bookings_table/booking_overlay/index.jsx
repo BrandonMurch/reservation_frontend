@@ -25,6 +25,7 @@ const BookingOverlay = ({
   const handleFetchAndExit = async function handleLoadingAndErrorsForFetch(fetchCall) {
     setWindowToDisplay(types.LOADING);
     previousFetch.current = await fetchCall();
+
     if (previousFetch.current.forceFetch) {
       setWindowToDisplay(types.FORCIBLE);
     } else {
@@ -69,7 +70,7 @@ const BookingOverlay = ({
     ),
     forcible: (
       <ForcibleConfirmation
-        exit={exit}
+        exit={() => exit(true)}
         previousFetch={async () => {
           handleFetchAndExit(previousFetch.current.forceFetch);
         }}

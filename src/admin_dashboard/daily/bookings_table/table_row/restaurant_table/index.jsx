@@ -64,7 +64,7 @@ const getTableString = function getStringOfTableNamesFromArray(tables) {
   return tableNames.match('(.+)(, )')[1];
 };
 
-const FetchTableWrapper = (props) => {
+const FetchTableWrapper = function FetchTableWrapperForRestaurantTable(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [overlay, setOverlay] = useState(null);
   const [error, setError] = useState('');

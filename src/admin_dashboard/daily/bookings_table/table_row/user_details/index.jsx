@@ -23,7 +23,6 @@ const UserDetails = function DisplayUserDetails({ user }) {
       setDisplayToolTip(false);
     }
   };
-
   useEventListener('click', handleClick);
   return (
     <td>

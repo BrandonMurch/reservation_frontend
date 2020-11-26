@@ -32,7 +32,7 @@ const OverlayContainer = function ContainerForBookingOverlay({ children, exit })
         onMouseEnter={() => { isMouseOutsideContainer = false; }}
         onMouseLeave={() => { isMouseOutsideContainer = true; }}
       >
-        <Exit onClick={(exit)} />
+        <Exit onClick={() => exit(true)} />
         {children}
       </div>
     </div>
