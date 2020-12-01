@@ -12,7 +12,7 @@ describe('<CalendarRow />', () => {
   let component;
   let container = null;
   const dateObject = moment('2020-10-23');
-  const mockRenderFunction = jest.fn(({ setMessage }) => { setMessage('hello'); });
+  const mockRenderFunction = jest.fn();
 
   beforeEach(() => {
     container = document.createElement('div');
