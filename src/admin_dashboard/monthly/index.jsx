@@ -21,7 +21,7 @@ const Monthly = () => {
   if (redirect) {
     return <Redirect to={redirect} />;
   }
-  if (status >= 400 && status < 500) {
+  if (status === 401) {
     return <Redirect to="/admin-login" />;
   }
   if (alternativeRender) {
@@ -37,7 +37,7 @@ const Monthly = () => {
           }
         }}
         onClick={(date) => {
-          setRedirect(`/admin/daily/${date}`);
+          setRedirect(`/admin/daily?date=${date}`);
         }}
       />
     </div>
