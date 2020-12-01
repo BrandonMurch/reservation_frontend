@@ -36,6 +36,6 @@ describe('<Daily />', () => {
   });
 
   it('display <Bookings />', () => {
-    expect(screen.getAllByText('John')[0]).toBeInTheDocument();
+    expect(screen.getAllByText(/john/i)[0]).toBeInTheDocument();
   });
 });
