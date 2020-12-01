@@ -1,7 +1,6 @@
 // Dependencies
 import React from 'react';
-import { unmountComponentAtNode } from 'react-dom';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { create } from 'react-test-renderer';
 import moment from 'moment';
 
@@ -9,15 +8,12 @@ import moment from 'moment';
 import Row from '../index';
 
 describe('<CalendarRow />', () => {
-  let component;
-  let container = null;
   const dateObject = moment('2020-10-23');
-  const mockRenderFunction = jest.fn();
+  let mockRenderFunction;
 
   beforeEach(() => {
-    container = document.createElement('div');
-    document.body.appendChild(container);
-    component = render(
+    mockRenderFunction = jest.fn().mockImplementation(({ setMessage }) => setMessage('hellou'));
+    render(
       <table>
         <Row dateObject={dateObject} onDateRender={mockRenderFunction} />
       </table>,
@@ -25,9 +21,7 @@ describe('<CalendarRow />', () => {
   });
 
   afterEach(() => {
-    unmountComponentAtNode(container);
-    container.remove();
-    container = null;
+    jest.restoreAllMocks();
   });
 
   it('should match snapshot', () => {
@@ -36,7 +30,7 @@ describe('<CalendarRow />', () => {
   });
 
   it('should have rendered cells', () => {
-    const cells = component.getAllByRole('gridcell');
+    const cells = screen.getAllByRole('gridcell');
     expect(cells.length).toBeGreaterThan(dateObject.daysInMonth());
   });
 
