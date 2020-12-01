@@ -38,18 +38,18 @@ describe('<EditWindow />', () => {
   });
 
   it('should call onSubmit on form submission', async () => {
-    userEvent.type(screen.getByLabelText(/start time/i), '21:00');
-    userEvent.type(screen.getByLabelText(/end time/i), '23:00');
-    userEvent.type(screen.getByLabelText(/party size/i), '2');
-    userEvent.type(screen.getByLabelText(/restaurant comments/i), 'comment');
-    await act(async () => {
-      await fireEvent.click(screen.getByRole('button', { name: 'Submit' }));
+    act(() => {
+      fireEvent.change(screen.getByLabelText(/start time/i), { target: { value: '21:00' } });
+      fireEvent.change(screen.getByLabelText(/end time/i), { target: { value: '23:00' } });
+      userEvent.type(screen.getByLabelText(/party size/i), '2');
+      userEvent.type(screen.getByLabelText(/restaurant comments/i), 'comment');
     });
+    fireEvent.click(screen.getByRole('button', { name: /save booking/i }));
     expect(props.onSubmit).toBeCalledTimes(1);
   });
 
   it('should call deleteBooking when button is pressed', async () => {
-    await fireEvent.click(screen.getByRole('button', { name: /delete/i }));
+    fireEvent.click(screen.getByRole('button', { name: /delete/i }));
     expect(props.deleteBooking).toBeCalledTimes(1);
   });
 

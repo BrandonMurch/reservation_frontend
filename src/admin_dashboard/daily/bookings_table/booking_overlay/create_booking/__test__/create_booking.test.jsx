@@ -38,15 +38,16 @@ describe('<CreateBooking />', () => {
     expect(tree).toMatchSnapshot();
   });
 
-  it('should call onSubmit on submit', () => {
-    userEvent.type(screen.getByLabelText(/start time/i), '20:00');
-    userEvent.type(screen.getByLabelText(/end time/i), '23:00');
+  it('should call onSubmit on submit', async () => {
+    //
+    fireEvent.change(screen.getByLabelText(/start time/i), { target: { value: '21:00' } });
+    fireEvent.change(screen.getByLabelText(/end time/i), { target: { value: '23:00' } });
     userEvent.type(screen.getByLabelText(/party size/i), '2');
     userEvent.type(screen.getByLabelText(/name/i), 'John');
     userEvent.type(screen.getByLabelText(/phone number/i), '+1 1234566');
     userEvent.type(screen.getByLabelText(/email/i), 'john@john.com');
     userEvent.type(screen.getByLabelText(/restaurant comments/i), 'comment');
-    fireEvent.click(screen.getByRole('button', { name: 'Submit' }));
+    userEvent.click(screen.getByRole('button', { name: /create booking/i }));
     expect(props.onSubmit).toHaveBeenCalled();
   });
 

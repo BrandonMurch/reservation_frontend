@@ -15,7 +15,7 @@ import userEvent from '@testing-library/user-event';
 const fillOutForm = async function fillOutAdminLoginForm() {
   const username = screen.getByLabelText(/Username/i);
   const password = screen.getByLabelText(/Password/i);
-  const submit = screen.getByRole('button', { name: 'Submit' });
+  const submit = screen.getByRole('button', { name: 'Login' });
   await act(async () => {
     await userEvent.type(username, 'string');
     await userEvent.type(password, 'string');
@@ -65,7 +65,7 @@ describe('<AdminLogin />', () => {
   it('should render a submit button', () => {
     renderAdminLogin();
 
-    const submitButton = screen.getByRole('button', { name: 'Submit' });
+    const submitButton = screen.getByRole('button', { name: 'Login' });
     expect(submitButton).toBeInTheDocument();
   });
 

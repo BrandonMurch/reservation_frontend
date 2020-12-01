@@ -74,7 +74,7 @@ describe('<Reservation />', () => {
   it('should disable time select and submit if no party size is chosen', () => {
     const timeSelect = screen.getByRole('combobox', { name: 'time' });
     expect(timeSelect).toBeDisabled();
-    const submit = screen.getByRole('button', { name: 'Submit' });
+    const submit = screen.getByRole('button', { name: 'Next' });
     expect(submit).toBeDisabled();
   });
 
@@ -82,7 +82,7 @@ describe('<Reservation />', () => {
     await act(async () => {
       await selectTime();
     });
-    const submit = screen.getByRole('button', { name: 'Submit' });
+    const submit = screen.getByRole('button', { name: 'Next' });
     expect(submit).toBeDisabled();
   });
   it('should have two select boxes', () => {

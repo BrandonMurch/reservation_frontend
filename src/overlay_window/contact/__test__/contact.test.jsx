@@ -6,6 +6,7 @@ import { create } from 'react-test-renderer';
 
 // Components
 import ContactForm from '../index';
+import userEvent from '@testing-library/user-event';
 
 function fillInput(element, string) {
   fireEvent.focus(element);
@@ -19,13 +20,13 @@ function fillForm(component) {
   const phone = component.getByLabelText(/Phone/i);
   const email = component.getByLabelText(/Email/i);
   const tac = component.getByLabelText(/Terms/i);
-  const submit = component.getByRole('button', { name: 'Submit' });
+  const submit = component.getByRole('button', { name: 'Next' });
   fillInput(first, 'user');
   fillInput(last, 'last');
   fillInput(phone, '+1 123456789');
   fillInput(email, 'email@email.com');
-  fireEvent.click(tac);
-  fireEvent.click(submit);
+  userEvent.click(tac);
+  userEvent.click(submit);
 }
 
 describe('<ContactForm />', () => {

@@ -43,6 +43,7 @@ const ConfirmPassword = function CreateConfirmPasswordInputPair({ doDisplayError
           Password
           <input
             required
+            id="password"
             placeholder="Password"
             className={style.input}
             value={password}
@@ -62,6 +63,7 @@ const ConfirmPassword = function CreateConfirmPasswordInputPair({ doDisplayError
           <input
             pattern={password}
             required
+            id="confirm"
             placeholder="Confirm Password"
             className={style.input}
             value={confirmPassword}

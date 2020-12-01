@@ -1,7 +1,7 @@
 // Dependencies
 import React from 'react';
 import {
-  render, fireEvent, screen, cleanup, wait,
+  render, fireEvent, screen, cleanup, waitFor,
 } from '@testing-library/react';
 import { create } from 'react-test-renderer';
 import types from '../window_types';
@@ -91,7 +91,7 @@ describe('<BookingOverlay />', () => {
     const submitButton = screen.getByRole('button', { name: 'Yes' });
     userEvent.click(submitButton);
     expect(jestSpy).toBeCalledTimes(1);
-    await wait(() => expect(exit).toBeCalledTimes(1));
+    await waitFor(() => expect(exit).toBeCalledTimes(1));
   });
 
   it('should display loading after fetch', () => {
@@ -107,6 +107,6 @@ describe('<BookingOverlay />', () => {
     const submitButton = screen.getByRole('button', { name: 'Yes' });
     fireEvent.click(submitButton);
     expect(jestSpy).toHaveBeenCalledTimes(1);
-    await wait(() => expect(banner).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(banner).toHaveBeenCalledTimes(1));
   });
 });
