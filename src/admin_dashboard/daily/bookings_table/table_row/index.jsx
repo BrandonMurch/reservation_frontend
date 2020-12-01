@@ -15,7 +15,7 @@ const TableRow = function TableRowForBookingTable({ booking, setBookingForEditOv
     startTime, partySize, user, userComments, restaurantComments,
   } = booking;
   return (
-    <tr className={style.row}>
+    <tr data-testid={booking.user.firstName} className={style.row}>
       <td>{moment(startTime).format('H:mm')}</td>
       <td style={{ width: '5rem' }}><RestaurantTable key={booking.tables} booking={booking} /></td>
       <td>{partySize}</td>
