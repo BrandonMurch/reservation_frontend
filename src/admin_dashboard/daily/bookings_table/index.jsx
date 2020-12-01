@@ -12,24 +12,32 @@ import TableRow from './table_row';
 // Stylesheets
 import style from './bookings_table.module.css';
 
+const getHourOfBooking = (booking) => {
+  /* REGEX: get index 11 + 12, if 11 is 0, get only index 12
+    example 2020-10-10T18:00:00 would get 18, but if it was T08:00:00, it would only get 8;
+    */
+  const getHourInIsoPattern = /([0-9-T]{11})(?!0[1-9])(\d+)/;
+  const bookingHourMatch = booking.startTime.match(getHourInIsoPattern);
+  return bookingHourMatch[2];
+};
+
+const pushBookingIntoMapOfLists = (booking, bookingsByHourMap) => {
+  const bookingHour = getHourOfBooking(booking);
+
+  let bookingList;
+  if (bookingsByHourMap.has(bookingHour)) {
+    bookingList = bookingsByHourMap.get(bookingHour);
+  } else {
+    bookingList = [];
+  }
+  bookingList.push(booking);
+  bookingsByHourMap.set(bookingHour, bookingList);
+};
+
 const loadBookingsIntoMap = function loadBookingsIntoMapByHour(bookings) {
   const bookingsByHourMap = new Map();
   bookings.forEach((booking) => {
-    /* REGEX: get index 11 + 12, if 11 is 0, get only index 12
-    example 2020-10-10T18:00:00 would get 18, but if it was T08:00:00, it would only get 8;
-    */
-    const getHourInIsoPattern = /([0-9-T]{11})(?!0[1-9])(\d+)/;
-    const bookingHourMatch = booking.startTime.match(getHourInIsoPattern);
-    const bookingHour = bookingHourMatch[2];
-
-    let bookingList;
-    if (bookingsByHourMap.has(bookingHour)) {
-      bookingList = bookingsByHourMap.get(bookingHour);
-    } else {
-      bookingList = [];
-    }
-    bookingList.push(booking);
-    bookingsByHourMap.set(bookingHour, bookingList);
+    pushBookingIntoMapOfLists(booking, bookingsByHourMap);
   });
   return bookingsByHourMap;
 };
