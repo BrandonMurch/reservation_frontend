@@ -37,7 +37,7 @@ export const exampleBooking2 = {
     id: 5,
     username: 'j@j.com',
     permissions: [],
-    firstName: 'John',
+    firstName: 'Albert',
     lastName: '',
     phoneNumber: '+12 121212',
     termsAndConditions: false,
