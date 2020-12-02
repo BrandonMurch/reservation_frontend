@@ -19,7 +19,7 @@ const getBlanks = function getBlanksToAlignCalendarCorrectly(number, numberForSt
   return blanks;
 };
 
-const getDays = function getCalendarBoxesForEachDay(dateObject, onDateRender, onClick) {
+const getDays = function getCalendarBoxesForEachDay(dateObject, onDateRender) {
   const currentMonth = dateObject.month();
   const days = [];
   while (dateObject.month() === currentMonth) {
@@ -34,22 +34,17 @@ const getDays = function getCalendarBoxesForEachDay(dateObject, onDateRender, on
     };
     onDateRender(boxProps);
     days.push(
-      <Box key={dateObject} date={date} message={message} onClick={onClick} />,
+      <Box key={dateObject} date={date} message={message} />,
     );
     dateObject.add(1, 'days');
   }
   return days;
 };
 
-const CalendarRows = function PopulateCalendarRowsWithCalendarBoxes(
-  { dateObject, onDateRender, onClick },
-) {
+const CalendarRows = function PopulateCalendarRowsWithCalendarBoxes({ dateObject, onDateRender }) {
   const startOfMonth = moment(dateObject).startOf('month');
   const numberOfBlanksNeeded = startOfMonth.format('d');
-  const days = [
-    ...getBlanks(numberOfBlanksNeeded),
-    ...getDays(startOfMonth, onDateRender, onClick),
-  ];
+  const days = [...getBlanks(numberOfBlanksNeeded), ...getDays(startOfMonth, onDateRender)];
   const rows = [];
   let cells = [];
 
@@ -80,13 +75,7 @@ const CalendarRows = function PopulateCalendarRowsWithCalendarBoxes(
 
 CalendarRows.propTypes = {
   dateObject: PropTypes.shape({}).isRequired,
-  onDateRender: PropTypes.func,
-  onClick: PropTypes.func,
-};
-
-CalendarRows.defaultProps = {
-  onClick: () => {},
-  onDateRender: () => {},
+  onDateRender: PropTypes.func.isRequired,
 };
 
 export default CalendarRows;

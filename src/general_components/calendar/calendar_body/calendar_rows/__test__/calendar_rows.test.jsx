@@ -1,22 +1,19 @@
 // Dependencies
 import React from 'react';
-import { unmountComponentAtNode } from 'react-dom';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import { create } from 'react-test-renderer';
 import moment from 'moment';
 
 // Components
 import Row from '../index';
 
 describe('<CalendarRow />', () => {
-  let component;
-  let container = null;
-  const dateObject = moment();
-  const mockRenderFunction = jest.fn(({ setMessage }) => { setMessage('hello'); });
+  const dateObject = moment('2020-10-23');
+  let mockRenderFunction;
 
   beforeEach(() => {
-    container = document.createElement('div');
-    document.body.appendChild(container);
-    component = render(
+    mockRenderFunction = jest.fn().mockImplementation(({ setMessage }) => setMessage('hello'));
+    render(
       <table>
         <Row dateObject={dateObject} onDateRender={mockRenderFunction} />
       </table>,
@@ -24,13 +21,16 @@ describe('<CalendarRow />', () => {
   });
 
   afterEach(() => {
-    unmountComponentAtNode(container);
-    container.remove();
-    container = null;
+    jest.restoreAllMocks();
+  });
+
+  it('should match snapshot', () => {
+    const tree = create(<Row dateObject={dateObject} onDateRender={mockRenderFunction} />).toJSON();
+    expect(tree).toMatchSnapshot();
   });
 
   it('should have rendered cells', () => {
-    const cells = component.getAllByRole('gridcell');
+    const cells = screen.getAllByRole('gridcell');
     expect(cells.length).toBeGreaterThan(dateObject.daysInMonth());
   });
 
