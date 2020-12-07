@@ -1,5 +1,7 @@
 import React, { useReducer } from 'react';
+import { fetchWrapper } from 'shared/useFetch';
 import { useRefreshContext } from '../refresh_context';
+import { useTokenContext } from 'contexts/token_context';
 
 import style from './combination_builder.module.css';
 
@@ -21,13 +23,22 @@ const reducer = (state, action) => {
   }
 };
 
+const getTableString = function getTableStringFromArrayOfTables(tables) {
+  const tableNames = tables.map((table) => table.name);
+  return tableNames.join(', ');
+};
+
 const CombinationBuilder = function CreateTableCombinationsThroughDragAndDrop() {
   const [tables, dispatchTables] = useReducer(reducer, []);
   const refresh = useRefreshContext();
+  const tokenContext = useTokenContext();
+  const token = tokenContext?.getToken ?? '';
 
-  const addCombination = function postCombinationToServer() {
+  const addCombination = async function postCombinationToServer() {
     if (tables.length > 0) {
-      console.log('CombinationAdded');
+      const body = getTableString(tables);
+      const { response, status, error } = await fetchWrapper('/restaurant/combinations', { body, method: 'POST', authorization: token });
+      console.log(status, response, error);
       refresh();
       dispatchTables({ type: 'reset' });
     }
@@ -40,9 +51,7 @@ const CombinationBuilder = function CreateTableCombinationsThroughDragAndDrop() 
 
   const onDrop = function insertTableOnDrop(event) {
     event.preventDefault();
-    console.log('drop');
     const item = JSON.parse(event.dataTransfer.getData('item'));
-    console.log(item);
     dispatchTables({ type: 'add', item });
   };
 
