@@ -5,7 +5,13 @@ exports[`<Banner /> should match snapshot 1`] = `
   className="success"
   role="banner"
 >
-  <p>
+  <p
+    style={
+      Object {
+        "whiteSpace": "break-spaces",
+      }
+    }
+  >
     banner message
   </p>
 </div>
