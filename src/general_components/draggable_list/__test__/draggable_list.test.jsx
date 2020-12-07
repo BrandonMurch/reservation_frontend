@@ -2,27 +2,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  render, fireEvent, screen, createEvent,
+  render, fireEvent, screen, createEvent, waitFor,
 } from '@testing-library/react';
 import { create } from 'react-test-renderer';
+import { act } from 'react-dom/test-utils';
 
 // Components
 import DraggableList from '../index';
-import { act } from 'react-dom/test-utils';
-
-const DisplayComponent = ({ item }) => (
-  <div>
-    <h1>{item.name}</h1>
-    <h1>{item.gender}</h1>
-  </div>
-);
-
-DisplayComponent.propTypes = {
-  item: PropTypes.shape({
-    name: PropTypes.string,
-    gender: PropTypes.string,
-  }).isRequired,
-};
+import DisplayComponent from './test_display_component';
 
 describe('<DraggableList />', () => {
   const props = {
@@ -60,30 +47,33 @@ describe('<DraggableList />', () => {
     ).toJSON();
     expect(tree).toMatchSnapshot();
   });
-  it('should order items when dragged and dropped', () => {
+  it('should order items when dragged and dropped', async () => {
     const first = screen.getByText(/george/i);
     const second = screen.getByTestId(/endOfList/i);
-    act(() => {
-      const dragStart = createEvent.dragStart(first);
-      const dropEvent = createEvent.drop(second);
-      Object.assign(dragStart, { dataTransfer: { setData: jest.fn() } });
-      fireEvent(first, dragStart);
-      Object.assign(dropEvent, { dataTransfer: { getData: jest.fn(() => 0) } });
-      fireEvent(second, dropEvent);
-    });
-    expect(props.updateList).toHaveBeenCalledWith([props.items[1], props.items[0]]);
+    const dragStart = createEvent.dragStart(first);
+    const dropEvent = createEvent.drop(second);
+    Object.assign(dragStart, { dataTransfer: { setData: jest.fn() } });
+    fireEvent(first, dragStart);
+    Object.assign(dropEvent, { dataTransfer: { getData: jest.fn(() => 0) } });
+    fireEvent(second, dropEvent);
+    await waitFor(() => (
+      expect(props.updateList)
+        .toHaveBeenCalledWith([props.items[1], props.items[0]])
+    ));
   });
-  it('should order items when dragged and dropped in reverse', () => {
+
+  it('should order items when dragged and dropped in reverse', async () => {
     const first = screen.getByText(/sarah/i);
     const second = screen.getByText(/george/i);
-    act(() => {
-      const dragStart = createEvent.dragStart(first);
-      const dropEvent = createEvent.drop(second);
-      Object.assign(dragStart, { dataTransfer: { setData: jest.fn() } });
-      fireEvent(first, dragStart);
-      Object.assign(dropEvent, { dataTransfer: { getData: jest.fn(() => 1) } });
-      fireEvent(second, dropEvent);
-    });
-    expect(props.updateList).toHaveBeenCalledWith([props.items[1], props.items[0]]);
+    const dragStart = createEvent.dragStart(first);
+    const dropEvent = createEvent.drop(second);
+    Object.assign(dragStart, { dataTransfer: { setData: jest.fn() } });
+    fireEvent(first, dragStart);
+    Object.assign(dropEvent, { dataTransfer: { getData: jest.fn(() => 1) } });
+    fireEvent(second, dropEvent);
+    await waitFor(() => (
+      expect(props.updateList)
+        .toHaveBeenCalledWith([props.items[1], props.items[0]])
+    ));
   });
 });
