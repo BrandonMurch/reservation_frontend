@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CombinationBuilder /> should match snapshot 1`] = `
+<div
+  className="container"
+>
+  <h1>
+    Drag tables to create a combination
+  </h1>
+  <div
+    aria-label="droppable"
+    className="droppableBox"
+    onDragOver={[Function]}
+    onDrop={[Function]}
+  />
+  <button
+    onClick={[Function]}
+    type="button"
+  >
+    Create
+  </button>
+  <button
+    type="button"
+  >
+    Cancel
+  </button>
+</div>
+`;
