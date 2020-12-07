@@ -1,0 +1,21 @@
+.container {
+    position: absolute;
+    right: 20vw;
+    top: 50vh;
+}
+
+.droppableBox {
+    min-height: 4rem;
+    width: 20rem;
+    border: 2px dashed black;
+}
+
+.itemContainer {
+    composes: itemContainer from '../tables.module.css';
+}
+.itemBackground {
+    composes: itemBackground from '../tables.module.css';
+}
+.item {
+    composes: item from '../tables.module.css';
+}

@@ -15,13 +15,21 @@ import DisplayTables, { Headers } from './display_tables';
 
 // Stylesheets
 import style from './tables.module.css';
+import CombinationBuilder from './combination_builder';
+
+const Tables = () => {
+  const [key, setKey] = useState(0);
+  const refresh = () => { setKey((previousKey) => !previousKey); };
+  return (
+    <RefreshTableListContextProvider refreshFunction={refresh}>
+      <FetchOnLoad key={`list ${key}`} />
+      <CombinationBuilder key={`builder ${key}`} />
+    </RefreshTableListContextProvider>
+  );
+};
 
 const FetchOnLoad = function TableListFetchWrapper() {
-  const [fetchToggle, toggleFetch] = useState(false);
-  const { response, alternativeRender } = useFetch('/restaurant/tables', {}, fetchToggle);
-  const refreshTableList = () => {
-    toggleFetch((toggle) => !toggle);
-  };
+  const { response, alternativeRender } = useFetch('/restaurant/tables', {});
 
   if (alternativeRender) {
     return (
@@ -31,10 +39,10 @@ const FetchOnLoad = function TableListFetchWrapper() {
     );
   }
 
-  return <TableList tableList={response} refresh={refreshTableList} />;
+  return <TableList tableList={response} />;
 };
 
-export const TableList = function RestaurantTableList({ tableList, refresh }) {
+export const TableList = function RestaurantTableList({ tableList }) {
   const setOverlay = useOverlayContext();
   const setBanner = useBannerContext();
 
@@ -59,27 +67,23 @@ export const TableList = function RestaurantTableList({ tableList, refresh }) {
   };
 
   return (
-    <RefreshTableListContextProvider refreshFunction={refresh}>
-      <DraggableList
-        key={tableList.length}
-        getName={(table) => table.name}
-        styleSheet={style}
-        items={tableList}
-        DisplayComponent={DisplayTables}
-        Headers={Headers}
-        updateList={(tables) => {
-          updatePriorities(tables);
-          submitUpdate(tables);
-        }}
-        AddComponent={AddTable}
-      />
-    </RefreshTableListContextProvider>
+    <DraggableList
+      getName={(table) => table.name}
+      styleSheet={style}
+      items={tableList}
+      DisplayComponent={DisplayTables}
+      Headers={Headers}
+      updateList={(tables) => {
+        updatePriorities(tables);
+        submitUpdate(tables);
+      }}
+      AddComponent={AddTable}
+    />
   );
 };
 
 TableList.propTypes = {
   tableList: PropTypes.arrayOf(PropTypes.shape({}).isRequired).isRequired,
-  refresh: PropTypes.func.isRequired,
 };
 
-export default FetchOnLoad;
+export default Tables;
