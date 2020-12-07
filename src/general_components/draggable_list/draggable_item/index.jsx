@@ -11,6 +11,7 @@ const DraggableItem = React.memo(({
   const itemRef = useRef();
   const onDragStart = (event) => {
     event.dataTransfer.setData('draggingFrom', index);
+    event.dataTransfer.setData('item', JSON.stringify(item));
     setTimeout(() => {
       itemRef.current.style.display = 'none';
     }, 0);
@@ -22,7 +23,7 @@ const DraggableItem = React.memo(({
   };
 
   const onDragOver = (event) => {
-    // Without preventDefault, drag and drop doesn't work.
+    // Without preventDefault, drag and drop doesn't work. The default action is to cancel the drag
     event.preventDefault();
   };
 
@@ -65,7 +66,7 @@ DraggableItem.propTypes = {
   DisplayComponent: PropTypes.func.isRequired,
   onDrop: PropTypes.func.isRequired,
   setHovered: PropTypes.func.isRequired,
-  displayDroppable: PropTypes.bool.isRequired,
+  displayDroppable: PropTypes.bool,
   styleSheet: PropTypes.shape({
     droppable: PropTypes.string,
     row: PropTypes.string,
@@ -73,6 +74,7 @@ DraggableItem.propTypes = {
 };
 
 DraggableItem.defaultProps = {
+  displayDroppable: false,
   item: {},
   styleSheet: {
     droppable: 'droppable',
