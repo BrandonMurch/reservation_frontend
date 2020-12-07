@@ -99,7 +99,7 @@
 
 .droppable {
     height: 2rem;
-    width: 50%;
+    width: 100%;
     border: 1px dotted black;
     border-radius: 5px;
     box-shadow: 3px 3px rgba(40, 40, 40, 0.5);
