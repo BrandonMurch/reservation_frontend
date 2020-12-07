@@ -12,7 +12,7 @@ import { TextInput } from 'general_components/form/inputs';
 // Stylesheet
 import style from '../tables.module.css';
 
-const submit = async (body, setIsLoading, setBanner) => {
+const submit = async (body, setIsLoading, setBanner, refresh) => {
   const { error, loading } = await fetchWrapper('/restaurant/tables', {
     body: JSON.stringify(body),
     method: 'POST',
@@ -21,6 +21,8 @@ const submit = async (body, setIsLoading, setBanner) => {
   setIsLoading(loading);
   if (error) {
     setBanner(bannerTypes.ERROR, error);
+  } else {
+    refresh();
   }
 };
 
@@ -81,8 +83,7 @@ const AddTable = function AddTableInputInList() {
         className={style.addButton}
         onClick={() => {
           setDisplayButton(false);
-          submit(inputValues, setIsLoading, setBanner);
-          refresh();
+          submit(inputValues, setIsLoading, setBanner, refresh);
         }}
         type="button"
       >
