@@ -11,20 +11,20 @@
 }
 
 .tableContainer {
-    width: 100%;
+    width: 50%;
+    display: inline-block;
 }
 
 .table {
     height: 92vh;
-    width: 25%;
-    position: relative;
+    width: 60%;
     overflow: visible;
     margin: auto;
 }
 
 .header{
     text-align: center;
-    margin: 0;
+    margin-bottom: 0;
     width: 50%;
     display: inline-block;
 }

@@ -1,13 +1,24 @@
 .container {
+    display: inline-block;    
     position: absolute;
-    right: 20vw;
-    top: 50vh;
+}
+
+.title {
+    text-align: center;
 }
 
 .droppableBox {
     min-height: 4rem;
     width: 20rem;
     border: 2px dashed black;
+    margin: auto;
+}
+
+.buttonContainer {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    margin: 1rem; 
 }
 
 .itemContainer {
