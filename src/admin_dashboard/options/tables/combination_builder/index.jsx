@@ -1,9 +1,11 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useState } from 'react';
 import { fetchWrapper } from 'shared/useFetch';
 import { useRefreshContext } from '../refresh_context';
 import { useTokenContext } from 'contexts/token_context';
+import { useBannerContext, bannerTypes } from 'contexts/banner_context';
 
 import style from './combination_builder.module.css';
+import Loading from 'general_components/loading';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -17,7 +19,6 @@ const reducer = (state, action) => {
       return [];
     }
     default: {
-      console.error('Action not found.');
       return state;
     }
   }
@@ -30,6 +31,8 @@ const getTableString = function getTableStringFromArrayOfTables(tables) {
 
 const CombinationBuilder = function CreateTableCombinationsThroughDragAndDrop() {
   const [tables, dispatchTables] = useReducer(reducer, []);
+  const [isLoading, setIsLoading] = useState(false);
+  const setBanner = useBannerContext();
   const refresh = useRefreshContext();
   const tokenContext = useTokenContext();
   const token = tokenContext?.getToken ?? '';
@@ -37,8 +40,13 @@ const CombinationBuilder = function CreateTableCombinationsThroughDragAndDrop() 
   const addCombination = async function postCombinationToServer() {
     if (tables.length > 0) {
       const body = getTableString(tables);
-      const { response, status, error } = await fetchWrapper('/restaurant/combinations', { body, method: 'POST', authorization: token });
-      console.log(status, response, error);
+      const {
+        loading, error,
+      } = await fetchWrapper('/restaurant/combinations', { body, method: 'POST', authorization: token });
+      if (error) {
+        setBanner(bannerTypes.ERROR, error);
+      }
+      setIsLoading(loading);
       refresh();
       dispatchTables({ type: 'reset' });
     }
@@ -54,6 +62,14 @@ const CombinationBuilder = function CreateTableCombinationsThroughDragAndDrop() 
     const item = JSON.parse(event.dataTransfer.getData('item'));
     dispatchTables({ type: 'add', item });
   };
+
+  if (isLoading) {
+    return (
+      <div className={style.container}>
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className={style.container}>
