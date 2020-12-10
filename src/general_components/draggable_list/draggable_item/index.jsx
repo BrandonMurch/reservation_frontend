@@ -17,19 +17,21 @@ const DraggableItem = React.memo(({
     }, 0);
   };
 
+  const onDragEnd = (event) => {
+    setHovered(-1);
+    if (event.dataTransfer.dropEffect === 'none') {
+      itemRef.current.style.display = '';
+    }
+  };
+
   const onDragEnter = (event) => {
     event.preventDefault();
     setHovered(index);
   };
 
-  const onDragOver = (event) => {
+  const allowDrop = (event) => {
     // Without preventDefault, drag and drop doesn't work. The default action is to cancel the drag
     event.preventDefault();
-  };
-
-  const onDrop = (event) => {
-    setHovered(-1);
-    handleDrop(event, index);
   };
 
   return (
@@ -39,8 +41,8 @@ const DraggableItem = React.memo(({
           ? functionalStyle.activeDroppable
           : functionalStyle.droppable}
         className={styleSheet.droppable}
-        onDragOver={onDragOver}
-        onDrop={onDrop}
+        onDragOver={allowDrop}
+        onDrop={(event) => handleDrop(event, index)}
       />
       <li
         className={styleSheet.row}
@@ -49,10 +51,11 @@ const DraggableItem = React.memo(({
         id={`table ${index}`}
         data-position={index}
         draggable
-        onDragOver={onDragOver}
+        onDragOver={allowDrop}
         onDragStart={onDragStart}
         onDragEnter={onDragEnter}
-        onDrop={onDrop}
+        onDragEnd={onDragEnd}
+        onDrop={(event) => handleDrop(event, index)}
       >
         <DisplayComponent item={item} />
       </li>
