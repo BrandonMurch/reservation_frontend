@@ -11,6 +11,7 @@ import { mockFetch } from 'test_utils';
 import { TokenContextProvider } from 'contexts/token_context';
 import userEvent from '@testing-library/user-event';
 import { RefreshTableListContextProvider } from '../../refresh_context';
+import { BannerContextProvider } from 'contexts/banner_context';
 
 const table = { name: 'name', seats: 2 };
 
@@ -22,11 +23,14 @@ describe('<CombinationBuilder />', () => {
     fetchSpy = jest.spyOn(global, 'fetch')
       .mockImplementation(() => mockFetch(200));
     render(
-      <TokenContextProvider defaultValue="Token">
-        <RefreshTableListContextProvider refreshFunction={mockRefresh}>
-          <CombinationBuilder />
-        </RefreshTableListContextProvider>
-      </TokenContextProvider>,
+      <BannerContextProvider>
+        <TokenContextProvider defaultValue="Token">
+          <RefreshTableListContextProvider refreshFunction={mockRefresh}>
+            <CombinationBuilder />
+          </RefreshTableListContextProvider>
+        </TokenContextProvider>
+      </BannerContextProvider>
+      ,
     );
   });
 
@@ -36,9 +40,11 @@ describe('<CombinationBuilder />', () => {
 
   it('should match snapshot', () => {
     const tree = create(
-      <TokenContextProvider defaultValue="Token">
-        <CombinationBuilder />
-      </TokenContextProvider>,
+      <BannerContextProvider>
+        <TokenContextProvider defaultValue="Token">
+          <CombinationBuilder />
+        </TokenContextProvider>
+      </BannerContextProvider>,
 
     ).toJSON();
     expect(tree).toMatchSnapshot();
