@@ -72,7 +72,7 @@ const CombinationBuilder = function CreateTableCombinationsThroughDragAndDrop() 
 
   return (
     <div className={style.container}>
-      <h1>Drag tables to create a combination</h1>
+      <h2 className={style.title}>Drag tables to create a combination</h2>
       <div className={style.droppableBox} aria-label="droppable" onDrop={onDrop} onDragOver={onDragOver}>
         {tables.map((table) => (
           <div key={table.name} className={style.itemContainer}>
@@ -84,8 +84,11 @@ const CombinationBuilder = function CreateTableCombinationsThroughDragAndDrop() 
         ))}
 
       </div>
-      <button type="button" onClick={addCombination}>Create</button>
-      <button type="button" onClick={() => dispatchTables({ type: 'reset' })}>Cancel</button>
+      <div className={style.buttonContainer}>
+        <button type="button" onClick={addCombination}>Create</button>
+        <button type="button" onClick={() => refresh()}>Cancel</button>
+
+      </div>
     </div>
   );
 };
