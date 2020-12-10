@@ -33,7 +33,7 @@ const DraggableList = function ListWithDraggableElementsToSort({
     event.preventDefault();
     const from = event.dataTransfer.getData('draggingFrom');
     const newList = getReorderedList(list, from, to);
-    setHovered(-1);
+    unHideItem(from);
     setList(newList);
     updateList(newList);
   }, [list, updateList]);
@@ -47,13 +47,6 @@ const DraggableList = function ListWithDraggableElementsToSort({
   return (
     <div
       className={style.tableContainer}
-      onDragOver={(event) => event.preventDefault()}
-      onDrop={(event) => {
-        event.preventDefault();
-        const from = event.dataTransfer.getData('draggingFrom');
-        unHideItem(from);
-        setHovered(-1);
-      }}
     >
       <div className={style.table}>
         <div>

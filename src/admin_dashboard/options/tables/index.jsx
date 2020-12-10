@@ -22,8 +22,7 @@ const Tables = () => {
   const refresh = () => { setKey((previousKey) => !previousKey); };
   return (
     <RefreshTableListContextProvider refreshFunction={refresh}>
-      <FetchOnLoad key={`list ${key}`} />
-      <CombinationBuilder key={`builder ${key}`} />
+      <FetchOnLoad key={key} />
     </RefreshTableListContextProvider>
   );
 };
@@ -67,18 +66,21 @@ export const TableList = function RestaurantTableList({ tableList }) {
   };
 
   return (
-    <DraggableList
-      getName={(table) => table.name}
-      styleSheet={style}
-      items={tableList}
-      DisplayComponent={DisplayTables}
-      Headers={Headers}
-      updateList={(tables) => {
-        updatePriorities(tables);
-        submitUpdate(tables);
-      }}
-      AddComponent={AddTable}
-    />
+    <>
+      <DraggableList
+        getName={(table) => table.name}
+        styleSheet={style}
+        items={tableList}
+        DisplayComponent={DisplayTables}
+        Headers={Headers}
+        updateList={(tables) => {
+          updatePriorities(tables);
+          submitUpdate(tables);
+        }}
+        AddComponent={AddTable}
+      />
+      <CombinationBuilder />
+    </>
   );
 };
 
