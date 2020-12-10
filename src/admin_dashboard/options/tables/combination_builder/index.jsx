@@ -48,7 +48,6 @@ const CombinationBuilder = function CreateTableCombinationsThroughDragAndDrop() 
       }
       setIsLoading(loading);
       refresh();
-      dispatchTables({ type: 'reset' });
     }
   };
 
@@ -86,7 +85,7 @@ const CombinationBuilder = function CreateTableCombinationsThroughDragAndDrop() 
 
       </div>
       <button type="button" onClick={addCombination}>Create</button>
-      <button type="button">Cancel</button>
+      <button type="button" onClick={() => dispatchTables({ type: 'reset' })}>Cancel</button>
     </div>
   );
 };
