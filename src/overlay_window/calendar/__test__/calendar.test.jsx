@@ -54,31 +54,33 @@ describe('<Calendar />', () => {
     expect(global.fetch).toHaveBeenCalled();
   });
 
-  it('should display the calendar with dates', () => {
+  it('should display tomorrow\'s date', () => {
     const today = new Date();
     const todayDate = today.getDate();
     const tomorrow = new Date();
     tomorrow.setDate(today.getDate() + 1);
-    const yesterday = new Date();
-    yesterday.setDate(today.getDate() - 1);
-    const disabledDate = new Date();
-    disabledDate.setDate(today.getDate() + 3);
 
     if (tomorrow.getDate() > todayDate) {
       const tomorrowElement = component.getByText(`${tomorrow.getDate()}`);
       expect(tomorrowElement).toBeInTheDocument();
     }
+  });
 
-    if (yesterday.getDate() < todayDate) {
-      const yesterdayElement = component.queryByText(`${yesterday.getDate()}`);
-      expect(yesterdayElement).not.toBeInTheDocument();
-    }
+  it('should not display yesterday\'s date', () => {
+    const today = new Date(2020, 12, 15);
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
+    const yesterdayElement = component.queryByText(`${yesterday.getDate()}`);
+    expect(yesterdayElement).not.toBeInTheDocument();
+  });
 
-    if (disabledDate.getDate() > todayDate) {
-      const disabledElements = component.getAllByTestId('disabledDate');
-      expect(disabledElements.length).toBeGreaterThan(0);
-      expect(disabledElements[0].className).toContain('fc-day-disabled');
-    }
+  it('should disable unavailable dates', () => {
+    const today = new Date();
+    const disabledDate = new Date();
+    disabledDate.setDate(today.getDate() + 3);
+    const disabledElements = component.getAllByTestId('disabledDate');
+    expect(disabledElements.length).toBeGreaterThan(0);
+    expect(disabledElements[0].className).toContain('fc-day-disabled');
   });
 
   it('should call setError if server is unavailable', async () => {

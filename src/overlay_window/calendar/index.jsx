@@ -16,6 +16,28 @@ const disableDate = function addDisabledAttributeToElement(element) {
   element.disabled = true;
 };
 
+const getLastDayString = function getLastDayOfMonthInYYYYMMDD(date) {
+  return new Date(date.getFullYear(), date.getMonth() + 1, 0);
+};
+
+const parseDate = function parseDateFromString(date) {
+  const dateParts = date.split('-');
+  return new Date(dateParts[0], (dateParts[1] - 1), dateParts[2]);
+};
+
+const getDateRange = function getDateRangeFromAvailableDatesIfPresent(dates) {
+  const start = new Date();
+  let end;
+  if (dates.length > 0) {
+    end = getLastDayString(parseDate(dates[dates.length - 1]));
+  } else {
+    const date = Date.now();
+    end = getLastDayString(date);
+  }
+
+  return { start, end };
+};
+
 const Calendar = function PopulateUsingFullCalendar({ dateClick }) {
   const [redirect, setRedirect] = useState('');
   const { alternativeRender, response } = useFetch('/restaurant/availability');
@@ -25,13 +47,11 @@ const Calendar = function PopulateUsingFullCalendar({ dateClick }) {
   }
 
   let availableDates;
-  let startDate;
-  let endDate;
   if (response) {
     availableDates = response.availableDates;
-    startDate = response.start;
-    endDate = response.end;
   }
+
+  const dateRange = getDateRange(availableDates);
 
   return (
     <div className={style.container}>
@@ -48,7 +68,7 @@ const Calendar = function PopulateUsingFullCalendar({ dateClick }) {
             setRedirect('/reservation');
           }
         }}
-        validRange={{ start: startDate, end: endDate }}
+        validRange={dateRange}
         dayCellDidMount={({ date, el }) => {
           const dateString = date.toLocaleString('en-ca').slice(0, 10);
 
