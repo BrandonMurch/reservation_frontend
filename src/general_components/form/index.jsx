@@ -34,7 +34,7 @@ const getInputs = function getListOfInputChildren(
   inputs, onBlur, displayErrors, counterToResetChildren, fields, style,
 ) {
   return inputs.map((input) => {
-    const Component = inputFields[input.type] || inputFields.default;
+    const Component = input.component || inputFields[input.type] || inputFields.default;
     if (!fields.current[input.name]) {
       fields.current[input.name] = input.value;
     }
