@@ -11,8 +11,8 @@ const Input = function CreateInputAndLabel({
   required,
   pattern,
   updateValue,
-  patternMessage,
   displayErrors,
+  setErrorMessage,
   onChange,
   onFocus,
   onBlur,
@@ -24,12 +24,7 @@ const Input = function CreateInputAndLabel({
   min,
 }) {
   const [value, setValue] = useState(initialValue);
-  const [errorMessage, setErrorMessage] = useState('');
-
   updateValue(initialValue);
-  if (errorMessage === 'Please match the requested format.') {
-    setErrorMessage(patternMessage);
-  }
 
   return (
     <div key={key} className={style.inputGroup}>
@@ -71,7 +66,6 @@ const Input = function CreateInputAndLabel({
           onChange(target);
         }}
       />
-      {displayErrors && errorMessage !== '' && <p className={style.errorText}>{errorMessage}</p>}
     </div>
   );
 };
@@ -88,7 +82,7 @@ Input.propTypes = {
   displayErrors: PropTypes.bool,
   onMouseEnter: PropTypes.func,
   onMouseLeave: PropTypes.func,
-  patternMessage: PropTypes.string,
+  setErrorMessage: PropTypes.func,
   hiddenLabel: PropTypes.bool,
   onFocus: PropTypes.func,
   onChange: PropTypes.func,
@@ -108,7 +102,7 @@ Input.propTypes = {
 Input.defaultProps = {
   key: '',
   value: '',
-  patternMessage: null,
+  setErrorMessage: () => {},
   required: false,
   pattern: null,
   displayErrors: false,
