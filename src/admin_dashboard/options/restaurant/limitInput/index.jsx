@@ -1,11 +1,10 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Checkbox } from 'general_components/form/inputs';
 import BaseInput from 'general_components/form/inputs/base_input';
+import { Checkbox } from 'general_components/form/inputs';
 
 const LimitPeopleInput = ({ style, ...props }) => {
-//   const [enabled, toggleEnabled] = useState(false);
-  const enabled = true;
+  const [enabled, toggleEnabled] = useState(false);
   const defaultValues = {
     people: 0,
     intervalInMinutes: 0,
@@ -21,14 +20,15 @@ const LimitPeopleInput = ({ style, ...props }) => {
       <Checkbox
         label="Limit people per interval"
         name="toggleLimitInterval"
-        updateValue={() => {}}
         style={style}
-        // updateValue={() => toggleEnabled((prevState) => {
-        //   if (prevState) {
-        //     storedValues.current = defaultValues;
-        //   }
-        //   return !prevState;
-        // })}
+        value
+        // TODO: remove this after refactor
+        updateValue={() => toggleEnabled((prevState) => {
+          if (prevState) {
+            storedValues.current = defaultValues;
+          }
+          return !prevState;
+        })}
       />
       {enabled
       && (
