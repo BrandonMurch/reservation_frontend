@@ -66,7 +66,7 @@ export const Checkbox = function CreateCheckboxAndLabel({
     setDisplayErrors(true);
     reverseUpdateValue(target.value, target.name);
   };
-
+  props.type = 'checkbox';
   return <BaseInput {...props} style={style} />;
 };
 

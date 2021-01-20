@@ -7,6 +7,7 @@ import { Switch, Route } from 'react-router-dom';
 import NavBar from '../nav_bar';
 import NavItem from '../nav_bar/item';
 import TableList from './tables';
+import RestaurantForm from './restaurant';
 
 // Stylesheets
 import style from './options.module.css';
@@ -23,7 +24,7 @@ const Options = function RestaurantOptions({ locationOfParent }) {
         <Switch>
           <Route path={`${locationOfParent}/tables`} component={TableList} />
           <Route path={`${locationOfParent}/rules`} />
-          <Route path={`${locationOfParent}/restaurant`} />
+          <Route path={`${locationOfParent}/restaurant`} component={RestaurantForm} />
         </Switch>
       </div>
 
