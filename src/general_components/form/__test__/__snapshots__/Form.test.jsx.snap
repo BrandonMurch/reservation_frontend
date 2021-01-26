@@ -11,7 +11,7 @@ exports[`<Form /> should match snapshot 1`] = `
     className="inputGroup"
   >
     <label
-      className="hiddenLabelText"
+      className="labelText"
       htmlFor="firstName"
     >
       First Name
@@ -37,7 +37,7 @@ exports[`<Form /> should match snapshot 1`] = `
     className="inputGroup"
   >
     <label
-      className="hiddenLabelText"
+      className="labelText"
       htmlFor="lastName"
     >
       Last Name
@@ -63,7 +63,7 @@ exports[`<Form /> should match snapshot 1`] = `
     className="inputGroup"
   >
     <label
-      className="hiddenLabelText"
+      className="labelText"
       htmlFor="email"
     >
       Email
@@ -89,7 +89,7 @@ exports[`<Form /> should match snapshot 1`] = `
     className="inputGroup"
   >
     <label
-      className="hiddenLabelText"
+      className="labelText"
       htmlFor="phoneNumber"
     >
       Phone Number
@@ -121,20 +121,16 @@ exports[`<Form /> should match snapshot 1`] = `
       Yes, I agree to the terms and conditions
     </label>
     <input
+      checked={false}
       className="input"
       id="tAC"
       name="tAC"
-      onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
-      onKeyDown={[Function]}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
-      pattern={null}
-      placeholder="Yes, I agree to the terms and conditions"
       required={true}
       type="checkbox"
-      value=""
     />
   </div>
   <input

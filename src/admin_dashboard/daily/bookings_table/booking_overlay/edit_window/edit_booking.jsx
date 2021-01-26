@@ -25,6 +25,7 @@ const getInputs = function getInputsFromBooking(booking) {
     label: 'Date',
     value: booking.date || undefined,
     required: true,
+    hiddenLabel: true,
   },
   {
     name: 'startTime',
@@ -32,6 +33,7 @@ const getInputs = function getInputsFromBooking(booking) {
     label: 'Start Time',
     value: startTime,
     required: true,
+    hiddenLabel: true,
   },
   {
     name: 'endTime',
@@ -39,6 +41,7 @@ const getInputs = function getInputsFromBooking(booking) {
     label: 'End Time',
     value: endTime,
     required: true,
+    hiddenLabel: true,
   },
   {
     name: 'partySize',
@@ -48,6 +51,7 @@ const getInputs = function getInputsFromBooking(booking) {
     required: true,
     pattern: '^[1-9][0-9]*$',
     patternMessage: 'Party size must be a number greater than zero',
+    hiddenLabel: true,
   },
   {
     name: 'restaurantComments',
@@ -55,6 +59,7 @@ const getInputs = function getInputsFromBooking(booking) {
     label: 'Restaurant Comments',
     value: booking.restaurantComments || undefined,
     required: false,
+    hiddenLabel: true,
   },
   {
     name: 'userComments',
@@ -62,6 +67,7 @@ const getInputs = function getInputsFromBooking(booking) {
     label: 'User Comments',
     value: booking.userComments || undefined,
     required: false,
+    hiddenLabel: true,
   },
   ];
 };

@@ -1,268 +1,302 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<TableList /> should match snapshot 1`] = `
-<div
-  className="tableContainer"
-  onDragOver={[Function]}
-  onDrop={[Function]}
->
+Array [
   <div
-    className="table"
+    className="tableContainer"
   >
-    <div>
-      <h2
-        className="header"
-      >
-        Name
-      </h2>
-      <h2
-        className="header"
-      >
-        Seats
-      </h2>
-    </div>
-    <ul
-      className="list"
+    <div
+      className="table"
     >
-      <li
-        className="droppable"
-        onDragOver={[Function]}
-        onDrop={[Function]}
-        style={
-          Object {
-            "display": "none",
-          }
-        }
-      />
-      <li
-        className="row"
-        data-position={0}
-        draggable={true}
-        id="table 0"
-        onDragEnter={[Function]}
-        onDragOver={[Function]}
-        onDragStart={[Function]}
-        onDrop={[Function]}
-        style={
-          Object {
-            "cursor": "pointer",
-            "position": "relative",
-          }
-        }
-      >
-        <div
-          className="itemContainer"
+      <div>
+        <h2
+          className="header"
         >
-          <div
-            className="itemBackground"
-          >
-            <div
-              className="item"
-            >
-              21
-            </div>
-            <div
-              className="item"
-            >
-              2
-            </div>
-          </div>
-          <button
-            className="editButton"
-            onClick={[Function]}
-            type="button"
-          >
-            Edit
-          </button>
-          <button
-            className="deleteButton"
-            onClick={[Function]}
-            type="button"
-          >
-            Delete
-          </button>
-        </div>
-      </li>
-      <li
-        className="droppable"
-        onDragOver={[Function]}
-        onDrop={[Function]}
-        style={
-          Object {
-            "display": "none",
-          }
-        }
-      />
-      <li
-        className="row"
-        data-position={1}
-        draggable={true}
-        id="table 1"
-        onDragEnter={[Function]}
-        onDragOver={[Function]}
-        onDragStart={[Function]}
-        onDrop={[Function]}
-        style={
-          Object {
-            "cursor": "pointer",
-            "position": "relative",
-          }
-        }
-      >
-        <div
-          className="itemContainer"
+          Name
+        </h2>
+        <h2
+          className="header"
         >
-          <div
-            className="itemBackground"
-          >
-            <div
-              className="item"
-            >
-              22
-            </div>
-            <div
-              className="item"
-            >
-              4
-            </div>
-          </div>
-          <button
-            className="editButton"
-            onClick={[Function]}
-            type="button"
-          >
-            Edit
-          </button>
-          <button
-            className="deleteButton"
-            onClick={[Function]}
-            type="button"
-          >
-            Delete
-          </button>
-        </div>
-      </li>
-      <li
-        className="droppable"
-        onDragOver={[Function]}
-        onDrop={[Function]}
-        style={
-          Object {
-            "display": "none",
-          }
-        }
-      />
-      <li
-        className="row"
-        data-position={2}
-        draggable={true}
-        id="table 2"
-        onDragEnter={[Function]}
-        onDragOver={[Function]}
-        onDragStart={[Function]}
-        onDrop={[Function]}
-        style={
-          Object {
-            "cursor": "pointer",
-            "position": "relative",
-          }
-        }
+          Seats
+        </h2>
+      </div>
+      <ul
+        className="list"
       >
-        <div
-          data-testid="endOfList"
+        <li
+          className="droppable"
+          onDragOver={[Function]}
+          onDrop={[Function]}
           style={
             Object {
-              "height": "2rem",
+              "display": "none",
             }
           }
         />
-      </li>
-      <div
-        className="row"
-      >
-        <div
-          className="itemContainer"
-          onBlur={[Function]}
+        <li
+          className="row"
+          data-position={0}
+          draggable={true}
+          id="table 0"
+          onDragEnd={[Function]}
+          onDragEnter={[Function]}
+          onDragOver={[Function]}
+          onDragStart={[Function]}
+          onDrop={[Function]}
+          style={
+            Object {
+              "cursor": "pointer",
+              "position": "relative",
+            }
+          }
         >
           <div
-            className="itemBackground"
+            className="itemContainer"
           >
             <div
-              className="item"
+              className="itemBackground"
             >
               <div
-                className="inputGroup"
+                className="item"
               >
-                <label
-                  className="hiddenLabelText"
-                  htmlFor="name"
-                >
-                  Name
-                </label>
-                <input
-                  className="input"
-                  id="name"
-                  name="name"
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onFocus={[Function]}
-                  onKeyDown={[Function]}
-                  onMouseEnter={[Function]}
-                  onMouseLeave={[Function]}
-                  pattern={null}
-                  placeholder="Name"
-                  required={true}
-                  type="text"
-                  value=""
-                />
+                21
               </div>
-            </div>
-            <div
-              className="item"
-            >
               <div
-                className="inputGroup"
+                className="item"
               >
-                <label
-                  className="hiddenLabelText"
-                  htmlFor="numberOfSeats"
-                >
-                  Seats
-                </label>
-                <input
-                  className="input"
-                  id="numberOfSeats"
-                  name="numberOfSeats"
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onFocus={[Function]}
-                  onKeyDown={[Function]}
-                  onMouseEnter={[Function]}
-                  onMouseLeave={[Function]}
-                  pattern={null}
-                  placeholder="Seats"
-                  required={true}
-                  type="text"
-                  value=""
-                />
+                2
               </div>
             </div>
+            <button
+              className="editButton"
+              onClick={[Function]}
+              type="button"
+            >
+              Edit
+            </button>
+            <button
+              className="deleteButton"
+              onClick={[Function]}
+              type="button"
+            >
+              Delete
+            </button>
           </div>
-          <button
-            className="addButton"
-            onClick={[Function]}
+        </li>
+        <li
+          className="droppable"
+          onDragOver={[Function]}
+          onDrop={[Function]}
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+        />
+        <li
+          className="row"
+          data-position={1}
+          draggable={true}
+          id="table 1"
+          onDragEnd={[Function]}
+          onDragEnter={[Function]}
+          onDragOver={[Function]}
+          onDragStart={[Function]}
+          onDrop={[Function]}
+          style={
+            Object {
+              "cursor": "pointer",
+              "position": "relative",
+            }
+          }
+        >
+          <div
+            className="itemContainer"
+          >
+            <div
+              className="itemBackground"
+            >
+              <div
+                className="item"
+              >
+                22
+              </div>
+              <div
+                className="item"
+              >
+                4
+              </div>
+            </div>
+            <button
+              className="editButton"
+              onClick={[Function]}
+              type="button"
+            >
+              Edit
+            </button>
+            <button
+              className="deleteButton"
+              onClick={[Function]}
+              type="button"
+            >
+              Delete
+            </button>
+          </div>
+        </li>
+        <li
+          className="droppable"
+          onDragOver={[Function]}
+          onDrop={[Function]}
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+        />
+        <li
+          className="row"
+          data-position={2}
+          draggable={true}
+          id="table 2"
+          onDragEnd={[Function]}
+          onDragEnter={[Function]}
+          onDragOver={[Function]}
+          onDragStart={[Function]}
+          onDrop={[Function]}
+          style={
+            Object {
+              "cursor": "pointer",
+              "position": "relative",
+            }
+          }
+        >
+          <div
+            data-testid="endOfList"
             style={
               Object {
-                "opacity": 0,
+                "height": "2rem",
               }
             }
-            type="button"
+          />
+        </li>
+        <div
+          className="row"
+        >
+          <div
+            className="itemContainer"
+            onBlur={[Function]}
           >
-            Add Table
-          </button>
+            <div
+              className="itemBackground"
+            >
+              <div
+                className="item"
+              >
+                <div
+                  className="inputGroup"
+                >
+                  <label
+                    className="labelText"
+                    htmlFor="name"
+                  >
+                    Name
+                  </label>
+                  <input
+                    className="input"
+                    id="name"
+                    name="name"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    onMouseEnter={[Function]}
+                    onMouseLeave={[Function]}
+                    pattern={null}
+                    placeholder="Name"
+                    required={true}
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+              <div
+                className="item"
+              >
+                <div
+                  className="inputGroup"
+                >
+                  <label
+                    className="labelText"
+                    htmlFor="numberOfSeats"
+                  >
+                    Seats
+                  </label>
+                  <input
+                    className="input"
+                    id="numberOfSeats"
+                    name="numberOfSeats"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    onMouseEnter={[Function]}
+                    onMouseLeave={[Function]}
+                    pattern={null}
+                    placeholder="Seats"
+                    required={true}
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+            <button
+              className="addButton"
+              onClick={[Function]}
+              style={
+                Object {
+                  "opacity": 0,
+                }
+              }
+              type="button"
+            >
+              Add Table
+            </button>
+          </div>
         </div>
-      </div>
-    </ul>
-  </div>
-</div>
+      </ul>
+    </div>
+  </div>,
+  <div
+    className="container"
+  >
+    <h2
+      className="title"
+    >
+      Drag tables to create a combination
+    </h2>
+    <div
+      aria-label="droppable"
+      className="droppableBox"
+      onDragOver={[Function]}
+      onDrop={[Function]}
+    />
+    <div
+      className="buttonContainer"
+    >
+      <button
+        onClick={[Function]}
+        type="button"
+      >
+        Create
+      </button>
+      <button
+        onClick={[Function]}
+        type="button"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>,
+]
 `;

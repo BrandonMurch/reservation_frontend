@@ -31,7 +31,12 @@ const touchInputs = function focusAndBlurAllInputChildren(children) {
 };
 
 const getInputs = function getListOfInputChildren(
-  inputs, onBlur, displayErrors, counterToResetChildren, fields, style,
+  inputs,
+  updateFields,
+  displayErrors,
+  counterToResetChildren,
+  fields,
+  style,
 ) {
   return inputs.map((input) => {
     const Component = input.component || inputFields[input.type] || inputFields.default;
@@ -41,7 +46,7 @@ const getInputs = function getListOfInputChildren(
     return (
       <Component
         key={input.name + counterToResetChildren}
-        updateValue={onBlur}
+        onBlur={updateFields}
         {...input}
         doDisplayErrors={displayErrors}
         style={style}
@@ -52,13 +57,17 @@ const getInputs = function getListOfInputChildren(
 
 const Form = function CreateFormWithInputs(props) {
   const {
-    inputs, onSubmit, submitLabel, resetChildrenOnSubmit, styleProp,
+    inputs,
+    onSubmit,
+    submitLabel,
+    resetChildrenOnSubmit,
+    styleProp,
   } = props;
 
   const elementRef = createRef();
   const style = styleProp === null ? styleSheet : styleProp;
   const fields = useRef({});
-  const onBlur = function updateFieldsOnBlur(value, name) {
+  const updateFields = function updateFieldsOnBlur(value, name) {
     fields.current[name] = value;
   };
   const [displayErrors, setDisplayErrors] = useState(false);
@@ -91,8 +100,21 @@ const Form = function CreateFormWithInputs(props) {
       }}
       className={style.container}
     >
-      {getInputs(inputs, onBlur, displayErrors, counterToResetChildren, fields, style)}
-      <input key="submit" className={style.button} type="submit" value={submitButtonText} disabled={submitButtonText !== submitLabel} />
+      {getInputs(
+        inputs,
+        updateFields,
+        displayErrors,
+        counterToResetChildren,
+        fields,
+        style,
+      )}
+      <input
+        key="submit"
+        className={style.button}
+        type="submit"
+        value={submitButtonText}
+        disabled={submitButtonText !== submitLabel}
+      />
     </form>
   );
 };

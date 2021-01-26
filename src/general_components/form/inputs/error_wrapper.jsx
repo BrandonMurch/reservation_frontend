@@ -20,7 +20,7 @@ const ErrorWrapper = function InputErrorWrapper(
   }
 
   return (
-    <div>
+    <>
       {React.cloneElement(children, {
         displayErrors,
         setErrorMessage: (message) => {
@@ -33,7 +33,7 @@ const ErrorWrapper = function InputErrorWrapper(
       {displayErrors
       && errorMessage !== ''
       && <p className={style.errorText}>{errorMessage}</p>}
-    </div>
+    </>
 
   );
 };

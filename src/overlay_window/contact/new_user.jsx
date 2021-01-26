@@ -26,12 +26,14 @@ const NewUser = function PopulateContactForm(props) {
       type: 'text',
       label: 'First Name',
       required: true,
+      hiddenLabel: true,
     },
     {
       name: 'lastName',
       type: 'text',
       label: 'Last Name',
       required: true,
+      hiddenLabel: true,
     },
     {
       name: 'username',
@@ -40,6 +42,7 @@ const NewUser = function PopulateContactForm(props) {
       required: true,
       pattern: '^[\\w\\-_.+]*[\\w\\-_.]@([\\w]+\\.)+[\\w]+[\\w]$',
       patternMessage: 'Email must be properly formatted',
+      hiddenLabel: true,
     },
     {
       name: 'phoneNumber',
@@ -49,11 +52,13 @@ const NewUser = function PopulateContactForm(props) {
       pattern: '^\\+\\d{1,3} \\d{6,14}$',
       patternMessage:
         'Phone number must be in the format of +1 123456789 where +1 is the country code, followed by the phone number',
+      hiddenLabel: true,
     },
     {
       name: 'comments',
       type: 'textarea',
       label: 'Comments / Dietary requirements',
+      hiddenLabel: true,
     },
     {
       name: 'tAC',

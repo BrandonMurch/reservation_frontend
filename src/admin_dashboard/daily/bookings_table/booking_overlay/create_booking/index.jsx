@@ -17,17 +17,20 @@ const getInputs = function getInputsFromBooking(date) {
     label: 'Date',
     value: date || undefined,
     required: true,
+    hiddenLabel: true,
   },
   {
     name: 'startTime',
     type: 'time',
     label: 'Start Time',
     required: true,
+    hiddenLabel: true,
   },
   {
     name: 'endTime',
     type: 'time',
     label: 'End Time',
+    hiddenLabel: true,
   },
   {
     name: 'partySize',
@@ -36,12 +39,14 @@ const getInputs = function getInputsFromBooking(date) {
     required: true,
     pattern: '^[1-9][0-9]*$',
     patternMessage: 'Party size must be a number greater than zero',
+    hiddenLabel: true,
   },
   {
     name: 'name',
     type: 'text',
     label: 'Name',
     required: true,
+    hiddenLabel: true,
   },
   {
     name: 'email',
@@ -50,6 +55,7 @@ const getInputs = function getInputsFromBooking(date) {
     required: true,
     pattern: '^[\\w\\-_.+]*[\\w\\-_.]@([\\w]+\\.)+[\\w]+[\\w]$',
     patternMessage: 'Email must be properly formatted',
+    hiddenLabel: true,
   },
   {
     name: 'phoneNumber',
@@ -59,18 +65,21 @@ const getInputs = function getInputsFromBooking(date) {
     pattern: '^\\+\\d{1,3} \\d{6,14}$',
     patternMessage:
         'Phone number must be in the format of +1 123456789 where +1 is the country code, followed by the phone number',
+    hiddenLabel: true,
   },
   {
     name: 'restaurantComments',
     type: 'text-area',
     label: 'Restaurant Comments',
     required: false,
+    hiddenLabel: true,
   },
   {
     name: 'userComments',
     type: 'text-area',
     label: 'User Comments',
     required: false,
+    hiddenLabel: true,
   },
   ];
 };

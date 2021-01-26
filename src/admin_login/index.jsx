@@ -21,12 +21,14 @@ const AdminLogin = function RenderAdminLoginScreen() {
       type: 'text',
       label: 'Username',
       required: true,
+      hiddenLabel: true,
     },
     {
       name: 'password',
       type: 'password',
       label: 'Password',
       required: true,
+      hiddenLabel: true,
     },
   ];
   return (
