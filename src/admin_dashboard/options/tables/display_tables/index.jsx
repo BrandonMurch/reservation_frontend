@@ -11,7 +11,7 @@ import { useRefreshContext } from '../refresh_context';
 import Confirmation from 'admin_dashboard/daily/bookings_table/booking_overlay/confirmation';
 import OverlayContainer from 'admin_dashboard/daily/bookings_table/booking_overlay/overlay_container';
 import Loading from 'general_components/loading';
-import { TextInput } from 'general_components/form/inputs';
+import TextInput from 'general_components/form/inputs/text';
 
 // StyleSheets
 import style from '../tables.module.css';
