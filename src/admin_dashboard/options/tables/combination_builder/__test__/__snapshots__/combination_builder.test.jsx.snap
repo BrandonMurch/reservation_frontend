@@ -4,25 +4,32 @@ exports[`<CombinationBuilder /> should match snapshot 1`] = `
 <div
   className="container"
 >
-  <h1>
+  <h2
+    className="title"
+  >
     Drag tables to create a combination
-  </h1>
+  </h2>
   <div
     aria-label="droppable"
     className="droppableBox"
     onDragOver={[Function]}
     onDrop={[Function]}
   />
-  <button
-    onClick={[Function]}
-    type="button"
+  <div
+    className="buttonContainer"
   >
-    Create
-  </button>
-  <button
-    type="button"
-  >
-    Cancel
-  </button>
+    <button
+      onClick={[Function]}
+      type="button"
+    >
+      Create
+    </button>
+    <button
+      onClick={[Function]}
+      type="button"
+    >
+      Cancel
+    </button>
+  </div>
 </div>
 `;
