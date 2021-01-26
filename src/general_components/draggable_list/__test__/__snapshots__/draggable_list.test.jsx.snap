@@ -3,8 +3,6 @@
 exports[`<DraggableList /> should match snapshot 1`] = `
 <div
   className="TableContainer"
-  onDragOver={[Function]}
-  onDrop={[Function]}
 >
   <div
     className="Table"
@@ -32,6 +30,7 @@ exports[`<DraggableList /> should match snapshot 1`] = `
         data-position={0}
         draggable={true}
         id="table 0"
+        onDragEnd={[Function]}
         onDragEnter={[Function]}
         onDragOver={[Function]}
         onDragStart={[Function]}
@@ -66,6 +65,7 @@ exports[`<DraggableList /> should match snapshot 1`] = `
         data-position={1}
         draggable={true}
         id="table 1"
+        onDragEnd={[Function]}
         onDragEnter={[Function]}
         onDragOver={[Function]}
         onDragStart={[Function]}
@@ -100,6 +100,7 @@ exports[`<DraggableList /> should match snapshot 1`] = `
         data-position={2}
         draggable={true}
         id="table 2"
+        onDragEnd={[Function]}
         onDragEnter={[Function]}
         onDragOver={[Function]}
         onDragStart={[Function]}
