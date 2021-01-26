@@ -17,8 +17,18 @@ const Login = function CreateLoginForm(props) {
   });
 
   const inputs = [
-    { name: 'email', type: 'email', label: 'Email' },
-    { name: 'pass', type: 'password', label: 'Password' },
+    {
+      name: 'email',
+      type: 'email',
+      label: 'Email',
+      hiddenLabel: true,
+    },
+    {
+      name: 'pass',
+      type: 'password',
+      label: 'Password',
+      hiddenLabel: true,
+    },
   ];
 
   const onSubmit = function GetUserFromServer() {
