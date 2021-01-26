@@ -12,7 +12,8 @@ import userEvent from '@testing-library/user-event';
 
 describe('<Monthly />', () => {
   const today = new Date();
-  const todayString = `${today.getFullYear()}-${today.getUTCMonth() + 1}-${today.getUTCDate().toLocaleString('en-US', { minimumIntegerDigits: 2 })}`;
+  const getTwoDigitString = (number) => (number.toLocaleString('en-us', { minimumIntegerDigits: 2 }));
+  const todayString = `${today.getFullYear()}-${getTwoDigitString(today.getUTCMonth + 1)}-${getTwoDigitString(today.getUTCDate())}`;
   const mockCounts = { [todayString]: 10 };
   let fetchSpy;
   let component;
