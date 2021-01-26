@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import BaseInput from 'general_components/form/inputs/base_input';
-import { Checkbox } from 'general_components/form/inputs';
+import Checkbox from 'general_components/form/inputs/checkbox';
 
 const LimitPeopleInput = ({ style, ...props }) => {
   const [enabled, toggleEnabled] = useState(false);

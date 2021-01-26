@@ -5,7 +5,8 @@ import { enumeration } from 'shared/helpers';
 
 // Components
 import ConfirmPassword from './confirm-password';
-import { TextInput, Checkbox } from './inputs';
+import TextInput from './inputs/text';
+import Checkbox from './inputs/checkbox';
 
 // Stylesheets
 import styleSheet from './form.module.css';

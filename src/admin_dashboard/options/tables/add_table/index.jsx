@@ -7,7 +7,7 @@ import { fetchWrapper } from 'shared/useFetch';
 
 // Components
 import Loading from 'general_components/loading';
-import { TextInput } from 'general_components/form/inputs';
+import TextInput from 'general_components/form/inputs/text';
 
 // Stylesheet
 import style from '../tables.module.css';
