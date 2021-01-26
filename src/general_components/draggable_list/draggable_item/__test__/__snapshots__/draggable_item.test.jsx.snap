@@ -17,6 +17,7 @@ Array [
     data-position={0}
     draggable={true}
     id="table 0"
+    onDragEnd={[Function]}
     onDragEnter={[Function]}
     onDragOver={[Function]}
     onDragStart={[Function]}

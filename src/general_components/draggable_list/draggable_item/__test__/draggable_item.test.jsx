@@ -58,9 +58,11 @@ describe('<DraggableItem />', () => {
     expect(props.setHovered).toHaveBeenCalled();
   });
 
-  it('should call setHovered on drop', () => {
+  it('should call setHovered on dragEnd', () => {
     const item = screen.getByText(/hello world/i);
-    fireEvent.drop(item);
+    const dragEndEvent = createEvent.dragEnd(item);
+    Object.assign(dragEndEvent, { dataTransfer: { dropEffect: 'none' } });
+    fireEvent(item, dragEndEvent);
     expect(props.setHovered).toHaveBeenCalledWith(-1);
   });
 
