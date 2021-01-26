@@ -22,7 +22,7 @@ const Box = ({
   const dateNumber = date.substr(8).replace(/^0/, '');
 
   return (
-    <td className={containerStyle} role="gridcell" onClick={() => onClick(date)} onKeyUp={() => onClick(date)}>
+    <td className={containerStyle} role="gridcell" onClick={() => { onClick(date); }} onKeyUp={() => onClick(date)}>
       <p className={style.dateText}>{dateNumber}</p>
       <p className={style.messageText}>{message}</p>
     </td>
