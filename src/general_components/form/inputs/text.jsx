@@ -32,6 +32,7 @@ const TextInput = function CreateTextInputAndLabel({
   onMouseEnter,
   onMouseLeave,
   onKeyDown,
+  min,
 }) {
   const [value, setValue] = useState(initialValue);
   updateValue(initialValue);
@@ -56,6 +57,7 @@ const TextInput = function CreateTextInputAndLabel({
         value={value}
         id={name}
         name={name}
+        min={min}
         onKeyDown={(event) => {
           // Fixes where enter is clicked on last input, and the field isn't updated.
           if (event.key === 'Enter') {
@@ -96,6 +98,7 @@ TextInput.propTypes = {
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   onKeyDown: PropTypes.func,
+  min: PropTypes.string,
   style: PropTypes.shape({
     hiddenLabelText: PropTypes.string,
     labelText: PropTypes.string,
@@ -114,6 +117,7 @@ TextInput.defaultProps = {
   pattern: null,
   displayErrors: false,
   hiddenLabel: false,
+  min: undefined,
   onChange: () => {},
   onBlur: () => {},
   onFocus: () => {},
