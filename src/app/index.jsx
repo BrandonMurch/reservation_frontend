@@ -6,6 +6,7 @@ import { Link, Switch, Route } from 'react-router-dom';
 import OverlayWindow from '../overlay_window';
 import AdminLogin from '../admin_login';
 import AdminDashboard from '../admin_dashboard';
+import Test from 'test';
 // import AuthorizationWrapper from '../authorization_wrapper';
 import { TokenContextProvider } from '../contexts/token_context';
 import { OverlayContextProvider } from '../contexts/overlay_context';
@@ -30,6 +31,7 @@ function App() {
         <OverlayContextProvider>
           <Switch className={style.app}>
             <Route path="/admin-login" component={AdminLogin} />
+            <Route path="/test" component={Test} />
             <Route
               path="/admin"
               render={() => (
