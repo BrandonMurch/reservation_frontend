@@ -16,6 +16,10 @@
   width: 70%;
 }
 
+.labelText::after {
+  content: ": ";
+}
+
 .input {
   composes: text from '../../css/project_globals.module.css';
   width: 85%;
