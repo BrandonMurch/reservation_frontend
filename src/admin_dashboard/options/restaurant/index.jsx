@@ -1,18 +1,19 @@
 import React from 'react';
 import LimitPeopleInput from './limitInput';
+import Number from 'general_components/form/inputs/number';
 import Form from 'general_components/form';
 
 const RestaurantForm = function FormForRestaurantOptions() {
   const inputs = [
     {
       name: 'capacity',
-      type: 'number',
+      component: Number,
       label: 'Capacity',
       required: true,
     },
     {
       name: 'bookingDuration',
-      type: 'number',
+      component: Number,
       label: 'Standard booking duration in minutes',
       required: true,
     },
@@ -32,7 +33,6 @@ const RestaurantForm = function FormForRestaurantOptions() {
       inputs={inputs}
       onSubmit={() => console.log('submitted')}
       submitLabel="Save"
-      styleProp={{}}
     />
   );
 };
