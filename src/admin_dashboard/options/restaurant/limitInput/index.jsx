@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import BaseInput from 'general_components/form/inputs/base_input';
+import Number from 'general_components/form/inputs/number';
 import Checkbox from 'general_components/form/inputs/checkbox';
 
 const LimitPeopleInput = ({ style, ...props }) => {
@@ -21,7 +21,7 @@ const LimitPeopleInput = ({ style, ...props }) => {
         label="Limit people per interval"
         name="toggleLimitInterval"
         style={style}
-        value
+        value={enabled}
         // TODO: remove this after refactor
         updateValue={() => toggleEnabled((prevState) => {
           if (prevState) {
@@ -33,23 +33,21 @@ const LimitPeopleInput = ({ style, ...props }) => {
       {enabled
       && (
       <div>
-        <BaseInput
+        <Number
           name="people"
           label="People"
-          type="number"
           value={0}
           min={0}
           style={style}
-          updateValue={(value) => updateValue('people', value)}
+          onBlur={(value) => updateValue('people', value)}
         />
-        <BaseInput
+        <Number
           name="interval"
           label="Interval in minutes"
-          type="number"
           value={0}
           min={0}
           style={style}
-          updateValue={(value) => updateValue('interval', value)}
+          onBlur={(value) => updateValue('interval', value)}
         />
       </div>
       ) }
