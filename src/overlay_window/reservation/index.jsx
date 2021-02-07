@@ -21,7 +21,7 @@ const ReservationForm = function CreateAReservationForm(props) {
   const reservation = { date, time, partySize };
   const setBanner = useBannerContext();
 
-  const { response: maxPartySize, alternativeRender } = useFetch('/restaurant/largest-table');
+  const { response: maxPartySize, alternativeRender } = useFetch('/largest-table');
 
   useEffect(() => {
     if (date != null && partySize > 0) {
