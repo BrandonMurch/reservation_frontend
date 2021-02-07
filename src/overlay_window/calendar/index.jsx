@@ -40,15 +40,10 @@ const getDateRange = function getDateRangeFromAvailableDatesIfPresent(dates) {
 
 const Calendar = function PopulateUsingFullCalendar({ dateClick }) {
   const [redirect, setRedirect] = useState('');
-  const { alternativeRender, response } = useFetch('/restaurant/availability');
+  const { alternativeRender, response: availableDates } = useFetch('/restaurant/availability');
 
   if (alternativeRender) {
     return alternativeRender;
-  }
-
-  let availableDates;
-  if (response) {
-    availableDates = response.availableDates;
   }
 
   const dateRange = getDateRange(availableDates);
