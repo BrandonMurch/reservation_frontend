@@ -4,16 +4,14 @@ import PropTypes from 'prop-types';
 import { enumeration } from 'shared/helpers';
 
 // Components
-import ConfirmPassword from './confirm-password';
 import TextInput from './inputs/text';
 import Checkbox from './inputs/checkbox';
 
 // Stylesheets
-import styleSheet from './form.module.css';
+import defaultStyles from './form.module.css';
 
 const inputFields = enumeration.keyValue(
   { key: 'checkbox', value: Checkbox },
-  { key: 'confirmPassword', value: ConfirmPassword },
   { key: 'default', value: TextInput },
 );
 
@@ -66,7 +64,7 @@ const Form = function CreateFormWithInputs(props) {
   } = props;
 
   const elementRef = createRef();
-  const style = styleProp === null ? styleSheet : styleProp;
+  const style = { ...defaultStyles, ...styleProp };
   const fields = useRef({});
   const updateFields = function updateFieldsOnBlur(value, name) {
     fields.current[name] = value;
