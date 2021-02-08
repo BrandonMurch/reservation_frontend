@@ -69,7 +69,7 @@ const FetchTableWrapper = function FetchTableWrapperForRestaurantTable(props) {
   const [overlay, setOverlay] = useState(null);
   const [error, setError] = useState('');
 
-  const { loading, response: tableList } = useFetch('/restaurant/tables');
+  const { loading, response: tableList } = useFetch('/tables');
   if (loading || isLoading) {
     return (
       <>
