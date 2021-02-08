@@ -20,14 +20,11 @@ const Checkbox = function CreateCheckboxAndLabel({
   label,
   required,
   updateValue,
-  displayErrors,
   setErrorMessage,
   onFocus,
   style,
-  hiddenLabel,
   onMouseEnter,
   onMouseLeave,
-  min,
 }) {
   const [value, setValue] = useState(initialValue);
 
@@ -41,13 +38,13 @@ const Checkbox = function CreateCheckboxAndLabel({
   return (
     <div key={key} className={style.inputGroup}>
       <label
-        className={hiddenLabel ? style.hiddenLabelText : style.labelText}
+        className={style.checkboxLabel}
         htmlFor={name}
       >
         {label}
       </label>
       <input
-        className={displayErrors ? style.displayError : style.input}
+        className={style.checkbox}
         onFocus={onFocus}
         required={required}
         type="checkbox"
@@ -56,7 +53,6 @@ const Checkbox = function CreateCheckboxAndLabel({
         checked={value}
         id={name}
         name={name}
-        min={min}
         onChange={onChange}
       />
     </div>
@@ -70,18 +66,15 @@ Checkbox.propTypes = {
   updateValue: PropTypes.func,
   required: PropTypes.bool,
   label: PropTypes.string.isRequired,
-  displayErrors: PropTypes.bool,
   onMouseEnter: PropTypes.func,
   onMouseLeave: PropTypes.func,
   setErrorMessage: PropTypes.func,
-  hiddenLabel: PropTypes.bool,
   onFocus: PropTypes.func,
-  min: PropTypes.number,
   style: PropTypes.shape({
     hiddenLabelText: PropTypes.string,
-    labelText: PropTypes.string,
+    checkboxLabel: PropTypes.string,
     inputGroup: PropTypes.string,
-    input: PropTypes.string,
+    checkbox: PropTypes.string,
     displayError: PropTypes.string,
     errorText: PropTypes.string,
   }).isRequired,
@@ -92,9 +85,6 @@ Checkbox.defaultProps = {
   value: false,
   setErrorMessage: () => {},
   required: false,
-  displayErrors: false,
-  hiddenLabel: false,
-  min: undefined,
   onFocus: () => {},
   updateValue: () => {},
   onMouseEnter: () => {},
