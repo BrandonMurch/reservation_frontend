@@ -12,7 +12,6 @@ import defaultStyles from './form.module.css';
 
 const inputFields = enumeration.keyValue(
   { key: 'checkbox', value: Checkbox },
-  { key: 'default', value: TextInput },
 );
 
 const touchInputs = function focusAndBlurAllInputChildren(children) {
@@ -38,7 +37,7 @@ const getInputs = function getListOfInputChildren(
   style,
 ) {
   return inputs.map((input) => {
-    const Component = input.component || inputFields[input.type] || inputFields.default;
+    const Component = input.component || inputFields[input.type] || TextInput;
     if (!fields.current[input.name]) {
       fields.current[input.name] = input.value;
     }
@@ -47,7 +46,7 @@ const getInputs = function getListOfInputChildren(
         key={input.name + counterToResetChildren}
         onBlur={updateFields}
         {...input}
-        doDisplayErrors={displayErrors}
+        displayErrors={displayErrors}
         style={style}
       />
     );
