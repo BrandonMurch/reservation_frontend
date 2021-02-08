@@ -1,5 +1,8 @@
+// Dependencies
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+
+// Components
 import Number from 'general_components/form/inputs/number';
 import Checkbox from 'general_components/form/inputs/checkbox';
 
@@ -22,7 +25,6 @@ const LimitPeopleInput = ({ style, ...props }) => {
         name="toggleLimitInterval"
         style={style}
         value={enabled}
-        // TODO: remove this after refactor
         updateValue={() => toggleEnabled((prevState) => {
           if (prevState) {
             storedValues.current = defaultValues;
@@ -32,7 +34,7 @@ const LimitPeopleInput = ({ style, ...props }) => {
       />
       {enabled
       && (
-      <div>
+      <div className={style.limitContainer}>
         <Number
           name="people"
           label="People"
@@ -57,7 +59,9 @@ const LimitPeopleInput = ({ style, ...props }) => {
 
 LimitPeopleInput.propTypes = {
   updateValue: PropTypes.func.isRequired,
-  style: PropTypes.shape({}).isRequired,
+  style: PropTypes.shape({
+    limitContainer: PropTypes.string,
+  }).isRequired,
 };
 
 export default LimitPeopleInput;
