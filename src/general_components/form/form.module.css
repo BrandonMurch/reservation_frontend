@@ -13,7 +13,12 @@
 
 .labelText {
   composes: text from '../../css/project_globals.module.css';
-  width: 70%;
+  width: 40%;
+}
+
+.checkboxLabel {
+  composes: labelText;
+  width: 99%;
 }
 
 .labelText::after {
@@ -22,11 +27,21 @@
 
 .input {
   composes: text from '../../css/project_globals.module.css';
-  width: 85%;
+  width: 60%;
   background-color: rgba(0, 0, 0, 0);
   border: 0px;
   border-bottom: 2px solid white;
   margin-top: 1rem;
+}
+
+.noLabelInput {
+  composes: input;
+  width: 90%;
+}
+
+.checkbox {
+  composes: input;
+  width: 1%;
 }
 
 .input:focus {
