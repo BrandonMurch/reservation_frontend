@@ -1,7 +1,13 @@
+// Dependencies
 import React from 'react';
+
+// Components
 import LimitPeopleInput from './limitInput';
 import Number from 'general_components/form/inputs/number';
 import Form from 'general_components/form';
+
+// Stylesheet
+import style from './restaurant.module.css';
 
 const RestaurantForm = function FormForRestaurantOptions() {
   const inputs = [
@@ -29,11 +35,15 @@ const RestaurantForm = function FormForRestaurantOptions() {
   ];
 
   return (
-    <Form
-      inputs={inputs}
-      onSubmit={() => console.log('submitted')}
-      submitLabel="Save"
-    />
+    <div className={style.container}>
+      <Form
+        styleProp={style}
+        inputs={inputs}
+        onSubmit={() => console.log('submitted')}
+        submitLabel="Save"
+      />
+    </div>
+
   );
 };
 
