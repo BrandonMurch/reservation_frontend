@@ -24,10 +24,10 @@ const ErrorWrapper = function InputErrorWrapper(
       {React.cloneElement(children, {
         displayErrors,
         setErrorMessage: (message) => {
-          if (displayErrors) {
+          if (!displayErrors) {
             setDisplayErrors(true);
-            setErrorMessage(message);
           }
+          setErrorMessage(message);
         },
       })}
       {displayErrors
