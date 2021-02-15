@@ -4,25 +4,24 @@ import PropTypes from 'prop-types';
 
 // Stylesheet
 import style from './day_row.module.css';
-import { getDayOfWeek } from 'shared/dateHelper';
 
 const getHourString = (hours) => (
   hours.length > 0
     ? hours.join(', ')
     : 'closed');
 
-const DayRow = ({ day: dayIndex, hours, setEditWindow }) => (
+const DayRow = ({ day, hours, setEditWindow }) => (
   <>
     <tr>
       <td>
-        {getDayOfWeek(dayIndex)}
+        {day}
       </td>
       <td>{getHourString(hours)}</td>
       <td>
         <button
           className={style.button}
           type="button"
-          onClick={() => setEditWindow(dayIndex)}
+          onClick={() => setEditWindow(day)}
         >
           edit
         </button>
@@ -32,7 +31,7 @@ const DayRow = ({ day: dayIndex, hours, setEditWindow }) => (
 );
 
 DayRow.propTypes = {
-  day: PropTypes.number.isRequired,
+  day: PropTypes.string.isRequired,
   hours: PropTypes.arrayOf(PropTypes.string).isRequired,
   setEditWindow: PropTypes.func.isRequired,
 };

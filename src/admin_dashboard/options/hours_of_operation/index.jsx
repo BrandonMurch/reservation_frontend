@@ -7,29 +7,31 @@ import DayRow from './day_row';
 import EditHours from './edit_hours';
 
 const getHours = function getHoursOfOperationStub() {
-  const hours = [];
+  const hours = {};
   for (let i = 0; i < 7; i++) {
-    hours[i] = [];
+    hours[getDayOfWeek(i)] = [];
   }
-  hours[1] = ['17:00 - 20:00'];
-  hours[5] = ['17:00 - 20:00'];
-  hours[6] = ['12:00 - 14:00', '17:00 - 20:00'];
+  hours.Monday = ['17:00 - 20:00'];
+  hours.Friday = ['17:00 - 20:00'];
+  hours.Saturday = ['12:00 - 14:00', '17:00 - 20:00'];
   return hours;
+};
+
+const update = (state) => {
+  console.log(`updated ${state}`);
 };
 
 const hoursReducer = (state, action) => {
   switch (action.type) {
     case 'add': {
       state[action.day].push(action.hours);
-      return [...state];
+      update(state);
+      return { ...state };
     }
     case 'remove': {
       state[action.day].splice(action.hoursIndex, 1);
-      return [...state];
-    }
-    case 'removeAll': {
-      state[action.day] = [];
-      return [...state];
+      update(state);
+      return { ...state };
     }
     default: {
       return state;
@@ -39,17 +41,17 @@ const hoursReducer = (state, action) => {
 
 const HoursOfOperation = () => {
   const [days, dispatchDays] = useReducer(hoursReducer, getHours());
-  const [editWindowDay, setEditWindowDay] = useState(-1);
+  const [editWindowDay, setEditWindowDay] = useState('');
   return (
     <>
-      { editWindowDay >= 0
+      { editWindowDay !== ''
         ? (
           <EditHours
-            day={getDayOfWeek(editWindowDay)}
+            day={editWindowDay}
             hours={days[editWindowDay]}
             add={(hours) => dispatchDays({ type: 'add', day: editWindowDay, hours })}
             remove={(hoursIndex) => dispatchDays({ type: 'remove', day: editWindowDay, hoursIndex })}
-            cancel={() => setEditWindowDay(-1)}
+            cancel={() => setEditWindowDay('')}
           />
         )
         : null}
@@ -62,12 +64,11 @@ const HoursOfOperation = () => {
         </thead>
         <tbody>
 
-          {days.map((hours, index) => (
+          {Object.entries(days).map(([day, hours]) => (
             <DayRow
-              key={getDayOfWeek(index)}
-              day={index}
+              key={day}
+              day={day}
               hours={hours}
-              update={() => console.log('hours updated')}
               setEditWindow={setEditWindowDay}
             />
           ))}
