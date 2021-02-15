@@ -33,14 +33,17 @@ const EditHours = ({
         </tr>
       </thead>
       <tbody>
-        {hours.map((set, index) => (
-          <HoursRow
-            key={set.toString()}
-            open={set[0]}
-            close={set[1]}
-            remove={() => remove(index)}
-          />
-        ))}
+        {hours.map((hoursString, index) => {
+          const set = hoursString.split(' - ');
+          return (
+            <HoursRow
+              key={hoursString}
+              open={set[0]}
+              close={set[1]}
+              remove={() => remove(index)}
+            />
+          );
+        })}
       </tbody>
     </table>
   </div>

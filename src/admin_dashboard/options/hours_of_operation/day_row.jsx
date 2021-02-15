@@ -1,38 +1,18 @@
 // Dependencies
-import React, { useReducer, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 // Stylesheet
 import style from './day_row.module.css';
 import EditHours from './edit_hours';
+import { getDayOfWeek } from 'shared/dateHelper';
 
-const hoursReducer = (state, action) => {
-  switch (action.type) {
-    case 'add': {
-      state[action.index] = action.item;
-      return [...state];
-    }
-    case 'remove': {
-      state.splice(action.index, 1);
-      return state;
-    }
-    case 'reset': {
-      return [];
-    }
-    default: {
-      return state;
-    }
-  }
-};
-
-const DayRow = ({ day, hours: propHours }) => {
+const DayRow = ({ day: dayIndex, hours, dispatchDays }) => {
   const [editWindow, toggleEditWindow] = useState(false);
-  const [hours, dispatchHours] = useReducer(hoursReducer, propHours);
-
+  const dayString = getDayOfWeek(dayIndex);
   let hoursText;
   if (hours.length > 0) {
-    const joinedHours = hours.map((hourArray) => hourArray.join('-'));
-    hoursText = joinedHours.join(', ');
+    hoursText = hours.join(', ');
   } else {
     hoursText = 'closed';
   }
@@ -41,16 +21,16 @@ const DayRow = ({ day, hours: propHours }) => {
     <>
       <tr>
         <td>
-          {day}
+          {dayString}
         </td>
         <td>{hoursText}</td>
         <td>
           {editWindow
             ? (
               <EditHours
-                day={day}
+                day={dayString}
                 hours={hours}
-                remove={(index) => dispatchHours({ type: 'remove', index })}
+                remove={(hoursIndex) => dispatchDays({ type: 'remove', day: dayIndex, hoursIndex })}
                 cancel={() => toggleEditWindow(false)}
               />
             )
@@ -69,9 +49,9 @@ const DayRow = ({ day, hours: propHours }) => {
 };
 
 DayRow.propTypes = {
-  day: PropTypes.string.isRequired,
-  hours: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
-
+  day: PropTypes.number.isRequired,
+  hours: PropTypes.arrayOf(PropTypes.string).isRequired,
+  dispatchDays: PropTypes.func.isRequired,
 };
 
 export default DayRow;
