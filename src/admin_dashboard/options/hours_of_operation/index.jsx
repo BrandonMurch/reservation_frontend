@@ -2,8 +2,11 @@ import React from 'react';
 import DayRow from './day_row';
 import { getDayOfWeek } from 'shared/dateHelper';
 
-const getHoursStub = () => {
+const getHours = function getHoursOfOperationStub() {
   const hours = [];
+  for (let i = 0; i < 7; i++) {
+    hours[i] = [];
+  }
   hours[1] = [['17:00', '20:00']];
   hours[5] = [['17:00', '20:00']];
   hours[6] = [['12:00', '14:00'], ['17:00', '20:00']];
@@ -11,7 +14,7 @@ const getHoursStub = () => {
 };
 
 const HoursOfOperation = () => {
-  const days = getHoursStub();
+  const days = getHours();
   return (
     <table>
       <thead>

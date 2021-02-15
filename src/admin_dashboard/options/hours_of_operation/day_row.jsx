@@ -30,14 +30,12 @@ const DayRow = ({ day, hours: propHours }) => {
   const [hours, dispatchHours] = useReducer(hoursReducer, propHours);
 
   let hoursText;
-  if (day) {
+  if (hours.length > 0) {
     const joinedHours = hours.map((hourArray) => hourArray.join('-'));
     hoursText = joinedHours.join(', ');
   } else {
     hoursText = 'closed';
   }
-
-  console.log(hours);
 
   return (
     <>
