@@ -23,7 +23,13 @@ const EditHours = ({
   day, hours, cancel, remove,
 }) => (
   <div className={style.container}>
-    <button className={style.button} type="button" onClick={() => cancel()}>x</button>
+    <button
+      className={style.button}
+      type="button"
+      onClick={() => cancel()}
+    >
+      x
+    </button>
     <h1>{day}</h1>
     <table>
       <thead>

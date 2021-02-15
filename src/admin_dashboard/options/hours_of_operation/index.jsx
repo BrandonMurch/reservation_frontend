@@ -1,6 +1,10 @@
-import React, { useReducer } from 'react';
-import DayRow from './day_row';
+// Dependencies
+import React, { useReducer, useState } from 'react';
 import { getDayOfWeek } from 'shared/dateHelper';
+
+// Components
+import DayRow from './day_row';
+import EditHours from './edit_hours';
 
 const getHours = function getHoursOfOperationStub() {
   const hours = [];
@@ -35,6 +39,7 @@ const hoursReducer = (state, action) => {
 
 const HoursOfOperation = () => {
   const [days, dispatchDays] = useReducer(hoursReducer, getHours());
+  const [editWindowDay, setEditWindowDay] = useState(-1);
   return (
     <table>
       <thead>
@@ -44,13 +49,23 @@ const HoursOfOperation = () => {
         </tr>
       </thead>
       <tbody>
+        { editWindowDay >= 0
+          ? (
+            <EditHours
+              day={getDayOfWeek(editWindowDay)}
+              hours={days[editWindowDay]}
+              remove={(hoursIndex) => dispatchDays({ type: 'remove', day: editWindowDay, hoursIndex })}
+              cancel={() => setEditWindowDay(-1)}
+            />
+          )
+          : null}
         {days.map((hours, index) => (
           <DayRow
             key={getDayOfWeek(index)}
             day={index}
             hours={hours}
             update={() => console.log('hours updated')}
-            dispatchDays={dispatchDays}
+            setEditWindow={setEditWindowDay}
           />
         ))}
       </tbody>

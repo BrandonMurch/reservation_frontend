@@ -1,57 +1,40 @@
 // Dependencies
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 // Stylesheet
 import style from './day_row.module.css';
-import EditHours from './edit_hours';
 import { getDayOfWeek } from 'shared/dateHelper';
 
-const DayRow = ({ day: dayIndex, hours, dispatchDays }) => {
-  const [editWindow, toggleEditWindow] = useState(false);
-  const dayString = getDayOfWeek(dayIndex);
-  let hoursText;
-  if (hours.length > 0) {
-    hoursText = hours.join(', ');
-  } else {
-    hoursText = 'closed';
-  }
+const getHourString = (hours) => (
+  hours.length > 0
+    ? hours.join(', ')
+    : 'closed');
 
-  return (
-    <>
-      <tr>
-        <td>
-          {dayString}
-        </td>
-        <td>{hoursText}</td>
-        <td>
-          {editWindow
-            ? (
-              <EditHours
-                day={dayString}
-                hours={hours}
-                remove={(hoursIndex) => dispatchDays({ type: 'remove', day: dayIndex, hoursIndex })}
-                cancel={() => toggleEditWindow(false)}
-              />
-            )
-            : null}
-          <button
-            className={style.button}
-            type="button"
-            onClick={() => toggleEditWindow((previousState) => !previousState)}
-          >
-            edit
-          </button>
-        </td>
-      </tr>
-    </>
-  );
-};
+const DayRow = ({ day: dayIndex, hours, setEditWindow }) => (
+  <>
+    <tr>
+      <td>
+        {getDayOfWeek(dayIndex)}
+      </td>
+      <td>{getHourString(hours)}</td>
+      <td>
+        <button
+          className={style.button}
+          type="button"
+          onClick={() => setEditWindow(dayIndex)}
+        >
+          edit
+        </button>
+      </td>
+    </tr>
+  </>
+);
 
 DayRow.propTypes = {
   day: PropTypes.number.isRequired,
   hours: PropTypes.arrayOf(PropTypes.string).isRequired,
-  dispatchDays: PropTypes.func.isRequired,
+  setEditWindow: PropTypes.func.isRequired,
 };
 
 export default DayRow;
