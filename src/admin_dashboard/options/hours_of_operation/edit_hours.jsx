@@ -1,5 +1,5 @@
 // Dependencies
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 // Stylesheet
@@ -19,12 +19,47 @@ HoursRow.propTypes = {
   remove: PropTypes.func.isRequired,
 };
 
+const NewRow = ({ addHours }) => {
+  const [open, setOpen] = useState();
+  const [close, setClose] = useState();
+  return (
+    <tr>
+      <td>
+        <input
+          type="time"
+          value={open}
+          onChange={({ target }) => setOpen(target.value)}
+        />
+      </td>
+      <td>
+        <input
+          type="time"
+          value={close}
+          onChange={({ target }) => setClose(target.value)}
+        />
+      </td>
+      <td>
+        <button
+          type="submit"
+          onClick={() => addHours(`${open} - ${close}`)}
+        >
+          Add
+        </button>
+      </td>
+    </tr>
+  );
+};
+
+NewRow.propTypes = {
+  addHours: PropTypes.func.isRequired,
+};
+
 const EditHours = ({
-  day, hours, cancel, remove,
+  day, hours, cancel, remove, add,
 }) => (
   <div className={style.container}>
     <button
-      className={style.button}
+      className={style.exitButton}
       type="button"
       onClick={() => cancel()}
     >
@@ -50,6 +85,7 @@ const EditHours = ({
             />
           );
         })}
+        <NewRow addHours={add} />
       </tbody>
     </table>
   </div>
@@ -57,9 +93,10 @@ const EditHours = ({
 
 EditHours.propTypes = {
   day: PropTypes.string.isRequired,
-  hours: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
+  hours: PropTypes.arrayOf(PropTypes.string).isRequired,
   cancel: PropTypes.func.isRequired,
   remove: PropTypes.func.isRequired,
+  add: PropTypes.func.isRequired,
 };
 
 export default EditHours;

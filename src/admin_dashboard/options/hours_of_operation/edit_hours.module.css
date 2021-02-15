@@ -14,11 +14,15 @@
     padding: 1rem;
 }
 
-.button {
+.exitButton {
     float:right;
     background: transparent;
     border: none;
     color: light;
     font-size: 2rem;
     cursor: pointer;
+}
+
+input {
+    width: 9rem;
 }

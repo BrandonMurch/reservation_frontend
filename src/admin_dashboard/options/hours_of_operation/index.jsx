@@ -20,7 +20,7 @@ const getHours = function getHoursOfOperationStub() {
 const hoursReducer = (state, action) => {
   switch (action.type) {
     case 'add': {
-      state[action.day] = action.push(action.hours);
+      state[action.day].push(action.hours);
       return [...state];
     }
     case 'remove': {
@@ -41,36 +41,40 @@ const HoursOfOperation = () => {
   const [days, dispatchDays] = useReducer(hoursReducer, getHours());
   const [editWindowDay, setEditWindowDay] = useState(-1);
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Day</th>
-          <th>Hours</th>
-        </tr>
-      </thead>
-      <tbody>
-        { editWindowDay >= 0
-          ? (
-            <EditHours
-              day={getDayOfWeek(editWindowDay)}
-              hours={days[editWindowDay]}
-              remove={(hoursIndex) => dispatchDays({ type: 'remove', day: editWindowDay, hoursIndex })}
-              cancel={() => setEditWindowDay(-1)}
-            />
-          )
-          : null}
-        {days.map((hours, index) => (
-          <DayRow
-            key={getDayOfWeek(index)}
-            day={index}
-            hours={hours}
-            update={() => console.log('hours updated')}
-            setEditWindow={setEditWindowDay}
+    <>
+      { editWindowDay >= 0
+        ? (
+          <EditHours
+            day={getDayOfWeek(editWindowDay)}
+            hours={days[editWindowDay]}
+            add={(hours) => dispatchDays({ type: 'add', day: editWindowDay, hours })}
+            remove={(hoursIndex) => dispatchDays({ type: 'remove', day: editWindowDay, hoursIndex })}
+            cancel={() => setEditWindowDay(-1)}
           />
-        ))}
-      </tbody>
+        )
+        : null}
+      <table>
+        <thead>
+          <tr>
+            <th>Day</th>
+            <th>Hours</th>
+          </tr>
+        </thead>
+        <tbody>
 
-    </table>
+          {days.map((hours, index) => (
+            <DayRow
+              key={getDayOfWeek(index)}
+              day={index}
+              hours={hours}
+              update={() => console.log('hours updated')}
+              setEditWindow={setEditWindowDay}
+            />
+          ))}
+        </tbody>
+
+      </table>
+    </>
   );
 };
 
