@@ -20,8 +20,8 @@ HoursRow.propTypes = {
 };
 
 const NewRow = ({ addHours }) => {
-  const [open, setOpen] = useState();
-  const [close, setClose] = useState();
+  const [open, setOpen] = useState('');
+  const [close, setClose] = useState('');
   return (
     <tr>
       <td>
