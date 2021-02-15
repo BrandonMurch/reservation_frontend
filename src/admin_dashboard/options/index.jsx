@@ -11,6 +11,7 @@ import RestaurantForm from './restaurant';
 
 // Stylesheets
 import style from './options.module.css';
+import HoursOfOperation from './hours_of_operation';
 
 const Options = function RestaurantOptions({ locationOfParent }) {
   return (
@@ -19,12 +20,14 @@ const Options = function RestaurantOptions({ locationOfParent }) {
         <NavItem label="Tables" to={`${locationOfParent}/tables`} />
         <NavItem label="Rules" to={`${locationOfParent}/rules`} />
         <NavItem label="Restaurant" to={`${locationOfParent}/restaurant`} />
+        <NavItem label="Hours of Operation" to={`${locationOfParent}/hours-of-operation`} />
       </NavBar>
       <div className={style.container}>
         <Switch>
           <Route path={`${locationOfParent}/tables`} component={TableList} />
           <Route path={`${locationOfParent}/rules`} />
           <Route path={`${locationOfParent}/restaurant`} component={RestaurantForm} />
+          <Route path={`${locationOfParent}/hours-of-operation`} component={HoursOfOperation} />
         </Switch>
       </div>
 

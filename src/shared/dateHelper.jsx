@@ -44,3 +44,16 @@ export const getMonth = function getMonthFromNumber(monthNumber) {
 
   return months[monthNumber];
 };
+
+export const getDayOfWeek = (index) => {
+  const daysOfWeek = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ];
+  return daysOfWeek[index];
+};
