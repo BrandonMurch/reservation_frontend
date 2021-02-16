@@ -1,3 +1,16 @@
+@value colors: "../../../css/colors.module.css";
+@value primary, dark, light, accent from colors;
+
+.container {
+    color:light;
+}
+
+.cell {
+    padding: 0 1rem;
+}
+
 .button {
+    composes: button from '../../../css/project_globals.module.css';
     display: inline;
+    margin: 0;
 }

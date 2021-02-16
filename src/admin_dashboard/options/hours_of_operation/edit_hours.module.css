@@ -28,3 +28,8 @@
 input {
     width: 9rem;
 }
+
+.button {
+    composes: button from '../../../css/project_globals.module.css';
+    margin: 0.2rem;
+}

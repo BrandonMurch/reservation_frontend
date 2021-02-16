@@ -12,11 +12,11 @@ const getHourString = (hours) => (
 
 const DayRow = ({ day, hours, setEditWindow }) => (
   <>
-    <tr>
-      <td>
+    <tr className={style.container}>
+      <td className={style.cell}>
         {day}
       </td>
-      <td>{getHourString(hours)}</td>
+      <td className={style.cell}>{getHourString(hours)}</td>
       <td>
         <button
           className={style.button}
