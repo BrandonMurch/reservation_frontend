@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const ErrorWrapper = function InputErrorWrapper(
   {
-    displayErrors: forceDisplayErrors, style, children, patternMessage,
+    displayErrors: forceDisplayErrors, style, children, patternMessage, hideErrors,
   },
 ) {
   const [errorMessage, setErrorMessage] = useState('');
@@ -24,7 +24,7 @@ const ErrorWrapper = function InputErrorWrapper(
       {React.cloneElement(children, {
         displayErrors,
         setErrorMessage: (message) => {
-          if (!displayErrors) {
+          if (!displayErrors && !hideErrors) {
             setDisplayErrors(true);
           }
           setErrorMessage(message);
@@ -40,6 +40,7 @@ const ErrorWrapper = function InputErrorWrapper(
 
 ErrorWrapper.propTypes = {
   displayErrors: PropTypes.bool,
+  hideErrors: PropTypes.bool,
   style: PropTypes.shape({
     errorText: PropTypes.string.isRequired,
   }).isRequired,
@@ -50,6 +51,7 @@ ErrorWrapper.propTypes = {
 ErrorWrapper.defaultProps = {
   patternMessage: '',
   displayErrors: false,
+  hideErrors: false,
 };
 
 export default ErrorWrapper;
