@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 // Components
 import ErrorWrapper from './error_wrapper';
 
+// Stylesheet
+import defaultStyle from '../form.module.css';
+
 const TextInputWithError = function TextInputWithErrorWrapper(props) {
   return (
     <ErrorWrapper {...props}>
@@ -27,7 +30,7 @@ const TextInput = function CreateTextInputAndLabel({
   onChange,
   onFocus,
   onBlur,
-  style,
+  style: propStyle,
   hiddenLabel,
   onMouseEnter,
   onMouseLeave,
@@ -36,7 +39,7 @@ const TextInput = function CreateTextInputAndLabel({
 }) {
   const [value, setValue] = useState(initialValue);
   updateValue(initialValue);
-
+  const style = { ...defaultStyle, ...propStyle };
   return (
     <div key={key} className={style.inputGroup}>
       <label
@@ -82,7 +85,7 @@ const TextInput = function CreateTextInputAndLabel({
 
 TextInput.propTypes = {
   key: PropTypes.string,
-  type: PropTypes.string.isRequired,
+  type: PropTypes.string,
   name: PropTypes.string.isRequired,
   value: PropTypes.string,
   updateValue: PropTypes.func,
@@ -112,6 +115,7 @@ TextInput.propTypes = {
 TextInput.defaultProps = {
   key: '',
   value: '',
+  type: 'text',
   setErrorMessage: () => {},
   required: false,
   pattern: null,
