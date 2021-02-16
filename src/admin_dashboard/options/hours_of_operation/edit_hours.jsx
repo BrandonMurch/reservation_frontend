@@ -67,7 +67,7 @@ const EditHours = ({
       x
     </button>
     <h1>{day}</h1>
-    <table>
+    <table className={style.table}>
       <thead>
         <tr>
           <td>Open</td>
