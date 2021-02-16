@@ -9,7 +9,7 @@ const HoursRow = ({ open, close, remove }) => (
   <tr>
     <td>{open}</td>
     <td>{close}</td>
-    <td><button type="button" onClick={() => remove()}>Remove</button></td>
+    <td><button className={style.button} type="button" onClick={() => remove()}>Remove</button></td>
   </tr>
 );
 
@@ -40,6 +40,7 @@ const NewRow = ({ addHours }) => {
       </td>
       <td>
         <button
+          className={style.button}
           type="submit"
           onClick={() => addHours(`${open} - ${close}`)}
         >
