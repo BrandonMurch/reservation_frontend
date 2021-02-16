@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import Input from './base_input';
 
 // Stylesheets
-import styleSheet from '../form.module.css';
+import defaultStyleSheet from '../form.module.css';
 import useEventListener from 'shared/useEventListener';
 
 const getInitialSuggestionObject = (possibleEntries, filter) => ({
@@ -49,12 +49,13 @@ const reducer = ((state, action) => {
 
 const AutoCompleteInput = ({
   possibleEntries,
-  style = styleSheet,
+  style: propStyle,
   onBlur,
   filter = ((suggestion, input) => suggestion.indexOf(input) > -1),
   display = ((suggestion) => suggestion),
   ...props
 }) => {
+  const style = { ...defaultStyleSheet, ...propStyle };
   const [
     { displaySuggestions, selectedSuggestion, suggestions }, dispatchSuggestions,
   ] = useReducer(reducer, getInitialSuggestionObject(possibleEntries, filter));
@@ -147,14 +148,14 @@ AutoCompleteInput.propTypes = {
   filter: PropTypes.func,
   display: PropTypes.func,
   style: PropTypes.shape({
-    suggestionContainer: PropTypes.string.isRequired,
-    hoveredSuggestion: PropTypes.string.isRequired,
+    suggestionContainer: PropTypes.string,
+    hoveredSuggestion: PropTypes.string,
   }),
 
 };
 
 AutoCompleteInput.defaultProps = {
-  style: null,
+  style: {},
   filter: ((suggestion, input) => suggestion.indexOf(input) > -1),
   display: (suggestion) => suggestion,
 };

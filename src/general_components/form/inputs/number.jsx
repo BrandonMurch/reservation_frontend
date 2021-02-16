@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import ErrorWrapper from './error_wrapper';
 import TextInput from './text';
 
-const NumberInputWithError = function TextInputWithErrorWrapper(props) {
+const NumberInputWithError = function NumberInputWithErrorWrapper(props) {
   return (
     <ErrorWrapper {...props}>
       <NumberInput {...props} />
@@ -14,7 +14,7 @@ const NumberInputWithError = function TextInputWithErrorWrapper(props) {
   );
 };
 
-const NumberInput = function CreateTextInputAndLabel({
+const NumberInput = function CreateNumberInputAndLabel({
   value: initialValue, onBlur, ...props
 }) {
   props.type = 'number';
@@ -34,7 +34,7 @@ NumberInput.propTypes = {
 };
 
 NumberInput.defaultProps = {
-  value: '',
+  value: 0,
   onBlur: () => {},
 };
 
