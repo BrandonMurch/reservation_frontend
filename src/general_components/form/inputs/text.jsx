@@ -58,7 +58,7 @@ const TextInput = function CreateTextInputAndLabel({
         onMouseLeave={onMouseLeave}
         className={displayErrors ? style.displayError : style.input}
         value={value}
-        id={name}
+        id={style[name]}
         name={name}
         min={min}
         onKeyDown={(event) => {
