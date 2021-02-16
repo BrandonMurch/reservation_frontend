@@ -1,9 +1,15 @@
 // Dependencies
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { enumeration } from 'shared/helpers';
+
+// Components
+import AutoCompleteInput from 'general_components/form/inputs/autocomplete_input';
+import NumberInput from 'general_components/form/inputs/number';
 
 // Stylesheet
 import style from './edit_hours.module.css';
+import TextInput from 'general_components/form/inputs/text';
 
 const HoursRow = ({ open, close, remove }) => (
   <tr>
@@ -23,7 +29,7 @@ const NewRow = ({ addHours }) => {
   const [open, setOpen] = useState('');
   const [close, setClose] = useState('');
   return (
-    <tr>
+    <tr className={style.newRow}>
       <td>
         <input
           type="time"
@@ -55,6 +61,28 @@ NewRow.propTypes = {
   addHours: PropTypes.func.isRequired,
 };
 
+const BookingTimes = () => {
+  const bookingTimeModes = enumeration.singleValue('INTERVAL', 'SPECIFIC');
+  const [bookingTimeMode, setBookingTimeMode] = useState(bookingTimeModes.INTERVAL);
+  return (
+    <>
+      <AutoCompleteInput
+        key={bookingTimeMode.value}
+        possibleEntries={Object.keys(bookingTimeModes)}
+        onBlur={({ value }) => setBookingTimeMode(bookingTimeModes[value])}
+        name="BookingTimeMode"
+        label="Booking time type"
+        hiddenLabel
+        value={bookingTimeMode.value}
+      />
+      {(bookingTimeMode.value === bookingTimeModes.INTERVAL.value
+        && <NumberInput style={style} name="Interval" label="Interval in minutes" />)}
+      {(bookingTimeMode.value === bookingTimeModes.SPECIFIC.value
+        && <TextInput style={style} name="BookingTimes" label="List booking times" />)}
+    </>
+  );
+};
+
 const EditHours = ({
   day, hours, cancel, remove, add,
 }) => (
@@ -67,6 +95,7 @@ const EditHours = ({
       x
     </button>
     <h1>{day}</h1>
+    <BookingTimes />
     <table className={style.table}>
       <thead>
         <tr>

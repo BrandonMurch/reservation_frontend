@@ -4,6 +4,7 @@
 .container {
     text-align: center;
     width: 80%;
+    min-width: 28rem;
     margin: 2rem auto;
     /* position: fixed;
     top: 50%;
@@ -26,8 +27,9 @@
     cursor: pointer;
 }
 
-input {
-    width: 9rem;
+
+.newRow {
+    margin: auto;
 }
 
 .button {
@@ -36,5 +38,5 @@ input {
 }
 
 .table {
-    margin: auto;
+    margin: 2rem auto;
 }
