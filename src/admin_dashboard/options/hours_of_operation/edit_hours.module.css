@@ -3,14 +3,16 @@
 
 .container {
     text-align: center;
-    position: fixed;
+    width: 80%;
+    margin: 2rem auto;
+    /* position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%); */
     background-color: dark;
     color: light;
     border: black 2px solid;
-    border-radius: 10%;
+    border-radius: 2rem;
     padding: 1rem;
 }
 

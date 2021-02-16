@@ -44,17 +44,6 @@ const HoursOfOperation = () => {
   const [editWindowDay, setEditWindowDay] = useState('');
   return (
     <>
-      { editWindowDay !== ''
-        ? (
-          <EditHours
-            day={editWindowDay}
-            hours={days[editWindowDay]}
-            add={(hours) => dispatchDays({ type: 'add', day: editWindowDay, hours })}
-            remove={(hoursIndex) => dispatchDays({ type: 'remove', day: editWindowDay, hoursIndex })}
-            cancel={() => setEditWindowDay('')}
-          />
-        )
-        : null}
       <table>
         <thead>
           <tr>
@@ -73,8 +62,18 @@ const HoursOfOperation = () => {
             />
           ))}
         </tbody>
-
       </table>
+      { editWindowDay !== ''
+        ? (
+          <EditHours
+            day={editWindowDay}
+            hours={days[editWindowDay]}
+            add={(hours) => dispatchDays({ type: 'add', day: editWindowDay, hours })}
+            remove={(hoursIndex) => dispatchDays({ type: 'remove', day: editWindowDay, hoursIndex })}
+            cancel={() => setEditWindowDay('')}
+          />
+        )
+        : null}
     </>
   );
 };
