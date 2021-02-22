@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import { enumeration } from 'shared/helpers';
 
 // Components
-import AutoCompleteInput from 'general_components/form/inputs/autocomplete_input';
 import NumberInput from 'general_components/form/inputs/number';
 
 // Stylesheet
 import style from './edit_hours.module.css';
 import TextInput from 'general_components/form/inputs/text';
+import RadioOptions from 'general_components/form/radio';
 
 const HoursRow = ({ open, close, remove }) => (
   <tr>
@@ -69,19 +69,20 @@ const BookingTimes = () => {
     console.log(`updated ${value}`);
   };
 
+  const getBookingTimeModeOptions = () => {
+    const options = Object.keys(bookingTimeModes);
+    return options.map((option) => option[0] + option.slice(1, option.length).toLowerCase());
+  };
+
   return (
     <>
-      <AutoCompleteInput
-        key={bookingTimeMode.value}
-        possibleEntries={Object.keys(bookingTimeModes)}
-        onBlur={({ value }) => {
+      <RadioOptions
+        listOfOptions={getBookingTimeModeOptions()}
+        name="BookingTimeMode"
+        value={bookingTimeMode.value}
+        onChange={(value) => {
           setBookingTimeMode(bookingTimeModes[value.toUpperCase()]);
         }}
-        hiddenLabel
-        name="BookingTimeMode"
-        label="Booking time type"
-        value={bookingTimeMode.value}
-        style={style}
       />
       {(bookingTimeMode.value === bookingTimeModes.INTERVAL.value
         && (
