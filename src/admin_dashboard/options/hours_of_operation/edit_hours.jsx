@@ -64,6 +64,11 @@ NewRow.propTypes = {
 const BookingTimes = () => {
   const bookingTimeModes = enumeration.singleValue('INTERVAL', 'SPECIFIC');
   const [bookingTimeMode, setBookingTimeMode] = useState(bookingTimeModes.INTERVAL);
+
+  const updateBookingTimes = (value) => {
+    console.log(`updated ${value}`);
+  };
+
   return (
     <>
       <AutoCompleteInput
@@ -76,6 +81,7 @@ const BookingTimes = () => {
         name="BookingTimeMode"
         label="Booking time type"
         value={bookingTimeMode.value}
+        style={style}
       />
       {(bookingTimeMode.value === bookingTimeModes.INTERVAL.value
         && (
@@ -93,6 +99,7 @@ const BookingTimes = () => {
           name="bookingTimes"
           label="Booking times in 24h, seperated by commas"
           pattern="^(\d{2}:\d{2}((, ?)|$))+"
+          onBlur={updateBookingTimes}
         />
         ))}
     </>
