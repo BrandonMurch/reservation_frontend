@@ -5,7 +5,7 @@ import React, {
 import PropTypes from 'prop-types';
 
 // Components
-import Input from './base_input';
+import Input from './text';
 
 // Stylesheets
 import defaultStyleSheet from '../form.module.css';
