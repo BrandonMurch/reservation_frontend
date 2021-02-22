@@ -71,7 +71,9 @@ const TextInput = function CreateTextInputAndLabel({
         }}
         onBlur={({ target }) => {
           setErrorMessage(target.validationMessage);
-          onBlur(target.value, target.name);
+          if (target.checkValidity()) {
+            onBlur(target.value, target.name);
+          }
         }}
         onChange={({ target }) => {
           setErrorMessage(target.validationMessage);
