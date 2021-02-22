@@ -69,16 +69,32 @@ const BookingTimes = () => {
       <AutoCompleteInput
         key={bookingTimeMode.value}
         possibleEntries={Object.keys(bookingTimeModes)}
-        onBlur={({ value }) => setBookingTimeMode(bookingTimeModes[value])}
+        onBlur={({ value }) => {
+          setBookingTimeMode(bookingTimeModes[value.toUpperCase()]);
+        }}
+        hiddenLabel
         name="BookingTimeMode"
         label="Booking time type"
-        hiddenLabel
         value={bookingTimeMode.value}
       />
       {(bookingTimeMode.value === bookingTimeModes.INTERVAL.value
-        && <NumberInput style={style} name="Interval" label="Interval in minutes" />)}
+        && (
+        <>
+          <div className={style.intervalContainer}>
+            <NumberInput style={style} name="interval" hiddenLabel label="Interval in minutes" min="0" hideErrors />
+          </div>
+          <p className={style.intervalText}>minutes</p>
+        </>
+        ))}
       {(bookingTimeMode.value === bookingTimeModes.SPECIFIC.value
-        && <TextInput style={style} name="BookingTimes" label="List booking times" />)}
+        && (
+        <TextInput
+          style={style}
+          name="bookingTimes"
+          label="Booking times in 24h, seperated by commas"
+          pattern="^(\d{2}:\d{2}((, ?)|$))+"
+        />
+        ))}
     </>
   );
 };

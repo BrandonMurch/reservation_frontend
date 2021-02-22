@@ -27,6 +27,31 @@
     cursor: pointer;
 }
 
+#interval {
+    width: 100%;
+}
+
+
+.intervalContainer {
+    width: 20%;
+    display: inline-block;
+}
+
+.intervalText {
+    display: inline;
+    margin: 0.4rem;
+}
+
+.suggestionContainer {
+    list-style: none;
+    background-color: white;
+    color: black;
+    z-index: 99;
+    border: 2px solid black;
+    position: absolute;
+    right: 0;
+}
+
 
 .newRow {
     margin: auto;
