@@ -5,7 +5,7 @@ import { enumeration } from 'shared/helpers';
 
 // Components
 import NumberInput from 'general_components/form/inputs/number';
-import RadioOptions from 'general_components/form/radio';
+import RadioOptions from 'general_components/form/inputs/radio';
 import SpecificTime from './specific_time';
 
 // Stylesheets
