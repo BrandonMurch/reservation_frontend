@@ -1,47 +1,58 @@
 // Dependencies
 import React, { useReducer, useState } from 'react';
-import { getDayOfWeek } from 'shared/dateHelper';
+import PropTypes from 'prop-types';
+import useFetch, { fetchWrapper } from 'shared/useFetch';
 
 // Components
 import DayRow from './day_row';
 import EditHours from './edit_hours';
+import { getDayOfWeek } from 'shared/dateHelper';
+import { useBannerContext } from 'contexts/banner_context';
 
-const getHours = function getHoursOfOperationStub() {
-  const hours = {};
-  for (let i = 0; i < 7; i++) {
-    hours[getDayOfWeek(i)] = [];
+const changeObjectKeysToLowercase = (object) => {
+  Object.keys(object).forEach((key) => {
+    object[key.toLowerCase()] = object[key];
+  });
+};
+
+const HoursOfOperationController = () => {
+  const { response, alternativeRender } = useFetch('/hours-of-operation');
+  if (alternativeRender) {
+    return alternativeRender;
   }
-  hours.Monday = ['17:00 - 20:00'];
-  hours.Friday = ['17:00 - 20:00'];
-  hours.Saturday = ['12:00 - 14:00', '17:00 - 20:00'];
-  return hours;
+  changeObjectKeysToLowercase(response);
+  return <HoursOfOperation days={response} />;
 };
 
-const update = (state) => {
-  console.log(`updated ${state}`);
-};
-
-const hoursReducer = (state, action) => {
-  switch (action.type) {
-    case 'add': {
-      state[action.day].push(action.hours);
-      update(state);
-      return { ...state };
-    }
-    case 'remove': {
-      state[action.day].splice(action.hoursIndex, 1);
-      update(state);
-      return { ...state };
-    }
-    default: {
-      return state;
-    }
-  }
-};
-
-const HoursOfOperation = () => {
-  const [days, dispatchDays] = useReducer(hoursReducer, getHours());
+const HoursOfOperation = ({ days: initialDaysValue }) => {
   const [editWindowDay, setEditWindowDay] = useState('');
+  const setBanner = useBannerContext();
+  const update = async (state) => {
+    const { error: fetchError } = await fetchWrapper('/hours-of-operation', { method: 'PUT', body: JSON.stringify(state) });
+    if (fetchError) {
+      setBanner(fetchError);
+    }
+  };
+
+  const hoursReducer = (state, action) => {
+    switch (action.type) {
+      case 'add': {
+        state[action.day].push(action.hours);
+        state[action.day] = state[action.day].sort();
+        update(state);
+        return { ...state };
+      }
+      case 'remove': {
+        state[action.day].splice(action.hoursIndex, 1);
+        update(state);
+        return { ...state };
+      }
+      default: {
+        return state;
+      }
+    }
+  };
+  const [days, dispatchDays] = useReducer(hoursReducer, initialDaysValue);
   return (
     <>
       <table>
@@ -52,13 +63,12 @@ const HoursOfOperation = () => {
           </tr>
         </thead>
         <tbody>
-
-          {Object.entries(days).map(([day, hours]) => (
+          {getDayOfWeek().map((day) => (
             <DayRow
               key={day}
               day={day}
-              hours={hours}
-              setEditWindow={setEditWindowDay}
+              hours={days[day.toLowerCase()]}
+              setEditWindow={((dayToSet) => setEditWindowDay(dayToSet.toLowerCase()))}
             />
           ))}
         </tbody>
@@ -78,4 +88,8 @@ const HoursOfOperation = () => {
   );
 };
 
-export default HoursOfOperation;
+HoursOfOperation.propTypes = {
+  days: PropTypes.shape({}).isRequired,
+};
+
+export default HoursOfOperationController;

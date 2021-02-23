@@ -21,7 +21,7 @@ const EditHours = ({
     >
       x
     </button>
-    <h1>{day}</h1>
+    <h1 className={style.title}>{day}</h1>
     <BookingTimes hours={hours} />
     <table className={style.table}>
       <thead>
