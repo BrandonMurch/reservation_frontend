@@ -45,6 +45,7 @@ const getInputs = function getListOfInputChildren(
       <Component
         key={input.name + counterToResetChildren}
         onBlur={updateFields}
+        updateValue={updateFields}
         {...input}
         displayErrors={displayErrors}
         style={style}
