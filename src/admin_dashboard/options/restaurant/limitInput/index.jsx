@@ -39,7 +39,7 @@ const LimitPeopleInput = ({ style, ...props }) => {
           name="people"
           label="People"
           value={0}
-          min={0}
+          min="0"
           style={style}
           onBlur={(value) => updateValue('people', value)}
         />
