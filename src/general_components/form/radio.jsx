@@ -6,10 +6,10 @@ const RadioOptions = ({
 }) => (
   <div>
     {listOfOptions.map((option) => (
-      <>
+      <div key={option}>
         <input type="radio" id={option} name={name} value={option} onClick={() => onChange(option)} checked={option.toLowerCase() === value.toLowerCase()} />
         <label htmlFor={option}>{option}</label>
-      </>
+      </div>
     ))}
   </div>
 );
