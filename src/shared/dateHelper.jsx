@@ -55,5 +55,9 @@ export const getDayOfWeek = (index) => {
     'Friday',
     'Saturday',
   ];
-  return daysOfWeek[index];
+  if (index) {
+    return daysOfWeek[index];
+  }
+
+  return daysOfWeek;
 };
