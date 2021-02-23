@@ -9,13 +9,16 @@ const OpenCloseRow = ({ open, close, remove }) => (
   <tr>
     <td>{open}</td>
     <td>{close}</td>
-    <button
-      className={style.button}
-      type="button"
-      onClick={() => remove()}
-    >
-      Remove
-    </button>
+    <td>
+      <button
+        className={style.button}
+        type="button"
+        onClick={() => remove()}
+      >
+        Remove
+      </button>
+    </td>
+
   </tr>
 );
 
