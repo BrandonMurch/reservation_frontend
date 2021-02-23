@@ -5,11 +5,12 @@ import { enumeration } from 'shared/helpers';
 
 // Components
 import NumberInput from 'general_components/form/inputs/number';
+import RadioOptions from 'general_components/form/radio';
+import NewRow from './new_row';
 
 // Stylesheet
 import style from './edit_hours.module.css';
-import TextInput from 'general_components/form/inputs/text';
-import RadioOptions from 'general_components/form/radio';
+import SpecificTime from './specific_time';
 
 const HoursRow = ({ open, close, remove }) => (
   <tr>
@@ -25,49 +26,9 @@ HoursRow.propTypes = {
   remove: PropTypes.func.isRequired,
 };
 
-const NewRow = ({ addHours }) => {
-  const [open, setOpen] = useState('');
-  const [close, setClose] = useState('');
-  return (
-    <tr className={style.newRow}>
-      <td>
-        <input
-          type="time"
-          value={open}
-          onChange={({ target }) => setOpen(target.value)}
-        />
-      </td>
-      <td>
-        <input
-          type="time"
-          value={close}
-          onChange={({ target }) => setClose(target.value)}
-        />
-      </td>
-      <td>
-        <button
-          className={style.button}
-          type="submit"
-          onClick={() => addHours(`${open} - ${close}`)}
-        >
-          Add
-        </button>
-      </td>
-    </tr>
-  );
-};
-
-NewRow.propTypes = {
-  addHours: PropTypes.func.isRequired,
-};
-
-const BookingTimes = () => {
+const BookingTimes = ({ hours }) => {
   const bookingTimeModes = enumeration.singleValue('INTERVAL', 'SPECIFIC');
   const [bookingTimeMode, setBookingTimeMode] = useState(bookingTimeModes.INTERVAL);
-
-  const updateBookingTimes = (value) => {
-    console.log(`updated ${value}`);
-  };
 
   const getBookingTimeModeOptions = () => {
     const options = Object.keys(bookingTimeModes);
@@ -95,16 +56,20 @@ const BookingTimes = () => {
         ))}
       {(bookingTimeMode.value === bookingTimeModes.SPECIFIC.value
         && (
-        <TextInput
+        <SpecificTime
+          hours={hours}
           style={style}
           name="bookingTimes"
           label="Booking times in 24h, seperated by commas"
           pattern="^(\d{2}:\d{2}((, ?)|$))+"
-          onBlur={updateBookingTimes}
         />
         ))}
     </>
   );
+};
+
+BookingTimes.propTypes = {
+  hours: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 const EditHours = ({
@@ -119,7 +84,7 @@ const EditHours = ({
       x
     </button>
     <h1>{day}</h1>
-    <BookingTimes />
+    <BookingTimes hours={hours} />
     <table className={style.table}>
       <thead>
         <tr>
