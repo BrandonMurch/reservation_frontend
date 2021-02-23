@@ -1,10 +1,15 @@
+// Dependencies
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { enumeration } from 'shared/helpers';
+
+// Components
 import NumberInput from 'general_components/form/inputs/number';
 import RadioOptions from 'general_components/form/radio';
-import style from './edit_hours.module.css';
 import SpecificTime from './specific_time';
+
+// Stylesheets
+import style from './edit_hours.module.css';
 
 const BookingTimes = ({ hours }) => {
   const bookingTimeModes = enumeration.singleValue('INTERVAL', 'SPECIFIC');
