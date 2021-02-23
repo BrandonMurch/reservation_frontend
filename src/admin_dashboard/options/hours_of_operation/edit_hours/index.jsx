@@ -4,24 +4,11 @@ import PropTypes from 'prop-types';
 
 // Components
 import NewRow from './new_row';
+import HoursRow from './open_close_row';
 
 // Stylesheet
 import style from './edit_hours.module.css';
 import BookingTimes from './booking_times';
-
-const HoursRow = ({ open, close, remove }) => (
-  <tr>
-    <td>{open}</td>
-    <td>{close}</td>
-    <td><button className={style.button} type="button" onClick={() => remove()}>Remove</button></td>
-  </tr>
-);
-
-HoursRow.propTypes = {
-  open: PropTypes.string.isRequired,
-  close: PropTypes.string.isRequired,
-  remove: PropTypes.func.isRequired,
-};
 
 const EditHours = ({
   day, hours, cancel, remove, add,
