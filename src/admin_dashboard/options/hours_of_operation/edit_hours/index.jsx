@@ -11,7 +11,7 @@ import style from './edit_hours.module.css';
 import BookingTimes from './booking_times';
 
 const EditHours = ({
-  day, hours, cancel, remove, add,
+  day, hours, cancel, remove, add, bookingTimeType, bookingTimes,
 }) => (
   <div className={style.container}>
     <button
@@ -22,7 +22,7 @@ const EditHours = ({
       x
     </button>
     <h1 className={style.title}>{day}</h1>
-    <BookingTimes hours={hours} day={day} />
+    <BookingTimes hours={hours} day={day} type={bookingTimeType} times={bookingTimes} />
     <table className={style.table}>
       <thead>
         <tr>
@@ -54,6 +54,8 @@ EditHours.propTypes = {
   cancel: PropTypes.func.isRequired,
   remove: PropTypes.func.isRequired,
   add: PropTypes.func.isRequired,
+  bookingTimeType: PropTypes.string.isRequired,
+  bookingTimes: PropTypes.string.isRequired,
 };
 
 export default EditHours;

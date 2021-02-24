@@ -5,8 +5,10 @@ import PropTypes from 'prop-types';
 // Components
 import TextInput from 'general_components/form/inputs/text';
 
-const SpecificTime = ({ hours, onUpdate, ...props }) => {
-  const displayTimes = useRef([]);
+const SpecificTime = ({
+  hours, onUpdate, value, ...props
+}) => {
+  const displayTimes = useRef(value.split(', '));
   const [refreshToggle, toggleRefresh] = useState(false);
 
   const updateBookingTimes = (times) => {
@@ -38,6 +40,7 @@ const SpecificTime = ({ hours, onUpdate, ...props }) => {
 SpecificTime.propTypes = {
   hours: PropTypes.arrayOf(PropTypes.string).isRequired,
   onUpdate: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
 };
 
 export default SpecificTime;

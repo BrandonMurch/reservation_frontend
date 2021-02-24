@@ -27,10 +27,15 @@ const updateServer = (day, value, type, setError) => {
     setError(error);
   }
 };
-const BookingTimes = ({ day, hours }) => {
-  const bookingTimeModes = enumeration.singleValue('INTERVAL', 'SPECIFIC');
-  const [bookingTimeMode, setBookingTimeMode] = useState(bookingTimeModes.INTERVAL);
+const BookingTimes = ({
+  day, hours, type, times,
+}) => {
+  const bookingTimeModes = enumeration.singleValue('INTERVAL', 'BOOKING_TIMES');
+  const [bookingTimeMode, setBookingTimeMode] = useState(bookingTimeModes[type]);
+  const [bookingTimes, setBookingTimes] = useState(times);
   const setBanner = useBannerContext();
+
+  console.log(bookingTimes);
 
   const getBookingTimeModeOptions = () => {
     const options = Object.keys(bookingTimeModes);
@@ -44,24 +49,52 @@ const BookingTimes = ({ day, hours }) => {
         name="BookingTimeMode"
         value={bookingTimeMode.value}
         onChange={(value) => {
-          setBookingTimeMode(bookingTimeModes[value.toUpperCase()]);
+          const mode = bookingTimeModes[value.toUpperCase()];
+          setBookingTimeMode(mode);
+          if (mode === bookingTimeModes.INTERVAL) {
+            setBookingTimes('0');
+            fetchWrapper(`/hours-of-operation/interval/${day}`, { method: 'PUT', body: '0' });
+          } else if (mode === bookingTimeModes.BOOKING_TIMES) {
+            setBookingTimes('');
+            fetchWrapper(`/hours-of-operation/interval/${day}`, { method: 'PUT', body: '0' });
+          }
+          fetchWrapper();
         }}
       />
       {(bookingTimeMode.value === bookingTimeModes.INTERVAL.value
         && (
           <>
             <div className={style.intervalContainer}>
-              <NumberInput style={style} name="interval" hiddenLabel label="Interval in minutes" min="0" hideErrors />
+              <NumberInput
+                key={day}
+                style={style}
+                value={bookingTimes ? parseInt(bookingTimes, 10) : 0}
+                name="interval"
+                hiddenLabel
+                label="Interval in minutes"
+                min="0"
+                hideErrors
+                onBlur={(value) => {
+                  updateServer(
+                    day,
+                    value,
+                    updateTypes.INTERVAL,
+                    (message) => setBanner(bannerTypes.ERROR, message),
+                  );
+                }}
+              />
             </div>
             <p className={style.intervalText}>minutes</p>
           </>
         ))}
-      {(bookingTimeMode.value === bookingTimeModes.SPECIFIC.value
+      {(bookingTimeMode.value === bookingTimeModes.BOOKING_TIMES.value
         && (
           <SpecificTime
+            key={bookingTimes}
             hours={hours}
             style={style}
             name="bookingTimes"
+            value={bookingTimes}
             label="Booking times in 24h, seperated by commas"
             pattern="^(\d{2}:\d{2}((, ?)|$))+"
             onUpdate={(value) => {
@@ -80,6 +113,8 @@ const BookingTimes = ({ day, hours }) => {
 BookingTimes.propTypes = {
   hours: PropTypes.arrayOf(PropTypes.string).isRequired,
   day: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  times: PropTypes.string.isRequired,
 };
 
 export default BookingTimes;
