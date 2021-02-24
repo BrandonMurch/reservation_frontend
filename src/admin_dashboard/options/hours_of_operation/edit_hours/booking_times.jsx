@@ -35,8 +35,6 @@ const BookingTimes = ({
   const [bookingTimes, setBookingTimes] = useState(times);
   const setBanner = useBannerContext();
 
-  console.log(bookingTimes);
-
   const getBookingTimeModeOptions = () => {
     const options = Object.keys(bookingTimeModes);
     return options.map((option) => option[0] + option.slice(1, option.length).toLowerCase());
