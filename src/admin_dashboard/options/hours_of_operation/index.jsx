@@ -27,8 +27,8 @@ const HoursOfOperationController = () => {
 const HoursOfOperation = ({ days: initialDaysValue }) => {
   const [editWindowDay, setEditWindowDay] = useState('');
   const setBanner = useBannerContext();
-  const update = async (state) => {
-    const { error: fetchError } = await fetchWrapper('/hours-of-operation', { method: 'PUT', body: JSON.stringify(state) });
+  const update = async (openingHours, day) => {
+    const { error: fetchError } = await fetchWrapper(`/hours-of-operation/opening-hours/${day}`, { method: 'PUT', body: JSON.stringify(openingHours) });
     if (fetchError) {
       setBanner(fetchError);
     }
@@ -37,14 +37,14 @@ const HoursOfOperation = ({ days: initialDaysValue }) => {
   const hoursReducer = (state, action) => {
     switch (action.type) {
       case 'add': {
-        state[action.day].push(action.hours);
-        state[action.day] = state[action.day].sort();
-        update(state);
+        state.openingHours[action.day].push(action.hours);
+        state.openingHours[action.day] = state.openingHours[action.day].sort();
+        update(state.openingHours, action.day);
         return { ...state };
       }
       case 'remove': {
-        state[action.day].splice(action.hoursIndex, 1);
-        update(state);
+        state.openingHours[action.day].splice(action.hoursIndex, 1);
+        update(state.openingHours, action.day);
         return { ...state };
       }
       default: {
@@ -67,7 +67,7 @@ const HoursOfOperation = ({ days: initialDaysValue }) => {
             <DayRow
               key={day}
               day={day}
-              hours={days[day.toLowerCase()]}
+              hours={days[day.toLowerCase()].openingHours}
               setEditWindow={((dayToSet) => setEditWindowDay(dayToSet.toLowerCase()))}
             />
           ))}
@@ -77,7 +77,9 @@ const HoursOfOperation = ({ days: initialDaysValue }) => {
         ? (
           <EditHours
             day={editWindowDay}
-            hours={days[editWindowDay]}
+            hours={days[editWindowDay].openingHours}
+            bookingTimeType={initialDaysValue[editWindowDay].bookingTimeType}
+            bookingTimes={initialDaysValue[editWindowDay].bookingTimes}
             add={(hours) => dispatchDays({ type: 'add', day: editWindowDay, hours })}
             remove={(hoursIndex) => dispatchDays({ type: 'remove', day: editWindowDay, hoursIndex })}
             cancel={() => setEditWindowDay('')}
