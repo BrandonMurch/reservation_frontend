@@ -1,4 +1,4 @@
-import { enumeration } from 'shared/helpers';
+import { enumeration } from 'shared/enum';
 
 const formTypes = enumeration.singleValue('NEW_USER', 'LOGIN');
 
