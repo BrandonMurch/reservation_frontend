@@ -1,8 +1,11 @@
+// Dependencies
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
+
+// Components
 import TextInput from 'general_components/form/inputs/text';
 
-const SpecificTime = ({ hours, ...props }) => {
+const SpecificTime = ({ hours, onUpdate, ...props }) => {
   const displayTimes = useRef([]);
   const [refreshToggle, toggleRefresh] = useState(false);
 
@@ -18,6 +21,7 @@ const SpecificTime = ({ hours, ...props }) => {
         }
       }
     });
+    onUpdate(displayTimes.current);
     toggleRefresh((refresh) => !refresh);
   };
 
@@ -33,6 +37,7 @@ const SpecificTime = ({ hours, ...props }) => {
 };
 SpecificTime.propTypes = {
   hours: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default SpecificTime;
