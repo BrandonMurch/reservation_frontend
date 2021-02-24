@@ -1,7 +1,7 @@
 // Dependencies
 import React from 'react';
 import PropTypes from 'prop-types';
-import { enumeration } from 'shared/helpers';
+import { enumeration } from 'shared/enum';
 
 // Stylesheet
 import style from './banner.module.css';

@@ -1,7 +1,7 @@
 // Dependencies
 import React, { useState, createRef, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { enumeration } from 'shared/helpers';
+import { enumeration } from 'shared/enum';
 
 // Components
 import TextInput from './inputs/text';
